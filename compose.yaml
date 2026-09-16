@@ -1,0 +1,211 @@
+name: holoul
+x-application: &application
+  image: ${HOLOUL_APP_IMAGE:-holoul-app:b1-development}
+  build:
+    context: .
+    target: development
+  init: true
+  user: "1000:1000"
+  read_only: true
+  tmpfs:
+    - /tmp:uid=1000,gid=1000,mode=1770
+    - /var/www/html/storage:uid=1000,gid=1000,mode=0770
+    - /var/www/html/bootstrap/cache:uid=1000,gid=1000,mode=0770
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  environment: &application-env
+    APP_ENV: ${HOLOUL_APP_ENV:-local}
+    APP_URL: http://localhost:8080
+    APP_KEY_FILE: /run/holoul-secrets/app_key
+    APP_TRUSTED_HOSTS: localhost,127.0.0.1
+    DB_HOST: postgres
+    DB_DATABASE: holoul
+    DB_USERNAME: holoul_app
+    DB_PASSWORD_FILE: /run/holoul-secrets/database_password
+    # This private development database has no TLS; production defaults stay verify-full.
+    DB_SSLMODE: disable
+    REDIS_HOST: redis
+    REDIS_PASSWORD_FILE: /run/holoul-secrets/redis_password
+    REDIS_PREFIX: holoul_local_
+  volumes:
+    - app_secrets:/run/holoul-secrets:ro
+  networks: [internal]
+  mem_limit: 512m
+  pids_limit: 128
+  restart: unless-stopped
+
+services:
+  initialize:
+    <<: *application
+    command: [php, docker/app/initialize.php]
+    restart: "no"
+    volumes:
+      - app_secrets:/run/holoul-app
+      - migrator_secrets:/run/holoul-migrator
+      - bootstrap_secrets:/run/holoul-bootstrap
+      - redis_secrets:/run/holoul-redis
+    environment:
+      APP_ENV: local
+
+  postgres:
+    image: holoul-postgres:b1-runtime
+    build:
+      context: .
+      dockerfile: docker/postgres/Dockerfile
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD_FILE: /run/holoul-bootstrap/postgres_password
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256 --locale-provider=builtin --builtin-locale=C.UTF-8 --encoding=UTF8
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - bootstrap_secrets:/run/holoul-bootstrap:ro
+      - app_secrets:/run/holoul-app:ro
+      - migrator_secrets:/run/holoul-migrator:ro
+      - ./docker/postgres/initialize.sh:/docker-entrypoint-initdb.d/10-holoul.sh:ro
+    networks: [internal]
+    depends_on:
+      initialize: {condition: service_completed_successfully}
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -h 127.0.0.1 -U postgres -d postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+    restart: unless-stopped
+    mem_limit: 768m
+    pids_limit: 128
+
+  redis:
+    image: holoul-redis:b1-runtime
+    build:
+      context: .
+      dockerfile: docker/redis/Dockerfile
+    user: "999:999"
+    entrypoint: [sh, /etc/holoul/start.sh]
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    volumes:
+      - redis_secrets:/run/holoul-redis:ro
+      - ./docker/redis/start.sh:/etc/holoul/start.sh:ro
+    networks: [internal]
+    depends_on:
+      initialize: {condition: service_completed_successfully}
+    healthcheck:
+      test: [CMD-SHELL, 'REDISCLI_AUTH="$$(cat /run/holoul-redis/password)" redis-cli ping | grep -q PONG']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+    mem_limit: 192m
+    pids_limit: 64
+
+  migrate:
+    <<: *application
+    command: [php, artisan, migrate, --force, --no-interaction]
+    restart: "no"
+    environment:
+      <<: *application-env
+      DB_USERNAME: holoul_migrator
+      DB_PASSWORD_FILE: /run/holoul-migrator/password
+    volumes:
+      - app_secrets:/run/holoul-secrets:ro
+      - migrator_secrets:/run/holoul-migrator:ro
+    depends_on:
+      postgres: {condition: service_healthy}
+
+  app:
+    <<: *application
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    healthcheck:
+      test: [CMD, php, docker/app/check-health.php, fpm]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+
+  queue:
+    <<: *application
+    command: [php, artisan, queue:work, redis, --queue=default, --sleep=1, --tries=1, --timeout=30, --max-time=3600, --no-interaction]
+    stop_grace_period: 45s
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, php, docker/app/check-health.php, queue]
+      interval: 15s
+      timeout: 3s
+      retries: 4
+      start_period: 30s
+
+  scheduler:
+    <<: *application
+    command: [php, artisan, schedule:work, --no-interaction]
+    stop_grace_period: 45s
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    healthcheck:
+      test: [CMD, php, docker/app/check-health.php, scheduler]
+      interval: 15s
+      timeout: 3s
+      retries: 4
+      start_period: 75s
+
+  nginx:
+    image: nginx:1.30.5-alpine@sha256:73c75df4075c918f91017fdda46ad81e55e5af77ba3a64ca3d5014bd9244fe7f
+    user: "101:101"
+    entrypoint: [nginx, -g, "daemon off;"]
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    ports: ["127.0.0.1:${HOLOUL_HTTP_PORT:-8080}:8080"]
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks: [internal, ingress]
+    depends_on:
+      app: {condition: service_healthy}
+    healthcheck:
+      test: [CMD-SHELL, "wget -q -O /dev/null http://127.0.0.1:8080/health/live"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+    restart: unless-stopped
+    mem_limit: 128m
+    pids_limit: 64
+
+  verify:
+    <<: *application
+    profiles: [tools]
+    restart: "no"
+    read_only: false
+    mem_limit: 2g
+    pids_limit: 256
+    environment:
+      <<: *application-env
+      APP_ENV: testing
+      DB_DATABASE: holoul_test
+      DB_USERNAME: holoul_migrator
+      DB_PASSWORD_FILE: /run/holoul-migrator/password
+      REDIS_PREFIX: holoul_testing_
+    volumes:
+      - app_secrets:/run/holoul-secrets:ro
+      - migrator_secrets:/run/holoul-migrator:ro
+    networks: [internal, ingress]
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+
+networks:
+  internal:
+    internal: true
+  ingress: {}
+volumes:
+  postgres_data: {}
+  app_secrets: {}
+  migrator_secrets: {}
+  bootstrap_secrets: {}
+  redis_secrets: {}

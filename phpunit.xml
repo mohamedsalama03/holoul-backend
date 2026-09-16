@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/12.5/phpunit.xsd" bootstrap="vendor/autoload.php" colors="true" failOnWarning="true" failOnRisky="true" cacheDirectory=".phpunit.cache">
+    <testsuites>
+        <testsuite name="Unit"><directory>tests/Unit</directory></testsuite>
+        <testsuite name="Feature"><directory>tests/Feature</directory></testsuite>
+        <testsuite name="Architecture"><directory>tests/Architecture</directory></testsuite>
+    </testsuites>
+    <source><include><directory>app</directory></include></source>
+    <php>
+        <env name="APP_ENV" value="testing" force="true"/>
+        <env name="DB_DATABASE" value="holoul_test" force="true"/>
+        <env name="DB_USERNAME" value="holoul_migrator" force="true"/>
+        <env name="DB_PASSWORD_FILE" value="/run/holoul-migrator/password" force="true"/>
+        <env name="REDIS_PREFIX" value="holoul_testing_" force="true"/>
+    </php>
+</phpunit>

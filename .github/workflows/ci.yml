@@ -1,0 +1,40 @@
+name: B1 Foundation
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: foundation-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  foundation:
+    name: Foundation quality and integration
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      COMPOSE_PROJECT_NAME: holoul-ci-${{ github.run_id }}-${{ github.run_attempt }}
+      CI: 'true'
+    steps:
+      - name: Check out the proposed revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Verify foundation against PostgreSQL and Redis
+        shell: bash
+        run: bash scripts/verify.sh
+
+      - name: Show service status after failure
+        if: failure()
+        shell: bash
+        run: docker compose ps --all
+
+      - name: Remove isolated CI services and volumes
+        if: always()
+        shell: bash
+        run: docker compose down --volumes --remove-orphans
