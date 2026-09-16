@@ -1,12 +1,17 @@
-# HOLOUL backend — B2 identity foundation
+# HOLOUL backend — B3 taxonomy and project intake
 
-Laravel modular monolith implementing infrastructure, Identity and Customers.
+Laravel modular monolith implementing infrastructure, Identity, Customers,
+Categories and Project Intake.
 The approved design is [the B0 architecture](docs/B0-ARCHITECTURE.md);
 pinned versions and sources are in
 [B1 versions](docs/B1-VERSIONS.md) and [B2 versions](docs/B2-VERSIONS.md).
 The B2 browser/API contract is documented in
-[B2 implementation](docs/B2-IMPLEMENTATION.md). Later business domains remain
-unimplemented.
+[B2 implementation](docs/B2-IMPLEMENTATION.md). The taxonomy/intake API,
+permissions, exact budgets, immutable revisions and workflow decisions are in
+[B3 implementation](docs/B3-IMPLEMENTATION.md). Documents, AI, Discovery domain
+implementation, Proposals, Projects and Reporting remain unimplemented.
+The [B3 permission matrix](docs/B3-AUTHORIZATION.md) defines staff intake access;
+the [approved B2 baseline](docs/B3-BASELINE.md) records the starting commit.
 
 ## Development
 
@@ -17,7 +22,7 @@ integration). Run from this directory in Linux/WSL:
 docker compose up -d --build --wait
 ~~~
 
-Identity uses `https://localhost:8443`; health endpoints also listen at
+The identity and intake APIs use `https://localhost:8443`; health endpoints also listen at
 `http://localhost:8080`. Local Mailpit is available at `http://localhost:8025`
 through Nginx. These ports bind only to loopback:
 
@@ -57,8 +62,10 @@ or baked into images.
 
 `GET /health/live` checks process availability. `GET /health/ready` checks
 PostgreSQL, infrastructure schema and required runtime writes; Redis is excluded.
-`GET /api/v1` returns the minimal API envelope. B2 adds the explicit cookie/session
-endpoints listed in the B2 implementation document.
+`GET /api/v1` returns the minimal API envelope. B2 supplies the cookie/session
+endpoints; B3 adds 38 taxonomy and intake routes, for 68 route definitions in total.
+GET routes also accept HEAD and count as one definition. The implementation
+documents above list the exact endpoints and access requirements.
 
 ~~~sh
 docker compose ps --all
@@ -71,7 +78,10 @@ The tools-profile verification container uses separate `holoul_test` and migrati
 credentials. Never aim it at real data. Verification checks isolation before fresh
 migrations and records output under ignored `artifacts/`. It builds development and
 production images, exercises PostgreSQL/Redis and health, and runs pinned security
-scans. Only the development image contains testing dependencies. The production
+scans. The inherited B1 → B2 upgrade test and the exact B2 → B3 upgrade test preserve
+baseline schema and record checks. B3 adds workflow, assignment, immutable revision,
+money, idempotency, isolation and concurrency coverage. Only the development image
+contains testing dependencies. The production
 stage also excludes Composer, Git, compilers and PHP build headers.
 
 The full verification script also requires Bash, curl and Python 3 in Linux/WSL;
@@ -88,7 +98,11 @@ failed checks retain their reserved record for diagnosis. This smoke check uses
 the isolated Compose deployment's existing development secrets and does not turn
 the development topology into a production deployment. The B2 smoke also uses
 real HTTPS cookies and the private Mailpit sandbox for identity, recovery and MFA
-flows, then cleans up its temporary identity fixtures.
+flows. B3 adds an HTTPS taxonomy/intake workflow and an edge-throttling check.
+Its synthetic intake and history records remain as terminal fixtures; cleanup
+disables their accounts, revokes sessions, removes fixture role grants and
+deactivates their taxonomy. Credentials and recovery tokens are not retained in
+verification output.
 
 Services run source from the image. Rebuild after edits. For faster local tests,
 use the development verification image with an explicit workspace bind mount:
@@ -102,7 +116,10 @@ Keep production containers running the source baked into their tested image.
 ## Infrastructure boundaries
 
 Later reserved module folders contain no domain implementation. Identity and
-Customers own B2 writes. Audit is append-only, including raw SQL
+Customers own account/profile writes; Categories owns taxonomy, and Project Intake
+owns drafts, immutable revisions, assignments, clarification and workflow history.
+Application workflows compose module contracts without passing domain models
+across those boundaries. Audit is append-only, including raw SQL
 UPDATE/DELETE/TRUNCATE guards. Runtime can append/read only;
 metadata accepts bounded identifiers/statuses/counts, never arbitrary content.
 
@@ -113,6 +130,17 @@ infrastructure-only handlers.
 Future handlers perform external work outside a transaction and return a
 database-only writer; result and success commit together. External provider
 idempotency and uncertain-outcome reconciliation remain necessary.
+
+Intake submission appends a passive notification-intent record containing only
+request/revision IDs and event kind. It is committed with the revision and audit,
+but B3 does not dispatch or deliver intake notifications. Existing Identity
+verification/recovery mail remains the only installed mail workflow.
+
+Intake mutations hold the authenticated identity/session and request locks through
+commit. Staff detail and child reads hold a shared request lock so reassignment
+cannot change access halfway through reading revisions, information or history.
+Customer ownership comes from the authenticated contact contract. Submitted
+snapshots preserve contact and taxonomy labels after later profile/catalog edits.
 
 Worker timeout: 30 s; operation lease: 60 s; Redis `retry_after`: 90 s; shutdown
 grace: 45 s. Redis read timeout exceeds its blocking pop. Queue/scheduler
@@ -154,7 +182,10 @@ Development Nginx discards forwarded headers. Production TLS ingress must
 allowlist ingress source addresses before accepting forwarded protocol/client IP,
 pass only normalized headers onward, and set Laravel `APP_TRUSTED_PROXIES` to private
 Nginx peers. Never trust all proxies. Set HSTS at TLS ingress, not local HTTP.
-B2 verifies HTTPS URLs, host rejection, Secure cookies and client-IP throttling.
+B2 verifies HTTPS URLs, host rejection, Secure cookies and authentication throttling.
+B3 also checks the ingress limit of 10 requests per second per client address,
+with a burst of 40, independently of Redis. Tune this initial limit for deployment
+traffic and trusted proxy behavior.
 Credentialed cross-origin CORS is disabled.
 
 Structured logs omit bodies, queries, credentials and exception text/stack traces.
@@ -174,4 +205,8 @@ and the local Mailpit sandbox. Any failed command fails the check.
 Make “Foundation quality and integration”
 required in branch protection when a remote exists; local workflow files cannot
 configure GitHub enforcement. No broad analysis baseline or vulnerability
-suppression is included. See the B1 and B2 verification reports for actual results.
+suppression is included. Actual results are recorded in the
+[B1 verification report](docs/B1-VERIFICATION.md),
+[B2 verification report](docs/B2-VERIFICATION.md) and
+[B3 verification report](docs/B3-VERIFICATION.md); a workflow file alone does not
+establish that hosted CI ran or that branch protection is enabled.

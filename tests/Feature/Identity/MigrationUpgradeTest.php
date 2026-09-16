@@ -25,6 +25,15 @@ final class MigrationUpgradeTest extends TestCase
         'database/migrations/2026_09_16_000200_create_async_operations_table.php' => '60a438c9fc47af553e9612c2212a06eca254b1ad285e02d0f40f6d238f6a526f',
     ];
 
+    /** @var list<string> */
+    private const array B2_MIGRATIONS = [
+        'database/migrations/2026_09_16_010000_create_identity_core.php',
+        'database/migrations/2026_09_16_010100_create_customers_table.php',
+        'database/migrations/2026_09_16_010200_create_identity_authorization_tables.php',
+        'database/migrations/2026_09_16_010300_create_identity_recovery.php',
+        'database/migrations/2026_09_16_010400_create_identity_mfa.php',
+    ];
+
     public function test_exact_approved_b1_schema_upgrades_without_losing_infrastructure_records_or_guards(): void
     {
         foreach (self::B1_MIGRATIONS as $path => $sha256) {
@@ -69,7 +78,7 @@ final class MigrationUpgradeTest extends TestCase
             $operationBefore = DB::table('async_operations')->where('id', $operationId)->sole();
             $this->assertRuntimePrivileges();
 
-            $this->artisan('migrate', ['--force' => true])->assertExitCode(0);
+            $this->artisan('migrate', ['--path' => self::B2_MIGRATIONS, '--force' => true])->assertExitCode(0);
 
             $this->assertDatabaseCount('migrations', 8);
             $this->assertSame(3, DB::table('migrations')->where('batch', 1)->count());
@@ -90,7 +99,7 @@ final class MigrationUpgradeTest extends TestCase
             $this->assertCount(8, $rolesBeforeRerun);
             $this->assertCount(7, $permissionsBeforeRerun);
 
-            $this->artisan('migrate', ['--force' => true])->assertExitCode(0);
+            $this->artisan('migrate', ['--path' => self::B2_MIGRATIONS, '--force' => true])->assertExitCode(0);
 
             $this->assertEquals($migrationsBeforeRerun, DB::table('migrations')->orderBy('id')->get()->all());
             $this->assertEquals($rolesBeforeRerun, DB::table('roles')->orderBy('code')->get()->all());

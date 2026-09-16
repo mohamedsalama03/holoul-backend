@@ -34,7 +34,7 @@ final class RoleFoundationTest extends TestCase
 
     private static ?string $passwordHash = null;
 
-    public function test_catalog_has_exactly_the_candidate_roles_and_only_explicit_b2_permissions(): void
+    public function test_catalog_has_exactly_the_candidate_roles_and_only_explicit_approved_permissions(): void
     {
         self::assertEqualsCanonicalizing(array_column(Role::cases(), 'value'), DB::table('roles')->pluck('code')->all());
         self::assertEqualsCanonicalizing(array_column(Permission::cases(), 'value'), DB::table('permissions')->pluck('code')->all());

@@ -46,7 +46,10 @@ final class FoundationArchitectureTest extends TestCase
     /** @var list<string> */
     private const INFRASTRUCTURE_TABLES = ['audit_events', 'async_operations', 'failed_jobs', 'job_batches', 'sessions', 'migrations',
         'users', 'identity_sessions', 'customers', 'roles', 'permissions', 'role_permissions', 'user_roles',
-        'identity_recovery_tokens', 'identity_recovery_mail', 'identity_mfa', 'identity_mfa_recovery_codes'];
+        'identity_recovery_tokens', 'identity_recovery_mail', 'identity_mfa', 'identity_mfa_recovery_codes',
+        'currencies', 'categories', 'subcategories', 'project_requests', 'request_drafts', 'request_revisions',
+        'request_assignments', 'information_requests', 'information_responses', 'information_resolutions',
+        'request_state_changes', 'intake_submission_keys', 'intake_notification_intents'];
 
     /** @var array<string, list<string>> */
     private const CONTRACT_ONLY_DEPENDENCIES = [
@@ -201,12 +204,12 @@ final class FoundationArchitectureTest extends TestCase
         self::assertSame('false', trim($process->getOutput()));
     }
 
-    public function test_only_b1_and_b2_authorized_modules_and_tables_are_implemented(): void
+    public function test_only_authorized_b1_through_b3_modules_and_tables_are_implemented(): void
     {
         foreach (array_keys(self::MODULE_DEPENDENCIES) as $module) {
             self::assertDirectoryExists(app_path("Modules/$module"));
 
-            if (! in_array($module, ['Audit', 'Identity', 'Customers'], true)) {
+            if (! in_array($module, ['Audit', 'Identity', 'Customers', 'Categories', 'ProjectIntake'], true)) {
                 self::assertSame([], $this->phpFiles(app_path("Modules/$module")), "$module implementation belongs to a later approved batch");
             }
         }
@@ -228,20 +231,20 @@ final class FoundationArchitectureTest extends TestCase
                 $argument = $call->args[0] ?? null;
                 self::assertInstanceOf(Node\Arg::class, $argument, $file);
                 self::assertInstanceOf(String_::class, $argument->value, "Migration table names must be explicit ($file)");
-                self::assertContains($argument->value->value, self::INFRASTRUCTURE_TABLES, "Migration is outside approved B1/B2 ($file)");
+                self::assertContains($argument->value->value, self::INFRASTRUCTURE_TABLES, "Migration is outside approved B1/B2/B3 ($file)");
             }
 
             foreach ((new NodeFinder)->findInstanceOf($nodes, String_::class) as $literal) {
                 preg_match_all('/\bCREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?(?:public\.)?"?([a-z_][a-z_0-9]*)/i', $literal->value, $tables);
 
                 foreach ($tables[1] as $table) {
-                    self::assertContains(strtolower($table), self::INFRASTRUCTURE_TABLES, "SQL is outside approved B1/B2 ($file)");
+                    self::assertContains(strtolower($table), self::INFRASTRUCTURE_TABLES, "SQL is outside approved B1/B2/B3 ($file)");
                 }
             }
         }
     }
 
-    public function test_registered_routes_are_limited_to_approved_b1_and_b2(): void
+    public function test_registered_routes_are_limited_to_approved_b1_through_b3(): void
     {
         $routes = app('router')->getRoutes();
         $actual = [];
@@ -263,6 +266,44 @@ final class FoundationArchitectureTest extends TestCase
             'GET|HEAD api/v1/customers/{customer}', 'PATCH api/v1/customers/{customer}',
             'GET|HEAD api/v1/identities/{identity}/customers/{customer}', 'PATCH api/v1/identities/{identity}/customers/{customer}',
             'GET|HEAD api/v1/identity/staff/{user}', 'PATCH api/v1/identity/staff/{user}/authorization',
+            'GET|HEAD api/v1/categories',
+            'GET|HEAD api/v1/categories/{category}/subcategories',
+            'GET|HEAD api/v1/admin/categories',
+            'GET|HEAD api/v1/admin/categories/{category}/subcategories',
+            'POST api/v1/admin/categories',
+            'POST api/v1/admin/categories/{category}/subcategories',
+            'PATCH api/v1/admin/categories/{category}',
+            'PATCH api/v1/admin/subcategories/{subcategory}',
+            'GET|HEAD api/v1/project-requests',
+            'POST api/v1/project-requests',
+            'GET|HEAD api/v1/project-requests/by-reference/{reference}',
+            'GET|HEAD api/v1/project-requests/{projectRequest}',
+            'GET|HEAD api/v1/customers/{customer}/project-requests/{projectRequest}',
+            'PATCH api/v1/project-requests/{projectRequest}/draft',
+            'POST api/v1/project-requests/{projectRequest}/amendments',
+            'POST api/v1/project-requests/{projectRequest}/submissions',
+            'GET|HEAD api/v1/project-requests/{projectRequest}/revisions',
+            'GET|HEAD api/v1/project-requests/{projectRequest}/revisions/{revision}',
+            'GET|HEAD api/v1/project-requests/{projectRequest}/information-requests',
+            'POST api/v1/project-requests/{projectRequest}/information-requests/{information}/responses',
+            'POST api/v1/project-requests/{projectRequest}/withdrawals',
+            'GET|HEAD api/v1/project-requests/{projectRequest}/history',
+            'GET|HEAD api/v1/admin/project-requests',
+            'GET|HEAD api/v1/admin/project-requests/by-reference/{reference}',
+            'GET|HEAD api/v1/admin/project-requests/{projectRequest}',
+            'GET|HEAD api/v1/admin/project-requests/{projectRequest}/revisions',
+            'GET|HEAD api/v1/admin/project-requests/{projectRequest}/revisions/{revision}',
+            'GET|HEAD api/v1/admin/project-requests/{projectRequest}/information-requests',
+            'GET|HEAD api/v1/admin/project-requests/{projectRequest}/history',
+            'POST api/v1/admin/project-requests/{projectRequest}/assignments',
+            'GET|HEAD api/v1/admin/project-requests/{projectRequest}/assignments',
+            'POST api/v1/admin/project-requests/{projectRequest}/reviews',
+            'POST api/v1/admin/project-requests/{projectRequest}/information-requests',
+            'POST api/v1/admin/project-requests/{projectRequest}/information-requests/{information}/acknowledgements',
+            'POST api/v1/admin/project-requests/{projectRequest}/discovery-handoffs',
+            'POST api/v1/admin/project-requests/{projectRequest}/rejections',
+            'GET|HEAD api/v1/admin/categories/{category}',
+            'GET|HEAD api/v1/admin/subcategories/{subcategory}',
         ];
         sort($expected);
         self::assertSame($expected, $actual);
@@ -281,7 +322,9 @@ final class FoundationArchitectureTest extends TestCase
             self::assertContains(ExactOrigin::class, $middleware);
             self::assertContains(StrictCsrf::class, $middleware);
             self::assertContains(StartSession::class, $middleware);
-            if (str_contains($route->uri(), '/customers') || str_contains($route->uri(), '/identity/')) {
+            if (str_contains($route->uri(), '/customers') || str_contains($route->uri(), '/identity/')
+                || str_starts_with($route->uri(), 'api/v1/admin/') || str_starts_with($route->uri(), 'api/v1/categories')
+                || str_starts_with($route->uri(), 'api/v1/project-requests')) {
                 self::assertContains(SessionAuthenticated::class, $middleware);
             }
         }

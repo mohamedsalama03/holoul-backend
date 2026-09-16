@@ -36,6 +36,7 @@ SESSION_COOKIE = "__Host-holoul_session"
 MAX_RESPONSE = 1_048_576
 CHECKS: list[str] = []
 STAGE = "configuration"
+NEXT_REQUEST = 0.0
 
 
 class SmokeFailure(Exception):
@@ -93,6 +94,11 @@ class Browser:
         return cookies[0]
 
     def call(self, method: str, path: str, expected: int, body=None, *, csrf=True, origin=None):
+        # Share pacing across browsers and snapshots so the real ingress limit
+        # cannot replace a policy assertion with 429. Never retry that response.
+        global NEXT_REQUEST
+        time.sleep(max(0.0, NEXT_REQUEST - time.monotonic()))
+        NEXT_REQUEST = time.monotonic() + 0.14
         require(path.startswith("/") and not path.startswith("//"), "invalid_relative_path")
         headers = {
             "Accept": "application/json",

@@ -1,4 +1,4 @@
-name: B1 Foundation and B2 Identity
+name: B1-B3 Backend
 
 on:
   push:
@@ -25,7 +25,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Verify foundation and identity against PostgreSQL and Redis
+      - name: Verify B1-B3 against PostgreSQL and Redis
         shell: bash
         run: bash scripts/verify.sh
 
