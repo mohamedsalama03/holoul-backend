@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 return [
     'driver' => 'database',
-    'lifetime' => 120,
+    // Absolute maximum storage/cookie lifetime; database middleware applies persona idle/absolute limits.
+    'lifetime' => 10080,
     'expire_on_close' => false,
     'encrypt' => true,
     'connection' => 'pgsql',

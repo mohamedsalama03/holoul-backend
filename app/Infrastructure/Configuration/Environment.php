@@ -9,6 +9,16 @@ use RuntimeException;
 
 final class Environment
 {
+    public static function boolean(string $name, bool $default = false): bool
+    {
+        $value = Env::get($name, $default);
+        if (! is_bool($value)) {
+            throw new RuntimeException('Invalid environment configuration.');
+        }
+
+        return $value;
+    }
+
     public static function string(string $name, string $default = ''): string
     {
         // Called only while config/*.php are evaluated. Runtime consumers use Config.

@@ -15,3 +15,4 @@ bootstrap/cache/*.php
 artifacts
 .codex
 docs
+**/__pycache__

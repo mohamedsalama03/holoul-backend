@@ -1,6 +1,6 @@
 name: holoul
 x-application: &application
-  image: ${HOLOUL_APP_IMAGE:-holoul-app:b1-development}
+  image: ${HOLOUL_APP_IMAGE:-holoul-app:b2-development}
   build:
     context: .
     target: development
@@ -15,7 +15,7 @@ x-application: &application
   security_opt: [no-new-privileges:true]
   environment: &application-env
     APP_ENV: ${HOLOUL_APP_ENV:-local}
-    APP_URL: http://localhost:8080
+    APP_URL: https://localhost:${HOLOUL_HTTPS_PORT:-8443}
     APP_KEY_FILE: /run/holoul-secrets/app_key
     APP_TRUSTED_HOSTS: localhost,127.0.0.1
     DB_HOST: postgres
@@ -24,6 +24,11 @@ x-application: &application
     DB_PASSWORD_FILE: /run/holoul-secrets/database_password
     # This private development database has no TLS; production defaults stay verify-full.
     DB_SSLMODE: disable
+    IDENTITY_MAIL_SANDBOX: 'true'
+    MAIL_SCHEME: smtp
+    MAIL_HOST: mailpit
+    MAIL_PORT: '1025'
+    MAIL_FROM_ADDRESS: noreply@holoul.test
     REDIS_HOST: redis
     REDIS_PASSWORD_FILE: /run/holoul-secrets/redis_password
     REDIS_PREFIX: holoul_local_
@@ -43,6 +48,7 @@ services:
       - app_secrets:/run/holoul-app
       - migrator_secrets:/run/holoul-migrator
       - bootstrap_secrets:/run/holoul-bootstrap
+      - tls_secrets:/run/holoul-tls
       - redis_secrets:/run/holoul-redis
     environment:
       APP_ENV: local
@@ -162,14 +168,40 @@ services:
     tmpfs: [/tmp]
     cap_drop: [ALL]
     security_opt: [no-new-privileges:true]
-    ports: ["127.0.0.1:${HOLOUL_HTTP_PORT:-8080}:8080"]
+    ports: ["127.0.0.1:${HOLOUL_HTTP_PORT:-8080}:8080", "127.0.0.1:${HOLOUL_HTTPS_PORT:-8443}:8443", "127.0.0.1:${HOLOUL_MAIL_PORT:-8025}:8025"]
     volumes:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - tls_secrets:/run/holoul-tls:ro
     networks: [internal, ingress]
     depends_on:
       app: {condition: service_healthy}
     healthcheck:
       test: [CMD-SHELL, "wget -q -O /dev/null http://127.0.0.1:8080/health/live"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+    restart: unless-stopped
+    mem_limit: 128m
+    pids_limit: 64
+
+  # Local SMTP capture only: no relay/provider credentials and no external network.
+  mailpit:
+    image: axllent/mailpit:v1.31.1@sha256:98b916bd3c8d61f7633a52d3ea2f58d00620cb01ca57ab59edde68c347a95365
+    user: "1000:1000"
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    environment:
+      MP_DATABASE: /tmp/mailpit.db
+      MP_MAX_MESSAGES: 100
+      MP_DISABLE_VERSION_CHECK: 'true'
+      MP_DISABLE_LINK_CHECK: 'true'
+      MP_ALLOWED_HOSTS: localhost,127.0.0.1,mailpit
+      MP_QUIET: 'true'
+    networks: [internal]
+    healthcheck:
+      test: [CMD, /mailpit, readyz]
       interval: 10s
       timeout: 3s
       retries: 12
@@ -209,3 +241,5 @@ volumes:
   migrator_secrets: {}
   bootstrap_secrets: {}
   redis_secrets: {}
+
+  tls_secrets: {}

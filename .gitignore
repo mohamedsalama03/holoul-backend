@@ -15,3 +15,5 @@
 /storage/framework/views/*.php
 /artifacts/
 /auth.json
+/__pycache__/
+**/__pycache__/

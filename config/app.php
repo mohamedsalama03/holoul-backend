@@ -8,7 +8,7 @@ return [
     'name' => 'HOLOUL',
     'env' => Environment::string('APP_ENV', 'production'),
     'debug' => false,
-    'url' => Environment::string('APP_URL', 'http://localhost:8080'),
+    'url' => Environment::string('APP_URL', 'https://localhost:8443'),
     'timezone' => 'UTC',
     'locale' => 'en',
     'fallback_locale' => 'en',

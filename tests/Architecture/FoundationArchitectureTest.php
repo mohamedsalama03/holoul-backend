@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Architecture;
 
+use App\Modules\Identity\Http\ExactOrigin;
+use App\Modules\Identity\Http\SessionAuthenticated;
+use App\Modules\Identity\Http\StrictCsrf;
+use App\Modules\Identity\Models\User;
+use Illuminate\Session\Middleware\StartSession;
+use Laravel\Sanctum\HasApiTokens;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Name;
@@ -38,7 +44,9 @@ final class FoundationArchitectureTest extends TestCase
     ];
 
     /** @var list<string> */
-    private const INFRASTRUCTURE_TABLES = ['audit_events', 'async_operations', 'failed_jobs', 'job_batches', 'sessions', 'migrations'];
+    private const INFRASTRUCTURE_TABLES = ['audit_events', 'async_operations', 'failed_jobs', 'job_batches', 'sessions', 'migrations',
+        'users', 'identity_sessions', 'customers', 'roles', 'permissions', 'role_permissions', 'user_roles',
+        'identity_recovery_tokens', 'identity_recovery_mail', 'identity_mfa', 'identity_mfa_recovery_codes'];
 
     /** @var array<string, list<string>> */
     private const CONTRACT_ONLY_DEPENDENCIES = [
@@ -193,12 +201,12 @@ final class FoundationArchitectureTest extends TestCase
         self::assertSame('false', trim($process->getOutput()));
     }
 
-    public function test_b1_contains_no_business_module_implementation(): void
+    public function test_only_b1_and_b2_authorized_modules_and_tables_are_implemented(): void
     {
         foreach (array_keys(self::MODULE_DEPENDENCIES) as $module) {
             self::assertDirectoryExists(app_path("Modules/$module"));
 
-            if ($module !== 'Audit') {
+            if (! in_array($module, ['Audit', 'Identity', 'Customers'], true)) {
                 self::assertSame([], $this->phpFiles(app_path("Modules/$module")), "$module implementation belongs to a later approved batch");
             }
         }
@@ -220,31 +228,72 @@ final class FoundationArchitectureTest extends TestCase
                 $argument = $call->args[0] ?? null;
                 self::assertInstanceOf(Node\Arg::class, $argument, $file);
                 self::assertInstanceOf(String_::class, $argument->value, "Migration table names must be explicit ($file)");
-                self::assertContains($argument->value->value, self::INFRASTRUCTURE_TABLES, "Business migration is outside B1 ($file)");
+                self::assertContains($argument->value->value, self::INFRASTRUCTURE_TABLES, "Migration is outside approved B1/B2 ($file)");
             }
 
             foreach ((new NodeFinder)->findInstanceOf($nodes, String_::class) as $literal) {
                 preg_match_all('/\bCREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?(?:public\.)?"?([a-z_][a-z_0-9]*)/i', $literal->value, $tables);
 
                 foreach ($tables[1] as $table) {
-                    self::assertContains(strtolower($table), self::INFRASTRUCTURE_TABLES, "Business SQL is outside B1 ($file)");
+                    self::assertContains(strtolower($table), self::INFRASTRUCTURE_TABLES, "SQL is outside approved B1/B2 ($file)");
                 }
             }
         }
     }
 
-    public function test_registered_routes_are_limited_to_b1_infrastructure(): void
+    public function test_registered_routes_are_limited_to_approved_b1_and_b2(): void
     {
         $routes = app('router')->getRoutes();
         $actual = [];
 
         foreach ($routes as $route) {
-            self::assertSame(['GET', 'HEAD'], $route->methods());
-            $actual[] = $route->uri();
+            $actual[] = implode('|', $route->methods()).' '.$route->uri();
         }
 
         sort($actual);
-        self::assertSame(['api/v1', 'health/live', 'health/ready'], $actual);
+        $expected = [
+            'GET|HEAD api/v1', 'GET|HEAD health/live', 'GET|HEAD health/ready', 'GET|HEAD sanctum/csrf-cookie',
+            'POST api/v1/auth/register', 'POST api/v1/auth/login', 'POST api/v1/auth/logout',
+            'POST api/v1/auth/email/verify', 'POST api/v1/auth/email/resend', 'POST api/v1/auth/password/forgot',
+            'POST api/v1/auth/password/reset', 'POST api/v1/auth/password/confirm', 'POST api/v1/auth/password/change',
+            'POST api/v1/auth/mfa/enrollment', 'POST api/v1/auth/mfa/enrollment/confirm', 'POST api/v1/auth/mfa/challenge',
+            'POST api/v1/auth/mfa/recovery', 'POST api/v1/auth/mfa/recovery-codes', 'DELETE api/v1/auth/mfa',
+            'GET|HEAD api/v1/identity/me', 'PATCH api/v1/identity/me', 'GET|HEAD api/v1/identity/sessions',
+            'POST api/v1/identity/sessions/revoke-others', 'GET|HEAD api/v1/customers',
+            'GET|HEAD api/v1/customers/{customer}', 'PATCH api/v1/customers/{customer}',
+            'GET|HEAD api/v1/identities/{identity}/customers/{customer}', 'PATCH api/v1/identities/{identity}/customers/{customer}',
+            'GET|HEAD api/v1/identity/staff/{user}', 'PATCH api/v1/identity/staff/{user}/authorization',
+        ];
+        sort($expected);
+        self::assertSame($expected, $actual);
+    }
+
+    public function test_identity_routes_retain_session_origin_and_csrf_controls(): void
+    {
+        $router = app('router');
+        foreach ($router->getRoutes() as $route) {
+            if (in_array($route->uri(), ['api/v1', 'health/live', 'health/ready'], true)) {
+                self::assertSame(['GET', 'HEAD'], $route->methods());
+
+                continue;
+            }
+            $middleware = $router->gatherRouteMiddleware($route);
+            self::assertContains(ExactOrigin::class, $middleware);
+            self::assertContains(StrictCsrf::class, $middleware);
+            self::assertContains(StartSession::class, $middleware);
+            if (str_contains($route->uri(), '/customers') || str_contains($route->uri(), '/identity/')) {
+                self::assertContains(SessionAuthenticated::class, $middleware);
+            }
+        }
+        self::assertSame('database', config('session.driver'));
+        self::assertSame('__Host-holoul_session', config('session.cookie'));
+        self::assertTrue(config('session.encrypt'));
+        self::assertTrue(config('session.secure'));
+        self::assertTrue(config('session.http_only'));
+        self::assertSame('lax', config('session.same_site'));
+        self::assertNull(config('session.domain'));
+        self::assertSame('/', config('session.path'));
+        self::assertNotContains(HasApiTokens::class, class_uses_recursive(User::class));
     }
 
     /** @return list<string> */

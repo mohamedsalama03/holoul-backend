@@ -1,0 +1,9 @@
+# B2 authorization
+
+The migration seeds exactly the eight B0 candidate roles and seven identity/customer permissions. Staff roles have only B2 authority; future business permissions remain absent. Super Admin has explicit security permissions and no global policy bypass or customer-profile access. Runtime SQL cannot change the role/permission catalog.
+
+`AssignCustomerRole` is a server-owned registration action. The composite foreign keys on `user_roles` prevent customer/staff persona mixing. HTTP role/status management accepts a closed list of staff roles, validates the persisted session again, and requires enabled staff, completed MFA, recent password confirmation and the relevant permission. Managing Administrator or Super Admin roles additionally requires an existing Super Admin with `identity.security.manage`. An actor cannot manage a role whose permissions exceed the actor's current permissions.
+
+All staff authorization mutations take the same PostgreSQL transaction advisory lock, then lock user rows in identifier order. This preserves the last enabled Super Admin during competing demotion/disable requests. Role/status writes, safe audit events and authorization-version/session revocation commit together. The independent-process tests exercise both parallel demotion and parallel disabling.
+
+The protected operator command is `identity:bootstrap-super-admin --name=... --email=...`. It creates only the first administrator, requires hidden password entry and confirmation without visible-input fallback, and rejects noninteractive execution. Account creation, role grant and durable verification-mail intent share a transaction. It does not mark email verified, bypass staff MFA, or create default/demo accounts. No account is created merely by migrating or deploying the application.

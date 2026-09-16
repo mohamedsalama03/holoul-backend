@@ -9,8 +9,10 @@
     "ext-pdo": "*",
     "ext-pdo_pgsql": "*",
     "ext-redis": "~6.3.0",
+    "giggsey/libphonenumber-for-php": "~9.0.39",
     "laravel/framework": "~13.32.0",
-    "laravel/sanctum": "~4.3.3"
+    "laravel/sanctum": "~4.3.3",
+    "pragmarx/google2fa": "~9.1.0"
   },
   "require-dev": {
     "larastan/larastan": "3.12.1",

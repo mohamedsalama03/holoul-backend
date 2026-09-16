@@ -1,8 +1,11 @@
-# HOLOUL backend — B1 foundation
+# HOLOUL backend — B2 identity foundation
 
-Laravel modular monolith implementing only infrastructure. The approved design is
-[the B0 architecture](docs/B0-ARCHITECTURE.md); pinned versions and sources are in
-[B1 versions](docs/B1-VERSIONS.md). Authentication and all business domains remain
+Laravel modular monolith implementing infrastructure, Identity and Customers.
+The approved design is [the B0 architecture](docs/B0-ARCHITECTURE.md);
+pinned versions and sources are in
+[B1 versions](docs/B1-VERSIONS.md) and [B2 versions](docs/B2-VERSIONS.md).
+The B2 browser/API contract is documented in
+[B2 implementation](docs/B2-IMPLEMENTATION.md). Later business domains remain
 unimplemented.
 
 ## Development
@@ -14,20 +17,48 @@ integration). Run from this directory in Linux/WSL:
 docker compose up -d --build --wait
 ~~~
 
-The backend listens at http://localhost:8080. Set HOLOUL_HTTP_PORT to select another
-loopback port. No host PHP, Composer, npm, or manually populated .env is required.
-Subsequent starts use docker compose up -d.
+Identity uses `https://localhost:8443`; health endpoints also listen at
+`http://localhost:8080`. Local Mailpit is available at `http://localhost:8025`
+through Nginx. These ports bind only to loopback:
+
+| Environment variable | Default | Purpose |
+|---|---|---|
+| `HOLOUL_HTTPS_PORT` | `8443` | HTTPS identity/API origin |
+| `HOLOUL_HTTP_PORT` | `8080` | HTTP health/API checks |
+| `HOLOUL_MAIL_PORT` | `8025` | Mailpit UI through Nginx |
+
+To choose different ports, export the relevant variables before starting Compose;
+for example, `export HOLOUL_HTTPS_PORT=9443`. Compose updates the configured
+identity origin to match. `HOLOUL_MAIL_PORT` changes the host UI port, not the
+private SMTP port (`MAIL_PORT=1025`). No host PHP, Composer, npm, or manually
+populated `.env` is required. Subsequent starts use `docker compose up -d`.
+
+Startup generates a local self-signed certificate for `localhost` and `127.0.0.1`.
+Export its public certificate and explicitly trust it for a local HTTPS check:
+
+```sh
+mkdir -p artifacts
+docker compose cp nginx:/run/holoul-tls/certificate.pem artifacts/holoul-local-ca.crt
+curl --cacert artifacts/holoul-local-ca.crt "https://localhost:${HOLOUL_HTTPS_PORT:-8443}/health/live"
+```
+
+For browser access, import that public `.crt` into the browser's or operating
+system's trusted root certificate store. A Windows browser needs Windows trust;
+trusting it inside WSL alone does not configure Windows. Export and import only
+the public certificate; the private key stays in its Docker volume. The backend
+provides API endpoints; a frontend and recovery-link pages are not included.
 
 Startup creates random development secrets in project-scoped named volumes,
-initializes PostgreSQL roles/databases once, runs infrastructure migrations as
-holoul_migrator, then starts runtime services. Bootstrap and migration jobs use the
+initializes PostgreSQL roles/databases once, runs schema migrations as
+`holoul_migrator`, then starts runtime services. Bootstrap and migration jobs use the
 same image and exit after success. App/queue/scheduler receive only application
 credentials; no migrator/bootstrap secrets. No credentials are printed, tracked,
 or baked into images.
 
-GET /health/live checks process availability. GET /health/ready checks PostgreSQL,
-infrastructure schema and required runtime writes; Redis is excluded. GET /api/v1
-returns the minimal API envelope. No business/authentication/Sanctum routes exist.
+`GET /health/live` checks process availability. `GET /health/ready` checks
+PostgreSQL, infrastructure schema and required runtime writes; Redis is excluded.
+`GET /api/v1` returns the minimal API envelope. B2 adds the explicit cookie/session
+endpoints listed in the B2 implementation document.
 
 ~~~sh
 docker compose ps --all
@@ -36,73 +67,94 @@ docker compose run --rm verify vendor/bin/phpunit
 bash scripts/verify.sh
 ~~~
 
-The tools-profile verification container uses separate holoul_test and migration
+The tools-profile verification container uses separate `holoul_test` and migration
 credentials. Never aim it at real data. Verification checks isolation before fresh
-migrations and records output under ignored artifacts/. It builds development and
+migrations and records output under ignored `artifacts/`. It builds development and
 production images, exercises PostgreSQL/Redis and health, and runs pinned security
-scans. Only the development image contains testing dependencies. The production stage also excludes Composer, Git, compilers and PHP build headers.
+scans. Only the development image contains testing dependencies. The production
+stage also excludes Composer, Git, compilers and PHP build headers.
+
+The full verification script also requires Bash, curl and Python 3 in Linux/WSL;
+application test tooling runs inside Docker.
 
 Verification then runs the exact production image for app, queue and scheduler
-with HOLOUL_APP_ENV=production and checks each service's effective environment and
-disabled debug setting. It inserts one unpublished infrastructure.b1_probe
+with `HOLOUL_APP_ENV=production` and checks each service's effective environment and
+disabled debug setting. It inserts one unpublished `infrastructure.b1_probe`
 operation and waits up to 150 seconds for the actual scheduler, Redis transport
-and worker to produce the expected handler_missing result, with a 160-second
-process limit covering stalled I/O. No probe handler or
-business effect is installed. Only that verified terminal probe is removed;
+and worker to produce the expected `handler_missing` result, with a 160-second
+process limit covering stalled I/O. No probe handler or business effect is
+installed. Only that verified terminal probe is removed;
 failed checks retain their reserved record for diagnosis. This smoke check uses
 the isolated Compose deployment's existing development secrets and does not turn
-the development topology into a production deployment.
+the development topology into a production deployment. The B2 smoke also uses
+real HTTPS cookies and the private Mailpit sandbox for identity, recovery and MFA
+flows, then cleans up its temporary identity fixtures.
 
 Services run source from the image. Rebuild after edits. For faster local tests,
-use the pinned PHP base with an explicit workspace bind mount; do not bind source
-into production containers.
+use the development verification image with an explicit workspace bind mount:
+
+```sh
+docker compose run --rm --no-deps -v "$PWD:/var/www/html" verify vendor/bin/phpunit
+```
+
+Keep production containers running the source baked into their tested image.
 
 ## Infrastructure boundaries
 
-Reserved module folders contain no domain implementation. Audit is append-only,
-including raw SQL UPDATE/DELETE/TRUNCATE guards. Runtime can append/read only;
+Later reserved module folders contain no domain implementation. Identity and
+Customers own B2 writes. Audit is append-only, including raw SQL
+UPDATE/DELETE/TRUNCATE guards. Runtime can append/read only;
 metadata accepts bounded identifiers/statuses/counts, never arbitrary content.
 
 Async operations keep intent/attempts in PostgreSQL; Redis carries operation IDs.
 The scheduler reconciles lost work; leases and fencing protect duplicate/stale
-commits. B1 has no production handlers. Tests register infrastructure-only ones.
+commits. B2 registers the Identity recovery-mail handler; tests also register
+infrastructure-only handlers.
 Future handlers perform external work outside a transaction and return a
 database-only writer; result and success commit together. External provider
 idempotency and uncertain-outcome reconciliation remain necessary.
 
-Worker timeout: 30s; operation lease: 60s; Redis retry_after: 90s; shutdown grace:
-45s. Redis read timeout exceeds its blocking pop. Queue/scheduler heartbeats check
-work-loop activity. Specialized business worker pools belong to later batches.
+Worker timeout: 30 s; operation lease: 60 s; Redis `retry_after`: 90 s; shutdown
+grace: 45 s. Redis read timeout exceeds its blocking pop. Queue/scheduler
+heartbeats check work-loop activity. Specialized business worker pools belong to
+later batches.
 
-Sessions and failed_jobs are framework infrastructure, not implemented identity.
-Sanctum is pinned with discovery disabled until B2. PostgreSQL is the only
-application database; Redis separates environments by prefix and cache/queues by
-logical database. Its development memory policy is noeviction.
+PostgreSQL sessions now back Sanctum identity authentication. Sanctum is explicitly
+registered; package auto-discovery remains disabled to prevent duplicate routing.
+PostgreSQL is the only application database; Redis separates environments by
+prefix and cache/queues by logical database. Its development memory policy is
+`noeviction`.
 
 ## Production security and operation
 
-Compose is a development topology. Only Nginx publishes a loopback port; PostgreSQL,
-Redis and PHP-FPM stay private. Application processes are non-root with a read-only
-root and temporary writable paths. PostgreSQL initializes its persistent volume,
-then the upstream entrypoint drops privileges. Derived PostgreSQL and Redis images apply pinned OS security fixes; product versions are unchanged. PostgreSQL uses the built-in C.UTF-8 locale provider for deterministic Unicode ordering across Linux distributions. B1 was verified on fresh volumes; never reuse a cluster with different locale semantics without a reviewed migration.
+Compose is a development topology. Only Nginx publishes loopback ports, including
+the Mailpit UI proxy. Mailpit has no external network or relay configuration;
+PostgreSQL, Redis and PHP-FPM also stay private. Application processes are non-root
+with a read-only root and temporary writable paths. PostgreSQL initializes its persistent volume,
+then the upstream entrypoint drops privileges. Derived PostgreSQL and Redis images
+apply pinned OS security fixes; product versions are unchanged. PostgreSQL uses the
+built-in `C.UTF-8` locale provider for deterministic Unicode ordering across Linux
+distributions. B1 was verified on fresh volumes; never reuse a cluster with
+different locale semantics without a reviewed migration.
 
 Production supplies secrets externally, without the development initializer.
-Application processes use holoul_app; migrations use a release-only identity.
-Set APP_ENV=production, APP_URL, APP_KEY/APP_KEY_FILE, database/Redis credentials,
-exact APP_TRUSTED_HOSTS, and DB_SSLMODE=verify-full with the provider CA. Debug is
-hard-disabled regardless of APP_DEBUG. Cached configuration preserves host/proxy
+Application processes use `holoul_app`; migrations use a release-only identity.
+Set `APP_ENV=production`, `APP_URL`, `APP_KEY`/`APP_KEY_FILE`, database/Redis credentials,
+exact `APP_TRUSTED_HOSTS`, and `DB_SSLMODE=verify-full` with the provider CA. Debug is
+hard-disabled regardless of `APP_DEBUG`. Cached configuration preserves host/proxy
 settings.
 
 The private Compose database has no TLS, so Compose explicitly uses
-DB_SSLMODE=disable, including the production-mode smoke test against that disposable
-fixture. Application production defaults still require verify-full. This local
-test does not verify a production database certificate or TLS ingress.
+`DB_SSLMODE=disable`, including the production-mode smoke test against that disposable
+fixture. Application production defaults still require `verify-full`. The local
+HTTPS smoke explicitly trusts its generated SAN certificate; it does not verify a
+deployed production certificate or database TLS.
 
 Development Nginx discards forwarded headers. Production TLS ingress must
 allowlist ingress source addresses before accepting forwarded protocol/client IP,
-pass only normalized headers onward, and set Laravel APP_TRUSTED_PROXIES to private
+pass only normalized headers onward, and set Laravel `APP_TRUSTED_PROXIES` to private
 Nginx peers. Never trust all proxies. Set HSTS at TLS ingress, not local HTTP.
-Verify HTTPS URLs, host rejection, Secure cookies and client-IP throttling in B2.
+B2 verifies HTTPS URLs, host rejection, Secure cookies and client-IP throttling.
 Credentialed cross-origin CORS is disabled.
 
 Structured logs omit bodies, queries, credentials and exception text/stack traces.
@@ -117,8 +169,9 @@ gates in later batches.
 
 ## CI
 
-The GitHub workflow runs the shared verification script with PostgreSQL/Redis.
-Any failed command fails the check. Make “Foundation quality and integration”
+The GitHub workflow runs the shared verification script with PostgreSQL, Redis
+and the local Mailpit sandbox. Any failed command fails the check.
+Make “Foundation quality and integration”
 required in branch protection when a remote exists; local workflow files cannot
 configure GitHub enforcement. No broad analysis baseline or vulnerability
-suppression is included. See the B1 verification report for actual results.
+suppression is included. See the B1 and B2 verification reports for actual results.

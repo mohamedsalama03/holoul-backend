@@ -1,6 +1,11 @@
 <?php
 
 declare(strict_types=1);
+use App\Modules\Identity\Models\User;
 
-// Authentication, users, guards and password brokers are introduced in B2.
-return ['guards' => [], 'providers' => [], 'passwords' => []];
+return [
+    'defaults' => ['guard' => 'web', 'passwords' => null],
+    'guards' => ['web' => ['driver' => 'session', 'provider' => 'users']],
+    'providers' => ['users' => ['driver' => 'eloquent', 'model' => User::class]],
+    'passwords' => [],
+];

@@ -17,12 +17,13 @@ final class HttpFoundationTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_only_the_version_envelope_is_exposed(): void
+    public function test_version_envelope_and_approved_identity_entrypoint_are_explicit(): void
     {
         $this->getJson('/api/v1')->assertOk()->assertExactJson([
             'data' => ['service' => 'HOLOUL', 'api_version' => 'v1'],
         ])->assertHeader('Cache-Control', 'no-store, private');
-        $this->getJson('/sanctum/csrf-cookie')->assertNotFound();
+        $this->getJson('/sanctum/csrf-cookie')->assertNoContent()->assertHeader('X-Request-ID');
+        $this->getJson('http://localhost:8080/sanctum/csrf-cookie')->assertForbidden();
         $this->getJson('/login')->assertNotFound();
     }
 
@@ -65,7 +66,7 @@ final class HttpFoundationTest extends TestCase
             ->assertJsonValidationErrors('name', 'error.fields');
     }
 
-    public function test_framework_csrf_errors_are_normalized_without_authentication_routes(): void
+    public function test_framework_csrf_errors_are_normalized(): void
     {
         Route::post('/api/v1/test-csrf', function (): never {
             throw new TokenMismatchException('private token detail');
