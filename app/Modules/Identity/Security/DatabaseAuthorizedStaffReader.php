@@ -31,7 +31,8 @@ final readonly class DatabaseAuthorizedStaffReader implements AuthorizedStaffRea
         }
         $permissions = $this->authority->permissionsFor($this->authority->roles($user->id));
         $actionable = [Permission::AssignIntake->value, Permission::ReviewIntake->value,
-            Permission::RequestIntakeInformation->value, Permission::StartIntakeDiscovery->value, Permission::RejectIntake->value];
+            Permission::RequestIntakeInformation->value, Permission::StartIntakeDiscovery->value, Permission::RejectIntake->value,
+            Permission::ManageDiscovery->value, Permission::CreateProposal->value, Permission::ApproveProposal->value, Permission::IssueProposal->value];
         if (! in_array(Permission::ReadIntake->value, $permissions, true) || array_intersect($permissions, $actionable) === []) {
             return null;
         }

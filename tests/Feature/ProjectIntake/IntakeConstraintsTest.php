@@ -171,7 +171,8 @@ final class IntakeConstraintsTest extends TestCase
             'origin_state' => 'under_review', 'question' => 'Which users need access?', 'requested_by' => $staff->id];
         $this->assertSqlState('23503', fn () => DB::table('information_requests')->insert(['id' => (string) Str::uuid7(), ...$question, 'customer_id' => $other->customer_id]));
         $this->assertSqlState('23503', fn () => DB::table('information_requests')->insert(['id' => (string) Str::uuid7(), ...$question, 'requested_by' => $record->customer_user_id]));
-        $this->assertSqlState('23514', fn () => DB::table('information_requests')->insert(['id' => (string) Str::uuid7(), ...$question, 'origin_state' => 'discovery']));
+        // B5 permits returning to Discovery after an information response; Proposal is not a valid origin.
+        $this->assertSqlState('23514', fn () => DB::table('information_requests')->insert(['id' => (string) Str::uuid7(), ...$question, 'origin_state' => 'proposal']));
         $questionId = (string) Str::uuid7();
         DB::table('information_requests')->insert(['id' => $questionId, ...$question]);
         $this->assertSqlState('23503', fn () => DB::table('project_requests')->where('id', $other->id)->update(['state' => 'information_required', 'information_request_id' => $questionId]));

@@ -1,0 +1,17 @@
+{
+  "database/migrations/2026_09_16_000000_create_framework_infrastructure.php": "57c6a2b9a7fb4f1f03db156596835496689fa3083b493b76b6f888e94e9bf105",
+  "database/migrations/2026_09_16_000100_create_audit_events_table.php": "f8a2670b19a6ebc8d3f188ef44a17768f4411f41d5e1f1551812eaf292ce9303",
+  "database/migrations/2026_09_16_000200_create_async_operations_table.php": "60a438c9fc47af553e9612c2212a06eca254b1ad285e02d0f40f6d238f6a526f",
+  "database/migrations/2026_09_16_010000_create_identity_core.php": "a113f8fe8c4a57435cd1df5494fe91a07bc7f61927c141031c162c3f10a90e3e",
+  "database/migrations/2026_09_16_010100_create_customers_table.php": "7b66b2e6206c8539dd5a2a83c1ca70aaefc2d200481e6c662b55812d6ca88775",
+  "database/migrations/2026_09_16_010200_create_identity_authorization_tables.php": "7d015a05af1d418f7463c137dec469c22db081a7f3336b47cc645e82dccc380c",
+  "database/migrations/2026_09_16_010300_create_identity_recovery.php": "0dc4828f80e56041e66262ed507c5f4b57d72868fc5cddd4a77b9326e6dea703",
+  "database/migrations/2026_09_16_010400_create_identity_mfa.php": "4ca66ab6b4f64fc37b74cbac702c8f738f79f051ca9f3549844e501037d250e0",
+  "database/migrations/2026_09_16_020000_create_currencies.php": "94570bfaff715a6c1d2432a0a2f91c2f56f13111b4e9d98b55b113b45cf49e03",
+  "database/migrations/2026_09_16_020100_create_categories.php": "67c066519d09b271fc3b6dca8dca17afba3a2800c309d52a42389c50571b3f12",
+  "database/migrations/2026_09_16_020200_add_intake_permissions.php": "be651b514dcfff280f374c168f2dc0615363346d8b4d0e63ac48793491dd054f",
+  "database/migrations/2026_09_16_020300_create_project_intake.php": "5a7765ad104bc72a0d5ac8508adc8dccd7e86d66ba695ebb06023a06db844b20",
+  "database/migrations/2026_09_17_030000_create_document_tables.php": "9d063b1adc274149aac6688d33a116b9dcb93c1ac97dcb81f9df2e43d6192c35",
+  "database/migrations/2026_09_17_030100_create_intake_document_attachments.php": "e82a08148b4766fa5ee05a38ebded3a4a91776349c25dc1c2e219e3d358172f5",
+  "database/migrations/2026_09_17_030200_seed_document_permissions.php": "464303fa35a2d7f9d4fc7ea45fef66a8154370fc0f391cb04f223296c8df2099"
+}

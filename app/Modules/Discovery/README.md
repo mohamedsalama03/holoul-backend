@@ -1,3 +1,7 @@
 # Discovery
 
-Reserved module boundary from the approved B0 architecture. No domain implementation is authorized in B1. See docs/B0-ARCHITECTURE.md for ownership and permitted dependencies.
+Owns discovery records, revisions, requirements and explicit staff sign-off.
+Reads locked Intake facts through `ProjectIntake/Contracts/CommercialContext`.
+Completed content and sign-offs are immutable; changes start a new revision.
+The outer Commercial workflow owns the request lock and version update.
+See [B5 implementation](../../../docs/B5-IMPLEMENTATION.md).

@@ -51,7 +51,10 @@ final class FoundationArchitectureTest extends TestCase
         'request_assignments', 'information_requests', 'information_responses', 'information_resolutions',
         'request_state_changes', 'intake_submission_keys', 'intake_notification_intents',
         'documents', 'document_quotas', 'document_orphan_objects', 'document_reconciliation_cursors',
-        'intake_draft_documents', 'intake_revision_documents'];
+        'intake_draft_documents', 'intake_revision_documents',
+        'discovery_records', 'discovery_revisions', 'discovery_requirements', 'discovery_signoffs',
+        'proposal_series', 'proposals', 'proposal_items', 'proposal_deliverables', 'proposal_contributors',
+        'proposal_approvals', 'proposal_decisions', 'proposal_events', 'proposal_command_keys', 'proposal_documents'];
 
     /** @var array<string, list<string>> */
     private const CONTRACT_ONLY_DEPENDENCIES = [
@@ -206,12 +209,12 @@ final class FoundationArchitectureTest extends TestCase
         self::assertSame('false', trim($process->getOutput()));
     }
 
-    public function test_only_authorized_b1_through_b4_modules_and_tables_are_implemented(): void
+    public function test_only_authorized_b1_through_b5_modules_and_tables_are_implemented(): void
     {
         foreach (array_keys(self::MODULE_DEPENDENCIES) as $module) {
             self::assertDirectoryExists(app_path("Modules/$module"));
 
-            if (! in_array($module, ['Audit', 'Identity', 'Customers', 'Categories', 'ProjectIntake', 'Documents'], true)) {
+            if (! in_array($module, ['Audit', 'Identity', 'Customers', 'Categories', 'ProjectIntake', 'Documents', 'Discovery', 'Proposals'], true)) {
                 self::assertSame([], $this->phpFiles(app_path("Modules/$module")), "$module implementation belongs to a later approved batch");
             }
         }
@@ -233,20 +236,20 @@ final class FoundationArchitectureTest extends TestCase
                 $argument = $call->args[0] ?? null;
                 self::assertInstanceOf(Node\Arg::class, $argument, $file);
                 self::assertInstanceOf(String_::class, $argument->value, "Migration table names must be explicit ($file)");
-                self::assertContains($argument->value->value, self::INFRASTRUCTURE_TABLES, "Migration is outside approved B1/B2/B3/B4 ($file)");
+                self::assertContains($argument->value->value, self::INFRASTRUCTURE_TABLES, "Migration is outside approved B1/B2/B3/B4/B5 ($file)");
             }
 
             foreach ((new NodeFinder)->findInstanceOf($nodes, String_::class) as $literal) {
                 preg_match_all('/\bCREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?(?:public\.)?"?([a-z_][a-z_0-9]*)/i', $literal->value, $tables);
 
                 foreach ($tables[1] as $table) {
-                    self::assertContains(strtolower($table), self::INFRASTRUCTURE_TABLES, "SQL is outside approved B1/B2/B3/B4 ($file)");
+                    self::assertContains(strtolower($table), self::INFRASTRUCTURE_TABLES, "SQL is outside approved B1/B2/B3/B4/B5 ($file)");
                 }
             }
         }
     }
 
-    public function test_registered_routes_are_limited_to_approved_b1_through_b4(): void
+    public function test_registered_routes_are_limited_to_approved_b1_through_b5(): void
     {
         $routes = app('router')->getRoutes();
         $actual = [];
@@ -314,6 +317,32 @@ final class FoundationArchitectureTest extends TestCase
             'POST api/v1/project-requests/{projectRequest}/documents/{document}/scan-retries',
             'GET|HEAD api/v1/admin/project-requests/{projectRequest}/documents/{document}',
             'GET|HEAD api/v1/admin/project-requests/{projectRequest}/documents/{document}/download',
+            'GET|HEAD api/v1/admin/project-requests/{projectRequest}/discovery',
+            'POST api/v1/admin/project-requests/{projectRequest}/discovery',
+            'GET|HEAD api/v1/admin/project-requests/{projectRequest}/discovery/{revision}',
+            'PUT api/v1/admin/project-requests/{projectRequest}/discovery/{revision}',
+            'PUT api/v1/admin/project-requests/{projectRequest}/discovery/{revision}/requirements',
+            'POST api/v1/admin/project-requests/{projectRequest}/discovery/{revision}/starts',
+            'POST api/v1/admin/project-requests/{projectRequest}/discovery/{revision}/completions',
+            'GET|HEAD api/v1/admin/project-requests/{projectRequest}/proposals',
+            'POST api/v1/admin/project-requests/{projectRequest}/proposals',
+            'GET|HEAD api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}',
+            'PUT api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}',
+            'POST api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/approvals',
+            'POST api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/issuances',
+            'POST api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/supersessions',
+            'POST api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/withdrawals',
+            'POST api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/documents',
+            'DELETE api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/documents/{document}',
+            'GET|HEAD api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/documents/{document}',
+            'GET|HEAD api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/documents/{document}/download',
+            'GET|HEAD api/v1/project-requests/{projectRequest}/proposals',
+            'GET|HEAD api/v1/project-requests/{projectRequest}/proposals/{proposal}',
+            'POST api/v1/project-requests/{projectRequest}/proposals/{proposal}/acceptances',
+            'POST api/v1/project-requests/{projectRequest}/proposals/{proposal}/declines',
+            'POST api/v1/project-requests/{projectRequest}/proposals/{proposal}/rescissions',
+            'GET|HEAD api/v1/project-requests/{projectRequest}/proposals/{proposal}/documents/{document}',
+            'GET|HEAD api/v1/project-requests/{projectRequest}/proposals/{proposal}/documents/{document}/download',
         ];
         sort($expected);
         self::assertSame($expected, $actual);

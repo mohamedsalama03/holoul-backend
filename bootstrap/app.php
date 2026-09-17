@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Application\Commercial\ExpireProposalsCommand;
 use App\Infrastructure\Async\ReconcileOperationsCommand;
 use App\Infrastructure\Exceptions\SafeExceptionHandler;
 use App\Infrastructure\Http\ApiError;
@@ -35,7 +36,7 @@ $app = Application::configure(basePath: dirname(__DIR__))
                 ->middleware('identity.spa')->name('sanctum.csrf-cookie');
         },
     )
-    ->withCommands([ReconcileOperationsCommand::class])
+    ->withCommands([ReconcileOperationsCommand::class, ExpireProposalsCommand::class])
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->prepend(RequestId::class);
         $middleware->append(RequestLimits::class);

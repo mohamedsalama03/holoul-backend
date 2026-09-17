@@ -11,6 +11,8 @@ enum RequestState: string
     case UnderReview = 'under_review';
     case InformationRequired = 'information_required';
     case Discovery = 'discovery';
+    case Proposal = 'proposal';
+    case Approved = 'approved';
     case Rejected = 'rejected';
     case Withdrawn = 'withdrawn';
 

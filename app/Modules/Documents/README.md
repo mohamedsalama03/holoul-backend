@@ -1,6 +1,6 @@
 # Private Documents (B4)
 
-Documents owns private metadata, reservations, processing outcomes and deletion intent. Intake owns typed draft/revision attachments and current parent authorization. Documents imports Audit and technical infrastructure only; its `DocumentReferences` contract is implemented by Intake.
+Documents owns private metadata, reservations, processing outcomes and deletion intent. Intake and Proposals own their typed attachments and current parent authorization. Documents imports Audit and technical infrastructure only; its `DocumentReferences` contract is composed in the application layer from Intake and Proposals reference readers.
 
 `DocumentService` metadata methods require an existing transaction with current identity/parent authorization. `DocumentOwner` is server-created and includes immutable parent, customer and customer-user identities plus the acting identity and correlation ID. Attachment creation and removal lock the same document row used by deletion. Database guards reject owner/key/version changes, resurrection and deletion of metadata tombstones. Intake's relational guards protect retained references, including direct SQL attempts.
 

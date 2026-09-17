@@ -9,8 +9,12 @@ use App\Modules\Categories\Contracts\TaxonomyReader;
 use App\Modules\Categories\DatabaseTaxonomyReader;
 use App\Modules\Customers\Contracts\CustomerContactReader;
 use App\Modules\Customers\ReadModels\DatabaseCustomerContactReader;
+use App\Modules\Discovery\Contracts\DiscoveryReader;
+use App\Modules\Discovery\DatabaseDiscoveryReader;
 use App\Modules\Identity\Contracts\AuthorizedStaffReader;
 use App\Modules\Identity\Security\DatabaseAuthorizedStaffReader;
+use App\Modules\ProjectIntake\Contracts\IntakeDocumentReader;
+use App\Modules\ProjectIntake\Queries\ReadIntakeDocuments;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\Eloquent\Model;
@@ -23,6 +27,8 @@ final class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->app->bind(DiscoveryReader::class, DatabaseDiscoveryReader::class);
+        $this->app->bind(IntakeDocumentReader::class, ReadIntakeDocuments::class);
         $this->app->bind(TaxonomyReader::class, DatabaseTaxonomyReader::class);
         $this->app->bind(CustomerContactReader::class, DatabaseCustomerContactReader::class);
         $this->app->bind(AuthorizedStaffReader::class, DatabaseAuthorizedStaffReader::class);

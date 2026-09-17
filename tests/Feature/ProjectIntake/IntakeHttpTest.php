@@ -155,7 +155,7 @@ final class IntakeHttpTest extends TestCase
     public static function staffRoles(): array
     {
         return [['super_admin', true, true], ['administrator', false, true], ['project_manager', true, false],
-            ['business_analyst', true, false], ['reviewer', true, false], ['sales', false, false], ['support', false, false]];
+            ['business_analyst', true, false], ['reviewer', true, false], ['sales', true, false], ['support', false, false]];
     }
 
     public function test_staff_cannot_read_another_assignees_request_or_an_unsubmitted_draft(): void

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Intake;
 
+use App\Application\Commercial\WithdrawCommercialRequest;
 use App\Infrastructure\Http\VersionPrecondition;
 use App\Modules\Categories\Actions\ManageTaxonomy;
 use App\Modules\Categories\Contracts\TaxonomyReader;
@@ -13,6 +14,7 @@ use App\Modules\Customers\Contracts\CustomerContactReader;
 use App\Modules\Identity\Actions\WithAuthorizedIdentity;
 use App\Modules\Identity\Contracts\AuthorizedIdentity;
 use App\Modules\Identity\Contracts\AuthorizedStaffReader;
+use App\Modules\Identity\Security\SessionSecurity;
 use App\Modules\ProjectIntake\Actions\AssignRequest;
 use App\Modules\ProjectIntake\Actions\InformationWorkflow;
 use App\Modules\ProjectIntake\Actions\IntakeStore;
@@ -20,6 +22,7 @@ use App\Modules\ProjectIntake\Actions\ManageDraft;
 use App\Modules\ProjectIntake\Actions\SubmitRequest;
 use App\Modules\ProjectIntake\Actions\TransitionRequest;
 use App\Modules\ProjectIntake\Data\IntakeActor;
+use App\Modules\ProjectIntake\Data\RequestState;
 use App\Modules\ProjectIntake\Models\ProjectRequest;
 use App\Modules\ProjectIntake\Queries\ReadIntake;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -114,6 +117,15 @@ final readonly class IntakeApi
                 }
 
                 return $this->mutation($this->assignments->handle($actor, $id, $etag, $candidate->id, $requestId), $actor);
+            }
+            if ($operation === 'customer.withdraw') {
+                $current = $this->store->mutable($actor, $id, $etag);
+                if (in_array($current->state, [RequestState::Proposal, RequestState::Approved], true)) {
+                    app(SessionSecurity::class)->requireRecentPassword($request);
+
+                    return $this->mutation(app(WithdrawCommercialRequest::class)->handle($actor, $current, true,
+                        is_string($input['message'] ?? null) ? $input['message'] : null, $requestId), $actor);
+                }
             }
             $record = match ($operation) {
                 'customer.create' => $this->drafts->create($actor, $input, $requestId),

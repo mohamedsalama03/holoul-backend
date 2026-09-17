@@ -21,7 +21,7 @@ final readonly class InformationWorkflow
         return DB::transaction(function () use ($actor, $id, $etag, $message, $requestId): ProjectRequest {
             $record = $this->store->mutable($actor, $id, $etag);
             $this->store->policy->staff($actor, $record, 'intake.information');
-            if ($record->state !== RequestState::UnderReview) {
+            if (! in_array($record->state, [RequestState::UnderReview, RequestState::Discovery], true)) {
                 throw new HttpException(409);
             }
             $question = InformationRequest::query()->forceCreate(['request_id' => $id, 'customer_id' => $record->customer_id,
@@ -64,7 +64,7 @@ final readonly class InformationWorkflow
             }
             // The originating phase is persisted when asking; no client target is accepted.
             $target = RequestState::from($question->origin_state);
-            if ($target !== RequestState::UnderReview) {
+            if (! in_array($target, [RequestState::UnderReview, RequestState::Discovery], true)) {
                 throw new HttpException(409);
             }
             DB::table('information_resolutions')->insert(['id' => (string) Str::uuid7(), 'information_request_id' => $informationId,

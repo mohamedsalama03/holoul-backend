@@ -21,7 +21,7 @@ final readonly class AssignRequest
         return DB::transaction(function () use ($actor, $id, $etag, $assigneeId, $requestId): ProjectRequest {
             $record = $this->store->mutable($actor, $id, $etag);
             $this->store->policy->staff($actor, $record, 'intake.assign', false);
-            if (! in_array($record->state, [RequestState::Submitted, RequestState::UnderReview, RequestState::InformationRequired], true)
+            if (! in_array($record->state, [RequestState::Submitted, RequestState::UnderReview, RequestState::InformationRequired, RequestState::Discovery, RequestState::Proposal, RequestState::Approved], true)
                 || $record->assigned_staff_id === $assigneeId) {
                 throw new HttpException(409);
             }

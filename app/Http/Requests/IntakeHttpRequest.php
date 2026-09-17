@@ -42,7 +42,7 @@ final class IntakeHttpRequest extends FormRequest
                 'limit' => ['sometimes', 'integer', 'min:1', 'max:100'],
                 'cursor' => ['sometimes', 'string', 'max:256'],
                 'sort' => ['sometimes', 'string', 'in:created_at,-created_at'],
-                'state' => ['sometimes', 'string', 'in:draft,submitted,under_review,information_required,discovery,rejected,withdrawn'],
+                'state' => ['sometimes', 'string', 'in:draft,submitted,under_review,information_required,discovery,proposal,approved,rejected,withdrawn'],
                 'reference' => ['sometimes', 'string', 'max:40', 'regex:/^REQ-[0-9]{4}-[0-9]{5,19}$/D'],
                 'category_id' => ['sometimes', 'string', 'uuid'],
                 'assigned_staff_id' => ['sometimes', 'string', 'uuid'],

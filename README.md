@@ -1,7 +1,7 @@
-# HOLOUL backend — B4 private documents
+# HOLOUL backend — B5 discovery and proposals
 
 Laravel modular monolith implementing infrastructure, Identity, Customers,
-Categories, Project Intake and private Documents.
+Categories, Project Intake, private Documents, Discovery and Proposals.
 The approved design is [the B0 architecture](docs/B0-ARCHITECTURE.md);
 pinned versions and sources are in
 [B1 versions](docs/B1-VERSIONS.md) and [B2 versions](docs/B2-VERSIONS.md).
@@ -11,7 +11,9 @@ permissions, exact budgets, immutable revisions and workflow decisions are in
 [B3 implementation](docs/B3-IMPLEMENTATION.md). Private document APIs and lifecycle
 are in [B4 implementation](docs/B4-IMPLEMENTATION.md), with pinned storage/scanner
 details in [B4 storage and inspection](docs/B4-STORAGE-INSPECTION.md).
-AI, Discovery domain implementation, Proposals, Projects and Reporting remain unimplemented.
+Discovery, commercial terms, approvals and customer decisions are documented in
+[B5 implementation](docs/B5-IMPLEMENTATION.md). Projects, AI, Reporting, payments,
+public proposal sharing and expanded Notifications remain unimplemented.
 The [B3 permission matrix](docs/B3-AUTHORIZATION.md) defines staff intake access;
 the [approved B3 baseline](docs/B4-BASELINE.md) records the B4 starting commit.
 
@@ -66,7 +68,7 @@ or baked into images.
 PostgreSQL, infrastructure schema and required runtime writes; Redis is excluded.
 `GET /api/v1` returns the minimal API envelope. B2 supplies the cookie/session
 endpoints; B3 adds 38 taxonomy and intake routes. B4 adds eight document routes,
-for 76 route definitions in total.
+and B5 adds 26 discovery/proposal routes, for 102 route definitions in total.
 GET routes also accept HEAD and count as one definition. The implementation
 documents above list the exact endpoints and access requirements.
 

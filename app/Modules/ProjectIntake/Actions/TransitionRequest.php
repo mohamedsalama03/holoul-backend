@@ -35,7 +35,7 @@ final readonly class TransitionRequest
                 $valid = match ($action) {
                     'review' => $record->state === RequestState::Submitted,
                     'discovery' => $record->state === RequestState::UnderReview,
-                    'reject' => in_array($record->state, [RequestState::UnderReview, RequestState::InformationRequired], true),
+                    'reject' => in_array($record->state, [RequestState::UnderReview, RequestState::InformationRequired, RequestState::Discovery], true),
                 };
                 if (! $valid) {
                     throw new HttpException(409);

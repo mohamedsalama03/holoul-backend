@@ -43,7 +43,7 @@ final class IntakeAuthorityTest extends TestCase
         yield 'manager scoped intake' => [Role::ProjectManager, ['intake.read', 'intake.assign', 'intake.review', 'intake.information', 'intake.discovery', 'intake.reject'], true];
         yield 'analyst clarification' => [Role::BusinessAnalyst, ['intake.read', 'intake.information'], true];
         yield 'reviewer cannot reject or assign' => [Role::Reviewer, ['intake.read', 'intake.review', 'intake.information', 'intake.discovery'], true];
-        yield 'sales no private intake' => [Role::Sales, [], false];
+        yield 'B5 sales assigned commercial intake' => [Role::Sales, ['intake.read'], true];
         yield 'support no private intake' => [Role::Support, [], false];
         yield 'customer ownership policies' => [Role::Customer, [], false];
     }

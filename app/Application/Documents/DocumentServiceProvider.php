@@ -17,7 +17,6 @@ use App\Modules\Documents\Contracts\DocumentService;
 use App\Modules\Documents\Contracts\MalwareScanner;
 use App\Modules\Documents\Contracts\PrivateObjectStore;
 use App\Modules\Documents\Processing\DocumentOperationHandler;
-use App\Modules\ProjectIntake\Actions\IntakeDocumentReferences;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,7 +25,7 @@ final class DocumentServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(DocumentService::class, ManageDocuments::class);
-        $this->app->bind(DocumentReferences::class, IntakeDocumentReferences::class);
+        $this->app->bind(DocumentReferences::class, RetainedDocumentReferences::class);
         $this->app->bind(PrivateObjectStore::class, fn (): PrivateObjectStore => S3AdapterFactory::create(
             Config::string('documents.s3.endpoint'), Config::string('documents.s3.region'), Config::string('documents.s3.bucket'),
             Config::string('documents.s3.access_key'), Config::string('documents.s3.secret_key'), Config::string('documents.s3.ca_bundle')));

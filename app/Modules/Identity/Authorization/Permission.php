@@ -23,4 +23,16 @@ enum Permission: string
     case RejectIntake = 'intake.reject';
     case ReadDocuments = 'documents.read';
     case DownloadDocuments = 'documents.download';
+    case ReadDiscovery = 'discovery.read';
+    case ManageDiscovery = 'discovery.manage';
+    case CompleteDiscovery = 'discovery.complete';
+    case ReadProposals = 'proposals.read';
+    case CreateProposal = 'proposals.create';
+    case EditProposal = 'proposals.edit';
+    case ApproveProposal = 'proposals.approve';
+    case IssueProposal = 'proposals.issue';
+    case WithdrawProposal = 'proposals.withdraw';
+    case ReadOwnProposals = 'proposals.self.read';
+    case AcceptOwnProposal = 'proposals.self.accept';
+    case DeclineOwnProposal = 'proposals.self.decline';
 }
