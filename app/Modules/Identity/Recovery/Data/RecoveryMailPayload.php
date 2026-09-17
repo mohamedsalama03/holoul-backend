@@ -23,16 +23,20 @@ final readonly class RecoveryMailPayload
 
     public function encrypt(Encrypter $encrypter): string
     {
-        return $encrypter->encryptString(json_encode([
+        return $encrypter->encrypt(json_encode([
             'recipient' => $this->recipient,
             'token' => $this->token,
             'purpose' => $this->purpose->value,
-        ], JSON_THROW_ON_ERROR));
+        ], JSON_THROW_ON_ERROR), false);
     }
 
     public static function decrypt(string $ciphertext, Encrypter $encrypter): self
     {
-        $payload = json_decode($encrypter->decryptString($ciphertext), true, 8, JSON_THROW_ON_ERROR);
+        $plaintext = $encrypter->decrypt($ciphertext, false);
+        if (! is_string($plaintext)) {
+            throw new InvalidArgumentException('Invalid recovery mail payload.');
+        }
+        $payload = json_decode($plaintext, true, 8, JSON_THROW_ON_ERROR);
 
         if (! is_array($payload) || count($payload) !== 3 || ! is_string($payload['recipient'] ?? null)
             || ! is_string($payload['token'] ?? null) || ! is_string($payload['purpose'] ?? null)) {

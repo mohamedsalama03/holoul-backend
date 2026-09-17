@@ -10,6 +10,7 @@ use App\Modules\ProjectIntake\Actions\ManageDraft;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PragmaRX\Google2FA\Google2FA;
@@ -261,6 +262,8 @@ final class IntakeHttpTest extends TestCase
             Config::set('database.redis.'.$connection.'.port', 1);
             app('redis')->purge($connection);
         }
+        app()->forgetInstance('redis');
+        Redis::clearResolvedInstance('redis');
         $draft = $this->browser('POST', '/api/v1/project-requests', $input)->assertCreated();
         $id = $draft->json('data.id');
         $this->browser('POST', '/api/v1/project-requests/'.$id.'/submissions', [],

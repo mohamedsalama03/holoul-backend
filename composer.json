@@ -9,6 +9,7 @@
     "ext-pdo": "*",
     "ext-pdo_pgsql": "*",
     "ext-redis": "~6.3.0",
+    "aws/aws-sdk-php": "~3.395.4",
     "giggsey/libphonenumber-for-php": "~9.0.39",
     "laravel/framework": "~13.32.0",
     "laravel/sanctum": "~4.3.3",

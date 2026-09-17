@@ -118,7 +118,10 @@ final readonly class ReadIntake
         $page = $rows->take($limit);
         $last = $page->last();
 
-        return ['data' => $page->map(fn (RequestRevision $row): array => $this->revision($row))->values()->all(),
+        $attachments = DB::table('intake_revision_documents')->whereIn('revision_id', $page->modelKeys())->pluck('document_id', 'revision_id');
+
+        return ['data' => $page->map(fn (RequestRevision $row): array => (new RequestRevisionResource($row,
+            is_string($attachments->get($row->id)) ? $attachments->get($row->id) : null))->toArray(request()))->values()->all(),
             'meta' => ['next_after' => $rows->count() > $limit ? $last?->revision_number : null]];
     }
 
@@ -201,13 +204,16 @@ final readonly class ReadIntake
     /** @return array<string,mixed> */
     public function revision(RequestRevision $row): array
     {
-        return (new RequestRevisionResource($row))->toArray(request());
+        $id = DB::table('intake_revision_documents')->where('revision_id', $row->id)->value('document_id');
+
+        return (new RequestRevisionResource($row, is_string($id) ? $id : null))->toArray(request());
     }
 
     /** @return array<string,mixed> */
     private function draft(RequestDraft $draft): array
     {
-        return ['is_open' => $draft->is_open, 'base_revision_number' => $draft->base_revision_number,
+        return ['document_id' => DB::table('intake_draft_documents')->where('draft_id', $draft->id)->value('document_id'),
+            'is_open' => $draft->is_open, 'base_revision_number' => $draft->base_revision_number,
             'category_id' => $draft->category_id, 'subcategory_id' => $draft->subcategory_id,
             'project_name' => $draft->project_name, 'project_description' => $draft->project_description,
             'budget_unknown' => $draft->budget_unknown, 'estimated_budget' => $this->amount($draft->budget_minor, $draft->currency), 'currency' => $draft->currency];

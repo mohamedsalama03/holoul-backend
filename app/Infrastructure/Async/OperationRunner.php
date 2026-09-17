@@ -6,15 +6,12 @@ namespace App\Infrastructure\Async;
 
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
 final readonly class OperationRunner
 {
-    private const array BACKOFF_SECONDS = [5, 30, 120, 300];
-
     public function __construct(private OperationHandlerRegistry $handlers) {}
 
     public function run(string $operationId): void
@@ -70,7 +67,7 @@ final readonly class OperationRunner
                 return null;
             }
 
-            $leaseSeconds = Config::integer('async.lease_seconds');
+            $leaseSeconds = OperationPolicy::leaseSeconds($operation->kind);
             DB::update(<<<'SQL'
                 UPDATE async_operations
                    SET state = ?, attempts = attempts + 1, fence = fence + 1,
@@ -121,7 +118,7 @@ final readonly class OperationRunner
             }
 
             $retry = $retryable && $operation->attempts < $operation->max_attempts;
-            $backoff = self::BACKOFF_SECONDS[min($operation->attempts - 1, count(self::BACKOFF_SECONDS) - 1)];
+            $backoff = OperationPolicy::backoffSeconds($operation->kind, $operation->attempts);
             $delay = $backoff + random_int(0, max(1, intdiv($backoff, 5)));
             $state = $retry ? OperationState::Pending->value : OperationState::Failed->value;
             DB::update(<<<'SQL'

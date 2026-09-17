@@ -11,7 +11,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 final class RequestRevisionResource extends JsonResource
 {
-    public function __construct(private readonly RequestRevision $revision)
+    public function __construct(private readonly RequestRevision $revision, private readonly ?string $documentId = null)
     {
         parent::__construct($revision);
     }
@@ -22,6 +22,7 @@ final class RequestRevisionResource extends JsonResource
         $row = $this->revision;
 
         return ['id' => $row->id, 'revision_number' => $row->revision_number,
+            'document_id' => $this->documentId,
             'full_name' => $row->full_name, 'email' => $row->email, 'phone' => $row->phone_e164,
             'category_id' => $row->category_id, 'subcategory_id' => $row->subcategory_id,
             'category_label' => $row->category_label, 'subcategory_label' => $row->subcategory_label,

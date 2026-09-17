@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/identity.php';
 require __DIR__.'/intake.php';
+require __DIR__.'/documents.php';
 
 Route::get('/', fn () => response()->json(
     ['data' => ['service' => 'HOLOUL', 'api_version' => 'v1']],

@@ -20,7 +20,7 @@ final class SafeFailedJobProvider extends DatabaseUuidFailedJobProvider
 {
     public function log(mixed $connection, mixed $queue, mixed $payload, mixed $exception): ?string
     {
-        if ($connection !== 'redis' || $queue !== Config::string('async.queue')) {
+        if (! (($connection === 'redis' && $queue === Config::string('async.queue')) || ($connection === 'documents' && $queue === 'documents'))) {
             Log::error('queue.failed_envelope_rejected');
 
             return null;
@@ -32,6 +32,12 @@ final class SafeFailedJobProvider extends DatabaseUuidFailedJobProvider
             // Unsupported/corrupt jobs cannot be safely replayed. Their raw
             // bodies are discarded; the durable ledger remains recoverable.
             Log::error('queue.failed_payload_rejected');
+
+            return null;
+        }
+
+        if ($canonical->documents !== ($connection === 'documents')) {
+            Log::error('queue.failed_envelope_rejected');
 
             return null;
         }
@@ -50,8 +56,8 @@ final class SafeFailedJobProvider extends DatabaseUuidFailedJobProvider
         $this->getTable()->insert([
             'id' => Str::uuid7()->toString(),
             'uuid' => $canonical->uuid,
-            'connection' => 'redis',
-            'queue' => Config::string('async.queue'),
+            'connection' => $connection,
+            'queue' => $queue,
             'payload' => $canonical->toJson(),
             'exception' => json_encode([
                 'code' => 'queue_job_failed',

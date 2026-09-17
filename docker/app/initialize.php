@@ -39,3 +39,4 @@ fwrite(STDOUT, "Development secrets are ready.\n");
 require __DIR__.'/initialize-tls.php';
 initializeLocalTls();
 fwrite(STDOUT, "Local TLS certificate is ready.\n");
+require dirname(__DIR__).'/documents/initialize.php';

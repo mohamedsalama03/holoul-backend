@@ -1,17 +1,19 @@
-# HOLOUL backend — B3 taxonomy and project intake
+# HOLOUL backend — B4 private documents
 
 Laravel modular monolith implementing infrastructure, Identity, Customers,
-Categories and Project Intake.
+Categories, Project Intake and private Documents.
 The approved design is [the B0 architecture](docs/B0-ARCHITECTURE.md);
 pinned versions and sources are in
 [B1 versions](docs/B1-VERSIONS.md) and [B2 versions](docs/B2-VERSIONS.md).
 The B2 browser/API contract is documented in
 [B2 implementation](docs/B2-IMPLEMENTATION.md). The taxonomy/intake API,
 permissions, exact budgets, immutable revisions and workflow decisions are in
-[B3 implementation](docs/B3-IMPLEMENTATION.md). Documents, AI, Discovery domain
-implementation, Proposals, Projects and Reporting remain unimplemented.
+[B3 implementation](docs/B3-IMPLEMENTATION.md). Private document APIs and lifecycle
+are in [B4 implementation](docs/B4-IMPLEMENTATION.md), with pinned storage/scanner
+details in [B4 storage and inspection](docs/B4-STORAGE-INSPECTION.md).
+AI, Discovery domain implementation, Proposals, Projects and Reporting remain unimplemented.
 The [B3 permission matrix](docs/B3-AUTHORIZATION.md) defines staff intake access;
-the [approved B2 baseline](docs/B3-BASELINE.md) records the starting commit.
+the [approved B3 baseline](docs/B4-BASELINE.md) records the B4 starting commit.
 
 ## Development
 
@@ -19,7 +21,7 @@ Requirements: Docker Engine with Compose v2.24+ (or Docker Desktop with WSL
 integration). Run from this directory in Linux/WSL:
 
 ~~~sh
-docker compose up -d --build --wait
+docker compose up -d --build --wait --wait-timeout 900
 ~~~
 
 The identity and intake APIs use `https://localhost:8443`; health endpoints also listen at
@@ -56,20 +58,21 @@ provides API endpoints; a frontend and recovery-link pages are not included.
 Startup creates random development secrets in project-scoped named volumes,
 initializes PostgreSQL roles/databases once, runs schema migrations as
 `holoul_migrator`, then starts runtime services. Bootstrap and migration jobs use the
-same image and exit after success. App/queue/scheduler receive only application
+same image and exit after success. App/queue/document-queue/scheduler receive only application
 credentials; no migrator/bootstrap secrets. No credentials are printed, tracked,
 or baked into images.
 
 `GET /health/live` checks process availability. `GET /health/ready` checks
 PostgreSQL, infrastructure schema and required runtime writes; Redis is excluded.
 `GET /api/v1` returns the minimal API envelope. B2 supplies the cookie/session
-endpoints; B3 adds 38 taxonomy and intake routes, for 68 route definitions in total.
+endpoints; B3 adds 38 taxonomy and intake routes. B4 adds eight document routes,
+for 76 route definitions in total.
 GET routes also accept HEAD and count as one definition. The implementation
 documents above list the exact endpoints and access requirements.
 
 ~~~sh
 docker compose ps --all
-docker compose logs --follow app queue scheduler
+docker compose logs --follow app queue document-queue scheduler
 docker compose run --rm verify vendor/bin/phpunit
 bash scripts/verify.sh
 ~~~
@@ -78,11 +81,25 @@ The tools-profile verification container uses separate `holoul_test` and migrati
 credentials. Never aim it at real data. Verification checks isolation before fresh
 migrations and records output under ignored `artifacts/`. It builds development and
 production images, exercises PostgreSQL/Redis and health, and runs pinned security
-scans. The inherited B1 → B2 upgrade test and the exact B2 → B3 upgrade test preserve
+scans. The inherited B1 → B2, B2 → B3 and exact B3 → B4 upgrade tests preserve
 baseline schema and record checks. B3 adds workflow, assignment, immutable revision,
 money, idempotency, isolation and concurrency coverage. Only the development image
 contains testing dependencies. The production
 stage also excludes Composer, Git, compilers and PHP build headers.
+
+B4 also starts private versioned SeaweedFS, ClamAV and an offline PDF/DOCX
+inspector. Scanner signatures are downloaded on the first start; allow additional
+startup time and memory (the scanner has a 4 GiB ceiling). Scanner and parser
+containers have no network access. A separate updater sees only signature files.
+Neither storage nor scanner ports are published. The full gate exercises real
+object storage, antivirus detection, parser constraints and production-image
+upload/download requests. See the B4 documents above for operational commands,
+conservative format restrictions and production storage/retention requirements.
+
+The storage image rebuilds pinned SeaweedFS 4.47 source with the upstream gRPC
+security fix. Its first build downloads a large Go dependency graph and can take
+considerably longer than later builds, which reuse the module/compiler caches.
+Go runs only inside the pinned build stage; no host Go installation is needed.
 
 The full verification script also requires Bash, curl and Python 3 in Linux/WSL;
 application test tooling runs inside Docker.

@@ -15,7 +15,15 @@ final class OperationPublisher
     public function publish(string $operationId): bool
     {
         try {
-            Queue::connection('redis')->push(new RunOperationJob($operationId), '', Config::string('async.queue'));
+            $operation = AsyncOperation::query()->find($operationId);
+            if ($operation === null) {
+                return false;
+            }
+            if (OperationPolicy::documents($operation->kind)) {
+                Queue::connection('documents')->push(new RunDocumentOperationJob($operationId), '', 'documents');
+            } else {
+                Queue::connection('redis')->push(new RunOperationJob($operationId), '', Config::string('async.queue'));
+            }
 
             AsyncOperation::query()->whereKey($operationId)
                 ->whereIn('state', [OperationState::Pending->value, OperationState::Running->value])

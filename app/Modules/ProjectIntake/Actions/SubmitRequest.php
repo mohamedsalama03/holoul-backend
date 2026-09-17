@@ -20,7 +20,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 final readonly class SubmitRequest
 {
-    public function __construct(private IntakeStore $store, private TaxonomyReader $taxonomy, private CustomerContactReader $contacts) {}
+    public function __construct(private IntakeStore $store, private TaxonomyReader $taxonomy, private CustomerContactReader $contacts, private IntakeDocuments $documents) {}
 
     public function handle(IntakeActor $actor, string $id, ?string $etag, ?string $key, string $requestId): SubmissionKey
     {
@@ -69,6 +69,7 @@ final readonly class SubmitRequest
                 'full_name' => $contact->fullName, 'email' => $contact->email, 'phone_e164' => $contact->phoneE164,
                 'submitted_by' => $actor->id, 'submitted_at' => now(), 'provenance' => $initial ? 'customer_submission' : 'customer_amendment',
             ]);
+            $this->documents->snapshot($record, $draft, $revision, $actor, $requestId);
             $record->latest_revision_id = $revision->id;
             $record->latest_revision_number = $revision->revision_number;
             if ($initial) {

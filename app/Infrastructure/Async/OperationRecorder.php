@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Async;
 
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
@@ -61,7 +60,7 @@ final readonly class OperationRecorder
                 'request_id' => $requestId,
                 'state' => OperationState::Pending->value,
                 'attempts' => 0,
-                'max_attempts' => Config::integer('async.max_attempts'),
+                'max_attempts' => OperationPolicy::maxAttempts($kind),
                 'fence' => 0,
                 'next_attempt_at' => DB::raw('clock_timestamp()'),
                 'created_at' => DB::raw('clock_timestamp()'),

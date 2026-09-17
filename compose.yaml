@@ -1,6 +1,6 @@
 name: holoul
 x-application: &application
-  image: ${HOLOUL_APP_IMAGE:-holoul-app:b3-development}
+  image: ${HOLOUL_APP_IMAGE:-holoul-app:b4-development}
   build:
     context: .
     target: development
@@ -8,7 +8,7 @@ x-application: &application
   user: "1000:1000"
   read_only: true
   tmpfs:
-    - /tmp:uid=1000,gid=1000,mode=1770
+    - /tmp:size=128m,uid=1000,gid=1000,mode=1770
     - /var/www/html/storage:uid=1000,gid=1000,mode=0770
     - /var/www/html/bootstrap/cache:uid=1000,gid=1000,mode=0770
   cap_drop: [ALL]
@@ -32,8 +32,17 @@ x-application: &application
     REDIS_HOST: redis
     REDIS_PASSWORD_FILE: /run/holoul-secrets/redis_password
     REDIS_PREFIX: holoul_local_
+    DOCUMENTS_S3_ENDPOINT: https://storage:8333
+    DOCUMENTS_S3_REGION: us-east-1
+    DOCUMENTS_S3_BUCKET: holoul-documents
+    DOCUMENTS_S3_ACCESS_KEY_FILE: /run/holoul-secrets/storage_access_key
+    DOCUMENTS_S3_SECRET_KEY_FILE: /run/holoul-secrets/storage_secret_key
+    DOCUMENTS_S3_CA_BUNDLE: /run/holoul-storage/client-ca.crt
   volumes:
     - app_secrets:/run/holoul-secrets:ro
+    - documents_storage_client:/run/holoul-storage:ro
+    - documents_scan_socket:/run/holoul-clamav:ro
+    - documents_inspector_socket:/run/holoul-inspector:ro
   networks: [internal]
   mem_limit: 512m
   pids_limit: 128
@@ -50,6 +59,9 @@ services:
       - bootstrap_secrets:/run/holoul-bootstrap
       - tls_secrets:/run/holoul-tls
       - redis_secrets:/run/holoul-redis
+      - documents_storage_server:/run/holoul-storage-server
+      - documents_storage_admin:/run/holoul-storage-admin
+      - documents_storage_client:/run/holoul-storage
     environment:
       APP_ENV: local
 
@@ -126,6 +138,7 @@ services:
     <<: *application
     depends_on:
       migrate: {condition: service_completed_successfully}
+      storage-bootstrap: {condition: service_completed_successfully}
     healthcheck:
       test: [CMD, php, docker/app/check-health.php, fpm]
       interval: 10s
@@ -153,12 +166,28 @@ services:
     stop_grace_period: 45s
     depends_on:
       migrate: {condition: service_completed_successfully}
+      storage-bootstrap: {condition: service_completed_successfully}
     healthcheck:
       test: [CMD, php, docker/app/check-health.php, scheduler]
       interval: 15s
       timeout: 3s
       retries: 4
       start_period: 75s
+
+  document-queue:
+    <<: *application
+    command: [php, artisan, queue:work, documents, --queue=documents, --sleep=1, --tries=1, --timeout=120, --max-time=3600, --no-interaction]
+    stop_grace_period: 135s
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      storage-bootstrap: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, php, docker/app/check-health.php, queue]
+      interval: 30s
+      timeout: 3s
+      retries: 5
+      start_period: 30s
 
   nginx:
     image: nginx:1.30.5-alpine@sha256:73c75df4075c918f91017fdda46ad81e55e5af77ba3a64ca3d5014bd9244fe7f
@@ -209,6 +238,128 @@ services:
     mem_limit: 128m
     pids_limit: 64
 
+  storage:
+    image: holoul-storage:b4-runtime
+    build:
+      context: .
+      dockerfile: docker/documents/storage/Dockerfile
+    command: [server, -dir=/data, -ip=127.0.0.1, -ip.bind=127.0.0.1, -filer=true, -s3=true, -master.telemetry=false, -master.volumeSizeLimitMB=64, -volume.max=16, -filer.disableDirListing=true, -filer.exposeDirectoryData=false, -s3.port=8333, -s3.ip.bind=0.0.0.0, -s3.port.iceberg=0, -s3.port.lance=0, -s3.config=/run/holoul-storage-server/s3.json, -s3.cert.file=/run/holoul-storage-server/certificate.pem, -s3.key.file=/run/holoul-storage-server/private-key.pem, -s3.iam=false, -s3.autoCreateBucket=false, -s3.allowDeleteBucketNotEmpty=false, -s3.concurrentFileUploadLimit=4, -s3.concurrentUploadLimitMB=40]
+    user: "1000:1000"
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    volumes:
+      - documents_storage_data:/data
+      - documents_storage_server:/run/holoul-storage-server:ro
+      - documents_storage_server:/home/seaweed/.seaweedfs:ro
+    networks: [internal]
+    depends_on:
+      initialize: {condition: service_completed_successfully}
+    healthcheck:
+      test: [CMD-SHELL, "curl --silent --cacert /run/holoul-storage-server/certificate.pem --output /dev/null https://localhost:8333/"]
+      interval: 10s
+      timeout: 3s
+      retries: 20
+      start_period: 15s
+    restart: unless-stopped
+    mem_limit: 768m
+    pids_limit: 128
+
+  storage-bootstrap:
+    <<: *application
+    command: [php, docker/documents/storage/bootstrap.php]
+    restart: "no"
+    volumes:
+      - app_secrets:/run/holoul-secrets:ro
+      - documents_storage_admin:/run/holoul-storage-admin:ro
+      - documents_storage_client:/run/holoul-storage:ro
+    depends_on:
+      storage: {condition: service_healthy}
+
+  scanner-signatures:
+    image: holoul-scanner:b4-runtime
+    build:
+      context: .
+      dockerfile: docker/documents/clamav/Dockerfile
+    entrypoint: [freshclam, --config-file=/etc/clamav/freshclam.conf, --stdout]
+    user: "1000:1000"
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    volumes: [documents_signatures:/var/lib/clamav]
+    networks: [signature_updates]
+    restart: "no"
+    mem_limit: 512m
+    pids_limit: 32
+    healthcheck: {disable: true}
+
+  signature-updater:
+    image: holoul-scanner:b4-runtime
+    entrypoint: [freshclam, --daemon, --foreground=true, --config-file=/etc/clamav/freshclam.conf]
+    user: "1000:1000"
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    volumes: [documents_signatures:/var/lib/clamav]
+    networks: [signature_updates]
+    depends_on:
+      scanner-signatures: {condition: service_completed_successfully}
+    restart: unless-stopped
+    mem_limit: 512m
+    pids_limit: 32
+    healthcheck: {disable: true}
+
+  scanner:
+    image: holoul-scanner:b4-runtime
+    init: true
+    user: "1000:1000"
+    read_only: true
+    tmpfs: ["/tmp:size=128m,mode=0700,uid=1000,gid=1000"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    volumes:
+      - documents_signatures:/var/lib/clamav:ro
+      - documents_scan_socket:/run/holoul-clamav
+    network_mode: none
+    depends_on:
+      scanner-signatures: {condition: service_completed_successfully}
+    healthcheck:
+      test: [CMD, clamdscan, --config-file=/etc/clamav/clamd.conf, --ping=1:1, --quiet]
+      interval: 15s
+      timeout: 3s
+      retries: 20
+      start_period: 60s
+    restart: unless-stopped
+    mem_limit: 4g
+    cpus: 1.0
+    pids_limit: 32
+
+  inspector:
+    image: holoul-inspector:b4-runtime
+    build:
+      context: .
+      dockerfile: docker/documents/inspector/Dockerfile
+    init: true
+    user: "1000:1000"
+    read_only: true
+    tmpfs: ["/tmp:size=128m,mode=0700,uid=1000,gid=1000"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    volumes: [documents_inspector_socket:/run/holoul-inspector]
+    network_mode: none
+    healthcheck:
+      test: [CMD, python3, -I, /opt/holoul/inspect.py, --health]
+      interval: 15s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+    mem_limit: 512m
+    cpus: 1.0
+    pids_limit: 32
+
   verify:
     <<: *application
     profiles: [tools]
@@ -226,6 +377,9 @@ services:
     volumes:
       - app_secrets:/run/holoul-secrets:ro
       - migrator_secrets:/run/holoul-migrator:ro
+      - documents_storage_client:/run/holoul-storage:ro
+      - documents_scan_socket:/run/holoul-clamav:ro
+      - documents_inspector_socket:/run/holoul-inspector:ro
     networks: [internal, ingress]
     depends_on:
       postgres: {condition: service_healthy}
@@ -235,6 +389,7 @@ networks:
   internal:
     internal: true
   ingress: {}
+  signature_updates: {}
 volumes:
   postgres_data: {}
   app_secrets: {}
@@ -243,3 +398,10 @@ volumes:
   redis_secrets: {}
 
   tls_secrets: {}
+  documents_storage_data: {}
+  documents_storage_server: {}
+  documents_storage_admin: {}
+  documents_storage_client: {}
+  documents_signatures: {}
+  documents_scan_socket: {}
+  documents_inspector_socket: {}

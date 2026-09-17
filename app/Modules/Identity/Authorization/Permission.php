@@ -21,4 +21,6 @@ enum Permission: string
     case RequestIntakeInformation = 'intake.information';
     case StartIntakeDiscovery = 'intake.discovery';
     case RejectIntake = 'intake.reject';
+    case ReadDocuments = 'documents.read';
+    case DownloadDocuments = 'documents.download';
 }

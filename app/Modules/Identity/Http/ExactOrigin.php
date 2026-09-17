@@ -29,7 +29,7 @@ final class ExactOrigin
             throw new HttpException(403);
         }
         $response = $next($request);
-        $response->headers->set('Cache-Control', 'no-store');
+        $response->headers->set('Cache-Control', 'private, no-store');
 
         return $response;
     }

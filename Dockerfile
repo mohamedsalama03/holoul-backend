@@ -25,8 +25,8 @@ RUN --mount=type=cache,id=holoul-apk-v3.24-v1,target=/var/cache/apk,sharing=lock
     && rm -rf /tmp/pear
 COPY --from=composer-bin /usr/bin/composer /usr/local/bin/composer
 RUN addgroup -g 1000 holoul && adduser -D -u 1000 -G holoul -h /home/holoul holoul \
-    && mkdir -p /var/www/html /run/holoul-secrets /run/holoul-app /run/holoul-migrator /run/holoul-bootstrap /run/holoul-redis /run/holoul-tls \
-    && chown -R holoul:holoul /var/www/html /run/holoul-secrets /run/holoul-app /run/holoul-migrator /run/holoul-bootstrap /run/holoul-redis /run/holoul-tls
+    && mkdir -p /var/www/html /run/holoul-secrets /run/holoul-app /run/holoul-migrator /run/holoul-bootstrap /run/holoul-redis /run/holoul-tls /run/holoul-storage-server /run/holoul-storage-admin /run/holoul-storage /run/holoul-clamav /run/holoul-inspector \
+    && chown -R holoul:holoul /var/www/html /run/holoul-secrets /run/holoul-app /run/holoul-migrator /run/holoul-bootstrap /run/holoul-redis /run/holoul-tls /run/holoul-storage-server /run/holoul-storage-admin /run/holoul-storage /run/holoul-clamav /run/holoul-inspector
 WORKDIR /var/www/html
 COPY docker/php/holoul.ini /usr/local/etc/php/conf.d/zz-holoul.ini
 COPY docker/php/pool.conf /usr/local/etc/php-fpm.d/zz-holoul.conf
@@ -53,8 +53,8 @@ COPY --from=base /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 COPY --from=base /usr/local/etc/php-fpm.d/zz-holoul.conf /usr/local/etc/php-fpm.d/zz-holoul.conf
 COPY --from=base /usr/local/bin/holoul-entrypoint /usr/local/bin/holoul-entrypoint
 RUN addgroup -g 1000 holoul && adduser -D -u 1000 -G holoul -h /home/holoul holoul \
-    && mkdir -p /var/www/html /run/holoul-secrets /run/holoul-app /run/holoul-migrator /run/holoul-bootstrap /run/holoul-redis /run/holoul-tls \
-    && chown -R holoul:holoul /var/www/html /run/holoul-secrets /run/holoul-app /run/holoul-migrator /run/holoul-bootstrap /run/holoul-redis /run/holoul-tls
+    && mkdir -p /var/www/html /run/holoul-secrets /run/holoul-app /run/holoul-migrator /run/holoul-bootstrap /run/holoul-redis /run/holoul-tls /run/holoul-storage-server /run/holoul-storage-admin /run/holoul-storage /run/holoul-clamav /run/holoul-inspector \
+    && chown -R holoul:holoul /var/www/html /run/holoul-secrets /run/holoul-app /run/holoul-migrator /run/holoul-bootstrap /run/holoul-redis /run/holoul-tls /run/holoul-storage-server /run/holoul-storage-admin /run/holoul-storage /run/holoul-clamav /run/holoul-inspector
 WORKDIR /var/www/html
 COPY --from=production-build --chown=holoul:holoul /var/www/html/ /var/www/html/
 RUN php -r 'foreach (["pdo_pgsql", "redis", "intl", "mbstring", "zip", "pcntl", "bcmath", "Zend OPcache"] as $extension) { if (!extension_loaded($extension)) { fwrite(STDERR, "Required runtime extension unavailable.\n"); exit(1); } }' \
