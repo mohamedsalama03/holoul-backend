@@ -16,7 +16,7 @@ final class RequestLimits
     /** @param Closure(Request): Response $next */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->isMethod('PUT') && preg_match('#\Aapi/v1/project-requests/[0-9a-f-]{36}/documents/[0-9a-f-]{36}/content\z#D', $request->path()) === 1) {
+        if ($request->isMethod('PUT') && preg_match('#\Aapi/v1/(?:project-requests|admin/projects)/[0-9a-f-]{36}/documents/[0-9a-f-]{36}/content\z#D', $request->path()) === 1) {
             if ($request->header('Content-Type') !== 'application/octet-stream') {
                 throw new HttpException(415);
             }

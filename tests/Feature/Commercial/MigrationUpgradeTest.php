@@ -63,8 +63,8 @@ final class MigrationUpgradeTest extends TestCase
             $this->assertDatabaseCount('permissions', 17);
             $this->artisan('migrate', ['--force' => true])->assertExitCode(0);
             $this->artisan('migrate', ['--force' => true])->assertExitCode(0);
-            $this->assertDatabaseCount('migrations', 19);
-            $this->assertDatabaseCount('permissions', 29);
+            $this->assertDatabaseCount('migrations', 24);
+            $this->assertDatabaseCount('permissions', 42);
             foreach ($tables as $table) {
                 self::assertSame($before[$table], $this->snapshot($table, $columns[$table]), $table);
             }

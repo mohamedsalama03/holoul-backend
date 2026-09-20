@@ -1,7 +1,7 @@
-# HOLOUL backend — B5 discovery and proposals
+# HOLOUL backend — B6 projects and delivery lifecycle
 
 Laravel modular monolith implementing infrastructure, Identity, Customers,
-Categories, Project Intake, private Documents, Discovery and Proposals.
+Categories, Project Intake, private Documents, Discovery, Proposals and Projects.
 The approved design is [the B0 architecture](docs/B0-ARCHITECTURE.md);
 pinned versions and sources are in
 [B1 versions](docs/B1-VERSIONS.md) and [B2 versions](docs/B2-VERSIONS.md).
@@ -12,7 +12,9 @@ permissions, exact budgets, immutable revisions and workflow decisions are in
 are in [B4 implementation](docs/B4-IMPLEMENTATION.md), with pinned storage/scanner
 details in [B4 storage and inspection](docs/B4-STORAGE-INSPECTION.md).
 Discovery, commercial terms, approvals and customer decisions are documented in
-[B5 implementation](docs/B5-IMPLEMENTATION.md). Projects, AI, Reporting, payments,
+[B5 implementation](docs/B5-IMPLEMENTATION.md). Conversion, delivery phases, team,
+milestones and private project documents are in [B6 implementation](docs/B6-IMPLEMENTATION.md).
+AI, Reporting, payments,
 public proposal sharing and expanded Notifications remain unimplemented.
 The [B3 permission matrix](docs/B3-AUTHORIZATION.md) defines staff intake access;
 the [approved B3 baseline](docs/B4-BASELINE.md) records the B4 starting commit.
@@ -26,7 +28,7 @@ integration). Run from this directory in Linux/WSL:
 docker compose up -d --build --wait --wait-timeout 900
 ~~~
 
-The identity and intake APIs use `https://localhost:8443`; health endpoints also listen at
+The authenticated APIs use `https://localhost:8443`; health endpoints also listen at
 `http://localhost:8080`. Local Mailpit is available at `http://localhost:8025`
 through Nginx. These ports bind only to loopback:
 
@@ -68,7 +70,7 @@ or baked into images.
 PostgreSQL, infrastructure schema and required runtime writes; Redis is excluded.
 `GET /api/v1` returns the minimal API envelope. B2 supplies the cookie/session
 endpoints; B3 adds 38 taxonomy and intake routes. B4 adds eight document routes,
-and B5 adds 26 discovery/proposal routes, for 102 route definitions in total.
+and B5 adds 26 discovery/proposal routes. B6 adds 37 project routes, for 139 route definitions in total.
 GET routes also accept HEAD and count as one definition. The implementation
 documents above list the exact endpoints and access requirements.
 
@@ -83,7 +85,7 @@ The tools-profile verification container uses separate `holoul_test` and migrati
 credentials. Never aim it at real data. Verification checks isolation before fresh
 migrations and records output under ignored `artifacts/`. It builds development and
 production images, exercises PostgreSQL/Redis and health, and runs pinned security
-scans. The inherited B1 → B2, B2 → B3 and exact B3 → B4 upgrade tests preserve
+scans. The inherited upgrades through B5 and exact B5 → B6 upgrade tests preserve
 baseline schema and record checks. B3 adds workflow, assignment, immutable revision,
 money, idempotency, isolation and concurrency coverage. Only the development image
 contains testing dependencies. The production

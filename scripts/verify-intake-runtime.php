@@ -188,7 +188,7 @@ try {
         }
     });
     $requestIds = $requests->modelKeys();
-    $remaining = ProjectRequest::query()->whereIn('id', $requestIds)->whereNotIn('state', ['withdrawn', 'rejected'])->count();
+    $remaining = ProjectRequest::query()->whereIn('id', $requestIds)->whereNotIn('state', ['withdrawn', 'rejected', 'converted'])->count();
     $roles = DB::table('user_roles')->whereIn('user_id', $userIds)->count();
     $sessions = DB::table('identity_sessions')->whereIn('user_id', $userIds)->count();
     $enabled = User::query()->whereIn('id', $userIds)->where('enabled', true)->count();

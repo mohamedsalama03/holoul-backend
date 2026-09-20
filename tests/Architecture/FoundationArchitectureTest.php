@@ -54,7 +54,10 @@ final class FoundationArchitectureTest extends TestCase
         'intake_draft_documents', 'intake_revision_documents',
         'discovery_records', 'discovery_revisions', 'discovery_requirements', 'discovery_signoffs',
         'proposal_series', 'proposals', 'proposal_items', 'proposal_deliverables', 'proposal_contributors',
-        'proposal_approvals', 'proposal_decisions', 'proposal_events', 'proposal_command_keys', 'proposal_documents'];
+        'proposal_approvals', 'proposal_decisions', 'proposal_events', 'proposal_command_keys', 'proposal_documents',
+        'projects', 'project_members', 'project_membership_history', 'project_phase_evidence',
+        'project_completion_confirmations', 'project_state_changes', 'milestones', 'milestone_changes',
+        'project_updates', 'project_activity', 'project_document_uploads', 'project_documents', 'project_command_keys'];
 
     /** @var array<string, list<string>> */
     private const CONTRACT_ONLY_DEPENDENCIES = [
@@ -209,12 +212,12 @@ final class FoundationArchitectureTest extends TestCase
         self::assertSame('false', trim($process->getOutput()));
     }
 
-    public function test_only_authorized_b1_through_b5_modules_and_tables_are_implemented(): void
+    public function test_only_authorized_b1_through_b6_modules_and_tables_are_implemented(): void
     {
         foreach (array_keys(self::MODULE_DEPENDENCIES) as $module) {
             self::assertDirectoryExists(app_path("Modules/$module"));
 
-            if (! in_array($module, ['Audit', 'Identity', 'Customers', 'Categories', 'ProjectIntake', 'Documents', 'Discovery', 'Proposals'], true)) {
+            if (! in_array($module, ['Audit', 'Identity', 'Customers', 'Categories', 'ProjectIntake', 'Documents', 'Discovery', 'Proposals', 'Projects'], true)) {
                 self::assertSame([], $this->phpFiles(app_path("Modules/$module")), "$module implementation belongs to a later approved batch");
             }
         }
@@ -236,20 +239,20 @@ final class FoundationArchitectureTest extends TestCase
                 $argument = $call->args[0] ?? null;
                 self::assertInstanceOf(Node\Arg::class, $argument, $file);
                 self::assertInstanceOf(String_::class, $argument->value, "Migration table names must be explicit ($file)");
-                self::assertContains($argument->value->value, self::INFRASTRUCTURE_TABLES, "Migration is outside approved B1/B2/B3/B4/B5 ($file)");
+                self::assertContains($argument->value->value, self::INFRASTRUCTURE_TABLES, "Migration is outside approved B1/B2/B3/B4/B5/B6 ($file)");
             }
 
             foreach ((new NodeFinder)->findInstanceOf($nodes, String_::class) as $literal) {
                 preg_match_all('/\bCREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?(?:public\.)?"?([a-z_][a-z_0-9]*)/i', $literal->value, $tables);
 
                 foreach ($tables[1] as $table) {
-                    self::assertContains(strtolower($table), self::INFRASTRUCTURE_TABLES, "SQL is outside approved B1/B2/B3/B4/B5 ($file)");
+                    self::assertContains(strtolower($table), self::INFRASTRUCTURE_TABLES, "SQL is outside approved B1/B2/B3/B4/B5/B6 ($file)");
                 }
             }
         }
     }
 
-    public function test_registered_routes_are_limited_to_approved_b1_through_b5(): void
+    public function test_registered_routes_are_limited_to_approved_b1_through_b6(): void
     {
         $routes = app('router')->getRoutes();
         $actual = [];
@@ -261,6 +264,32 @@ final class FoundationArchitectureTest extends TestCase
         sort($actual);
         $expected = [
             'GET|HEAD api/v1', 'GET|HEAD health/live', 'GET|HEAD health/ready', 'GET|HEAD sanctum/csrf-cookie',
+            'POST api/v1/admin/project-requests/{projectRequest}/conversions',
+            'GET|HEAD api/v1/admin/projects', 'GET|HEAD api/v1/projects',
+            'GET|HEAD api/v1/admin/projects/{project}', 'GET|HEAD api/v1/projects/{project}',
+            'GET|HEAD api/v1/admin/projects/{project}/milestones', 'GET|HEAD api/v1/projects/{project}/milestones',
+            'GET|HEAD api/v1/admin/projects/{project}/updates', 'GET|HEAD api/v1/projects/{project}/updates',
+            'GET|HEAD api/v1/admin/projects/{project}/documents', 'GET|HEAD api/v1/projects/{project}/documents',
+            'GET|HEAD api/v1/admin/projects/{project}/documents/{document}', 'GET|HEAD api/v1/projects/{project}/documents/{document}',
+            'GET|HEAD api/v1/admin/projects/{project}/documents/{document}/download', 'GET|HEAD api/v1/projects/{project}/documents/{document}/download',
+            'POST api/v1/projects/{project}/completion-confirmations',
+            'GET|HEAD api/v1/admin/projects/{project}/activity',
+            'GET|HEAD api/v1/admin/projects/{project}/team-members',
+            'POST api/v1/admin/projects/{project}/team-members',
+            'DELETE api/v1/admin/projects/{project}/team-members/{member}',
+            'GET|HEAD api/v1/admin/projects/{project}/evidence', 'POST api/v1/admin/projects/{project}/evidence',
+            'POST api/v1/admin/projects/{project}/advances', 'POST api/v1/admin/projects/{project}/holds',
+            'POST api/v1/admin/projects/{project}/resumptions', 'POST api/v1/admin/projects/{project}/failures',
+            'POST api/v1/admin/projects/{project}/cancellations',
+            'POST api/v1/admin/projects/{project}/milestones',
+            'PATCH api/v1/admin/projects/{project}/milestones/{milestone}',
+            'POST api/v1/admin/projects/{project}/milestones/{milestone}/starts',
+            'POST api/v1/admin/projects/{project}/milestones/{milestone}/delays',
+            'POST api/v1/admin/projects/{project}/milestones/{milestone}/completions',
+            'POST api/v1/admin/projects/{project}/updates',
+            'POST api/v1/admin/projects/{project}/documents', 'DELETE api/v1/admin/projects/{project}/documents/{document}',
+            'PUT api/v1/admin/projects/{project}/documents/{document}/content',
+            'POST api/v1/admin/projects/{project}/documents/{document}/scan-retries',
             'POST api/v1/auth/register', 'POST api/v1/auth/login', 'POST api/v1/auth/logout',
             'POST api/v1/auth/email/verify', 'POST api/v1/auth/email/resend', 'POST api/v1/auth/password/forgot',
             'POST api/v1/auth/password/reset', 'POST api/v1/auth/password/confirm', 'POST api/v1/auth/password/change',
@@ -363,7 +392,7 @@ final class FoundationArchitectureTest extends TestCase
             self::assertContains(StartSession::class, $middleware);
             if (str_contains($route->uri(), '/customers') || str_contains($route->uri(), '/identity/')
                 || str_starts_with($route->uri(), 'api/v1/admin/') || str_starts_with($route->uri(), 'api/v1/categories')
-                || str_starts_with($route->uri(), 'api/v1/project-requests') || str_starts_with($route->uri(), 'api/v1/documents')) {
+                || str_starts_with($route->uri(), 'api/v1/project-requests') || str_starts_with($route->uri(), 'api/v1/projects') || str_starts_with($route->uri(), 'api/v1/documents')) {
                 self::assertContains(SessionAuthenticated::class, $middleware);
             }
         }

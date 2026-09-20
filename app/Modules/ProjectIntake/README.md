@@ -8,5 +8,8 @@ B5 builds Discovery records after the approved handoff and composes explicit
 commercial request transitions through `CommercialIntake`. Intake still owns
 request writes. Information requests may now return to their persisted Discovery
 origin; authorized assignment continues through Proposal/Approved. B4 owns private
-documents and typed intake attachments. Projects and AI remain unimplemented.
-See [B3](../../../docs/B3-IMPLEMENTATION.md) and [B5](../../../docs/B5-IMPLEMENTATION.md).
+documents and typed intake attachments. B6 composes explicit Approved → Converted
+through Intake's owned action in the same transaction as Project creation. Converted
+requests are terminal immutable sources. AI remains unimplemented.
+See [B3](../../../docs/B3-IMPLEMENTATION.md), [B5](../../../docs/B5-IMPLEMENTATION.md)
+and [B6](../../../docs/B6-IMPLEMENTATION.md).

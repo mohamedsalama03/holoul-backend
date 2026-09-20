@@ -35,4 +35,17 @@ enum Permission: string
     case ReadOwnProposals = 'proposals.self.read';
     case AcceptOwnProposal = 'proposals.self.accept';
     case DeclineOwnProposal = 'proposals.self.decline';
+    case ReadProjects = 'projects.read';
+    case ReadAllProjects = 'projects.read_all';
+    case ConvertProject = 'projects.convert';
+    case ManageProject = 'projects.manage';
+    case TransitionProject = 'projects.transition';
+    case ManageProjectTeam = 'projects.team.manage';
+    case ManageMilestones = 'projects.milestones.manage';
+    case PublishProjectUpdates = 'projects.updates.publish';
+    case ReadProjectDocuments = 'projects.documents.read';
+    case UploadProjectDocuments = 'projects.documents.upload';
+    case ReadOwnProjects = 'projects.self.read';
+    case ConfirmOwnProject = 'projects.self.confirm';
+    case ReadOwnProjectDocuments = 'projects.self.documents.read';
 }

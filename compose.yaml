@@ -1,6 +1,6 @@
 name: holoul
 x-application: &application
-  image: ${HOLOUL_APP_IMAGE:-holoul-app:b5-development}
+  image: ${HOLOUL_APP_IMAGE:-holoul-app:b6-development}
   build:
     context: .
     target: development

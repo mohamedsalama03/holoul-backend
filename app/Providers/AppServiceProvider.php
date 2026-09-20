@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Application\Projects\AuthorizedProjectStaff;
 use App\Infrastructure\Queue\SafeFailedJobProvider;
 use App\Modules\Categories\Contracts\TaxonomyReader;
 use App\Modules\Categories\DatabaseTaxonomyReader;
@@ -12,9 +13,13 @@ use App\Modules\Customers\ReadModels\DatabaseCustomerContactReader;
 use App\Modules\Discovery\Contracts\DiscoveryReader;
 use App\Modules\Discovery\DatabaseDiscoveryReader;
 use App\Modules\Identity\Contracts\AuthorizedStaffReader;
+use App\Modules\Identity\Contracts\ProjectStaffIdentityReader;
 use App\Modules\Identity\Security\DatabaseAuthorizedStaffReader;
 use App\Modules\ProjectIntake\Contracts\IntakeDocumentReader;
 use App\Modules\ProjectIntake\Queries\ReadIntakeDocuments;
+use App\Modules\Projects\Contracts\ProjectStaffReader;
+use App\Modules\Proposals\Contracts\AcceptedProposalReader;
+use App\Modules\Proposals\Queries\ReadAcceptedProposal;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\Eloquent\Model;
@@ -27,6 +32,9 @@ final class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->app->bind(ProjectStaffIdentityReader::class, DatabaseAuthorizedStaffReader::class);
+        $this->app->bind(ProjectStaffReader::class, AuthorizedProjectStaff::class);
+        $this->app->bind(AcceptedProposalReader::class, ReadAcceptedProposal::class);
         $this->app->bind(DiscoveryReader::class, DatabaseDiscoveryReader::class);
         $this->app->bind(IntakeDocumentReader::class, ReadIntakeDocuments::class);
         $this->app->bind(TaxonomyReader::class, DatabaseTaxonomyReader::class);

@@ -13,6 +13,7 @@ enum RequestState: string
     case Discovery = 'discovery';
     case Proposal = 'proposal';
     case Approved = 'approved';
+    case Converted = 'converted';
     case Rejected = 'rejected';
     case Withdrawn = 'withdrawn';
 
