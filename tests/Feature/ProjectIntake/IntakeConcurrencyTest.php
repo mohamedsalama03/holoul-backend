@@ -8,16 +8,16 @@ use App\Infrastructure\Http\VersionPrecondition;
 use App\Modules\ProjectIntake\Actions\ManageDraft;
 use App\Modules\ProjectIntake\Data\IntakeActor;
 use App\Modules\ProjectIntake\Models\ProjectRequest;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Symfony\Component\Process\Process;
+use Tests\Support\CommercialDatabase;
 use Tests\Support\IntakeFixtures;
 use Tests\TestCase;
 
 final class IntakeConcurrencyTest extends TestCase
 {
-    use DatabaseMigrations;
+    use CommercialDatabase;
     use IntakeFixtures;
 
     public function test_different_customers_concurrently_receive_distinct_sequence_references(): void

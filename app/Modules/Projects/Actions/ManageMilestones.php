@@ -6,9 +6,11 @@ namespace App\Modules\Projects\Actions;
 
 use App\Modules\Projects\Contracts\ProjectStaffReader;
 use App\Modules\Projects\Data\ProjectActor;
+use App\Modules\Projects\Events\ProjectChanged;
 use App\Modules\Projects\Models\Milestone;
 use App\Modules\Projects\Models\Project;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -133,5 +135,8 @@ final readonly class ManageMilestones
             'actor_id' => $actor->id, 'milestone_version' => $milestone->lock_version, 'entity_version' => $project->lock_version,
             'reason' => $reason, 'correlation_id' => $correlation]);
         $this->store->event($project, 'milestone_'.$event, $actor, $correlation);
+        if ($milestone->customer_visible && in_array($event, ['started', 'delayed', 'completed'], true)) {
+            Event::dispatch(new ProjectChanged($project->id, 'milestone_updated', $project->lock_version, $project->customer_user_id, $correlation));
+        }
     }
 }

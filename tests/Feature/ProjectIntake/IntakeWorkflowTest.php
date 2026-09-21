@@ -18,18 +18,18 @@ use App\Modules\ProjectIntake\Models\RequestDraft;
 use App\Modules\ProjectIntake\Models\RequestRevision;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\QueryException;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Tests\Support\CommercialDatabase;
 use Tests\Support\IntakeFixtures;
 use Tests\TestCase;
 
 final class IntakeWorkflowTest extends TestCase
 {
-    use DatabaseMigrations;
+    use CommercialDatabase;
     use IntakeFixtures;
 
     public function test_incomplete_draft_can_be_completed_and_submitted_with_an_exact_snapshot(): void

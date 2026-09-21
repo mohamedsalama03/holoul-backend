@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $project_id
  * @property string $state
  * @property int $lock_version
+ * @property bool $customer_visible
  */
 final class Milestone extends Model
 {

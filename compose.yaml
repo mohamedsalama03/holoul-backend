@@ -1,6 +1,6 @@
 name: holoul
 x-application: &application
-  image: ${HOLOUL_APP_IMAGE:-holoul-app:b6-development}
+  image: ${HOLOUL_APP_IMAGE:-holoul-app:b7-development}
   build:
     context: .
     target: development
@@ -25,6 +25,7 @@ x-application: &application
     # This private development database has no TLS; production defaults stay verify-full.
     DB_SSLMODE: disable
     IDENTITY_MAIL_SANDBOX: 'true'
+    HOLOUL_AI_ENABLED: ${HOLOUL_AI_ENABLED:-false}
     MAIL_SCHEME: smtp
     MAIL_HOST: mailpit
     MAIL_PORT: '1025'
@@ -189,6 +190,21 @@ services:
       retries: 5
       start_period: 30s
 
+  ai-queue:
+    <<: *application
+    command: [php, artisan, queue:work, ai, --queue=ai, --sleep=1, --tries=1, --timeout=120, --max-time=3600, --no-interaction]
+    stop_grace_period: 135s
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      storage-bootstrap: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, php, docker/app/check-health.php, queue]
+      interval: 30s
+      timeout: 3s
+      retries: 5
+      start_period: 30s
+
   nginx:
     image: nginx:1.30.5-alpine@sha256:73c75df4075c918f91017fdda46ad81e55e5af77ba3a64ca3d5014bd9244fe7f
     user: "101:101"
@@ -338,7 +354,7 @@ services:
     pids_limit: 32
 
   inspector:
-    image: holoul-inspector:b4-runtime
+    image: holoul-inspector:b7-runtime
     build:
       context: .
       dockerfile: docker/documents/inspector/Dockerfile

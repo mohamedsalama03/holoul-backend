@@ -11,17 +11,17 @@ use App\Modules\ProjectIntake\Actions\ManageDraft;
 use App\Modules\ProjectIntake\Actions\SubmitRequest;
 use App\Modules\ProjectIntake\Models\ProjectRequest;
 use Illuminate\Database\QueryException;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Tests\Support\CommercialDatabase;
 use Tests\Support\DocumentFixtures;
 use Tests\TestCase;
 
 final class DocumentConcurrencyTest extends TestCase
 {
-    use DatabaseMigrations;
+    use CommercialDatabase;
     use DocumentFixtures;
 
     protected function setUp(): void

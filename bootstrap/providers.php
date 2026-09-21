@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 use App\Application\Documents\DocumentServiceProvider;
 use App\Infrastructure\Async\AsyncServiceProvider;
+use App\Modules\AI\AIServiceProvider;
 use App\Modules\Identity\IdentityServiceProvider;
+use App\Modules\Notifications\NotificationsServiceProvider;
 use App\Providers\AppServiceProvider;
 use Laravel\Sanctum\SanctumServiceProvider;
 
@@ -14,4 +16,6 @@ return [
     SanctumServiceProvider::class,
     IdentityServiceProvider::class,
     DocumentServiceProvider::class,
+    AIServiceProvider::class,
+    NotificationsServiceProvider::class,
 ];

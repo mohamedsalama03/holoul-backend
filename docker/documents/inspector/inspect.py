@@ -22,6 +22,8 @@ import zlib
 MAX_INPUT = 10 * 1024 * 1024
 MAX_EXPANDED = 40 * 1024 * 1024
 MAX_OUTPUT = 60 * 1024 * 1024
+MAX_TEXT_CHARACTERS = 20000
+MAX_TEXT_RESPONSE = 240256
 SOCKET = "/run/holoul-inspector/inspector.sock"
 
 
@@ -399,7 +401,116 @@ def inspect_docx(path):
             reject("format_mismatch")
 
 
-def worker(format_name, path):
+def bounded_text(text, maximum):
+    if len(text) > maximum:
+        reject("resource_limit")
+    # Document text is untrusted data, not executable markup or instructions.
+    # Preserve text and paragraph boundaries, excluding binary control bytes.
+    text = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", " ", text).strip()
+    if not text:
+        reject("no_text")
+    return text
+
+
+def extract_pdf(path, maximum):
+    # Input has already passed the complete conservative QPDF inspection.
+    # No OCR, rendering, external retrieval, or caller-selected arguments.
+    with tempfile.NamedTemporaryFile() as output:
+        process = subprocess.run(["pdftotext", "-enc", "UTF-8", "-eol", "unix", "-nopgbrk", path, output.name],
+                                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=15, check=False)
+        if process.returncode < 0:
+            reject("resource_limit")
+        if process.returncode != 0:
+            reject()
+        if os.path.getsize(output.name) > maximum * 4 + 4:
+            reject("resource_limit")
+        with open(output.name, "rb") as source:
+            text = source.read(maximum * 4 + 5).decode("utf-8", errors="strict")
+    return bounded_text(text, maximum)
+
+
+class WordText:
+    WORD_NAMESPACES = {"http://schemas.openxmlformats.org/wordprocessingml/2006/main",
+                       "http://purl.oclc.org/ooxml/wordprocessingml/main"}
+
+    def __init__(self, maximum):
+        self.maximum = maximum
+        self.parts = []
+        self.characters = 0
+        self.tags = []
+        self.body_depth = None
+        self.body_seen = False
+        self.text_depth = None
+        self.excluded = 0
+        self.parser = xml.parsers.expat.ParserCreate(namespace_separator="}")
+        self.parser.StartElementHandler = self.start
+        self.parser.EndElementHandler = self.end
+        self.parser.CharacterDataHandler = self.characters_data
+        self.parser.StartDoctypeDeclHandler = lambda *_: reject("dangerous_content")
+        self.parser.EntityDeclHandler = lambda *_: reject("dangerous_content")
+        self.parser.ExternalEntityRefHandler = lambda *_: reject("dangerous_content")
+        self.parser.ProcessingInstructionHandler = lambda *_: reject("dangerous_content")
+
+    def word_name(self, name):
+        namespace, _, local = name.rpartition("}")
+        return local if namespace in self.WORD_NAMESPACES else None
+
+    def start(self, name, attrs):
+        self.tags.append(name)
+        local = self.word_name(name)
+        if local == "body":
+            if self.body_seen or len(self.tags) != 2 or self.word_name(self.tags[0]) != "document":
+                reject()
+            self.body_seen = True
+            self.body_depth = len(self.tags)
+        if local in {"del", "moveFrom", "txbxContent"}:
+            self.excluded += 1
+        if self.body_depth is not None and not self.excluded:
+            if local == "t":
+                self.text_depth = len(self.tags)
+            elif local in {"tab", "br", "cr"}:
+                self.append("\t" if local == "tab" else "\n")
+        # Hidden or tracked-deletion text is not reliable visible source text.
+        # Fail closed instead of accidentally sending it as the document body.
+        if local in {"vanish", "webHidden", "specVanish"}:
+            reject("dangerous_content")
+
+    def end(self, name):
+        local = self.word_name(name)
+        if self.body_depth is not None and not self.excluded and local in {"p", "tr"}:
+            self.append("\n")
+        if self.text_depth == len(self.tags):
+            self.text_depth = None
+        if local in {"del", "moveFrom", "txbxContent"}:
+            self.excluded -= 1
+        if self.body_depth == len(self.tags):
+            self.body_depth = None
+        self.tags.pop()
+
+    def characters_data(self, text):
+        if self.body_depth is not None and self.text_depth is not None and not self.excluded:
+            self.append(text)
+
+    def append(self, text):
+        self.characters += len(text)
+        if self.characters > self.maximum:
+            reject("resource_limit")
+        self.parts.append(text)
+
+
+def extract_docx(path, maximum):
+    # Only the main document body is sent. No author/contact metadata, comments,
+    # headers, footers, embedded files or related package content is extracted.
+    extractor = WordText(maximum)
+    with zipfile.ZipFile(path) as archive:
+        with archive.open("word/document.xml") as source:
+            while chunk := source.read(65536):
+                extractor.parser.Parse(chunk, False)
+            extractor.parser.Parse(b"", True)
+    return bounded_text("".join(extractor.parts), maximum)
+
+
+def worker(format_name, path, maximum=None):
     limits()
     try:
         if format_name == "pdf":
@@ -408,7 +519,13 @@ def worker(format_name, path):
             inspect_docx(path)
         else:
             reject("format_mismatch")
-        result = {"safe": True, "reason": None}
+        if maximum is None:
+            result = {"safe": True, "reason": None}
+        else:
+            if type(maximum) is not int or not 1 <= maximum <= MAX_TEXT_CHARACTERS:
+                reject("resource_limit")
+            text = extract_pdf(path, maximum) if format_name == "pdf" else extract_docx(path, maximum)
+            result = {"safe": True, "text": text}
     except Rejected as rejection:
         result = {"safe": False, "reason": rejection.reason}
     except (MemoryError, subprocess.TimeoutExpired):
@@ -420,14 +537,17 @@ def worker(format_name, path):
     print(json.dumps(result, separators=(",", ":")), flush=True)
 
 
-def inspect_isolated(format_name, path):
-    process = subprocess.Popen([sys.executable, "-I", __file__, "--worker", format_name, path],
+def inspect_isolated(format_name, path, maximum=None):
+    command = [sys.executable, "-I", __file__, "--worker", format_name, path]
+    if maximum is not None:
+        command.append(str(maximum))
+    process = subprocess.Popen(command,
                                stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, start_new_session=True)
     try:
         output, _ = process.communicate(timeout=20)
         if process.returncode in {-signal.SIGXCPU, -signal.SIGXFSZ, -signal.SIGKILL}:
             return b'{"safe":false,"reason":"resource_limit"}\n'
-        if process.returncode != 0 or len(output) > 256:
+        if process.returncode != 0 or len(output) > (256 if maximum is None else MAX_TEXT_RESPONSE):
             return b'{"unavailable":true}\n'
         return output
     except subprocess.TimeoutExpired:
@@ -466,7 +586,12 @@ def serve():
                         connection.sendall(b'{"ready":true}\n')
                         continue
                     request = json.loads(header)
-                    if set(request) != {"format", "size"} or type(request["size"]) is not int or not 1 <= request["size"] <= MAX_INPUT or request["format"] not in {"pdf", "docx"}:
+                    extract = request.get("operation") == "extract"
+                    allowed = {"format", "size", "operation", "max_characters"} if extract else {"format", "size"}
+                    if set(request) != allowed or type(request["size"]) is not int or not 1 <= request["size"] <= MAX_INPUT or request["format"] not in {"pdf", "docx"}:
+                        raise ValueError()
+                    maximum = request.get("max_characters") if extract else None
+                    if extract and (type(maximum) is not int or not 1 <= maximum <= MAX_TEXT_CHARACTERS):
                         raise ValueError()
                     with tempfile.NamedTemporaryFile() as temporary:
                         remaining = request["size"]
@@ -478,7 +603,7 @@ def serve():
                             temporary.write(chunk)
                             remaining -= len(chunk)
                         temporary.flush()
-                        result = inspect_isolated(request["format"], temporary.name)
+                        result = inspect_isolated(request["format"], temporary.name, maximum)
                     connection.settimeout(2)
                     connection.sendall(result)
                 except Exception:
@@ -489,8 +614,8 @@ def serve():
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 4 and sys.argv[1] == "--worker":
-        worker(sys.argv[2], sys.argv[3])
+    if len(sys.argv) in {4, 5} and sys.argv[1] == "--worker":
+        worker(sys.argv[2], sys.argv[3], int(sys.argv[4]) if len(sys.argv) == 5 else None)
     elif len(sys.argv) == 2 and sys.argv[1] == "--health":
         with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as client:
             client.settimeout(2)

@@ -57,7 +57,10 @@ final class FoundationArchitectureTest extends TestCase
         'proposal_approvals', 'proposal_decisions', 'proposal_events', 'proposal_command_keys', 'proposal_documents',
         'projects', 'project_members', 'project_membership_history', 'project_phase_evidence',
         'project_completion_confirmations', 'project_state_changes', 'milestones', 'milestone_changes',
-        'project_updates', 'project_activity', 'project_document_uploads', 'project_documents', 'project_command_keys'];
+        'project_updates', 'project_activity', 'project_document_uploads', 'project_documents', 'project_command_keys',
+        'ai_budget_days', 'ai_runs', 'ai_suggestions', 'ai_provider_attempts', 'ai_command_keys',
+        'notifications', 'notification_inboxes', 'notification_preferences', 'notification_deliveries',
+        'notification_delivery_attempts', 'notification_replays', 'notification_command_keys'];
 
     /** @var array<string, list<string>> */
     private const CONTRACT_ONLY_DEPENDENCIES = [
@@ -212,12 +215,12 @@ final class FoundationArchitectureTest extends TestCase
         self::assertSame('false', trim($process->getOutput()));
     }
 
-    public function test_only_authorized_b1_through_b6_modules_and_tables_are_implemented(): void
+    public function test_only_authorized_b1_through_b7_modules_and_tables_are_implemented(): void
     {
         foreach (array_keys(self::MODULE_DEPENDENCIES) as $module) {
             self::assertDirectoryExists(app_path("Modules/$module"));
 
-            if (! in_array($module, ['Audit', 'Identity', 'Customers', 'Categories', 'ProjectIntake', 'Documents', 'Discovery', 'Proposals', 'Projects'], true)) {
+            if (! in_array($module, ['Audit', 'Identity', 'Customers', 'Categories', 'ProjectIntake', 'Documents', 'Discovery', 'Proposals', 'Projects', 'AI', 'Notifications'], true)) {
                 self::assertSame([], $this->phpFiles(app_path("Modules/$module")), "$module implementation belongs to a later approved batch");
             }
         }
@@ -239,20 +242,20 @@ final class FoundationArchitectureTest extends TestCase
                 $argument = $call->args[0] ?? null;
                 self::assertInstanceOf(Node\Arg::class, $argument, $file);
                 self::assertInstanceOf(String_::class, $argument->value, "Migration table names must be explicit ($file)");
-                self::assertContains($argument->value->value, self::INFRASTRUCTURE_TABLES, "Migration is outside approved B1/B2/B3/B4/B5/B6 ($file)");
+                self::assertContains($argument->value->value, self::INFRASTRUCTURE_TABLES, "Migration is outside approved B1/B2/B3/B4/B5/B6/B7 ($file)");
             }
 
             foreach ((new NodeFinder)->findInstanceOf($nodes, String_::class) as $literal) {
                 preg_match_all('/\bCREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?(?:public\.)?"?([a-z_][a-z_0-9]*)/i', $literal->value, $tables);
 
                 foreach ($tables[1] as $table) {
-                    self::assertContains(strtolower($table), self::INFRASTRUCTURE_TABLES, "SQL is outside approved B1/B2/B3/B4/B5/B6 ($file)");
+                    self::assertContains(strtolower($table), self::INFRASTRUCTURE_TABLES, "SQL is outside approved B1/B2/B3/B4/B5/B6/B7 ($file)");
                 }
             }
         }
     }
 
-    public function test_registered_routes_are_limited_to_approved_b1_through_b6(): void
+    public function test_registered_routes_are_limited_to_approved_b1_through_b7(): void
     {
         $routes = app('router')->getRoutes();
         $actual = [];
@@ -263,6 +266,13 @@ final class FoundationArchitectureTest extends TestCase
 
         sort($actual);
         $expected = [
+            'GET|HEAD api/v1/ai-runs', 'POST api/v1/ai-runs', 'GET|HEAD api/v1/ai-runs/{aiRun}',
+            'POST api/v1/ai-runs/{aiRun}/applications', 'POST api/v1/ai-runs/{aiRun}/dismissals', 'POST api/v1/ai-runs/{aiRun}/cancellations',
+            'GET|HEAD api/v1/notifications', 'GET|HEAD api/v1/notifications/unread-count', 'POST api/v1/notifications/read-all',
+            'GET|HEAD api/v1/notifications/preferences', 'PATCH api/v1/notifications/preferences',
+            'GET|HEAD api/v1/notifications/{notification}', 'POST api/v1/notifications/{notification}/read',
+            'GET|HEAD api/v1/admin/notification-deliveries', 'GET|HEAD api/v1/admin/notification-deliveries/{delivery}',
+            'POST api/v1/admin/notification-deliveries/{delivery}/replays',
             'GET|HEAD api/v1', 'GET|HEAD health/live', 'GET|HEAD health/ready', 'GET|HEAD sanctum/csrf-cookie',
             'POST api/v1/admin/project-requests/{projectRequest}/conversions',
             'GET|HEAD api/v1/admin/projects', 'GET|HEAD api/v1/projects',
@@ -392,7 +402,8 @@ final class FoundationArchitectureTest extends TestCase
             self::assertContains(StartSession::class, $middleware);
             if (str_contains($route->uri(), '/customers') || str_contains($route->uri(), '/identity/')
                 || str_starts_with($route->uri(), 'api/v1/admin/') || str_starts_with($route->uri(), 'api/v1/categories')
-                || str_starts_with($route->uri(), 'api/v1/project-requests') || str_starts_with($route->uri(), 'api/v1/projects') || str_starts_with($route->uri(), 'api/v1/documents')) {
+                || str_starts_with($route->uri(), 'api/v1/project-requests') || str_starts_with($route->uri(), 'api/v1/projects') || str_starts_with($route->uri(), 'api/v1/documents')
+                || str_starts_with($route->uri(), 'api/v1/ai-runs') || str_starts_with($route->uri(), 'api/v1/notifications')) {
                 self::assertContains(SessionAuthenticated::class, $middleware);
             }
         }

@@ -14,6 +14,8 @@ RUN curl --fail --location --retry 3 https://github.com/qpdf/qpdf/releases/downl
     && cmake --build /build -j2 && cmake --install /build
 
 FROM base AS runtime
+# Offline PDF text extraction remains inside the constrained, networkless worker.
+RUN apk add --no-cache poppler-utils=25.12.0-r1
 COPY --from=builder /opt/qpdf/bin/qpdf /usr/local/bin/qpdf
 COPY --from=builder /opt/qpdf/lib/ /usr/local/lib/
 # Inspection uses only the standard library. Remove pip's vendored dependencies
@@ -23,7 +25,8 @@ RUN python3 -m pip uninstall --yes pip \
     && python3 -I -c 'import importlib.util; assert all(importlib.util.find_spec(name) is None for name in ("pip", "ensurepip", "setuptools", "msgpack"))'
 RUN addgroup -g 1000 holoul && adduser -D -u 1000 -G holoul holoul \
     && mkdir -p /run/holoul-inspector && chown holoul:holoul /run/holoul-inspector \
-    && qpdf --version | grep -q '12.4.1'
+    && qpdf --version | grep -q '12.4.1' \
+    && pdftotext -v 2>&1 | grep -q '25.12.0'
 COPY docker/documents/inspector/inspect.py /opt/holoul/inspect.py
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 USER 1000:1000

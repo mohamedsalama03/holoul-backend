@@ -13,6 +13,10 @@ return [
             'driver' => 'redis', 'connection' => 'default', 'queue' => 'documents',
             'retry_after' => 180, 'block_for' => 5, 'after_commit' => true,
         ],
+        'ai' => [
+            'driver' => 'redis', 'connection' => 'default', 'queue' => 'ai',
+            'retry_after' => 180, 'block_for' => 5, 'after_commit' => true,
+        ],
     ],
     'failed' => ['driver' => 'database-uuids', 'database' => 'pgsql', 'table' => 'failed_jobs'],
 ];

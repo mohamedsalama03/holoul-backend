@@ -9,16 +9,16 @@ use App\Modules\ProjectIntake\Actions\ManageDraft;
 use App\Modules\ProjectIntake\Actions\SubmitRequest;
 use App\Modules\ProjectIntake\Models\ProjectRequest;
 use Illuminate\Database\QueryException;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Tests\Support\CommercialDatabase;
 use Tests\Support\IntakeFixtures;
 use Tests\TestCase;
 
 final class IntakeConstraintsTest extends TestCase
 {
-    use DatabaseMigrations;
+    use CommercialDatabase;
     use IntakeFixtures;
 
     public function test_database_rejects_cross_category_selection_in_drafts_and_revisions(): void

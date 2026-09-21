@@ -48,4 +48,12 @@ enum Permission: string
     case ReadOwnProjects = 'projects.self.read';
     case ConfirmOwnProject = 'projects.self.confirm';
     case ReadOwnProjectDocuments = 'projects.self.documents.read';
+    case UseOwnAI = 'ai.self.use';
+    case ApplyOwnAI = 'ai.self.apply';
+    case UseStaffAI = 'ai.use';
+    case ApplyStaffAI = 'ai.apply';
+    case ReadOwnNotifications = 'notifications.self.read';
+    case ManageOwnNotifications = 'notifications.self.manage';
+    case ReadNotificationDelivery = 'notifications.delivery.read';
+    case ReplayNotificationDelivery = 'notifications.delivery.replay';
 }

@@ -14,8 +14,12 @@ use App\Modules\ProjectIntake\Actions\IntakeStore;
 use App\Modules\ProjectIntake\Actions\ManageDraft;
 use App\Modules\ProjectIntake\Actions\SubmitRequest;
 use App\Modules\ProjectIntake\Actions\TransitionRequest;
+use App\Modules\ProjectIntake\Events\RequestChanged;
+use App\Modules\Projects\Events\ProjectChanged;
+use App\Modules\Proposals\Events\ProposalChanged;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Tests\Support\CommercialFixtures;
@@ -39,8 +43,14 @@ final class MigrationUpgradeTest extends TestCase
         try {
             self::assertFalse(Schema::hasTable('projects'));
             $this->initializeDocuments();
-            [$proposalId, $documentId, $discoveryId] = $this->acceptedDocumentBaseline();
-            [, $quarantined] = $this->quarantined();
+            // These notification events were introduced in B7. Keep all B5
+            // actions and guards real while the B7 tables do not yet exist.
+            [$proposalId, $documentId, $discoveryId, $quarantined] = Event::fakeFor(function (): array {
+                $baseline = $this->acceptedDocumentBaseline();
+                [, $quarantined] = $this->quarantined();
+
+                return [...$baseline, $quarantined];
+            }, [RequestChanged::class, ProposalChanged::class, ProjectChanged::class]);
             self::assertSame('quarantined', $quarantined->state->value);
             $tables = array_column(DB::select("SELECT tablename FROM pg_tables WHERE schemaname='public' ORDER BY tablename"), 'tablename');
             $before = [];
@@ -60,8 +70,8 @@ final class MigrationUpgradeTest extends TestCase
             $this->artisan('migrate', ['--force' => true])->assertExitCode(0);
             $this->artisan('migrate', ['--force' => true])->assertExitCode(0);
             $this->assertDatabaseCount('migrations', count(glob(database_path('migrations/*.php'))));
-            $this->assertDatabaseCount('migrations', 24);
-            $this->assertDatabaseCount('permissions', 42);
+            $this->assertDatabaseCount('migrations', 27);
+            $this->assertDatabaseCount('permissions', 50);
             foreach ($before as $table => $rows) {
                 self::assertSame($rows, $this->snapshot($table, $columns[$table]), $table);
             }

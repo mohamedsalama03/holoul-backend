@@ -9,10 +9,12 @@ use App\Modules\Audit\Actions\RecordAuditEvent;
 use App\Modules\Audit\Data\SafeAuditMetadata;
 use App\Modules\ProjectIntake\Data\IntakeActor;
 use App\Modules\ProjectIntake\Data\RequestState;
+use App\Modules\ProjectIntake\Events\RequestChanged;
 use App\Modules\ProjectIntake\Models\ProjectRequest;
 use App\Modules\ProjectIntake\Models\RequestDraft;
 use App\Modules\ProjectIntake\Policies\RequestPolicy;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -58,6 +60,10 @@ final readonly class IntakeStore
     public function event(string $event, ProjectRequest $record, IntakeActor $actor, string $requestId): void
     {
         $this->audit->handle('intake.'.$event, 'project_request', $record->id, $requestId, $actor->id, new SafeAuditMetadata(['outcome' => 'succeeded']));
+        if (in_array($event, ['submitted', 'amendment_submitted', 'information_requested'], true)) {
+            Event::dispatch(new RequestChanged($record->id, $event, $record->lock_version,
+                $record->customer_user_id, $record->assigned_staff_id, $requestId));
+        }
     }
 
     public function transition(ProjectRequest $record, RequestState $target, IntakeActor $actor, ?string $reason = null): void

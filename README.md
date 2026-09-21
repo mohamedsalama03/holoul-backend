@@ -1,7 +1,8 @@
-# HOLOUL backend — B6 projects and delivery lifecycle
+# HOLOUL backend — B7 AI assistance and notifications
 
 Laravel modular monolith implementing infrastructure, Identity, Customers,
-Categories, Project Intake, private Documents, Discovery, Proposals and Projects.
+Categories, Project Intake, private Documents, Discovery, Proposals, Projects,
+optional AI assistance and durable in-app/email Notifications.
 The approved design is [the B0 architecture](docs/B0-ARCHITECTURE.md);
 pinned versions and sources are in
 [B1 versions](docs/B1-VERSIONS.md) and [B2 versions](docs/B2-VERSIONS.md).
@@ -14,8 +15,10 @@ details in [B4 storage and inspection](docs/B4-STORAGE-INSPECTION.md).
 Discovery, commercial terms, approvals and customer decisions are documented in
 [B5 implementation](docs/B5-IMPLEMENTATION.md). Conversion, delivery phases, team,
 milestones and private project documents are in [B6 implementation](docs/B6-IMPLEMENTATION.md).
-AI, Reporting, payments,
-public proposal sharing and expanded Notifications remain unimplemented.
+AI source/cost controls and notification delivery are in [B7 implementation](docs/B7-IMPLEMENTATION.md).
+The initial AI adapter is a local deterministic sandbox, disabled by default;
+external provider/privacy/spending approval remains outstanding.
+Reporting, analytics, payments, public proposal sharing and B8 launch work remain unimplemented.
 The [B3 permission matrix](docs/B3-AUTHORIZATION.md) defines staff intake access;
 the [approved B3 baseline](docs/B4-BASELINE.md) records the B4 starting commit.
 
@@ -62,7 +65,7 @@ provides API endpoints; a frontend and recovery-link pages are not included.
 Startup creates random development secrets in project-scoped named volumes,
 initializes PostgreSQL roles/databases once, runs schema migrations as
 `holoul_migrator`, then starts runtime services. Bootstrap and migration jobs use the
-same image and exit after success. App/queue/document-queue/scheduler receive only application
+same image and exit after success. App/queue/document-queue/ai-queue/scheduler receive only application
 credentials; no migrator/bootstrap secrets. No credentials are printed, tracked,
 or baked into images.
 
@@ -70,13 +73,13 @@ or baked into images.
 PostgreSQL, infrastructure schema and required runtime writes; Redis is excluded.
 `GET /api/v1` returns the minimal API envelope. B2 supplies the cookie/session
 endpoints; B3 adds 38 taxonomy and intake routes. B4 adds eight document routes,
-and B5 adds 26 discovery/proposal routes. B6 adds 37 project routes, for 139 route definitions in total.
+and B5 adds 26 discovery/proposal routes. B6 adds 37 project routes and B7 adds 16 assistance/notification routes, for 155 route definitions in total.
 GET routes also accept HEAD and count as one definition. The implementation
 documents above list the exact endpoints and access requirements.
 
 ~~~sh
 docker compose ps --all
-docker compose logs --follow app queue document-queue scheduler
+docker compose logs --follow app queue document-queue ai-queue scheduler
 docker compose run --rm verify vendor/bin/phpunit
 bash scripts/verify.sh
 ~~~
@@ -85,7 +88,7 @@ The tools-profile verification container uses separate `holoul_test` and migrati
 credentials. Never aim it at real data. Verification checks isolation before fresh
 migrations and records output under ignored `artifacts/`. It builds development and
 production images, exercises PostgreSQL/Redis and health, and runs pinned security
-scans. The inherited upgrades through B5 and exact B5 → B6 upgrade tests preserve
+scans. The inherited upgrades through B6 and exact B6 → B7 upgrade tests preserve
 baseline schema and record checks. B3 adds workflow, assignment, immutable revision,
 money, idempotency, isolation and concurrency coverage. Only the development image
 contains testing dependencies. The production

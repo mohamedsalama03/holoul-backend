@@ -21,6 +21,8 @@ final class OperationPublisher
             }
             if (OperationPolicy::documents($operation->kind)) {
                 Queue::connection('documents')->push(new RunDocumentOperationJob($operationId), '', 'documents');
+            } elseif ($operation->kind === 'ai.generate') {
+                Queue::connection('ai')->push(new RunAIOperationJob($operationId), '', 'ai');
             } else {
                 Queue::connection('redis')->push(new RunOperationJob($operationId), '', Config::string('async.queue'));
             }

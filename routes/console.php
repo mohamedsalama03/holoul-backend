@@ -5,6 +5,8 @@ declare(strict_types=1);
 use Illuminate\Support\Facades\Schedule;
 
 Schedule::command('operations:reconcile')->everyMinute();
+Schedule::command('notifications:reconcile --limit=100')->everyMinute();
+Schedule::command('ai:reconcile-runs')->everyMinute();
 Schedule::command('proposals:expire --limit=100')->everyMinute();
 Schedule::command('documents:expire-uploads --limit=20')->everyFiveMinutes();
 Schedule::command('documents:expire-project-uploads --limit=20')->everyFiveMinutes();

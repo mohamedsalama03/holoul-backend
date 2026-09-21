@@ -7,11 +7,13 @@ namespace Tests\Feature\Documents;
 use App\Modules\Documents\Adapters\ClamAvScanner;
 use App\Modules\Documents\Adapters\IsolatedDocumentInspector;
 use App\Modules\Documents\Contracts\DocumentInspector;
+use App\Modules\Documents\Contracts\DocumentTextExtractor;
 use App\Modules\Documents\Contracts\MalwareScanner;
 use App\Modules\Documents\Contracts\PrivateObjectStore;
 use App\Modules\Documents\Data\DocumentFormat;
 use App\Modules\Documents\Data\MalwareVerdict;
 use App\Modules\Documents\Data\StoredObject;
+use App\Modules\Documents\Exceptions\DocumentExtractionRejected;
 use App\Modules\Documents\Exceptions\InspectionUnavailable;
 use App\Modules\Documents\Exceptions\ScannerUnavailable;
 use App\Modules\Documents\Exceptions\StorageConflict;
@@ -145,6 +147,32 @@ final class DocumentAdaptersTest extends TestCase
             (new IsolatedDocumentInspector('/tmp/nonexistent-holoul-inspector.sock'))->inspect($stream, 4, DocumentFormat::Pdf);
         } finally {
             fclose($stream);
+        }
+    }
+
+    public function test_real_offline_extraction_returns_only_bounded_docx_body_text(): void
+    {
+        $bytes = self::docx();
+        $stream = self::stream($bytes);
+        try {
+            self::assertSame('Clean fixture', app(DocumentTextExtractor::class)->extract($stream, strlen($bytes), DocumentFormat::Docx, 100));
+        } finally {
+            fclose($stream);
+        }
+    }
+
+    public function test_real_offline_extraction_rejects_textless_pdf_and_external_docx(): void
+    {
+        foreach ([[self::pdf(), DocumentFormat::Pdf, 'no_text'], [self::docx(true), DocumentFormat::Docx, 'dangerous_content']] as [$bytes, $format, $reason]) {
+            $stream = self::stream($bytes);
+            try {
+                app(DocumentTextExtractor::class)->extract($stream, strlen($bytes), $format, 100);
+                self::fail('Unsafe document extraction succeeded.');
+            } catch (DocumentExtractionRejected $failure) {
+                self::assertSame($reason, $failure->reasonCode);
+            } finally {
+                fclose($stream);
+            }
         }
     }
 

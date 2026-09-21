@@ -12,7 +12,6 @@ use App\Modules\Documents\Data\DocumentFormat;
 use App\Modules\Documents\Data\InspectionVerdict;
 use App\Modules\Documents\Data\MalwareVerdict;
 use App\Modules\Identity\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -21,6 +20,7 @@ use Illuminate\Support\Str;
 use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PragmaRX\Google2FA\Google2FA;
+use Tests\Support\CommercialDatabase;
 use Tests\Support\DocumentMemoryStore;
 use Tests\Support\IdentityHttp;
 use Tests\Support\IntakeFixtures;
@@ -28,7 +28,7 @@ use Tests\TestCase;
 
 final class DocumentHttpTest extends TestCase
 {
-    use DatabaseMigrations;
+    use CommercialDatabase;
     use IdentityHttp;
     use IntakeFixtures;
 

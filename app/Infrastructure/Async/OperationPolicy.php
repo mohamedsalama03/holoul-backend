@@ -16,7 +16,7 @@ final class OperationPolicy
 
     public static function leaseSeconds(string $kind): int
     {
-        return self::documents($kind) ? 150 : Config::integer('async.lease_seconds');
+        return self::documents($kind) || $kind === 'ai.generate' ? 150 : Config::integer('async.lease_seconds');
     }
 
     public static function maxAttempts(string $kind): int
@@ -26,7 +26,11 @@ final class OperationPolicy
 
     public static function backoffSeconds(string $kind, int $attempt): int
     {
-        $delays = self::documents($kind) ? [30, 120] : [5, 30, 120, 300];
+        $delays = match (true) {
+            self::documents($kind) => [30, 120],
+            $kind === 'notifications.email' => [30, 60, 120, 240],
+            default => [5, 30, 120, 300],
+        };
 
         return $delays[min(max(0, $attempt - 1), count($delays) - 1)];
     }

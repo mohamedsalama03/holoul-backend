@@ -7,20 +7,20 @@ namespace Tests\Feature\ProjectIntake;
 use App\Infrastructure\Http\VersionPrecondition;
 use App\Modules\Identity\Models\User;
 use App\Modules\ProjectIntake\Actions\ManageDraft;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PragmaRX\Google2FA\Google2FA;
+use Tests\Support\CommercialDatabase;
 use Tests\Support\IdentityHttp;
 use Tests\Support\IntakeFixtures;
 use Tests\TestCase;
 
 final class IntakeHttpTest extends TestCase
 {
-    use DatabaseMigrations;
+    use CommercialDatabase;
     use IdentityHttp;
     use IntakeFixtures;
 

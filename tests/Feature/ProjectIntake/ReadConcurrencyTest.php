@@ -8,17 +8,17 @@ use App\Infrastructure\Http\VersionPrecondition;
 use App\Modules\ProjectIntake\Actions\AssignRequest;
 use App\Modules\ProjectIntake\Queries\ReadIntake;
 use Illuminate\Database\Events\QueryExecuted;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Process\Process;
+use Tests\Support\CommercialDatabase;
 use Tests\Support\IntakeFixtures;
 use Tests\TestCase;
 
 final class ReadConcurrencyTest extends TestCase
 {
-    use DatabaseMigrations;
+    use CommercialDatabase;
     use IntakeFixtures;
 
     public function test_private_detail_read_holds_assignment_until_its_transaction_finishes(): void

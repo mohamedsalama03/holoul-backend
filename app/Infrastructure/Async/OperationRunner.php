@@ -31,6 +31,8 @@ final readonly class OperationRunner
             // A newer claim owns the outcome. Its fence cannot be overwritten.
         } catch (PermanentOperationFailure $exception) {
             $this->fail($claim, $exception->safeCode, false);
+        } catch (RetryableOperationFailure $exception) {
+            $this->fail($claim, $exception->safeCode, true, $exception->retryAfterSeconds);
         } catch (Throwable) {
             $this->fail($claim, 'execution_failed', true);
         } finally {
@@ -108,9 +110,9 @@ final readonly class OperationRunner
         });
     }
 
-    private function fail(OperationClaim $claim, string $safeCode, bool $retryable): void
+    private function fail(OperationClaim $claim, string $safeCode, bool $retryable, int $retryAfterSeconds = 0): void
     {
-        DB::transaction(function () use ($claim, $safeCode, $retryable): void {
+        DB::transaction(function () use ($claim, $safeCode, $retryable, $retryAfterSeconds): void {
             $operation = $this->currentClaim($claim)->lockForUpdate()->first();
 
             if ($operation === null) {
@@ -119,7 +121,7 @@ final readonly class OperationRunner
 
             $retry = $retryable && $operation->attempts < $operation->max_attempts;
             $backoff = OperationPolicy::backoffSeconds($operation->kind, $operation->attempts);
-            $delay = $backoff + random_int(0, max(1, intdiv($backoff, 5)));
+            $delay = max($retryAfterSeconds, $backoff + random_int(0, max(1, intdiv($backoff, 5))));
             $state = $retry ? OperationState::Pending->value : OperationState::Failed->value;
             DB::update(<<<'SQL'
                 UPDATE async_operations

@@ -39,7 +39,10 @@ final readonly class WithAuthorizedIdentity
             if (! $principal instanceof User) {
                 throw new AuthenticationException;
             }
-            $user = User::query()->whereKey($principal->id)->lockForUpdate()->first();
+            // Serialize authority changes without blocking recipient foreign-key
+            // checks from transactions already holding a business-resource lock.
+            // This action never changes the identity key; session locks stay exclusive.
+            $user = User::query()->whereKey($principal->id)->lock('for no key update')->first();
             if ($user === null || ! $user->enabled || $request->session()->get('identity.auth_version') !== $user->auth_version) {
                 throw new AuthenticationException;
             }

@@ -5,15 +5,19 @@ declare(strict_types=1);
 namespace App\Application\Documents;
 
 use App\Infrastructure\Async\OperationHandlerRegistry;
+use App\Modules\Documents\Actions\ExtractDocumentText;
 use App\Modules\Documents\Actions\ManageDocuments;
 use App\Modules\Documents\Adapters\ClamAvScanner;
 use App\Modules\Documents\Adapters\IsolatedDocumentInspector;
+use App\Modules\Documents\Adapters\IsolatedDocumentTextExtractor;
 use App\Modules\Documents\Adapters\S3AdapterFactory;
 use App\Modules\Documents\Console\ReconcileDocumentsCommand;
 use App\Modules\Documents\Console\RetryDocumentDeletionsCommand;
 use App\Modules\Documents\Contracts\DocumentInspector;
 use App\Modules\Documents\Contracts\DocumentReferences;
 use App\Modules\Documents\Contracts\DocumentService;
+use App\Modules\Documents\Contracts\DocumentTextExtractor;
+use App\Modules\Documents\Contracts\DocumentTextService;
 use App\Modules\Documents\Contracts\MalwareScanner;
 use App\Modules\Documents\Contracts\PrivateObjectStore;
 use App\Modules\Documents\Processing\DocumentOperationHandler;
@@ -25,6 +29,8 @@ final class DocumentServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(DocumentService::class, ManageDocuments::class);
+        $this->app->bind(DocumentTextService::class, ExtractDocumentText::class);
+        $this->app->bind(DocumentTextExtractor::class, fn (): DocumentTextExtractor => new IsolatedDocumentTextExtractor(Config::string('documents.inspector_socket')));
         $this->app->bind(DocumentReferences::class, RetainedDocumentReferences::class);
         $this->app->bind(PrivateObjectStore::class, fn (): PrivateObjectStore => S3AdapterFactory::create(
             Config::string('documents.s3.endpoint'), Config::string('documents.s3.region'), Config::string('documents.s3.bucket'),

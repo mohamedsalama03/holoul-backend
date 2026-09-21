@@ -6,10 +6,12 @@ namespace App\Modules\Projects\Actions;
 
 use App\Modules\Audit\Actions\RecordAuditEvent;
 use App\Modules\Projects\Data\ProjectActor;
+use App\Modules\Projects\Events\ProjectChanged;
 use App\Modules\Projects\Models\Project;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -93,5 +95,8 @@ final readonly class ProjectStore
             'event' => $event, 'actor_id' => $actor->id, 'entity_version' => $project->lock_version,
             'reason' => $reason, 'correlation_id' => $correlation]);
         $this->audit->handle('projects.'.$event, 'projects.project', $project->id, $correlation, $actor->id);
+        if (in_array($event, ['created', 'update_published', 'state_changed', 'held', 'resumed', 'phase_failed', 'cancelled', 'completed'], true)) {
+            Event::dispatch(new ProjectChanged($project->id, $event, $project->lock_version, $project->customer_user_id, $correlation));
+        }
     }
 }

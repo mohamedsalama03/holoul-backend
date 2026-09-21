@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Application\AI\AINotifications;
+use App\Application\AI\CurrentAIContext;
+use App\Application\Notifications\BusinessNotifications;
 use App\Application\Projects\AuthorizedProjectStaff;
 use App\Infrastructure\Queue\SafeFailedJobProvider;
+use App\Modules\AI\Contracts\AICompletionNotifier;
+use App\Modules\AI\Contracts\AIContextVerifier;
 use App\Modules\Categories\Contracts\TaxonomyReader;
 use App\Modules\Categories\DatabaseTaxonomyReader;
 use App\Modules\Customers\Contracts\CustomerContactReader;
@@ -13,18 +18,24 @@ use App\Modules\Customers\ReadModels\DatabaseCustomerContactReader;
 use App\Modules\Discovery\Contracts\DiscoveryReader;
 use App\Modules\Discovery\DatabaseDiscoveryReader;
 use App\Modules\Identity\Contracts\AuthorizedStaffReader;
+use App\Modules\Identity\Contracts\NotificationRecipientReader;
 use App\Modules\Identity\Contracts\ProjectStaffIdentityReader;
+use App\Modules\Identity\Queries\ReadNotificationRecipient;
 use App\Modules\Identity\Security\DatabaseAuthorizedStaffReader;
 use App\Modules\ProjectIntake\Contracts\IntakeDocumentReader;
+use App\Modules\ProjectIntake\Events\RequestChanged;
 use App\Modules\ProjectIntake\Queries\ReadIntakeDocuments;
 use App\Modules\Projects\Contracts\ProjectStaffReader;
+use App\Modules\Projects\Events\ProjectChanged;
 use App\Modules\Proposals\Contracts\AcceptedProposalReader;
+use App\Modules\Proposals\Events\ProposalChanged;
 use App\Modules\Proposals\Queries\ReadAcceptedProposal;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Middleware\TrustProxies;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\ServiceProvider;
 
@@ -32,6 +43,9 @@ final class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->app->bind(AIContextVerifier::class, CurrentAIContext::class);
+        $this->app->bind(AICompletionNotifier::class, AINotifications::class);
+        $this->app->bind(NotificationRecipientReader::class, ReadNotificationRecipient::class);
         $this->app->bind(ProjectStaffIdentityReader::class, DatabaseAuthorizedStaffReader::class);
         $this->app->bind(ProjectStaffReader::class, AuthorizedProjectStaff::class);
         $this->app->bind(AcceptedProposalReader::class, ReadAcceptedProposal::class);
@@ -45,6 +59,9 @@ final class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        Event::listen(RequestChanged::class, [BusinessNotifications::class, 'intake']);
+        Event::listen(ProposalChanged::class, [BusinessNotifications::class, 'proposal']);
+        Event::listen(ProjectChanged::class, [BusinessNotifications::class, 'project']);
         TrustProxies::at(array_values(array_filter(Config::array('app.trusted_proxies'), is_string(...))));
         Model::preventLazyLoading(! $this->app->isProduction());
         Model::preventSilentlyDiscardingAttributes();

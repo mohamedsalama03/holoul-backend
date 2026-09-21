@@ -8,9 +8,13 @@ use App\Modules\Documents\Contracts\DocumentService;
 use App\Modules\Identity\Models\User;
 use App\Modules\ProjectIntake\Actions\ManageDraft;
 use App\Modules\ProjectIntake\Actions\SubmitRequest;
+use App\Modules\ProjectIntake\Events\RequestChanged;
 use App\Modules\ProjectIntake\Models\ProjectRequest;
+use App\Modules\Projects\Events\ProjectChanged;
+use App\Modules\Proposals\Events\ProposalChanged;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Tests\Support\CommercialFixtures;
@@ -35,17 +39,23 @@ final class MigrationUpgradeTest extends TestCase
             self::assertFalse(Schema::hasTable('proposals'));
             self::assertFalse(Schema::hasTable('discovery_records'));
             $this->initializeDocuments();
-            $owner = $this->documentOwner();
-            $user = User::query()->findOrFail($owner->userId);
-            $actor = $this->intakeActor($user);
-            $request = ProjectRequest::query()->findOrFail($owner->parentId);
-            app(ManageDraft::class)->update($actor, $request->id, $this->commercialEtag($request), $this->intakeInput(), (string) Str::uuid7());
-            $reservation = $this->reservation($owner);
-            $object = $this->uploadFixture($reservation);
-            DB::transaction(fn () => app(DocumentService::class)->finalize($owner, $reservation->documentId, $object));
-            DB::table('intake_draft_documents')->insert(['draft_id' => DB::table('request_drafts')->where('request_id', $request->id)->value('id'),
-                'request_id' => $request->id, 'customer_id' => $request->customer_id, 'document_id' => $reservation->documentId]);
-            app(SubmitRequest::class)->handle($actor, $request->id, $this->commercialEtag($request->refresh()), (string) Str::uuid7(), (string) Str::uuid7());
+            // Suppress only the B7 notification events while constructing the
+            // historical B4 fixture; all earlier domain behavior stays real.
+            $reservation = Event::fakeFor(function () {
+                $owner = $this->documentOwner();
+                $user = User::query()->findOrFail($owner->userId);
+                $actor = $this->intakeActor($user);
+                $request = ProjectRequest::query()->findOrFail($owner->parentId);
+                app(ManageDraft::class)->update($actor, $request->id, $this->commercialEtag($request), $this->intakeInput(), (string) Str::uuid7());
+                $reservation = $this->reservation($owner);
+                $object = $this->uploadFixture($reservation);
+                DB::transaction(fn () => app(DocumentService::class)->finalize($owner, $reservation->documentId, $object));
+                DB::table('intake_draft_documents')->insert(['draft_id' => DB::table('request_drafts')->where('request_id', $request->id)->value('id'),
+                    'request_id' => $request->id, 'customer_id' => $request->customer_id, 'document_id' => $reservation->documentId]);
+                app(SubmitRequest::class)->handle($actor, $request->id, $this->commercialEtag($request->refresh()), (string) Str::uuid7(), (string) Str::uuid7());
+
+                return $reservation;
+            }, [RequestChanged::class, ProposalChanged::class, ProjectChanged::class]);
             $tables = ['users', 'customers', 'roles', 'user_roles', 'sessions', 'identity_sessions', 'audit_events', 'async_operations', 'currencies',
                 'categories', 'subcategories', 'project_requests', 'request_drafts', 'request_revisions', 'request_assignments', 'information_requests',
                 'information_responses', 'information_resolutions', 'request_state_changes', 'intake_submission_keys', 'intake_notification_intents',
@@ -63,8 +73,8 @@ final class MigrationUpgradeTest extends TestCase
             $this->assertDatabaseCount('permissions', 17);
             $this->artisan('migrate', ['--force' => true])->assertExitCode(0);
             $this->artisan('migrate', ['--force' => true])->assertExitCode(0);
-            $this->assertDatabaseCount('migrations', 24);
-            $this->assertDatabaseCount('permissions', 42);
+            $this->assertDatabaseCount('migrations', 27);
+            $this->assertDatabaseCount('permissions', 50);
             foreach ($tables as $table) {
                 self::assertSame($before[$table], $this->snapshot($table, $columns[$table]), $table);
             }

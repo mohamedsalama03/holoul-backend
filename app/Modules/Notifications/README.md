@@ -1,3 +1,9 @@
 # Notifications
 
-Reserved module boundary from the approved B0 architecture. No domain implementation is authorized in B1. See docs/B0-ARCHITECTURE.md for ownership and permitted dependencies.
+Owns workflow notification inboxes, email preferences, delivery attempts and explicit operator replay. Business orchestration records a fixed safe template and resource references through `Contracts/NotificationRecorder` inside the authoritative transaction. PostgreSQL retains the logical notification and operation intent; Redis transports only its operation identifier.
+
+The SMTP adapter establishes a connection before sending. A positively known pre-send failure can retry at most five times with the shared bounded backoff. Any acknowledgement uncertainty or abandoned Processing attempt stops automatic sending. A lost success acknowledgement is never treated as a known rejection. Operator replay preserves the notification and attempt history; uncertain replay requires an explicit `confirmed_not_accepted` resolution after independent operator investigation. The same Message-ID is retained but SMTP does not guarantee exactly-once delivery.
+
+Emails contain fixed generic text, without private resource titles, descriptions, document content, provider payloads or permanent links. The recipient is resolved through Identity's read contract immediately before delivery. Current disabled/unverified identities and workflow-email preferences suppress sending while preserving the in-app record. B2 verification and recovery messages remain owned by Identity and cannot be disabled by these preferences.
+
+`notifications:reconcile` classifies abandoned attempts without sending them. Recipient APIs enforce ownership; operator APIs require explicit delivery permissions. Writes require current ETags and 72-hour idempotency receipts; replay additionally requires recent password confirmation. Notification payloads, terminal attempts, replay records and receipts are retained by database guards. Marketing, SMS and WhatsApp are outside B7.

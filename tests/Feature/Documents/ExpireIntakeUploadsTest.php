@@ -21,16 +21,16 @@ use App\Modules\ProjectIntake\Actions\TransitionRequest;
 use App\Modules\ProjectIntake\Models\ProjectRequest;
 use DateTimeImmutable;
 use Illuminate\Database\QueryException;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Tests\Support\CommercialDatabase;
 use Tests\Support\DocumentFixtures;
 use Tests\TestCase;
 
 final class ExpireIntakeUploadsTest extends TestCase
 {
-    use DatabaseMigrations;
+    use CommercialDatabase;
     use DocumentFixtures;
 
     protected function setUp(): void

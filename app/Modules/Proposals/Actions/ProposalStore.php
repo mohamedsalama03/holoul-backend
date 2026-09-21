@@ -7,8 +7,10 @@ namespace App\Modules\Proposals\Actions;
 use App\Modules\Audit\Actions\RecordAuditEvent;
 use App\Modules\Audit\Data\SafeAuditMetadata;
 use App\Modules\ProjectIntake\Contracts\CommercialContext;
+use App\Modules\Proposals\Events\ProposalChanged;
 use App\Modules\Proposals\Models\Proposal;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -47,5 +49,8 @@ final readonly class ProposalStore
             'actor_id' => $actor, 'version' => $proposal->lock_version, 'reason' => $reason, 'correlation_id' => $correlation]);
         $this->audit->handle('proposals.'.$event, 'proposals.proposal', $proposal->id, $correlation, $actor,
             new SafeAuditMetadata(['outcome' => 'succeeded']));
+        if (in_array($event, ['issued', 'accepted', 'declined'], true)) {
+            Event::dispatch(new ProposalChanged($proposal->id, $proposal->request_id, $event, $proposal->lock_version, $correlation));
+        }
     }
 }
