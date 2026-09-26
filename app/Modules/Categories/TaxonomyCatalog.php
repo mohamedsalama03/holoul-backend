@@ -104,7 +104,7 @@ final class TaxonomyCatalog
 
         if (! is_array($value) || array_keys($value) !== [0, 1] || ! is_int($value[0]) || $value[0] < 0 || $value[0] > 1_000_000
             || ! is_string($value[1]) || ! Str::isUuid($value[1])) {
-            throw ValidationException::withMessages(['after' => 'The pagination cursor is invalid.']);
+            throw ValidationException::withMessages(['cursor' => 'The pagination cursor is invalid.']);
         }
 
         return [$value[0], $value[1]];

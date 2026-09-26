@@ -127,6 +127,40 @@ final readonly class ManageDocuments implements DocumentService
         return $this->view($this->find($owner, $documentId, $lock));
     }
 
+    public function metadataMany(DocumentOwner $owner, array $documentIds): array
+    {
+        self::requireTransaction();
+        if (count($documentIds) > 100 || count(array_unique($documentIds)) !== count($documentIds)) {
+            throw ValidationException::withMessages(['documents' => 'At most 100 distinct document identifiers are allowed.']);
+        }
+        foreach ($documentIds as $id) {
+            if (! Str::isUuid($id, 7)) {
+                throw new HttpException(404);
+            }
+        }
+        if ($documentIds === []) {
+            return [];
+        }
+        $documents = Document::query()->whereIn('id', $documentIds)->where('parent_id', $owner->parentId)
+            ->where('customer_id', $owner->customerId)->where('customer_user_id', $owner->userId)
+            ->orderBy('id')->sharedLock()->get(['id', 'parent_id', 'customer_id', 'display_name', 'format',
+                'expected_size', 'state', 'lock_version', 'manual_scan_retries', 'scan_operation_id']);
+        if ($documents->count() !== count($documentIds)) {
+            throw new HttpException(404);
+        }
+        $candidates = $documents->filter(static fn (Document $document): bool => $document->state === DocumentState::Quarantined
+            && $document->manual_scan_retries < DocumentPolicy::MANUAL_SCAN_RETRIES && $document->scan_operation_id !== null);
+        $failed = $candidates->isEmpty() ? [] : AsyncOperation::query()->whereIn('id', $candidates->pluck('scan_operation_id'))
+            ->where('state', 'failed')->pluck('id')->all();
+        $views = [];
+        foreach ($documents as $document) {
+            $views[$document->id] = $this->view($document, $candidates->contains('id', $document->id)
+                && in_array($document->scan_operation_id, $failed, true));
+        }
+
+        return $views;
+    }
+
     public function lockAttachable(DocumentOwner $owner, string $documentId): DocumentView
     {
         $document = $this->find($owner, $documentId, true);
@@ -199,10 +233,10 @@ final readonly class ManageDocuments implements DocumentService
         $this->event('download_started', $document, $owner);
     }
 
-    public function view(Document $document): DocumentView
+    public function view(Document $document, ?bool $retryable = null): DocumentView
     {
         return new DocumentView($document->id, $document->parent_id, $document->customer_id, $document->display_name,
-            $document->format, $document->expected_size, $document->state, $document->lock_version, $this->retryable($document));
+            $document->format, $document->expected_size, $document->state, $document->lock_version, $retryable ?? $this->retryable($document));
     }
 
     private function retryable(Document $document): bool

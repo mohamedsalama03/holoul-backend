@@ -25,6 +25,13 @@ final readonly class ReadIntake
 {
     public function __construct(private IntakeStore $store) {}
 
+    /** Authorized read composition; selected fields exclude draft/revision content. */
+    public function customerDirectoryScope(IntakeActor $actor): QueryBuilder
+    {
+        return $this->store->policy->scope(ProjectRequest::query(), $actor)
+            ->select(['id', 'customer_id', 'reference', 'state', 'created_at'])->toBase();
+    }
+
     /** @param array<string,mixed> $filters
      * @return array<string,mixed>
      */

@@ -21,8 +21,8 @@ final readonly class AssignRequest
         return DB::transaction(function () use ($actor, $id, $etag, $assigneeId, $requestId): ProjectRequest {
             $record = $this->store->mutable($actor, $id, $etag);
             $this->store->policy->staff($actor, $record, 'intake.assign', false);
-            if (! in_array($record->state, [RequestState::Submitted, RequestState::UnderReview, RequestState::InformationRequired, RequestState::Discovery, RequestState::Proposal, RequestState::Approved], true)
-                || $record->assigned_staff_id === $assigneeId) {
+            $this->requireOpen($record);
+            if ($record->assigned_staff_id === $assigneeId) {
                 throw new HttpException(409);
             }
             DB::table('request_assignments')->insert(['id' => (string) Str::uuid7(), 'request_id' => $id,
@@ -34,5 +34,12 @@ final readonly class AssignRequest
 
             return $record;
         });
+    }
+
+    public function requireOpen(ProjectRequest $record): void
+    {
+        if (! in_array($record->state, [RequestState::Submitted, RequestState::UnderReview, RequestState::InformationRequired, RequestState::Discovery, RequestState::Proposal, RequestState::Approved], true)) {
+            throw new HttpException(409);
+        }
     }
 }

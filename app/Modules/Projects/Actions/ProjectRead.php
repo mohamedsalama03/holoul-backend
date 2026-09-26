@@ -16,6 +16,18 @@ final readonly class ProjectRead
 {
     public function __construct(private ProjectStore $store, private AcceptedProposalReader $baseline) {}
 
+    public function customerDirectoryScope(ProjectActor $actor): Builder
+    {
+        return $this->store->scoped($actor)->select(['id', 'customer_id', 'reference', 'state', 'created_at'])->toBase();
+    }
+
+    public function activeMemberIds(ProjectActor $actor, Project $project): Builder
+    {
+        $this->store->staff($actor, $project, 'projects.team.manage', true);
+
+        return DB::table('project_members')->where('project_id', $project->id)->where('active', true)->select('user_id');
+    }
+
     /** @return array<string,mixed> */
     public function listing(ProjectActor $actor, ?string $after, int $limit, ?string $state = null): array
     {

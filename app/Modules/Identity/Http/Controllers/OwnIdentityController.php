@@ -14,14 +14,14 @@ final class OwnIdentityController
 {
     public function show(Request $request, OwnIdentity $action): JsonResponse
     {
-        return response()->json(['data' => $action->read($request)]);
+        return response()->json(['data' => $action->read($request)], headers: ['Cache-Control' => 'private, no-store']);
     }
 
     public function update(NameRequest $request, OwnIdentity $action): JsonResponse
     {
         $action->update($request, $request->string('full_name')->toString());
 
-        return response()->json(['data' => $action->read($request)]);
+        return response()->json(['data' => $action->read($request)], headers: ['Cache-Control' => 'private, no-store']);
     }
 
     public function sessions(Request $request, OwnIdentity $action): JsonResponse

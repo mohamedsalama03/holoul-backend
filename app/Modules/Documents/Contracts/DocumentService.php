@@ -21,6 +21,14 @@ interface DocumentService
 
     public function metadata(DocumentOwner $owner, string $documentId, bool $lock = false): DocumentView;
 
+    /**
+     * At most 100 distinct identifiers; every document must match the exact owner.
+     *
+     * @param  list<string>  $documentIds
+     * @return array<string,DocumentView>
+     */
+    public function metadataMany(DocumentOwner $owner, array $documentIds): array;
+
     public function lockAttachable(DocumentOwner $owner, string $documentId): DocumentView;
 
     public function requestDeletion(DocumentOwner $owner, string $documentId): DocumentView;

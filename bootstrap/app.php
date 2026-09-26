@@ -9,6 +9,7 @@ use App\Infrastructure\Exceptions\SafeExceptionHandler;
 use App\Infrastructure\Http\ApiError;
 use App\Infrastructure\Http\RequestId;
 use App\Infrastructure\Http\RequestLimits;
+use App\Infrastructure\Operations\HttpTelemetry;
 use App\Modules\Identity\Http\ExactOrigin;
 use App\Modules\Identity\Http\SecurityThrottle;
 use App\Modules\Identity\Http\SessionAuthenticated;
@@ -40,6 +41,7 @@ $app = Application::configure(basePath: dirname(__DIR__))
     ->withCommands([ReconcileOperationsCommand::class, ExpireProposalsCommand::class, ExpireProjectUploadsCommand::class])
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->prepend(RequestId::class);
+        $middleware->prepend(HttpTelemetry::class);
         $middleware->append(RequestLimits::class);
         $middleware->group('identity.spa', [
             ExactOrigin::class,

@@ -43,7 +43,8 @@ RUN --mount=type=cache,id=holoul-composer-v2,target=/home/holoul/.cache/composer
 
 FROM dependencies AS production-build
 COPY --chown=holoul:holoul . .
-RUN composer dump-autoload --no-dev --classmap-authoritative --no-scripts \
+RUN rm -rf tools/local-e2e \
+    && composer dump-autoload --no-dev --classmap-authoritative --no-scripts \
     && php artisan package:discover --no-ansi
 
 # Production inherits only the shared runtime layer and compiled extensions.

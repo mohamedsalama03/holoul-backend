@@ -14,12 +14,17 @@ use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Str;
 
 require dirname(__DIR__, 2).'/vendor/autoload.php';
 $app = require dirname(__DIR__, 2).'/bootstrap/app.php';
 $app->make(Kernel::class)->bootstrap();
+// Preserve the production formatter/redaction and HTTP termination hooks while
+// reserving this subprocess's stdout for its single machine-readable result.
+Config::set('logging.channels.stdout.handler_with.stream', 'php://stderr');
+Log::forgetChannel('stdout');
 if (! $app->environment('testing') || DB::connection()->getDatabaseName() !== 'holoul_test') {
     throw new LogicException('Dedicated PostgreSQL test database required.');
 }

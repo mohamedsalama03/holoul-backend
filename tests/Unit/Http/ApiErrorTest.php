@@ -16,6 +16,18 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 final class ApiErrorTest extends TestCase
 {
+    public function test_filtered_validation_fields_keep_the_object_contract_when_empty(): void
+    {
+        $validator = new Validator(new Translator(new ArrayLoader, 'en'), [], []);
+        $validator->errors()->merge(['/private/file' => ['private provider detail']]);
+        $response = ApiError::render(new ValidationException($validator), Request::create('/api/v1/test'));
+        $body = json_decode($response->getContent(), false, flags: JSON_THROW_ON_ERROR);
+
+        self::assertInstanceOf(\stdClass::class, $body->error->fields);
+        self::assertSame([], get_object_vars($body->error->fields));
+        self::assertStringNotContainsString('private', $response->getContent());
+    }
+
     public function test_private_validator_messages_and_malformed_field_names_are_not_returned(): void
     {
         $validator = new Validator(new Translator(new ArrayLoader, 'en'), [], []);

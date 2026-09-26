@@ -16,6 +16,27 @@ final class TaxonomyHttpValidationTest extends TestCase
     use IdentityHttp;
     use IntakeFixtures;
 
+    public function test_invalid_cursor_errors_identify_the_public_query_parameter(): void
+    {
+        $this->initializeBrowser();
+        $this->signIn($this->intakeStaff('administrator'))->assertAccepted();
+        $secret = $this->browser('POST', '/api/v1/auth/mfa/enrollment')->assertOk()->json('data.secret');
+        $this->browser('POST', '/api/v1/auth/mfa/enrollment/confirm', ['code' => (new Google2FA)->getCurrentOtp($secret)])->assertOk();
+        $category = $this->browser('POST', '/api/v1/admin/categories',
+            ['name' => 'Cursor category', 'slug' => 'cursor-category', 'active' => true, 'display_order' => 0])->assertCreated();
+        $categoryId = $category->json('data.id');
+
+        foreach (['bad', str_repeat('a', 201)] as $cursor) {
+            foreach (['/api/v1/categories', '/api/v1/admin/categories',
+                '/api/v1/categories/'.$categoryId.'/subcategories', '/api/v1/admin/categories/'.$categoryId.'/subcategories'] as $path) {
+                $this->browser('GET', $path.'?cursor='.$cursor)->assertUnprocessable()
+                    ->assertJsonPath('error.code', 'VALIDATION_FAILED')
+                    ->assertJsonPath('error.fields.cursor', ['This field is invalid.'])
+                    ->assertJsonMissingPath('error.fields.after');
+            }
+        }
+    }
+
     public function test_reorder_requires_native_integer_without_partially_applying_other_fields(): void
     {
         $this->initializeBrowser();

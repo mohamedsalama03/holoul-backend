@@ -1,6 +1,6 @@
 name: holoul
 x-application: &application
-  image: ${HOLOUL_APP_IMAGE:-holoul-app:b7-development}
+  image: ${HOLOUL_APP_IMAGE:-holoul-app:b8-development}
   build:
     context: .
     target: development
@@ -15,6 +15,11 @@ x-application: &application
   security_opt: [no-new-privileges:true]
   environment: &application-env
     APP_ENV: ${HOLOUL_APP_ENV:-local}
+    # Explicit synthetic local topology, including production-image smoke tests.
+    # This is not a production deployment approval or a public ingress profile.
+    HOLOUL_DEPLOYMENT_PROFILE: ${HOLOUL_DEPLOYMENT_PROFILE:-local-verification}
+    HOLOUL_PROCESS_ROLE: app
+    HOLOUL_WORKER_SLOT: '1'
     APP_URL: https://localhost:${HOLOUL_HTTPS_PORT:-8443}
     APP_KEY_FILE: /run/holoul-secrets/app_key
     APP_TRUSTED_HOSTS: localhost,127.0.0.1
@@ -65,6 +70,7 @@ services:
       - documents_storage_client:/run/holoul-storage
     environment:
       APP_ENV: local
+      HOLOUL_DEPLOYMENT_PROFILE: local-verification
 
   postgres:
     image: holoul-postgres:b1-runtime
@@ -128,6 +134,7 @@ services:
     environment:
       <<: *application-env
       DB_USERNAME: holoul_migrator
+      HOLOUL_PROCESS_ROLE: migration
       DB_PASSWORD_FILE: /run/holoul-migrator/password
     volumes:
       - app_secrets:/run/holoul-secrets:ro
@@ -149,6 +156,9 @@ services:
 
   queue:
     <<: *application
+    environment:
+      <<: *application-env
+      HOLOUL_PROCESS_ROLE: default
     command: [php, artisan, queue:work, redis, --queue=default, --sleep=1, --tries=1, --timeout=30, --max-time=3600, --no-interaction]
     stop_grace_period: 45s
     depends_on:
@@ -163,6 +173,9 @@ services:
 
   scheduler:
     <<: *application
+    environment:
+      <<: *application-env
+      HOLOUL_PROCESS_ROLE: scheduler
     command: [php, artisan, schedule:work, --no-interaction]
     stop_grace_period: 45s
     depends_on:
@@ -177,6 +190,9 @@ services:
 
   document-queue:
     <<: *application
+    environment:
+      <<: *application-env
+      HOLOUL_PROCESS_ROLE: documents
     command: [php, artisan, queue:work, documents, --queue=documents, --sleep=1, --tries=1, --timeout=120, --max-time=3600, --no-interaction]
     stop_grace_period: 135s
     depends_on:
@@ -192,6 +208,9 @@ services:
 
   ai-queue:
     <<: *application
+    environment:
+      <<: *application-env
+      HOLOUL_PROCESS_ROLE: ai
     command: [php, artisan, queue:work, ai, --queue=ai, --sleep=1, --tries=1, --timeout=120, --max-time=3600, --no-interaction]
     stop_grace_period: 135s
     depends_on:
@@ -203,6 +222,23 @@ services:
       interval: 30s
       timeout: 3s
       retries: 5
+      start_period: 30s
+
+  notification-queue:
+    <<: *application
+    environment:
+      <<: *application-env
+      HOLOUL_PROCESS_ROLE: notifications
+    command: [php, artisan, queue:work, notifications, --queue=notifications, --sleep=1, --tries=1, --timeout=30, --max-time=3600, --no-interaction]
+    stop_grace_period: 45s
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, php, docker/app/check-health.php, queue]
+      interval: 15s
+      timeout: 3s
+      retries: 4
       start_period: 30s
 
   nginx:
@@ -354,7 +390,7 @@ services:
     pids_limit: 32
 
   inspector:
-    image: holoul-inspector:b7-runtime
+    image: holoul-inspector:b8-runtime
     build:
       context: .
       dockerfile: docker/documents/inspector/Dockerfile

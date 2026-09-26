@@ -272,6 +272,10 @@ final class IdentityHttpTest extends TestCase
         Config::set('database.redis.cache.host', '127.0.0.1');
         Config::set('database.redis.cache.port', 1);
         app('redis')->purge('cache');
+        // The initial CSRF response emits telemetry and resolves Redis early.
+        // Rebuild its configuration snapshot so this probe reaches the closed port.
+        app()->forgetInstance('redis');
+        Redis::clearResolvedInstance('redis');
         $this->browser('POST', '/api/v1/auth/register', $this->registration())->assertStatus(503);
         $this->browser('POST', '/api/v1/auth/login', ['email' => 'missing@example.test', 'password' => 'wrong'])->assertStatus(503);
         $this->browser('POST', '/api/v1/auth/password/forgot', ['email' => 'missing@example.test'])->assertStatus(503);

@@ -9,6 +9,16 @@ use Illuminate\Support\Facades\Config;
 /** Transport/execution policy remains infrastructure-owned and identifier-only. */
 final class OperationPolicy
 {
+    public static function queue(string $kind): string
+    {
+        return match (true) {
+            self::documents($kind) => 'documents',
+            $kind === 'ai.generate' => 'ai',
+            $kind === 'notifications.email' => 'notifications',
+            default => 'default',
+        };
+    }
+
     public static function documents(string $kind): bool
     {
         return in_array($kind, ['documents.scan', 'documents.delete', 'documents.delete_orphan'], true);

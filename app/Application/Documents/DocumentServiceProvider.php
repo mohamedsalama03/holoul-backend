@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Documents;
 
 use App\Infrastructure\Async\OperationHandlerRegistry;
+use App\Infrastructure\Operations\MetricRecorder;
 use App\Modules\Documents\Actions\ExtractDocumentText;
 use App\Modules\Documents\Actions\ManageDocuments;
 use App\Modules\Documents\Adapters\ClamAvScanner;
@@ -32,9 +33,9 @@ final class DocumentServiceProvider extends ServiceProvider
         $this->app->bind(DocumentTextService::class, ExtractDocumentText::class);
         $this->app->bind(DocumentTextExtractor::class, fn (): DocumentTextExtractor => new IsolatedDocumentTextExtractor(Config::string('documents.inspector_socket')));
         $this->app->bind(DocumentReferences::class, RetainedDocumentReferences::class);
-        $this->app->bind(PrivateObjectStore::class, fn (): PrivateObjectStore => S3AdapterFactory::create(
+        $this->app->bind(PrivateObjectStore::class, fn (): PrivateObjectStore => new ObservedObjectStore(S3AdapterFactory::create(
             Config::string('documents.s3.endpoint'), Config::string('documents.s3.region'), Config::string('documents.s3.bucket'),
-            Config::string('documents.s3.access_key'), Config::string('documents.s3.secret_key'), Config::string('documents.s3.ca_bundle')));
+            Config::string('documents.s3.access_key'), Config::string('documents.s3.secret_key'), Config::string('documents.s3.ca_bundle')), $this->app->make(MetricRecorder::class)));
         $this->app->bind(MalwareScanner::class, fn (): MalwareScanner => new ClamAvScanner(Config::string('documents.scanner_socket'), Config::integer('documents.max_signature_age_seconds')));
         $this->app->bind(DocumentInspector::class, fn (): DocumentInspector => new IsolatedDocumentInspector(Config::string('documents.inspector_socket')));
     }

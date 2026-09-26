@@ -10,6 +10,7 @@ enum Permission: string
     case UpdateOwnIdentity = 'identity.self.update';
     case ReadOwnCustomer = 'customers.self.read';
     case UpdateOwnCustomer = 'customers.self.update';
+    case ReadCustomerDirectory = 'customers.directory.read';
     case ReadStaff = 'identity.staff.read';
     case ManageStaff = 'identity.staff.manage';
     case ManageSecurity = 'identity.security.manage';
@@ -56,4 +57,6 @@ enum Permission: string
     case ManageOwnNotifications = 'notifications.self.manage';
     case ReadNotificationDelivery = 'notifications.delivery.read';
     case ReplayNotificationDelivery = 'notifications.delivery.replay';
+    case ReadReporting = 'reporting.read';
+    case InvestigateAudit = 'audit.investigate';
 }

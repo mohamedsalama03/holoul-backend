@@ -4,15 +4,22 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Health;
 
+use App\Infrastructure\Configuration\ProductionConfiguration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Throwable;
 
 final class Readiness
 {
+    public function __construct(private readonly ProductionConfiguration $configuration) {}
+
     public function ready(): bool
     {
         try {
+            if ($this->configuration->violations() !== []) {
+                return false;
+            }
+
             return DB::scalar('SHOW transaction_read_only') === 'off'
                 && Schema::hasTable('sessions')
                 && Schema::hasTable('audit_events')

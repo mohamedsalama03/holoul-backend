@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Async;
 
+use App\Infrastructure\Operations\MetricRecorder;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
@@ -12,7 +13,7 @@ use Throwable;
 
 final readonly class OperationRunner
 {
-    public function __construct(private OperationHandlerRegistry $handlers) {}
+    public function __construct(private OperationHandlerRegistry $handlers, private MetricRecorder $metrics = new MetricRecorder) {}
 
     public function run(string $operationId): void
     {
@@ -23,6 +24,10 @@ final readonly class OperationRunner
         }
 
         Log::withContext(['operation_id' => $claim->id, 'request_id' => $claim->requestId]);
+        $started = hrtime(true);
+        if ($claim->attempt === 1) {
+            $this->metrics->operation(OperationPolicy::queue($claim->kind), 'queue_wait', $claim->queueWaitMs);
+        }
 
         try {
             $writer = $this->handlers->for($claim->kind)->execute($claim);
@@ -36,6 +41,7 @@ final readonly class OperationRunner
         } catch (Throwable) {
             $this->fail($claim, 'execution_failed', true);
         } finally {
+            $this->metrics->operation(OperationPolicy::queue($claim->kind), 'execution', (int) ((hrtime(true) - $started) / 1_000_000));
             Log::withoutContext();
         }
     }
@@ -44,6 +50,7 @@ final readonly class OperationRunner
     {
         return DB::transaction(function () use ($operationId): ?OperationClaim {
             $operation = AsyncOperation::query()->whereKey($operationId)
+                ->select('*')->selectRaw('greatest(0,extract(epoch FROM clock_timestamp()-created_at)*1000) AS queue_wait_ms')
                 ->where(function (Builder $query): void {
                     $query->where(function (Builder $pending): void {
                         $pending->where('state', OperationState::Pending->value)
@@ -81,6 +88,7 @@ final readonly class OperationRunner
             return new OperationClaim(
                 $operation->id, $operation->kind, $operation->references,
                 $operation->fence + 1, $operation->attempts + 1, $operation->request_id,
+                is_numeric($operation->getAttribute('queue_wait_ms')) ? (int) $operation->getAttribute('queue_wait_ms') : 0,
             );
         });
     }

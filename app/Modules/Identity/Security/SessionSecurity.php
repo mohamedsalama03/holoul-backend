@@ -92,10 +92,17 @@ final class SessionSecurity
 
     public function requireRecentPassword(Request $request): void
     {
-        $confirmed = $request->session()->get('identity.password_confirmed_at');
-        if (! is_int($confirmed) || $confirmed > now()->getTimestamp() || $confirmed <= now()->getTimestamp() - Config::integer('identity.recent_password_seconds')) {
+        if (! $this->hasRecentPassword($request)) {
             throw new HttpException(403);
         }
+    }
+
+    public function hasRecentPassword(Request $request): bool
+    {
+        $confirmed = $request->session()->get('identity.password_confirmed_at');
+
+        return is_int($confirmed) && $confirmed <= now()->getTimestamp()
+            && $confirmed > now()->getTimestamp() - Config::integer('identity.recent_password_seconds');
     }
 
     /** Returns the new credential generation, not a session count. */

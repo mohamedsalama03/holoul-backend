@@ -58,7 +58,7 @@ final class ApiError
                 }
             }
 
-            $body['error']['fields'] = $fields;
+            $body['error']['fields'] = (object) $fields;
         }
 
         $headers = ['X-Request-ID' => $id, 'Cache-Control' => 'no-store'];

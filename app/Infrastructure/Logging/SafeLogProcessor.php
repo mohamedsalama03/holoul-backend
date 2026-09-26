@@ -19,12 +19,12 @@ final class SafeLogProcessor implements ProcessorInterface
                 $context[$key] = $value;
             }
 
-            if (in_array($key, ['exception_type', 'error_code', 'queue'], true)
+            if (in_array($key, ['exception_type', 'error_code', 'queue', 'family', 'method'], true)
                 && is_string($value) && preg_match('/\A[A-Za-z0-9_.\\\\-]{1,160}\z/D', $value) === 1) {
                 $context[$key] = $value;
             }
 
-            if (in_array($key, ['attempt', 'status', 'duration_ms'], true) && is_int($value) && $value >= 0) {
+            if (in_array($key, ['attempt', 'status', 'duration_ms', 'query_count', 'sql_duration_ms'], true) && is_int($value) && $value >= 0) {
                 $context[$key] = $value;
             }
         }

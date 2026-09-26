@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Modules\Identity\Actions;
 
 use App\Modules\Audit\Actions\RecordAuditEvent;
+use App\Modules\Identity\Authorization\Role;
+use App\Modules\Identity\Authorization\RoleAuthority;
+use App\Modules\Identity\Contracts\AuthorizedIdentity;
 use App\Modules\Identity\Models\IdentitySession;
 use App\Modules\Identity\Models\User;
 use App\Modules\Identity\Security\IdentityInput;
@@ -16,14 +19,27 @@ use Illuminate\Support\Facades\DB;
 
 final readonly class OwnIdentity
 {
-    public function __construct(private SessionSecurity $sessions, private RecordAuditEvent $audit) {}
+    public function __construct(private SessionSecurity $sessions, private RecordAuditEvent $audit,
+        private WithAuthorizedIdentity $identity, private RoleAuthority $authority, private CurrentCapabilities $capabilities) {}
 
-    /** @return array{id: string, full_name: string, email: string, email_display: string, kind: string, email_verified: bool} */
+    /** @return array<string,mixed> */
     public function read(Request $request): array
     {
-        $user = $this->sessions->authenticated($request);
+        return $this->identity->handle($request, function (AuthorizedIdentity $actor) use ($request): array {
+            $user = $this->sessions->authenticated($request);
+            $recent = $this->sessions->hasRecentPassword($request);
+            $confirmed = $request->session()->get('identity.password_confirmed_at');
+            $expires = is_int($confirmed) && $confirmed <= now()->getTimestamp()
+                ? now()->setTimestamp($confirmed)->addSeconds(Config::integer('identity.recent_password_seconds'))->toIso8601String() : null;
 
-        return ['id' => $user->id, 'full_name' => $user->full_name, 'email' => $user->email, 'email_display' => $user->email_display, 'kind' => $user->kind, 'email_verified' => $user->email_verified_at !== null];
+            return ['id' => $user->id, 'full_name' => $user->full_name, 'email' => $user->email, 'email_display' => $user->email_display,
+                'kind' => $user->kind, 'email_verified' => $actor->verifiedEmail,
+                'roles' => array_map(static fn (Role $role): string => $role->value, $this->authority->roles($actor->id)),
+                'capabilities' => $this->capabilities->forSession($actor, $recent),
+                'mfa_required' => $actor->kind === 'staff',
+                'mfa_satisfied' => $actor->kind !== 'staff' || $request->session()->get('identity.mfa_verified') === true,
+                'recent_password_confirmation' => ['required' => ! $recent, 'expires_at' => $expires]];
+        });
     }
 
     public function update(Request $request, string $name): void

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Queue;
 
+use App\Infrastructure\Async\RunAIOperationJob;
 use App\Infrastructure\Async\RunDocumentOperationJob;
 use App\Infrastructure\Async\RunOperationJob;
 use Illuminate\Queue\CallQueuedHandler;
@@ -13,7 +14,7 @@ use JsonException;
 /** Closed identifier-only durable-operation transport envelopes. */
 final readonly class CanonicalOperationPayload
 {
-    private function __construct(public string $uuid, public string $operationId, public bool $documents = false) {}
+    private function __construct(public string $uuid, public string $operationId, public bool $documents = false, public bool $ai = false) {}
 
     public static function fromJson(string $payload): ?self
     {
@@ -37,7 +38,7 @@ final readonly class CanonicalOperationPayload
 
         if (! is_string($uuid) || ! Str::isUuid($uuid) || ! is_string($command)
             || ($decoded['job'] ?? null) !== CallQueuedHandler::class.'@call'
-            || ! in_array($commandName, [RunOperationJob::class, RunDocumentOperationJob::class], true)) {
+            || ! in_array($commandName, [RunOperationJob::class, RunDocumentOperationJob::class, RunAIOperationJob::class], true)) {
             return null;
         }
 
@@ -47,17 +48,25 @@ final readonly class CanonicalOperationPayload
             || ! Str::isUuid($matches[1], 7)) {
             return null;
         }
-        $job = $commandName === RunDocumentOperationJob::class ? new RunDocumentOperationJob($matches[1]) : new RunOperationJob($matches[1]);
+        $job = match ($commandName) {
+            RunDocumentOperationJob::class => new RunDocumentOperationJob($matches[1]),
+            RunAIOperationJob::class => new RunAIOperationJob($matches[1]),
+            default => new RunOperationJob($matches[1]),
+        };
         if (! hash_equals(serialize($job), $command)) {
             return null;
         }
 
-        return new self($uuid, $matches[1], $commandName === RunDocumentOperationJob::class);
+        return new self($uuid, $matches[1], $commandName === RunDocumentOperationJob::class, $commandName === RunAIOperationJob::class);
     }
 
     public function toJson(): string
     {
-        $job = $this->documents ? new RunDocumentOperationJob($this->operationId) : new RunOperationJob($this->operationId);
+        $job = match (true) {
+            $this->documents => new RunDocumentOperationJob($this->operationId),
+            $this->ai => new RunAIOperationJob($this->operationId),
+            default => new RunOperationJob($this->operationId),
+        };
 
         // Rebuild framework fields from constants. Context hooks and unknown
         // transport fields must never enter durable failed-job storage.

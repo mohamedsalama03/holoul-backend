@@ -11,6 +11,8 @@ require __DIR__.'/commercial.php';
 require __DIR__.'/projects.php';
 require __DIR__.'/ai.php';
 require __DIR__.'/notifications.php';
+require __DIR__.'/reporting.php';
+require __DIR__.'/admin-integration.php';
 
 Route::get('/', fn () => response()->json(
     ['data' => ['service' => 'HOLOUL', 'api_version' => 'v1']],

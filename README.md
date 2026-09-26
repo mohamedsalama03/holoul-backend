@@ -1,4 +1,4 @@
-# HOLOUL backend — B7 AI assistance and notifications
+# HOLOUL backend — B8 operations and production readiness
 
 Laravel modular monolith implementing infrastructure, Identity, Customers,
 Categories, Project Intake, private Documents, Discovery, Proposals, Projects,
@@ -18,7 +18,12 @@ milestones and private project documents are in [B6 implementation](docs/B6-IMPL
 AI source/cost controls and notification delivery are in [B7 implementation](docs/B7-IMPLEMENTATION.md).
 The initial AI adapter is a local deterministic sandbox, disabled by default;
 external provider/privacy/spending approval remains outstanding.
-Reporting, analytics, payments, public proposal sharing and B8 launch work remain unimplemented.
+Staff reports and restricted audit investigation are documented in [B8 reporting](docs/B8-REPORTING.md).
+See [operational observations](docs/B8-OBSERVABILITY.md), [performance evidence](docs/B8-PERFORMANCE.md),
+[backup and restore](docs/B8-BACKUP-RESTORE.md), [deployment and recovery](docs/B8-DEPLOYMENT-RECOVERY.md),
+and the explicit [production launch checklist](docs/B8-LAUNCH-CHECKLIST.md).
+The local verification stack is not a commissioned production deployment.
+Payments and public proposal sharing remain outside the authorized scope.
 The [B3 permission matrix](docs/B3-AUTHORIZATION.md) defines staff intake access;
 the [approved B3 baseline](docs/B4-BASELINE.md) records the B4 starting commit.
 
@@ -65,21 +70,22 @@ provides API endpoints; a frontend and recovery-link pages are not included.
 Startup creates random development secrets in project-scoped named volumes,
 initializes PostgreSQL roles/databases once, runs schema migrations as
 `holoul_migrator`, then starts runtime services. Bootstrap and migration jobs use the
-same image and exit after success. App/queue/document-queue/ai-queue/scheduler receive only application
+same image and exit after success. App/queue/document-queue/ai-queue/notification-queue/scheduler receive only application
 credentials; no migrator/bootstrap secrets. No credentials are printed, tracked,
 or baked into images.
 
 `GET /health/live` checks process availability. `GET /health/ready` checks
-PostgreSQL, infrastructure schema and required runtime writes; Redis is excluded.
+safe configuration, PostgreSQL, infrastructure schema and required runtime writes; Redis is excluded.
 `GET /api/v1` returns the minimal API envelope. B2 supplies the cookie/session
 endpoints; B3 adds 38 taxonomy and intake routes. B4 adds eight document routes,
-and B5 adds 26 discovery/proposal routes. B6 adds 37 project routes and B7 adds 16 assistance/notification routes, for 155 route definitions in total.
+and B5 adds 26 discovery/proposal routes. B6 adds 37 project routes, B7 adds 16 assistance/notification routes,
+and B8 adds five staff reporting/audit routes, for 160 route definitions in total.
 GET routes also accept HEAD and count as one definition. The implementation
 documents above list the exact endpoints and access requirements.
 
 ~~~sh
 docker compose ps --all
-docker compose logs --follow app queue document-queue ai-queue scheduler
+docker compose logs --follow app queue document-queue ai-queue notification-queue scheduler
 docker compose run --rm verify vendor/bin/phpunit
 bash scripts/verify.sh
 ~~~
@@ -88,7 +94,8 @@ The tools-profile verification container uses separate `holoul_test` and migrati
 credentials. Never aim it at real data. Verification checks isolation before fresh
 migrations and records output under ignored `artifacts/`. It builds development and
 production images, exercises PostgreSQL/Redis and health, and runs pinned security
-scans. The inherited upgrades through B6 and exact B6 → B7 upgrade tests preserve
+scans, measured workloads, and an encrypted synthetic backup/restore drill. The inherited upgrades
+and exact B7 → B8 upgrade tests preserve
 baseline schema and record checks. B3 adds workflow, assignment, immutable revision,
 money, idempotency, isolation and concurrency coverage. Only the development image
 contains testing dependencies. The production
@@ -222,7 +229,33 @@ Use expand/contract schema changes compatible with old/new instances. PostgreSQL
 backup/PITR, restore drills, external monitoring, TLS and hosting remain launch
 gates in later batches.
 
-## CI
+## B8-P3 frontend integration candidate
+
+The [B8-P3 integration guide](docs/B8-P3-ADMIN-INTEGRATION.md),
+[OpenAPI 3.1 contract](docs/openapi.json), [current endpoint matrix](docs/API-ENDPOINT-MATRIX.md)
+and [B8-P3 verification](docs/B8-P3-VERIFICATION.md) describe B1–B7 plus the uncommitted B8
+candidate. The [B8-P2 review](docs/B8-P2-REVIEW.md) and its matrix/evidence remain historical snapshots.
+Production performance certification remains pending the target VPS.
+No production-ready release is implied.
+
+With the local PostgreSQL/Redis verification stack already initialized, use
+`bash scripts/verify-contracts.sh <unique-run-name>` for the independent review
+gate. It does not rerun performance or replace the running application stack.
+Reviewed JSON fragments are canonical; `scripts/contracts/build.py` assembles
+the public spec/matrix and checks an explicitly reviewed source manifest.
+The ordinary full verification script also includes contract validation before
+its unchanged performance acceptance gate. Synthetic response captures can
+contain test MFA/recovery material: keep them private and share summary reports.
+
+## F1-E1 local dashboard integration
+
+The [local integration guide](docs/F1-E1-LOCAL-INTEGRATION.md) explains the
+`https://localhost:8443/admin` route, private synthetic E2E identities and reset
+command. [Verification](docs/F1-E1-VERIFICATION.md) records routing/security
+checks and the remaining F1 frontend MFA-flow blocker. This is local enablement;
+production performance certification remains pending the VPS.
+
+## CI execution
 
 The GitHub workflow runs the shared verification script with PostgreSQL, Redis
 and the local Mailpit sandbox. Any failed command fails the check.

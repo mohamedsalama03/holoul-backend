@@ -153,6 +153,9 @@ final readonly class ProjectDocuments
     public function listing(Project $project, ProjectActor $actor, string $correlation, int $page, int $perPage): array
     {
         $this->authorizeRead($project, $actor);
+        if ($page < 1 || $page > 100000 || $perPage < 1 || $perPage > 100) {
+            throw ValidationException::withMessages(['page' => 'A bounded document page is required.']);
+        }
         $query = DB::table('project_documents')->select('document_id', 'visibility')->where('project_id', $project->id);
         if ($actor->customerId !== null) {
             $query->where('visibility', 'customer');
@@ -160,12 +163,16 @@ final readonly class ProjectDocuments
             $query->unionAll(DB::table('project_document_uploads')->select('document_id', 'visibility')->where('project_id', $project->id));
         }
         $rows = DB::query()->fromSub($query, 'attachments')->orderBy('document_id')->paginate($perPage, ['*'], 'page', $page);
-        $data = [];
+        $attachments = [];
         foreach ($rows->items() as $row) {
             if ($row instanceof stdClass && is_string($row->document_id) && is_string($row->visibility)) {
-                $data[] = [...$this->documents->metadata($this->owner($project, $actor, $correlation), $row->document_id)->toArray(),
-                    'visibility' => $row->visibility];
+                $attachments[$row->document_id] = $row->visibility;
             }
+        }
+        $documents = $this->documents->metadataMany($this->owner($project, $actor, $correlation), array_keys($attachments));
+        $data = [];
+        foreach ($attachments as $id => $visibility) {
+            $data[] = [...$documents[$id]->toArray(), 'visibility' => $visibility];
         }
 
         return ['data' => $data, 'meta' => ['page' => $page, 'per_page' => $perPage, 'total' => $rows->total()]];

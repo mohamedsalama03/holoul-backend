@@ -9,6 +9,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Str;
+use JsonException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Process\Process;
 use Tests\Support\CommercialDatabase;
@@ -131,7 +132,7 @@ final class NotificationIdentityLockTest extends TestCase
                 return $activity->pid;
             }
             if (! $peer->isRunning()) {
-                self::fail('The independent operation did not wait at the intended row: '.$peer->getErrorOutput().$peer->getOutput());
+                self::fail('The independent operation exited before the intended row-lock wait.');
             }
             usleep(20_000);
         } while (microtime(true) < $deadline);
@@ -140,9 +141,18 @@ final class NotificationIdentityLockTest extends TestCase
 
     private function finish(Process $peer): array
     {
-        self::assertSame(0, $peer->wait(), $peer->getErrorOutput().$peer->getOutput());
+        self::assertSame(0, $peer->wait(), 'The independent operation must complete successfully.');
 
-        return json_decode($peer->getOutput(), true, flags: JSON_THROW_ON_ERROR);
+        try {
+            $result = json_decode($peer->getOutput(), true, flags: JSON_THROW_ON_ERROR);
+        } catch (JsonException) {
+            self::fail('The worker must emit exactly one JSON result on stdout; diagnostic logs belong on stderr.');
+        }
+        self::assertTrue(is_array($result) && array_keys($result) === ['backend', 'status', 'identity_reads'] &&
+            is_int($result['backend']) && $result['backend'] > 0 &&
+            is_int($result['status']) && is_int($result['identity_reads']), 'The worker result must contain only the expected numeric concurrency evidence.');
+
+        return $result;
     }
 
     private function cleanup(?Process ...$peers): void

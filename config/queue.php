@@ -17,6 +17,10 @@ return [
             'driver' => 'redis', 'connection' => 'default', 'queue' => 'ai',
             'retry_after' => 180, 'block_for' => 5, 'after_commit' => true,
         ],
+        'notifications' => [
+            'driver' => 'redis', 'connection' => 'default', 'queue' => 'notifications',
+            'retry_after' => 90, 'block_for' => 5, 'after_commit' => true,
+        ],
     ],
     'failed' => ['driver' => 'database-uuids', 'database' => 'pgsql', 'table' => 'failed_jobs'],
 ];

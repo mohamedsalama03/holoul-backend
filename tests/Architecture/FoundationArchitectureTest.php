@@ -215,12 +215,12 @@ final class FoundationArchitectureTest extends TestCase
         self::assertSame('false', trim($process->getOutput()));
     }
 
-    public function test_only_authorized_b1_through_b7_modules_and_tables_are_implemented(): void
+    public function test_only_authorized_b1_through_b8_modules_and_tables_are_implemented(): void
     {
         foreach (array_keys(self::MODULE_DEPENDENCIES) as $module) {
             self::assertDirectoryExists(app_path("Modules/$module"));
 
-            if (! in_array($module, ['Audit', 'Identity', 'Customers', 'Categories', 'ProjectIntake', 'Documents', 'Discovery', 'Proposals', 'Projects', 'AI', 'Notifications'], true)) {
+            if (! in_array($module, ['Audit', 'Identity', 'Customers', 'Categories', 'ProjectIntake', 'Documents', 'Discovery', 'Proposals', 'Projects', 'AI', 'Notifications', 'Reporting'], true)) {
                 self::assertSame([], $this->phpFiles(app_path("Modules/$module")), "$module implementation belongs to a later approved batch");
             }
         }
@@ -255,7 +255,7 @@ final class FoundationArchitectureTest extends TestCase
         }
     }
 
-    public function test_registered_routes_are_limited_to_approved_b1_through_b7(): void
+    public function test_registered_routes_are_limited_to_approved_b1_through_b8(): void
     {
         $routes = app('router')->getRoutes();
         $actual = [];
@@ -266,6 +266,15 @@ final class FoundationArchitectureTest extends TestCase
 
         sort($actual);
         $expected = [
+            'GET|HEAD api/v1/admin/customers',
+            'GET|HEAD api/v1/admin/customers/{customer}',
+            'GET|HEAD api/v1/admin/customers/{customer}/project-requests',
+            'GET|HEAD api/v1/admin/customers/{customer}/projects',
+            'GET|HEAD api/v1/admin/project-requests/{projectRequest}/eligible-assignees',
+            'GET|HEAD api/v1/admin/projects/{project}/eligible-staff',
+            'GET|HEAD api/v1/admin/reports/dashboard', 'GET|HEAD api/v1/admin/reports/requests',
+            'GET|HEAD api/v1/admin/reports/projects', 'GET|HEAD api/v1/admin/reports/customers',
+            'GET|HEAD api/v1/admin/audit-events',
             'GET|HEAD api/v1/ai-runs', 'POST api/v1/ai-runs', 'GET|HEAD api/v1/ai-runs/{aiRun}',
             'POST api/v1/ai-runs/{aiRun}/applications', 'POST api/v1/ai-runs/{aiRun}/dismissals', 'POST api/v1/ai-runs/{aiRun}/cancellations',
             'GET|HEAD api/v1/notifications', 'GET|HEAD api/v1/notifications/unread-count', 'POST api/v1/notifications/read-all',

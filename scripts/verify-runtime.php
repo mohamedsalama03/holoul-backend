@@ -5,6 +5,8 @@ declare(strict_types=1);
 use App\Infrastructure\Async\OperationHandlerRegistry;
 use App\Infrastructure\Async\PermanentOperationFailure;
 use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Foundation\Application;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -18,6 +20,9 @@ try {
 
     require __DIR__.'/../vendor/autoload.php';
     $app = require __DIR__.'/../bootstrap/app.php';
+    if (! $app instanceof Application) {
+        throw new RuntimeException('The runtime application could not be loaded.');
+    }
     $app->make(Kernel::class)->bootstrap();
 
     if (! $app->environment('production') || Config::boolean('app.debug')
@@ -27,12 +32,44 @@ try {
 
     $mode = $argv[1] ?? '';
 
+    $compiled = [];
+    if (in_array($mode, ['environment', 'ai-disabled'], true)) {
+        foreach ([$app->getCachedConfigPath() => 'config.php', $app->getCachedRoutesPath() => 'routes-v7.php'] as $path => $filename) {
+            if ($path !== $app->bootstrapPath('cache/'.$filename) || is_link($path) || ! is_file($path)) {
+                throw new RuntimeException('The compiled runtime cache is unavailable or unsafe.');
+            }
+            $permissions = fileperms($path);
+            if ($permissions === false || ($permissions & 0777) !== 0600) {
+                throw new RuntimeException('The compiled runtime cache is unavailable or unsafe.');
+            }
+        }
+        $cachePermissions = fileperms($app->bootstrapPath('cache'));
+        $routeCount = count($app->make(Router::class)->getRoutes()->getRoutes());
+        if (! $app->configurationIsCached() || ! $app->routesAreCached() || $routeCount !== 166
+            || $cachePermissions === false || ($cachePermissions & 0777) !== 0700) {
+            throw new RuntimeException('The compiled runtime configuration or routes are incomplete.');
+        }
+        $compiled = ['configuration_cached' => true, 'routes_cached' => true,
+            'cache_permissions_private' => true, 'registered_routes' => $routeCount];
+    }
+
+    if ($mode === 'ai-disabled') {
+        if (Config::boolean('ai.enabled') || Config::string('ai.driver') !== 'sandbox'
+            || Config::array('ai.allowed_providers') !== ['sandbox'] || Config::array('ai.allowed_models') !== ['sandbox-v1']) {
+            throw new RuntimeException('AI release defaults are unsafe.');
+        }
+        fwrite(STDOUT, json_encode(['environment' => 'production', 'debug' => false,
+            'ai_enabled' => false, 'external_provider_configured' => false, ...$compiled], JSON_THROW_ON_ERROR)."\n");
+        exit(0);
+    }
+
     if ($mode === 'environment') {
         fwrite(STDOUT, json_encode([
             'event' => 'verification.runtime_environment',
             'environment' => 'production',
             'debug' => false,
             'testing_dependencies' => false,
+            ...$compiled,
         ], JSON_THROW_ON_ERROR)."\n");
         exit(0);
     }
@@ -88,8 +125,8 @@ try {
         }
 
         if ($operation->state === 'failed') {
-            if ($operation->failure_code !== 'handler_missing' || (int) $operation->attempts !== 1
-                || (int) $operation->fence !== 1 || $operation->completed_at === null
+            if ($operation->failure_code !== 'handler_missing' || ! in_array($operation->attempts, [1, '1'], true)
+                || ! in_array($operation->fence, [1, '1'], true) || $operation->completed_at === null
                 || $operation->lease_expires_at !== null) {
                 throw new RuntimeException('The verification operation reached an unexpected outcome.');
             }

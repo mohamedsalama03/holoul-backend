@@ -14,5 +14,6 @@ final readonly class OperationClaim
         public int $fence,
         public int $attempt,
         public ?string $requestId,
+        public int $queueWaitMs = 0,
     ) {}
 }

@@ -19,6 +19,7 @@ return [
             'prefix_indexes' => true,
             'search_path' => 'public',
             'sslmode' => Environment::string('DB_SSLMODE', Environment::string('APP_ENV', 'production') === 'production' ? 'verify-full' : 'prefer'),
+            'sslrootcert' => Environment::string('DB_SSLROOTCERT'),
             'timezone' => 'UTC',
         ],
     ],
@@ -30,6 +31,8 @@ return [
             'prefix' => Environment::string('REDIS_PREFIX', 'holoul_'.Environment::string('APP_ENV', 'production').'_'),
         ],
         'default' => [
+            'scheme' => Environment::string('REDIS_SCHEME', 'tcp'),
+            'context' => ['stream' => ['verify_peer' => true, 'verify_peer_name' => true, 'cafile' => Environment::string('REDIS_CA_FILE')]],
             'host' => Environment::string('REDIS_HOST', 'redis'),
             'password' => Environment::secret('REDIS_PASSWORD'),
             'port' => Environment::string('REDIS_PORT', '6379'),
@@ -38,6 +41,8 @@ return [
             'read_timeout' => 10.0,
         ],
         'cache' => [
+            'scheme' => Environment::string('REDIS_SCHEME', 'tcp'),
+            'context' => ['stream' => ['verify_peer' => true, 'verify_peer_name' => true, 'cafile' => Environment::string('REDIS_CA_FILE')]],
             'host' => Environment::string('REDIS_HOST', 'redis'),
             'password' => Environment::secret('REDIS_PASSWORD'),
             'port' => Environment::string('REDIS_PORT', '6379'),

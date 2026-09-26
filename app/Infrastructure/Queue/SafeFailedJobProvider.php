@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Queue;
 
 use App\Infrastructure\Async\AsyncOperation;
+use App\Infrastructure\Async\OperationPolicy;
 use Error;
 use Illuminate\Database\QueryException;
 use Illuminate\Queue\Failed\DatabaseUuidFailedJobProvider;
@@ -20,7 +21,8 @@ final class SafeFailedJobProvider extends DatabaseUuidFailedJobProvider
 {
     public function log(mixed $connection, mixed $queue, mixed $payload, mixed $exception): ?string
     {
-        if (! (($connection === 'redis' && $queue === Config::string('async.queue')) || ($connection === 'documents' && $queue === 'documents'))) {
+        if (! (($connection === 'redis' && $queue === Config::string('async.queue'))
+            || (in_array($connection, ['documents', 'ai', 'notifications'], true) && $queue === $connection))) {
             Log::error('queue.failed_envelope_rejected');
 
             return null;
@@ -36,13 +38,19 @@ final class SafeFailedJobProvider extends DatabaseUuidFailedJobProvider
             return null;
         }
 
-        if ($canonical->documents !== ($connection === 'documents')) {
+        if ($canonical->documents !== ($connection === 'documents') || $canonical->ai !== ($connection === 'ai')) {
             Log::error('queue.failed_envelope_rejected');
 
             return null;
         }
 
-        $requestId = AsyncOperation::query()->whereKey($canonical->operationId)->value('request_id');
+        $operation = AsyncOperation::query()->whereKey($canonical->operationId)->first();
+        if ($operation !== null && OperationPolicy::queue($operation->kind) !== ($connection === 'redis' ? 'default' : $connection)) {
+            Log::error('queue.failed_envelope_rejected');
+
+            return null;
+        }
+        $requestId = $operation?->request_id;
         $exceptionClass = match (true) {
             $exception instanceof TimeoutExceededException => TimeoutExceededException::class,
             $exception instanceof MaxAttemptsExceededException => MaxAttemptsExceededException::class,

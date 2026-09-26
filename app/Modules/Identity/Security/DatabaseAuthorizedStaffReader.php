@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Identity\Security;
 
-use App\Modules\Identity\Authorization\Permission;
+use App\Modules\Identity\Actions\StaffEligibility;
 use App\Modules\Identity\Authorization\RoleAuthority;
 use App\Modules\Identity\Contracts\AuthorizedIdentity;
 use App\Modules\Identity\Contracts\AuthorizedStaffReader;
@@ -52,10 +52,7 @@ final readonly class DatabaseAuthorizedStaffReader implements AuthorizedStaffRea
             return null;
         }
         $permissions = $this->authority->permissionsFor($this->authority->roles($user->id));
-        $actionable = [Permission::AssignIntake->value, Permission::ReviewIntake->value,
-            Permission::RequestIntakeInformation->value, Permission::StartIntakeDiscovery->value, Permission::RejectIntake->value,
-            Permission::ManageDiscovery->value, Permission::CreateProposal->value, Permission::ApproveProposal->value, Permission::IssueProposal->value];
-        if (! in_array(Permission::ReadIntake->value, $permissions, true) || array_intersect($permissions, $actionable) === []) {
+        if (! in_array('intake.read', $permissions, true) || array_intersect($permissions, StaffEligibility::intakeActions()) === []) {
             return null;
         }
         sort($permissions);

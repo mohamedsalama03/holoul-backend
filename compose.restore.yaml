@@ -1,0 +1,8 @@
+# Used only by scripts/verify-restore.py with a generated, isolated project name.
+# No external volumes, shared service names or production credentials are accepted.
+services:
+  app:
+    environment:
+      HOLOUL_RESTORE_DRILL: ${HOLOUL_RESTORE_DRILL:?isolated restore driver required}
+  inspector:
+    image: ${HOLOUL_RESTORE_INSPECTOR_IMAGE:-holoul-inspector:b8-runtime}

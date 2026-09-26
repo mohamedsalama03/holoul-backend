@@ -1,0 +1,1394 @@
+{
+  "paths": {
+    "/api/v1/admin/customers": {
+      "get": {
+        "operationId": "adminCustomerList",
+        "tags": [
+          "Admin integration"
+        ],
+        "summary": "Customer directory",
+        "description": "Authenticated staff session with satisfied MFA. Unknown query/body fields return 422; no request body. Rate limited to 120 calls per identity per minute. No mutation, If-Match or Idempotency-Key is required. All reads are private, no-store. Requires customers.directory.read and intake.read or projects.read. Existing non-draft intake assignment/unassigned-manager/read_all and active Project membership/read_all scopes are reused. Counts and child summaries include only resources visible to this staff identity. Only both intake.read+intake.read_all and projects.read+projects.read_all permit profiles with no visible submitted work. Administrator/Support have no default directory grant. Active project count excludes on_hold, completed and cancelled; on_hold has a separate count. Search matches full_name, email/email_display and normalized/display phone. Fixed id ascending sort.",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "customers.directory.read"
+        ],
+        "x-frontend-feature": "Customer directory",
+        "x-source": [
+          "routes/admin-integration.php",
+          "app/Http/Requests/AdminIntegrationRequest.php",
+          "app/Application/Administration/AdminIntegrationApi.php",
+          "app/Modules/Customers/Actions/ReadCustomerDirectory.php",
+          "app/Modules/Identity/Actions/ReadCustomerDirectoryIdentities.php",
+          "app/Modules/Identity/Actions/StaffEligibility.php",
+          "app/Modules/ProjectIntake/Queries/ReadIntake.php",
+          "app/Modules/ProjectIntake/Policies/RequestPolicy.php",
+          "app/Modules/Projects/Actions/ProjectStore.php",
+          "app/Modules/Projects/Actions/ProjectRead.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "description": "Exclusive UUIDv7 position; keep the same filters/context while following meta.next_after. Authorization is recalculated on every page."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 25
+            },
+            "description": "Bounded result count; no total or offset."
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 100
+            },
+            "description": "Trimmed case-insensitive literal substring; percent/underscore/backslash are escaped, never wildcard or SQL syntax. Control characters rejected."
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "active",
+                "disabled"
+              ]
+            },
+            "description": ""
+          },
+          {
+            "name": "email_verified",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "description": ""
+          }
+        ],
+        "responses": {
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          },
+          "200": {
+            "description": "Authorized safe projection.",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "private, no-store",
+                    "no-store, private"
+                  ]
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminCustomerPage"
+                }
+              }
+            }
+          }
+        },
+        "x-csrf-required": false,
+        "x-validation-fields": [
+          "input",
+          "after",
+          "limit",
+          "q",
+          "status",
+          "email_verified"
+        ],
+        "x-pagination": {
+          "style": "uuid-cursor",
+          "cursor_parameter": "after",
+          "size_parameter": "limit",
+          "default_size": 25,
+          "maximum_size": 50,
+          "next_cursor": "meta.next_after",
+          "sort": "id ascending"
+        }
+      }
+    },
+    "/api/v1/admin/customers/{customer}": {
+      "get": {
+        "operationId": "adminCustomerDetail",
+        "tags": [
+          "Admin integration"
+        ],
+        "summary": "Customer detail",
+        "description": "Authenticated staff session with satisfied MFA. Unknown query/body fields return 422; no request body. Rate limited to 120 calls per identity per minute. No mutation, If-Match or Idempotency-Key is required. All reads are private, no-store. Requires customers.directory.read and intake.read or projects.read. Existing non-draft intake assignment/unassigned-manager/read_all and active Project membership/read_all scopes are reused. Counts and child summaries include only resources visible to this staff identity. Only both intake.read+intake.read_all and projects.read+projects.read_all permit profiles with no visible submitted work. Administrator/Support have no default directory grant. Active project count excludes on_hold, completed and cancelled; on_hold has a separate count. Invisible or malformed customer returns 404. Links target separately scoped bounded summaries; they confer no access to private documents or activity.",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "customers.directory.read"
+        ],
+        "x-frontend-feature": "Customer detail",
+        "x-source": [
+          "routes/admin-integration.php",
+          "app/Http/Requests/AdminIntegrationRequest.php",
+          "app/Application/Administration/AdminIntegrationApi.php",
+          "app/Modules/Customers/Actions/ReadCustomerDirectory.php",
+          "app/Modules/Identity/Actions/ReadCustomerDirectoryIdentities.php",
+          "app/Modules/Identity/Actions/StaffEligibility.php",
+          "app/Modules/ProjectIntake/Queries/ReadIntake.php",
+          "app/Modules/ProjectIntake/Policies/RequestPolicy.php",
+          "app/Modules/Projects/Actions/ProjectStore.php",
+          "app/Modules/Projects/Actions/ProjectRead.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "customer",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "description": "Malformed or invisible parent returns 404."
+          }
+        ],
+        "responses": {
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          },
+          "200": {
+            "description": "Authorized safe projection.",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "private, no-store",
+                    "no-store, private"
+                  ]
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminCustomerDetailResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-csrf-required": false,
+        "x-validation-fields": [
+          "input"
+        ]
+      }
+    },
+    "/api/v1/admin/customers/{customer}/project-requests": {
+      "get": {
+        "operationId": "adminCustomerRequests",
+        "tags": [
+          "Admin integration"
+        ],
+        "summary": "Customer request summaries",
+        "description": "Authenticated staff session with satisfied MFA. Unknown query/body fields return 422; no request body. Rate limited to 120 calls per identity per minute. No mutation, If-Match or Idempotency-Key is required. All reads are private, no-store. Requires customers.directory.read and intake.read or projects.read. Existing non-draft intake assignment/unassigned-manager/read_all and active Project membership/read_all scopes are reused. Counts and child summaries include only resources visible to this staff identity. Only both intake.read+intake.read_all and projects.read+projects.read_all permit profiles with no visible submitted work. Administrator/Support have no default directory grant. Active project count excludes on_hold, completed and cancelled; on_hold has a separate count. Returns only authorized request IDs, references, states and creation times. Navigate to existing authorized detail endpoints; drafts and content are excluded.",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "customers.directory.read",
+          "intake.read"
+        ],
+        "x-frontend-feature": "Customer request summaries",
+        "x-source": [
+          "routes/admin-integration.php",
+          "app/Http/Requests/AdminIntegrationRequest.php",
+          "app/Application/Administration/AdminIntegrationApi.php",
+          "app/Modules/Customers/Actions/ReadCustomerDirectory.php",
+          "app/Modules/Identity/Actions/ReadCustomerDirectoryIdentities.php",
+          "app/Modules/Identity/Actions/StaffEligibility.php",
+          "app/Modules/ProjectIntake/Queries/ReadIntake.php",
+          "app/Modules/ProjectIntake/Policies/RequestPolicy.php",
+          "app/Modules/Projects/Actions/ProjectStore.php",
+          "app/Modules/Projects/Actions/ProjectRead.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "customer",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "description": "Malformed or invisible parent returns 404."
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "description": "Exclusive UUIDv7 position; keep the same filters/context while following meta.next_after. Authorization is recalculated on every page."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 25
+            },
+            "description": "Bounded result count; no total or offset."
+          }
+        ],
+        "responses": {
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          },
+          "200": {
+            "description": "Authorized safe projection.",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "private, no-store",
+                    "no-store, private"
+                  ]
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminCustomerRequestPage"
+                }
+              }
+            }
+          }
+        },
+        "x-csrf-required": false,
+        "x-validation-fields": [
+          "input",
+          "after",
+          "limit"
+        ],
+        "x-pagination": {
+          "style": "uuid-cursor",
+          "cursor_parameter": "after",
+          "size_parameter": "limit",
+          "default_size": 25,
+          "maximum_size": 50,
+          "next_cursor": "meta.next_after",
+          "sort": "id ascending"
+        }
+      }
+    },
+    "/api/v1/admin/customers/{customer}/projects": {
+      "get": {
+        "operationId": "adminCustomerProjects",
+        "tags": [
+          "Admin integration"
+        ],
+        "summary": "Customer Project summaries",
+        "description": "Authenticated staff session with satisfied MFA. Unknown query/body fields return 422; no request body. Rate limited to 120 calls per identity per minute. No mutation, If-Match or Idempotency-Key is required. All reads are private, no-store. Requires customers.directory.read and intake.read or projects.read. Existing non-draft intake assignment/unassigned-manager/read_all and active Project membership/read_all scopes are reused. Counts and child summaries include only resources visible to this staff identity. Only both intake.read+intake.read_all and projects.read+projects.read_all permit profiles with no visible submitted work. Administrator/Support have no default directory grant. Active project count excludes on_hold, completed and cancelled; on_hold has a separate count. Returns only authorized Project IDs, references, states and creation times. No baseline/commercial content.",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "customers.directory.read",
+          "projects.read"
+        ],
+        "x-frontend-feature": "Customer Project summaries",
+        "x-source": [
+          "routes/admin-integration.php",
+          "app/Http/Requests/AdminIntegrationRequest.php",
+          "app/Application/Administration/AdminIntegrationApi.php",
+          "app/Modules/Customers/Actions/ReadCustomerDirectory.php",
+          "app/Modules/Identity/Actions/ReadCustomerDirectoryIdentities.php",
+          "app/Modules/Identity/Actions/StaffEligibility.php",
+          "app/Modules/ProjectIntake/Queries/ReadIntake.php",
+          "app/Modules/ProjectIntake/Policies/RequestPolicy.php",
+          "app/Modules/Projects/Actions/ProjectStore.php",
+          "app/Modules/Projects/Actions/ProjectRead.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "customer",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "description": "Malformed or invisible parent returns 404."
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "description": "Exclusive UUIDv7 position; keep the same filters/context while following meta.next_after. Authorization is recalculated on every page."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 25
+            },
+            "description": "Bounded result count; no total or offset."
+          }
+        ],
+        "responses": {
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          },
+          "200": {
+            "description": "Authorized safe projection.",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "private, no-store",
+                    "no-store, private"
+                  ]
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminCustomerProjectPage"
+                }
+              }
+            }
+          }
+        },
+        "x-csrf-required": false,
+        "x-validation-fields": [
+          "input",
+          "after",
+          "limit"
+        ],
+        "x-pagination": {
+          "style": "uuid-cursor",
+          "cursor_parameter": "after",
+          "size_parameter": "limit",
+          "default_size": 25,
+          "maximum_size": 50,
+          "next_cursor": "meta.next_after",
+          "sort": "id ascending"
+        }
+      }
+    },
+    "/api/v1/admin/project-requests/{projectRequest}/eligible-assignees": {
+      "get": {
+        "operationId": "intakeEligibleAssignees",
+        "tags": [
+          "Admin integration"
+        ],
+        "summary": "Request assignee picker",
+        "description": "Authenticated staff session with satisfied MFA. Unknown query/body fields return 422; no request body. Rate limited to 120 calls per identity per minute. No mutation, If-Match or Idempotency-Key is required. All reads are private, no-store. Convenience only: command authorization and candidate eligibility are independently rechecked inside the existing transaction. Disabled/nonstaff/ineligible identities are excluded. No email, auth/MFA metadata or unrelated grants are exposed. Use the returned parent ETag with the existing command; changed parent state can require refresh. Parent must be visible and in submitted/under_review/information_required/discovery/proposal/approved; terminal state returns 409. Current assignee excluded. Candidate requires intake.read and at least one assign/review/information/discovery/reject/discovery.manage/proposals.create/approve/issue permission; matches command rules exactly. Search is staff display name only.",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "intake.read",
+          "intake.assign"
+        ],
+        "x-frontend-feature": "Request assignee picker",
+        "x-source": [
+          "routes/admin-integration.php",
+          "app/Http/Requests/AdminIntegrationRequest.php",
+          "app/Application/Administration/AdminIntegrationApi.php",
+          "app/Modules/Customers/Actions/ReadCustomerDirectory.php",
+          "app/Modules/Identity/Actions/ReadCustomerDirectoryIdentities.php",
+          "app/Modules/Identity/Actions/StaffEligibility.php",
+          "app/Modules/ProjectIntake/Queries/ReadIntake.php",
+          "app/Modules/ProjectIntake/Policies/RequestPolicy.php",
+          "app/Modules/Projects/Actions/ProjectStore.php",
+          "app/Modules/Projects/Actions/ProjectRead.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "projectRequest",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "description": "Malformed or invisible parent returns 404."
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "description": "Exclusive UUIDv7 position; keep the same filters/context while following meta.next_after. Authorization is recalculated on every page."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 25
+            },
+            "description": "Bounded result count; no total or offset."
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 100
+            },
+            "description": "Trimmed case-insensitive literal substring; percent/underscore/backslash are escaped, never wildcard or SQL syntax. Control characters rejected."
+          }
+        ],
+        "responses": {
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          },
+          "200": {
+            "description": "Authorized safe projection.",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "private, no-store",
+                    "no-store, private"
+                  ]
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "ETag": {
+                "description": "Strong current parent aggregate ETag. Picker is not a reservation; command must reauthorize.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[0-9a-f-]+:[1-9][0-9]*\"$"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EligibleStaffPage"
+                }
+              }
+            }
+          }
+        },
+        "x-csrf-required": false,
+        "x-validation-fields": [
+          "input",
+          "after",
+          "limit",
+          "q"
+        ],
+        "x-pagination": {
+          "style": "uuid-cursor",
+          "cursor_parameter": "after",
+          "size_parameter": "limit",
+          "default_size": 25,
+          "maximum_size": 50,
+          "next_cursor": "meta.next_after",
+          "sort": "id ascending"
+        }
+      }
+    },
+    "/api/v1/admin/projects/{project}/eligible-staff": {
+      "get": {
+        "operationId": "projectEligibleStaff",
+        "tags": [
+          "Admin integration"
+        ],
+        "summary": "Project team picker",
+        "description": "Authenticated staff session with satisfied MFA. Unknown query/body fields return 422; no request body. Rate limited to 120 calls per identity per minute. No mutation, If-Match or Idempotency-Key is required. All reads are private, no-store. Convenience only: command authorization and candidate eligibility are independently rechecked inside the existing transaction. Disabled/nonstaff/ineligible identities are excluded. No email, auth/MFA metadata or unrelated grants are exposed. Use the returned parent ETag with the existing command; changed parent state can require refresh. Caller must be an active project_manager member, including callers with projects.read_all. Completed/cancelled parents return 409; on_hold remains eligible as in membership commands. Active members excluded. project_manager requires projects.read+transition+team.manage; business_analyst requires projects.read+manage; contributor requires projects.read. Permissions may be satisfied across multiple roles. Search is staff display name only.",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "projects.read",
+          "projects.team.manage"
+        ],
+        "x-frontend-feature": "Project team picker",
+        "x-source": [
+          "routes/admin-integration.php",
+          "app/Http/Requests/AdminIntegrationRequest.php",
+          "app/Application/Administration/AdminIntegrationApi.php",
+          "app/Modules/Customers/Actions/ReadCustomerDirectory.php",
+          "app/Modules/Identity/Actions/ReadCustomerDirectoryIdentities.php",
+          "app/Modules/Identity/Actions/StaffEligibility.php",
+          "app/Modules/ProjectIntake/Queries/ReadIntake.php",
+          "app/Modules/ProjectIntake/Policies/RequestPolicy.php",
+          "app/Modules/Projects/Actions/ProjectStore.php",
+          "app/Modules/Projects/Actions/ProjectRead.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "description": "Malformed or invisible parent returns 404."
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "description": "Exclusive UUIDv7 position; keep the same filters/context while following meta.next_after. Authorization is recalculated on every page."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 25
+            },
+            "description": "Bounded result count; no total or offset."
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 100
+            },
+            "description": "Trimmed case-insensitive literal substring; percent/underscore/backslash are escaped, never wildcard or SQL syntax. Control characters rejected."
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "enum": [
+                "project_manager",
+                "business_analyst",
+                "contributor"
+              ]
+            },
+            "description": "Requested membership role, not an unrestricted identity role filter."
+          }
+        ],
+        "responses": {
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          },
+          "200": {
+            "description": "Authorized safe projection.",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "private, no-store",
+                    "no-store, private"
+                  ]
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "ETag": {
+                "description": "Strong current parent aggregate ETag. Picker is not a reservation; command must reauthorize.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[0-9a-f-]+:[1-9][0-9]*\"$"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EligibleStaffPage"
+                }
+              }
+            }
+          }
+        },
+        "x-csrf-required": false,
+        "x-validation-fields": [
+          "input",
+          "after",
+          "limit",
+          "q",
+          "role"
+        ],
+        "x-pagination": {
+          "style": "uuid-cursor",
+          "cursor_parameter": "after",
+          "size_parameter": "limit",
+          "default_size": 25,
+          "maximum_size": 50,
+          "next_cursor": "meta.next_after",
+          "sort": "id ascending"
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AdminCustomer": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "full_name",
+          "email",
+          "email_display",
+          "phone_e164",
+          "phone_display",
+          "account_status",
+          "email_verified",
+          "customer_since",
+          "request_count",
+          "active_project_count",
+          "completed_project_count",
+          "on_hold_project_count"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "full_name": {
+            "type": "string",
+            "maxLength": 160
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "email_display": {
+            "type": "string",
+            "format": "email"
+          },
+          "phone_e164": {
+            "type": "string",
+            "pattern": "^\\+[1-9][0-9]{1,14}$"
+          },
+          "phone_display": {
+            "type": "string"
+          },
+          "account_status": {
+            "enum": [
+              "active",
+              "disabled"
+            ]
+          },
+          "email_verified": {
+            "type": "boolean"
+          },
+          "customer_since": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "request_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "active_project_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "completed_project_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "on_hold_project_count": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "AdminCustomerDetail": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "full_name",
+          "email",
+          "email_display",
+          "phone_e164",
+          "phone_display",
+          "account_status",
+          "email_verified",
+          "customer_since",
+          "request_count",
+          "active_project_count",
+          "completed_project_count",
+          "on_hold_project_count",
+          "links"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "full_name": {
+            "type": "string",
+            "maxLength": 160
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "email_display": {
+            "type": "string",
+            "format": "email"
+          },
+          "phone_e164": {
+            "type": "string",
+            "pattern": "^\\+[1-9][0-9]{1,14}$"
+          },
+          "phone_display": {
+            "type": "string"
+          },
+          "account_status": {
+            "enum": [
+              "active",
+              "disabled"
+            ]
+          },
+          "email_verified": {
+            "type": "boolean"
+          },
+          "customer_since": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "request_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "active_project_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "completed_project_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "on_hold_project_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "links": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "project_requests",
+              "projects"
+            ],
+            "properties": {
+              "project_requests": {
+                "type": "string",
+                "pattern": "^/api/v1/admin/customers/[^/]+/project-requests$"
+              },
+              "projects": {
+                "type": "string",
+                "pattern": "^/api/v1/admin/customers/[^/]+/projects$"
+              }
+            }
+          }
+        }
+      },
+      "AdminIntegrationPageMeta": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "next_after",
+          "per_page"
+        ],
+        "properties": {
+          "next_after": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "per_page": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50
+          }
+        }
+      },
+      "AdminCustomerPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data",
+          "meta"
+        ],
+        "properties": {
+          "data": {
+            "type": "array",
+            "maxItems": 50,
+            "items": {
+              "$ref": "#/components/schemas/AdminCustomer"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/AdminIntegrationPageMeta"
+          }
+        }
+      },
+      "AdminCustomerDetailResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AdminCustomerDetail"
+          }
+        }
+      },
+      "AdminCustomerRequestSummary": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "reference",
+          "state",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "reference": {
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "submitted",
+              "under_review",
+              "information_required",
+              "discovery",
+              "proposal",
+              "approved",
+              "converted",
+              "rejected",
+              "withdrawn"
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AdminCustomerRequestPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data",
+          "meta"
+        ],
+        "properties": {
+          "data": {
+            "type": "array",
+            "maxItems": 50,
+            "items": {
+              "$ref": "#/components/schemas/AdminCustomerRequestSummary"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/AdminIntegrationPageMeta"
+          }
+        }
+      },
+      "AdminCustomerProjectSummary": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "reference",
+          "state",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "reference": {
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "planning",
+              "design",
+              "development",
+              "testing",
+              "deployment",
+              "on_hold",
+              "completed",
+              "cancelled"
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AdminCustomerProjectPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data",
+          "meta"
+        ],
+        "properties": {
+          "data": {
+            "type": "array",
+            "maxItems": 50,
+            "items": {
+              "$ref": "#/components/schemas/AdminCustomerProjectSummary"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/AdminIntegrationPageMeta"
+          }
+        }
+      },
+      "EligibleStaff": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "display_name",
+          "capability"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "display_name": {
+            "type": "string",
+            "maxLength": 160
+          },
+          "capability": {
+            "enum": [
+              "project_requests.assignee",
+              "projects.team.project_manager",
+              "projects.team.business_analyst",
+              "projects.team.contributor"
+            ]
+          }
+        }
+      },
+      "EligibleStaffPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data",
+          "meta",
+          "context"
+        ],
+        "properties": {
+          "data": {
+            "type": "array",
+            "maxItems": 50,
+            "items": {
+              "$ref": "#/components/schemas/EligibleStaff"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/AdminIntegrationPageMeta"
+          },
+          "context": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "id",
+              "role"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "project_request",
+                  "project"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+              },
+              "role": {
+                "enum": [
+                  null,
+                  "project_manager",
+                  "business_analyst",
+                  "contributor"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
