@@ -11,7 +11,6 @@ use App\Modules\Identity\Security\SessionSecurity;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -168,9 +167,7 @@ final readonly class MfaActions
             $this->sessions->revokeAll($user->id, $this->requestId($request), $user->id);
             $this->record($request, $user, 'identity.mfa.disabled');
         });
-        Auth::guard('web')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        $this->sessions->invalidate($request);
     }
 
     private function pendingUser(Request $request): User

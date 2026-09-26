@@ -28,6 +28,9 @@ final class SessionPruningTest extends TestCase
 
     public function test_pruning_uses_separate_staff_and_customer_idle_limits_without_redis(): void
     {
+        // Measure the pruning dependency, not optional slow-query telemetry from
+        // fixture writes or migration teardown on a contended verification host.
+        Config::set('operations.slow_query_ms', PHP_INT_MAX);
         Redis::shouldReceive('connection')->never();
         $staff = $this->user('staff');
         $customer = $this->user('customer');
@@ -44,6 +47,17 @@ final class SessionPruningTest extends TestCase
         foreach ([$staffActive, $customerActive] as $id) {
             $this->assertDatabaseHas('identity_sessions', ['id' => $id]);
         }
+    }
+
+    public function test_pruning_still_completes_when_slow_query_telemetry_cannot_reach_redis(): void
+    {
+        $id = $this->record($this->user('staff'), 2000);
+        Config::set('operations.slow_query_ms', 0);
+        Redis::shouldReceive('connection')->with('cache')->atLeast()->once()
+            ->andThrow(new \RuntimeException('Redis unavailable'));
+
+        $this->artisan(PruneIdentitySessions::class)->expectsOutput('1')->assertSuccessful();
+        $this->assertDatabaseMissing('identity_sessions', ['id' => $id]);
     }
 
     public function test_each_pass_deletes_at_most_500_rows_and_preserves_active_sessions(): void

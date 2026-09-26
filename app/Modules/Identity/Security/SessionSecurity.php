@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Identity\Security;
 
+use App\Infrastructure\Http\SessionResponse;
 use App\Modules\Audit\Actions\RecordAuditEvent;
 use App\Modules\Audit\Data\SafeAuditMetadata;
 use App\Modules\Identity\Models\IdentitySession;
@@ -80,7 +81,7 @@ final class SessionSecurity
             || $record->expires_at->isPast()
             || $record->last_activity_at->timestamp <= now()->getTimestamp() - Config::integer('identity.'.$user->kind.'_idle_seconds')
             || ($user->kind === 'staff' && $request->session()->get('identity.mfa_verified') !== true)) {
-            $this->invalidate($request);
+            $this->reject($request, $principal !== null);
             throw new AuthenticationException;
         }
         $record->last_activity_at = now()->toImmutable();
@@ -122,10 +123,27 @@ final class SessionSecurity
 
     public function invalidate(Request $request): void
     {
+        // Explicit logout/security exit still destroys and rotates server state, but
+        // its delayed response must never replace a subsequent successful login.
+        SessionResponse::discard($request);
         $this->forgetCurrent($request);
         Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+    }
+
+    private function reject(Request $request, bool $hadPrincipal): void
+    {
+        SessionResponse::discard($request);
+        $this->forgetCurrent($request);
+        // A passive anonymous identity probe must preserve an existing CSRF bootstrap.
+        if (! $hadPrincipal && ! $request->session()->has('identity.session_id')
+            && ! $request->session()->has('identity.pending_user_id')) {
+            return;
+        }
+        $request->session()->getHandler()->destroy($request->session()->getId());
+        $request->session()->flush();
+        Auth::forgetGuards();
     }
 
     private function forgetCurrent(Request $request): void

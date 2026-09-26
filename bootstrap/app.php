@@ -9,6 +9,7 @@ use App\Infrastructure\Exceptions\SafeExceptionHandler;
 use App\Infrastructure\Http\ApiError;
 use App\Infrastructure\Http\RequestId;
 use App\Infrastructure\Http\RequestLimits;
+use App\Infrastructure\Http\StartSecureSession;
 use App\Infrastructure\Operations\HttpTelemetry;
 use App\Modules\Identity\Http\ExactOrigin;
 use App\Modules\Identity\Http\SecurityThrottle;
@@ -21,7 +22,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
-use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -47,7 +47,7 @@ $app = Application::configure(basePath: dirname(__DIR__))
             ExactOrigin::class,
             EncryptCookies::class,
             AddQueuedCookiesToResponse::class,
-            StartSession::class,
+            StartSecureSession::class,
             StrictCsrf::class,
         ]);
         $middleware->alias([

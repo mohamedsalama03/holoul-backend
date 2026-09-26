@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Architecture;
 
+use App\Infrastructure\Http\StartSecureSession;
 use App\Modules\Identity\Http\ExactOrigin;
 use App\Modules\Identity\Http\SessionAuthenticated;
 use App\Modules\Identity\Http\StrictCsrf;
 use App\Modules\Identity\Models\User;
-use Illuminate\Session\Middleware\StartSession;
 use Laravel\Sanctum\HasApiTokens;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
@@ -408,7 +408,7 @@ final class FoundationArchitectureTest extends TestCase
             $middleware = $router->gatherRouteMiddleware($route);
             self::assertContains(ExactOrigin::class, $middleware);
             self::assertContains(StrictCsrf::class, $middleware);
-            self::assertContains(StartSession::class, $middleware);
+            self::assertContains(StartSecureSession::class, $middleware);
             if (str_contains($route->uri(), '/customers') || str_contains($route->uri(), '/identity/')
                 || str_starts_with($route->uri(), 'api/v1/admin/') || str_starts_with($route->uri(), 'api/v1/categories')
                 || str_starts_with($route->uri(), 'api/v1/project-requests') || str_starts_with($route->uri(), 'api/v1/projects') || str_starts_with($route->uri(), 'api/v1/documents')

@@ -303,6 +303,8 @@ final class IdentityHttpTest extends TestCase
         self::assertFalse(Hash::check('weak', $user->refresh()->password));
         self::assertTrue(Hash::check($literal, $user->password));
         $this->browser('POST', '/api/v1/auth/logout')->assertOk();
+        // Logout no longer emits anonymous state; initialize the next login explicitly.
+        $this->browser('GET', '/sanctum/csrf-cookie')->assertNoContent();
         $this->browser('POST', '/api/v1/auth/login', ['email' => $user->email, 'password' => $literal])->assertOk();
     }
 
@@ -334,6 +336,7 @@ final class IdentityHttpTest extends TestCase
         $this->browser('GET', '/api/v1/identity/me')->assertOk()->assertJsonPath('data.kind', 'staff');
         $this->browser('GET', '/api/v1/customers')->assertNotFound();
         $this->browser('POST', '/api/v1/auth/logout')->assertOk();
+        $this->browser('GET', '/sanctum/csrf-cookie')->assertNoContent();
         $this->signIn($user)->assertAccepted()->assertJsonPath('data.next_step', 'mfa_challenge');
         $this->browser('POST', '/api/v1/auth/mfa/challenge', ['code' => $otp])->assertUnprocessable();
         $this->browser('POST', '/api/v1/auth/mfa/recovery', ['code' => $codes[0]])->assertOk();

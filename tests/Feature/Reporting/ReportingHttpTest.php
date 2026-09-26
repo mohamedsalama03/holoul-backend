@@ -11,6 +11,7 @@ use App\Modules\ProjectIntake\Models\ProjectRequest;
 use App\Modules\Reporting\Actions\OperationalReports;
 use App\Modules\Reporting\Data\ReportWindow;
 use Illuminate\Database\Events\QueryExecuted;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Str;
@@ -50,6 +51,36 @@ final class ReportingHttpTest extends TestCase
     {
         return [['super_admin', true, true], ['administrator', true, false], ['project_manager', true, false],
             ['business_analyst', false, false], ['sales', false, false], ['reviewer', false, false], ['support', false, false]];
+    }
+
+    public function test_session_touch_serialization_retries_the_entire_snapshot_through_nested_authorization(): void
+    {
+        $staff = $this->intakeStaff('administrator');
+        $this->staffLogin($staff);
+        Config::set('database.connections.session_touch_peer', Config::array('database.connections.pgsql'));
+        $peer = DB::connection('session_touch_peer');
+        self::assertNotSame(DB::scalar('SELECT pg_backend_pid()'), $peer->scalar('SELECT pg_backend_pid()'));
+        $attempts = 0;
+        DB::listen(function (QueryExecuted $query) use (&$attempts, $peer, $staff): void {
+            if ($query->connectionName === 'pgsql' && DB::transactionLevel() === 2
+                && str_contains($query->sql, 'for no key update')) {
+                $attempts++;
+                if ($attempts === 1) {
+                    // Commit a real concurrent session touch after the snapshot exists,
+                    // before its identity-session lock. PostgreSQL must raise 40001.
+                    $peer->table('identity_sessions')->where('user_id', $staff->id)
+                        ->update(['last_activity_at' => DB::raw("last_activity_at + interval '1 millisecond'")]);
+                }
+            }
+        });
+        try {
+            $this->browser('GET', '/api/v1/admin/reports/dashboard')->assertOk();
+            self::assertSame(2, $attempts, 'The existing two-attempt outer transaction must retry the snapshot.');
+            self::assertSame(0, DB::transactionLevel());
+            $this->browser('GET', '/api/v1/identity/me')->assertOk();
+        } finally {
+            DB::purge('session_touch_peer');
+        }
     }
 
     public function test_customer_forged_grants_unverified_staff_and_revocation_cannot_bypass_admin_access(): void

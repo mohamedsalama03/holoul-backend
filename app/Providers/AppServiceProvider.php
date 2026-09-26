@@ -8,6 +8,7 @@ use App\Application\AI\AINotifications;
 use App\Application\AI\CurrentAIContext;
 use App\Application\Notifications\BusinessNotifications;
 use App\Application\Projects\AuthorizedProjectStaff;
+use App\Infrastructure\Database\WrappedConcurrencyErrors;
 use App\Infrastructure\Queue\SafeFailedJobProvider;
 use App\Modules\AI\Contracts\AICompletionNotifier;
 use App\Modules\AI\Contracts\AIContextVerifier;
@@ -30,6 +31,7 @@ use App\Modules\Projects\Events\ProjectChanged;
 use App\Modules\Proposals\Contracts\AcceptedProposalReader;
 use App\Modules\Proposals\Events\ProposalChanged;
 use App\Modules\Proposals\Queries\ReadAcceptedProposal;
+use Illuminate\Contracts\Database\ConcurrencyErrorDetector;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\Eloquent\Model;
@@ -43,6 +45,7 @@ final class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->app->bind(ConcurrencyErrorDetector::class, WrappedConcurrencyErrors::class);
         $this->app->bind(AIContextVerifier::class, CurrentAIContext::class);
         $this->app->bind(AICompletionNotifier::class, AINotifications::class);
         $this->app->bind(NotificationRecipientReader::class, ReadNotificationRecipient::class);
