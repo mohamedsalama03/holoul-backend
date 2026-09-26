@@ -14,7 +14,7 @@ final class ExpireIntakeUploadsCommand extends Command
 
     protected $description = 'Expire bounded abandoned intake upload reservations after their safe grace period.';
 
-    public function handle(ExpireIntakeUploads $expiry): int
+    public function handle(ExpireIntakeUploads $expiry, ExpireGuestDocuments $guests): int
     {
         try {
             $limit = $this->option('limit');
@@ -22,6 +22,7 @@ final class ExpireIntakeUploadsCommand extends Command
                 return self::FAILURE;
             }
             $result = $expiry->handle((int) $limit);
+            $result['guest_expired'] = $guests->handle((int) $limit);
             $this->line(json_encode(['event' => 'documents.uploads_expired', ...$result], JSON_THROW_ON_ERROR));
 
             return self::SUCCESS;

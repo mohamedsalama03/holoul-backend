@@ -1,0 +1,1094 @@
+{
+  "paths": {
+    "/api/v1/guest/project-requests": {
+      "post": {
+        "operationId": "guestIntakeCreate",
+        "tags": [
+          "Guest intake"
+        ],
+        "summary": "Create an ephemeral guest intake draft",
+        "description": "Same-origin HTTPS session and CSRF required. Dedicated fail-closed limits. An authenticated or pending-MFA session cannot use anonymous intake. Private request data is never returned by guest routes. No contact/project fields are persisted yet. Keep form state locally. Store the returned capability only for this workflow; no detail/list endpoint exists. One optional PDF/DOCX slot. Five drafts per IP/session per hour and 100 globally per hour; after 24 hours abandoned attachments enter private deletion. Bootstrap CSRF explicitly before this workflow. This operation never saves or replaces authentication session state and never emits session/CSRF cookies. A login/MFA/logout rotation invalidates the original session/CSRF-generation draft capability binding, including explicit bootstrap with a retired cookie; preserve unsent fields locally and use authenticated intake after login.",
+        "security": [],
+        "x-personas": [
+          "guest"
+        ],
+        "x-permissions": [],
+        "x-frontend-feature": "Create an ephemeral guest intake draft",
+        "x-source": [
+          "routes/guest-intake.php",
+          "app/Application/Intake/GuestIntakeApi.php",
+          "app/Application/Intake/GuestIntakeThrottle.php",
+          "app/Http/Requests/GuestIntakeRequest.php"
+        ],
+        "x-csrf-required": true,
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create an ephemeral guest intake draft",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuestIntakeDraftResponse"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "412": {
+            "$ref": "#/components/responses/PreconditionFailed"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "428": {
+            "$ref": "#/components/responses/PreconditionRequired"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [],
+                "properties": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/guest/project-requests/{projectRequest}/submissions": {
+      "post": {
+        "operationId": "guestIntakeSubmit",
+        "tags": [
+          "Guest intake"
+        ],
+        "summary": "Submit a guest idea",
+        "description": "Same-origin HTTPS session and CSRF required. Dedicated fail-closed limits. An authenticated or pending-MFA session cannot use anonymous intake. Private request data is never returned by guest routes. Maximum JSON body 128 KiB. One immutable canonical submission. Same-key + same normalized payload + original If-Match replays the receipt within the 30-minute capability lifetime; a different key/body returns 409. Missing/inactive/mismatched taxonomy is invalid. USD exponent 2 / LYD exponent 3; no floats. Optional attachment must be Quarantined or Available. No email-account lookup or automatic association. Every guest gets the identical next-step message. Preserve claim_token for explicit authenticated claim; expires in 72 hours. Final success returns a confirmation receipt only, without a current-resource ETag; exact retries preserve the original If-Match. Bootstrap CSRF explicitly before this workflow. This operation never saves or replaces authentication session state and never emits session/CSRF cookies. A login/MFA/logout rotation invalidates the original session/CSRF-generation draft capability binding, including explicit bootstrap with a retired cookie; preserve unsent fields locally and use authenticated intake after login.",
+        "security": [],
+        "x-personas": [
+          "guest"
+        ],
+        "x-permissions": [],
+        "x-frontend-feature": "Submit a guest idea",
+        "x-source": [
+          "routes/guest-intake.php",
+          "app/Application/Intake/GuestIntakeApi.php",
+          "app/Application/Intake/GuestIntakeThrottle.php",
+          "app/Http/Requests/GuestIntakeRequest.php"
+        ],
+        "x-csrf-required": true,
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "projectRequest",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          },
+          {
+            "name": "X-Intake-Capability",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$",
+              "minLength": 64,
+              "maxLength": 64
+            },
+            "description": "Opaque secret returned at draft creation; browser session binding and 30-minute expiry both apply. Never put it in a URL or logs."
+          },
+          {
+            "$ref": "#/components/parameters/IfMatch"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Submit a guest idea",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuestIntakeConfirmationResponse"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "412": {
+            "$ref": "#/components/responses/PreconditionFailed"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "428": {
+            "$ref": "#/components/responses/PreconditionRequired"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuestIntakeSubmissionInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/guest/project-requests/{projectRequest}/documents": {
+      "post": {
+        "operationId": "guestIntakeReserveDocument",
+        "tags": [
+          "Guest intake"
+        ],
+        "summary": "Reserve the guest draft document",
+        "description": "Same-origin HTTPS session and CSRF required. Dedicated fail-closed limits. An authenticated or pending-MFA session cannot use anonymous intake. Private request data is never returned by guest routes. One slot; a repeat of the exact reservation key replays it. Another reservation after a slot exists conflicts. 10 MiB maximum; PDF or DOCX, generated private quarantine key, checksum-bound upload. Neither URL nor object key is returned. Anonymous global storage reservation budget: 500 MiB / 100 active documents / 50 active uploads. Bootstrap CSRF explicitly before this workflow. This operation never saves or replaces authentication session state and never emits session/CSRF cookies. A login/MFA/logout rotation invalidates the original session/CSRF-generation draft capability binding, including explicit bootstrap with a retired cookie; preserve unsent fields locally and use authenticated intake after login.",
+        "security": [],
+        "x-personas": [
+          "guest"
+        ],
+        "x-permissions": [],
+        "x-frontend-feature": "Reserve the guest draft document",
+        "x-source": [
+          "routes/guest-intake.php",
+          "app/Application/Intake/GuestIntakeApi.php",
+          "app/Application/Intake/GuestIntakeThrottle.php",
+          "app/Http/Requests/GuestIntakeRequest.php"
+        ],
+        "x-csrf-required": true,
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "projectRequest",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          },
+          {
+            "name": "X-Intake-Capability",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$",
+              "minLength": 64,
+              "maxLength": 64
+            },
+            "description": "Opaque secret returned at draft creation; browser session binding and 30-minute expiry both apply. Never put it in a URL or logs."
+          },
+          {
+            "$ref": "#/components/parameters/IfMatch"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Reserve the guest draft document",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentResponse"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "412": {
+            "$ref": "#/components/responses/PreconditionFailed"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "428": {
+            "$ref": "#/components/responses/PreconditionRequired"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentReserveInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/guest/project-requests/{projectRequest}/documents/{document}/content": {
+      "put": {
+        "operationId": "guestIntakeUploadDocument",
+        "tags": [
+          "Guest intake"
+        ],
+        "summary": "Upload guest document bytes",
+        "description": "Same-origin HTTPS session and CSRF required. Dedicated fail-closed limits. An authenticated or pending-MFA session cannot use anonymous intake. Private request data is never returned by guest routes. Use raw application/octet-stream; no multipart. Upload expires 10 minutes after reservation. Capability/session/expiry, draft version and attachment are checked before storage I/O and again before finalization. Malware/structure scanning follows the existing private B4 pipeline; Quarantined does not permit download. Bootstrap CSRF explicitly before this workflow. This operation never saves or replaces authentication session state and never emits session/CSRF cookies. A login/MFA/logout rotation invalidates the original session/CSRF-generation draft capability binding, including explicit bootstrap with a retired cookie; preserve unsent fields locally and use authenticated intake after login.",
+        "security": [],
+        "x-personas": [
+          "guest"
+        ],
+        "x-permissions": [],
+        "x-frontend-feature": "Upload guest document bytes",
+        "x-source": [
+          "routes/guest-intake.php",
+          "app/Application/Intake/GuestIntakeApi.php",
+          "app/Application/Intake/GuestIntakeThrottle.php",
+          "app/Http/Requests/GuestIntakeRequest.php"
+        ],
+        "x-csrf-required": true,
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "projectRequest",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "document",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          },
+          {
+            "name": "X-Intake-Capability",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$",
+              "minLength": 64,
+              "maxLength": 64
+            },
+            "description": "Opaque secret returned at draft creation; browser session binding and 30-minute expiry both apply. Never put it in a URL or logs."
+          },
+          {
+            "$ref": "#/components/parameters/IfMatch"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Upload guest document bytes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentResponse"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "412": {
+            "$ref": "#/components/responses/PreconditionFailed"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "428": {
+            "$ref": "#/components/responses/PreconditionRequired"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/octet-stream": {
+              "schema": {
+                "type": "string",
+                "format": "binary",
+                "maxLength": 10485760
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/guest/project-requests/{projectRequest}/documents/{document}": {
+      "get": {
+        "operationId": "guestIntakeDocumentStatus",
+        "tags": [
+          "Guest intake"
+        ],
+        "summary": "Read document processing metadata before submission",
+        "description": "Same-origin HTTPS session and CSRF required. Dedicated fail-closed limits. An authenticated or pending-MFA session cannot use anonymous intake. Private request data is never returned by guest routes. Only for the same live draft capability and browser. Denied after submission/claim/expiry. No guest document download route exists. Bootstrap CSRF explicitly before this workflow. This operation never saves or replaces authentication session state and never emits session/CSRF cookies. A login/MFA/logout rotation invalidates the original session/CSRF-generation draft capability binding, including explicit bootstrap with a retired cookie; preserve unsent fields locally and use authenticated intake after login.",
+        "security": [],
+        "x-personas": [
+          "guest"
+        ],
+        "x-permissions": [],
+        "x-frontend-feature": "Read document processing metadata before submission",
+        "x-source": [
+          "routes/guest-intake.php",
+          "app/Application/Intake/GuestIntakeApi.php",
+          "app/Application/Intake/GuestIntakeThrottle.php",
+          "app/Http/Requests/GuestIntakeRequest.php"
+        ],
+        "x-csrf-required": false,
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "projectRequest",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "document",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-Intake-Capability",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$",
+              "minLength": 64,
+              "maxLength": 64
+            },
+            "description": "Opaque secret returned at draft creation; browser session binding and 30-minute expiry both apply. Never put it in a URL or logs."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read document processing metadata before submission",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentResponse"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "412": {
+            "$ref": "#/components/responses/PreconditionFailed"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "428": {
+            "$ref": "#/components/responses/PreconditionRequired"
+          }
+        }
+      }
+    },
+    "/api/v1/project-request-claims": {
+      "post": {
+        "operationId": "guestIntakeClaim",
+        "tags": [
+          "Guest intake"
+        ],
+        "summary": "Explicitly claim an eligible guest submission",
+        "description": "Same-origin HTTPS session and CSRF required. Dedicated fail-closed limits. Private request data is never returned by guest routes. Requires an enabled authenticated customer with a verified current email matching the original immutable revision, plus the independent claim token. Generic 404 covers wrong identity/token/expired/already consumed/terminal requests. Email or reference alone never authorizes. Same token + same Idempotency-Key + same current owner replays its immutable receipt (including original ETag); another key is rejected. Original snapshot and attachment bytes are unchanged. Ownership follows the canonical request atomically. Fetch the request for its current ETag after replay. The independent submitted-claim token survives login/session rotation; ordinary claim responses never reissue session/CSRF cookies. Staff MFA does not grant customer claim authority.",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "customer"
+        ],
+        "x-permissions": [],
+        "x-frontend-feature": "Explicitly claim an eligible guest submission",
+        "x-source": [
+          "routes/guest-intake.php",
+          "app/Application/Intake/GuestIntakeApi.php",
+          "app/Application/Intake/GuestIntakeThrottle.php",
+          "app/Http/Requests/GuestIntakeRequest.php"
+        ],
+        "x-csrf-required": true,
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Explicitly claim an eligible guest submission",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuestIntakeClaimResponse"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "412": {
+            "$ref": "#/components/responses/PreconditionFailed"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "428": {
+            "$ref": "#/components/responses/PreconditionRequired"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuestIntakeClaimInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/intake/categories": {
+      "get": {
+        "operationId": "guestIntakeCategories",
+        "tags": [
+          "Taxonomy"
+        ],
+        "summary": "Public List Active Categories",
+        "description": "Stateless same-origin HTTPS; active shared taxonomy only. No session load/save or cookies. Dedicated fail-closed 60 requests per IP per minute. No contact or account lookup. Only active entries; subcategory listing also requires an active parent. Keyset pagination by display_order then id; limit=25 by default, max 100; no search, custom sort, or active filter. Invalid cursor reports error.fields.cursor. ",
+        "security": [],
+        "x-personas": [
+          "guest",
+          "customer",
+          "staff"
+        ],
+        "x-permissions": [],
+        "x-frontend-feature": "List Active Categories",
+        "x-source": [
+          "routes/guest-intake.php",
+          "app/Application/Intake/GuestIntakeApi.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            },
+            "description": "Maximum page size; this API accepts limit, not per_page."
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 256
+            },
+            "description": "Opaque cursor from meta.next_cursor. Keep filters and sort unchanged between pages."
+          }
+        ],
+        "responses": {
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "200": {
+            "description": "List Active Categories.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaxonomyPageResponse"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "description": "Safe request correlation identifier.",
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "Cache-Control": {
+                "description": "Private responses must not be cached.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "x-csrf-required": false,
+        "x-source-operation": "taxonomy.categories"
+      }
+    },
+    "/api/v1/intake/categories/{category}/subcategories": {
+      "get": {
+        "operationId": "guestIntakeSubcategories",
+        "tags": [
+          "Taxonomy"
+        ],
+        "summary": "Public List Active Subcategories",
+        "description": "Stateless same-origin HTTPS; active shared taxonomy only. No session load/save or cookies. Dedicated fail-closed 60 requests per IP per minute. No contact or account lookup. Only active entries; subcategory listing also requires an active parent. Keyset pagination by display_order then id; limit=25 by default, max 100; no search, custom sort, or active filter. Invalid cursor reports error.fields.cursor. ",
+        "security": [],
+        "x-personas": [
+          "guest",
+          "customer",
+          "staff"
+        ],
+        "x-permissions": [],
+        "x-frontend-feature": "List Active Subcategories",
+        "x-source": [
+          "routes/guest-intake.php",
+          "app/Application/Intake/GuestIntakeApi.php"
+        ],
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Resource identifier; inaccessible or malformed values return 404."
+          },
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            },
+            "description": "Maximum page size; this API accepts limit, not per_page."
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 256
+            },
+            "description": "Opaque cursor from meta.next_cursor. Keep filters and sort unchanged between pages."
+          }
+        ],
+        "responses": {
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "200": {
+            "description": "List Active Subcategories.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaxonomyPageResponse"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "description": "Safe request correlation identifier.",
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "Cache-Control": {
+                "description": "Private responses must not be cached.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "x-csrf-required": false,
+        "x-source-operation": "taxonomy.subcategories"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GuestIntakeDraftResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "draft_id",
+              "capability",
+              "expires_at",
+              "etag"
+            ],
+            "properties": {
+              "draft_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "capability": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$",
+                "minLength": 64,
+                "maxLength": 64
+              },
+              "expires_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "etag": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "GuestIntakeSubmissionInput": {
+        "type": "object",
+        "properties": {
+          "category_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subcategory_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "project_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "project_description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 20000
+          },
+          "budget_unknown": {
+            "type": "boolean"
+          },
+          "estimated_budget": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 32,
+            "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]{1,3})?$",
+            "description": "Nonnegative exact decimal string; USD permits up to 2 fractional digits, LYD up to 3, and minor units must fit signed PostgreSQL BIGINT. Never send a JSON floating-point number."
+          },
+          "currency": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "USD",
+              "LYD",
+              null
+            ]
+          },
+          "full_name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 160
+          },
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "description": "Trimmed and lowercased without provider-specific rewriting; validated as an email."
+          },
+          "phone": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "International number including leading + and country calling code; normalized with the same libphonenumber parser as customer profiles. Never infer region."
+          }
+        },
+        "required": [
+          "full_name",
+          "email",
+          "phone",
+          "category_id",
+          "subcategory_id",
+          "project_name",
+          "project_description",
+          "budget_unknown"
+        ],
+        "additionalProperties": false,
+        "description": "Complete guest contact and project form for final submission. No partial form state is saved by this operation. Requires full name, normalized email, international phone, a complete active category/subcategory pair, project name/description and explicit budget choice. Known budget requires an exact decimal string and USD/LYD; unknown budget requires amount/currency omitted or null. Unsupported fields are rejected."
+      },
+      "GuestIntakeConfirmationResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "reference",
+              "confirmation",
+              "next_step",
+              "claim_token",
+              "claim_expires_at"
+            ],
+            "properties": {
+              "reference": {
+                "type": "string",
+                "pattern": "^REQ-[0-9]{4}-[0-9]{5,19}$"
+              },
+              "confirmation": {
+                "const": "submitted"
+              },
+              "next_step": {
+                "const": "sign_in_verify_email_and_claim"
+              },
+              "claim_token": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$",
+                "minLength": 64,
+                "maxLength": 64
+              },
+              "claim_expires_at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      },
+      "GuestIntakeClaimInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "token"
+        ],
+        "properties": {
+          "token": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "minLength": 64,
+            "maxLength": 64
+          }
+        }
+      },
+      "GuestIntakeClaimResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "request_id",
+              "reference",
+              "version"
+            ],
+            "properties": {
+              "request_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "reference": {
+                "type": "string"
+              },
+              "version": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

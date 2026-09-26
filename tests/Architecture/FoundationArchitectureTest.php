@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Architecture;
 
+use App\Application\Intake\GuestIntakeThrottle;
 use App\Infrastructure\Http\StartSecureSession;
 use App\Modules\Identity\Http\ExactOrigin;
 use App\Modules\Identity\Http\SessionAuthenticated;
@@ -51,7 +52,7 @@ final class FoundationArchitectureTest extends TestCase
         'request_assignments', 'information_requests', 'information_responses', 'information_resolutions',
         'request_state_changes', 'intake_submission_keys', 'intake_notification_intents',
         'documents', 'document_quotas', 'document_orphan_objects', 'document_reconciliation_cursors',
-        'intake_draft_documents', 'intake_revision_documents',
+        'intake_draft_documents', 'intake_revision_documents', 'intake_guest_access', 'intake_guest_claims',
         'discovery_records', 'discovery_revisions', 'discovery_requirements', 'discovery_signoffs',
         'proposal_series', 'proposals', 'proposal_items', 'proposal_deliverables', 'proposal_contributors',
         'proposal_approvals', 'proposal_decisions', 'proposal_events', 'proposal_command_keys', 'proposal_documents',
@@ -266,6 +267,11 @@ final class FoundationArchitectureTest extends TestCase
 
         sort($actual);
         $expected = [
+            'GET|HEAD api/v1/intake/categories', 'GET|HEAD api/v1/intake/categories/{category}/subcategories',
+            'POST api/v1/guest/project-requests', 'POST api/v1/guest/project-requests/{projectRequest}/submissions',
+            'POST api/v1/guest/project-requests/{projectRequest}/documents',
+            'PUT api/v1/guest/project-requests/{projectRequest}/documents/{document}/content',
+            'GET|HEAD api/v1/guest/project-requests/{projectRequest}/documents/{document}', 'POST api/v1/project-request-claims',
             'GET|HEAD api/v1/admin/customers',
             'GET|HEAD api/v1/admin/customers/{customer}',
             'GET|HEAD api/v1/admin/customers/{customer}/project-requests',
@@ -407,11 +413,18 @@ final class FoundationArchitectureTest extends TestCase
             }
             $middleware = $router->gatherRouteMiddleware($route);
             self::assertContains(ExactOrigin::class, $middleware);
+            if (in_array($route->uri(), ['api/v1/intake/categories', 'api/v1/intake/categories/{category}/subcategories'], true)) {
+                self::assertSame(['GET', 'HEAD'], $route->methods());
+                self::assertContains(GuestIntakeThrottle::class, $middleware);
+                self::assertNotContains(StartSecureSession::class, $middleware);
+
+                continue;
+            }
             self::assertContains(StrictCsrf::class, $middleware);
             self::assertContains(StartSecureSession::class, $middleware);
             if (str_contains($route->uri(), '/customers') || str_contains($route->uri(), '/identity/')
                 || str_starts_with($route->uri(), 'api/v1/admin/') || str_starts_with($route->uri(), 'api/v1/categories')
-                || str_starts_with($route->uri(), 'api/v1/project-requests') || str_starts_with($route->uri(), 'api/v1/projects') || str_starts_with($route->uri(), 'api/v1/documents')
+                || str_starts_with($route->uri(), 'api/v1/project-request-claims') || str_starts_with($route->uri(), 'api/v1/project-requests') || str_starts_with($route->uri(), 'api/v1/projects') || str_starts_with($route->uri(), 'api/v1/documents')
                 || str_starts_with($route->uri(), 'api/v1/ai-runs') || str_starts_with($route->uri(), 'api/v1/notifications')) {
                 self::assertContains(SessionAuthenticated::class, $middleware);
             }

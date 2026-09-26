@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property string $id
  * @property string $request_id
- * @property string $customer_id
+ * @property ?string $customer_id
  * @property bool $is_open
  * @property int $base_revision_number
  * @property ?string $category_id

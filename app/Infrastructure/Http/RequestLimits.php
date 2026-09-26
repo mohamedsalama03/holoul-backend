@@ -16,7 +16,7 @@ final class RequestLimits
     /** @param Closure(Request): Response $next */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->isMethod('PUT') && preg_match('#\Aapi/v1/(?:project-requests|admin/projects)/[0-9a-f-]{36}/documents/[0-9a-f-]{36}/content\z#D', $request->path()) === 1) {
+        if ($request->isMethod('PUT') && preg_match('#\Aapi/v1/(?:project-requests|guest/project-requests|admin/projects)/[0-9a-f-]{36}/documents/[0-9a-f-]{36}/content\z#D', $request->path()) === 1) {
             if ($request->header('Content-Type') !== 'application/octet-stream') {
                 throw new HttpException(415);
             }
@@ -28,7 +28,8 @@ final class RequestLimits
             // bounds the stream, including chunked/misdeclared request bodies.
             return $next($request);
         }
-        if (strlen($request->getContent()) > 12 * 1024 * 1024) {
+        $limit = $request->is('api/v1/guest/*') ? 128 * 1024 : 12 * 1024 * 1024;
+        if (strlen($request->getContent()) > $limit) {
             throw new HttpException(413);
         }
 

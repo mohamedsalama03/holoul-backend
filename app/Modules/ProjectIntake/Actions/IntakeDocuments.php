@@ -113,11 +113,16 @@ final readonly class IntakeDocuments
 
     public function snapshot(ProjectRequest $record, RequestDraft $draft, RequestRevision $revision, IntakeActor $actor, string $requestId): void
     {
+        $this->snapshotOwned($record, $draft, $revision, $this->owner($record, $actor, $requestId));
+    }
+
+    public function snapshotOwned(ProjectRequest $record, RequestDraft $draft, RequestRevision $revision, DocumentOwner $owner): void
+    {
         $id = DB::table('intake_draft_documents')->where('draft_id', $draft->id)->value('document_id');
         if (! is_string($id)) {
             return;
         }
-        $this->documents->lockAttachable($this->owner($record, $actor, $requestId), $id);
+        $this->documents->lockAttachable($owner, $id);
         DB::table('intake_revision_documents')->insert(['revision_id' => $revision->id, 'request_id' => $record->id,
             'customer_id' => $record->customer_id, 'document_id' => $id]);
     }

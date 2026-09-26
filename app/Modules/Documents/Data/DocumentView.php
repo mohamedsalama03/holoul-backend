@@ -9,7 +9,7 @@ final readonly class DocumentView
     public function __construct(
         public string $id,
         public string $parentId,
-        public string $customerId,
+        public ?string $customerId,
         public string $filename,
         public DocumentFormat $format,
         public int $bytes,

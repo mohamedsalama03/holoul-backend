@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/identity.php';
 require __DIR__.'/intake.php';
+require __DIR__.'/guest-intake.php';
 require __DIR__.'/documents.php';
 require __DIR__.'/commercial.php';
 require __DIR__.'/projects.php';

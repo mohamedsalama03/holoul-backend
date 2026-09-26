@@ -45,7 +45,7 @@ try {
         }
         $cachePermissions = fileperms($app->bootstrapPath('cache'));
         $routeCount = count($app->make(Router::class)->getRoutes()->getRoutes());
-        if (! $app->configurationIsCached() || ! $app->routesAreCached() || $routeCount !== 166
+        if (! $app->configurationIsCached() || ! $app->routesAreCached() || $routeCount !== 174
             || $cachePermissions === false || ($cachePermissions & 0777) !== 0700) {
             throw new RuntimeException('The compiled runtime configuration or routes are incomplete.');
         }

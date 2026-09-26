@@ -10,9 +10,10 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property bool $guest_origin
  * @property string $id
- * @property string $customer_id
- * @property string $customer_user_id
+ * @property ?string $customer_id
+ * @property ?string $customer_user_id
  * @property RequestState $state
  * @property ?string $reference
  * @property int $lock_version
@@ -36,6 +37,6 @@ final class ProjectRequest extends Model
     /** @return array<string, string> */
     protected function casts(): array
     {
-        return ['state' => RequestState::class, 'lock_version' => 'integer', 'latest_revision_number' => 'integer', 'submitted_at' => 'immutable_datetime', 'created_at' => 'immutable_datetime', 'updated_at' => 'immutable_datetime'];
+        return ['guest_origin' => 'boolean', 'state' => RequestState::class, 'lock_version' => 'integer', 'latest_revision_number' => 'integer', 'submitted_at' => 'immutable_datetime', 'created_at' => 'immutable_datetime', 'updated_at' => 'immutable_datetime'];
     }
 }

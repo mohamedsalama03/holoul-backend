@@ -1,0 +1,30 @@
+{
+  "baseline": "9940acf6d9e16c7da3cd08b1a6028c875d5accd0",
+  "previous_sha256": "1422e14ef0c18204c420080c33f0b597f39cce5093acf358aa15aa1ee980499b",
+  "new_sha256": "ae8d0a904a0042b80f9adc1224dedf8677794e2d49ca5cdf41daeb5278780be8",
+  "previous_operations": 164,
+  "new_operations": 172,
+  "operations_added": [
+    "POST /api/v1/project-request-claims",
+    "POST /api/v1/guest/project-requests/{projectRequest}/documents",
+    "PUT /api/v1/guest/project-requests/{projectRequest}/documents/{document}/content",
+    "POST /api/v1/guest/project-requests",
+    "POST /api/v1/guest/project-requests/{projectRequest}/submissions",
+    "GET /api/v1/intake/categories/{category}/subcategories",
+    "GET /api/v1/intake/categories",
+    "GET /api/v1/guest/project-requests/{projectRequest}/documents/{document}"
+  ],
+  "existing_operations_changed": [],
+  "schemas_added": [
+    "GuestIntakeClaimInput",
+    "GuestIntakeClaimResponse",
+    "GuestIntakeConfirmationResponse",
+    "GuestIntakeDraftResponse",
+    "GuestIntakeSubmissionInput"
+  ],
+  "schemas_changed": [
+    "IntakeRevision"
+  ],
+  "compatibility": "All 164 existing operation objects unchanged. Existing customer revision values unchanged. New guest revisions extend IntakeRevision with nullable submitted_by and guest_submission provenance; consumers displaying new guest records must handle this variant. No frontend contract copy updated.",
+  "guest_binding": "Session ID plus server-side CSRF generation; retired-cookie bootstrap cannot revive a capability."
+}

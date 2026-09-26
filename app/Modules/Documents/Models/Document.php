@@ -12,11 +12,12 @@ use Illuminate\Database\Eloquent\Model;
 use LogicException;
 
 /**
+ * @property ?string $guest_request_id
  * @property string $id
- * @property string $customer_id
- * @property string $customer_user_id
+ * @property ?string $customer_id
+ * @property ?string $customer_user_id
  * @property string $parent_id
- * @property string $uploader_id
+ * @property ?string $uploader_id
  * @property string $reservation_input_hash
  * @property string $display_name
  * @property DocumentFormat $format

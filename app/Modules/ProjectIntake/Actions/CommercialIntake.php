@@ -19,6 +19,10 @@ final readonly class CommercialIntake
 
     public function context(ProjectRequest $record, IntakeActor $actor, string $correlation, bool $recent): CommercialContext
     {
+        if ($record->customer_id === null || $record->customer_user_id === null) {
+            throw new HttpException(409);
+        }
+
         return new CommercialContext($record->id, $record->customer_id, $record->customer_user_id, $record->state->value,
             $record->lock_version, $record->latest_revision_id ?? throw new HttpException(409), $actor->id,
             $actor->customerId !== null, $actor->verifiedEmail, $recent, $record->assigned_staff_id, $actor->permissions, $correlation);

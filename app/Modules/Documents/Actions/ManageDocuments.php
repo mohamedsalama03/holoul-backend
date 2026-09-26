@@ -47,8 +47,13 @@ final readonly class ManageDocuments implements DocumentService
             throw new HttpException(415);
         }
         $inputHash = hash('sha256', json_encode([$owner->parentId, $owner->customerId, $name, $bytes, $sha256], JSON_THROW_ON_ERROR));
-        DB::table('document_quotas')->insertOrIgnore(['customer_id' => $owner->customerId]);
-        DB::table('document_quotas')->where('customer_id', $owner->customerId)->lockForUpdate()->first();
+        if ($owner->customerId === null) {
+            // PostgreSQL, not the disposable limiter, owns the anonymous storage budget.
+            DB::select("SELECT pg_advisory_xact_lock(hashtextextended('documents.guest-quota', 0))");
+        } else {
+            DB::table('document_quotas')->insertOrIgnore(['customer_id' => $owner->customerId]);
+            DB::table('document_quotas')->where('customer_id', $owner->customerId)->lockForUpdate()->first();
+        }
         $existing = Document::query()->where('uploader_id', $owner->actorId)->where('parent_id', $owner->parentId)
             ->where('reservation_key_hash', hash('sha256', $idempotencyKey))->lockForUpdate()->first();
         if ($existing !== null) {
@@ -63,13 +68,14 @@ final readonly class ManageDocuments implements DocumentService
             ->get(['expected_size', 'state']);
         $uploading = $active->filter(fn (Document $document): bool => $document->state === DocumentState::Uploading)->count();
         $reserved = $active->reduce(fn (int $sum, Document $document): int => $sum + $document->expected_size, 0);
-        if ($uploading >= DocumentPolicy::MAX_UPLOADING || $reserved + $bytes > DocumentPolicy::MAX_RESERVED_BYTES
-            || $active->count() >= DocumentPolicy::MAX_DOCUMENTS) {
+        if ($uploading >= ($owner->customerId === null ? 50 : DocumentPolicy::MAX_UPLOADING)
+            || $reserved + $bytes > ($owner->customerId === null ? 500 * 1024 * 1024 : DocumentPolicy::MAX_RESERVED_BYTES)
+            || $active->count() >= ($owner->customerId === null ? 100 : DocumentPolicy::MAX_DOCUMENTS)) {
             throw new HttpException(429, '', null, ['Retry-After' => '600']);
         }
         $id = (string) Str::uuid7();
         $document = Document::query()->forceCreate(['id' => $id, 'customer_id' => $owner->customerId,
-            'customer_user_id' => $owner->userId, 'parent_id' => $owner->parentId, 'uploader_id' => $owner->actorId,
+            'customer_user_id' => $owner->userId, ...($owner->customerId === null ? ['guest_request_id' => $owner->parentId] : []), 'parent_id' => $owner->parentId, 'uploader_id' => $owner->actorId,
             'reservation_key_hash' => hash('sha256', $idempotencyKey), 'reservation_input_hash' => $inputHash,
             'display_name' => $name, 'format' => $format, 'expected_size' => $bytes, 'expected_sha256' => $sha256,
             'storage_key' => 'quarantine/'.$id, 'state' => DocumentState::Uploading,
@@ -219,7 +225,7 @@ final readonly class ManageDocuments implements DocumentService
         }
         $this->event('download_authorized', $document, $owner);
 
-        return new DocumentDownload($this->view($document), $document->object(), $owner->actorId, now()->toImmutable()->addSeconds(60));
+        return new DocumentDownload($this->view($document), $document->object(), $owner->actorId ?? throw new HttpException(403), now()->toImmutable()->addSeconds(60));
     }
 
     public function consumeDownload(DocumentOwner $owner, DocumentDownload $grant): void

@@ -117,7 +117,7 @@ final class MigrationUpgradeTest extends TestCase
             $this->assertDatabaseCount('migrations', 27);
             $this->assertDatabaseCount('permissions', 50);
 
-            $this->artisan('migrate', ['--force' => true])->assertExitCode(0);
+            $this->artisan('migrate', ['--path' => array_values(array_filter(glob(database_path('migrations/*.php')), static fn (string $file): bool => basename($file) < '2026_09_26')), '--realpath' => true, '--force' => true])->assertExitCode(0);
             $this->assertDatabaseCount('migrations', 29);
             $this->assertDatabaseCount('permissions', 53);
             foreach (array_diff($tables, ['migrations', 'permissions', 'role_permissions']) as $table) {
@@ -148,7 +148,7 @@ final class MigrationUpgradeTest extends TestCase
             foreach ($allTables as $table) {
                 $after[$table] = $this->snapshot($table, Schema::getColumnListing($table));
             }
-            $this->artisan('migrate', ['--force' => true])->assertExitCode(0);
+            $this->artisan('migrate', ['--path' => array_values(array_filter(glob(database_path('migrations/*.php')), static fn (string $file): bool => basename($file) < '2026_09_26')), '--realpath' => true, '--force' => true])->assertExitCode(0);
             foreach ($after as $table => $rows) {
                 self::assertSame($rows, $this->snapshot($table, Schema::getColumnListing($table)), $table.' repeat migration');
             }

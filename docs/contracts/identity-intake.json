@@ -8880,14 +8880,18 @@
             "format": "date-time"
           },
           "submitted_by": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "uuid"
           },
           "provenance": {
             "type": "string",
             "enum": [
               "customer_submission",
-              "customer_amendment"
+              "customer_amendment",
+              "guest_submission"
             ]
           }
         },

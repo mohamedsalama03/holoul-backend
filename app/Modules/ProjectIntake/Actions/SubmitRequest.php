@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Modules\ProjectIntake\Actions;
 
 use App\Infrastructure\Http\VersionPrecondition;
-use App\Modules\Categories\Contracts\TaxonomyReader;
 use App\Modules\Customers\Contracts\CustomerContactReader;
 use App\Modules\ProjectIntake\Data\DraftValues;
 use App\Modules\ProjectIntake\Data\IntakeActor;
 use App\Modules\ProjectIntake\Data\RequestState;
-use App\Modules\ProjectIntake\Models\RequestRevision;
+use App\Modules\ProjectIntake\Data\SubmissionContact;
 use App\Modules\ProjectIntake\Models\SubmissionKey;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +19,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 final readonly class SubmitRequest
 {
-    public function __construct(private IntakeStore $store, private TaxonomyReader $taxonomy, private CustomerContactReader $contacts, private IntakeDocuments $documents) {}
+    public function __construct(private IntakeStore $store, private CustomerContactReader $contacts, private CommitSubmission $commit) {}
 
     public function handle(IntakeActor $actor, string $id, ?string $etag, ?string $key, string $requestId): SubmissionKey
     {
@@ -57,35 +56,16 @@ final readonly class SubmitRequest
             if ($values->categoryId === null || $values->subcategoryId === null) {
                 throw new HttpException(422);
             }
-            $taxonomy = $this->taxonomy->selection($values->categoryId, $values->subcategoryId, true);
             $contact = $this->contacts->currentForIdentity($actor->id, true);
             if ($contact === null || $contact->customerId !== $record->customer_id || ! $contact->verifiedEmail) {
                 throw new AuthorizationException;
             }
             $initial = $record->latest_revision_number === 0;
-            $revision = RequestRevision::query()->forceCreate([
-                'request_id' => $id, 'customer_id' => $record->customer_id, 'revision_number' => $record->latest_revision_number + 1,
-                ...$values->columns(), 'category_label' => $taxonomy->categoryName, 'subcategory_label' => $taxonomy->subcategoryName,
-                'full_name' => $contact->fullName, 'email' => $contact->email, 'phone_e164' => $contact->phoneE164,
-                'submitted_by' => $actor->id, 'submitted_at' => now(), 'provenance' => $initial ? 'customer_submission' : 'customer_amendment',
-            ]);
-            $this->documents->snapshot($record, $draft, $revision, $actor, $requestId);
-            $record->latest_revision_id = $revision->id;
-            $record->latest_revision_number = $revision->revision_number;
-            if ($initial) {
-                $sequence = DB::scalar("SELECT nextval('request_reference_sequence')");
-                if (! is_int($sequence) && ! is_string($sequence)) {
-                    throw new \LogicException('Reference allocation failed.');
-                }
-                $record->reference = 'REQ-'.now()->utc()->format('Y').'-'.str_pad((string) $sequence, 5, '0', STR_PAD_LEFT);
-                $record->submitted_at = $revision->submitted_at;
-                $this->store->transition($record, RequestState::Submitted, $actor);
+            if (trim($contact->fullName) === '' || trim($contact->email) === '' || trim($contact->phoneE164) === '') {
+                throw ValidationException::withMessages(['profile_complete_required' => 'Complete your profile before submission.']);
             }
-            $draft->is_open = false;
-            $draft->save();
-            $this->store->changed($record);
-            DB::table('intake_notification_intents')->insert(['id' => (string) Str::uuid7(), 'request_id' => $id, 'revision_id' => $revision->id,
-                'kind' => $initial ? 'intake.submitted' : 'intake.amended']);
+            $revision = $this->commit->handle($record, $draft, $values,
+                new SubmissionContact($contact->fullName, $contact->email, $contact->phoneE164), $actor->id, $requestId);
             $this->store->event($initial ? 'submitted' : 'amendment_submitted', $record, $actor, $requestId);
             $claim->forceFill(['revision_id' => $revision->id, 'revision_number' => $revision->revision_number,
                 'result_version' => $record->lock_version, 'result_state' => $record->state->value, 'reference' => $record->reference])->save();

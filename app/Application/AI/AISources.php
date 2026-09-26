@@ -114,6 +114,10 @@ final readonly class AISources
         $hash = hash('sha256', json_encode([$parentType, $parentId, $sourceType, $sourceId, $parent->lock_version,
             $text, $document?->toArray()], JSON_THROW_ON_ERROR));
 
+        if ($parent->customer_id === null) {
+            throw new HttpException(409);
+        }
+
         return new AISource($identity->id, $parent->customer_id, $parentType, $parentId, $sourceType, $sourceId,
             $parent->lock_version, $hash, $text, $documentId, $document?->sha256,
             $purpose === 'suggest_category' && $includeTaxonomy ? $this->choices() : [], $document?->storageVersion);

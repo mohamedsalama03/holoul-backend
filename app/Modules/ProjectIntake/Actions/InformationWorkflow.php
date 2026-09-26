@@ -21,7 +21,7 @@ final readonly class InformationWorkflow
         return DB::transaction(function () use ($actor, $id, $etag, $message, $requestId): ProjectRequest {
             $record = $this->store->mutable($actor, $id, $etag);
             $this->store->policy->staff($actor, $record, 'intake.information');
-            if (! in_array($record->state, [RequestState::UnderReview, RequestState::Discovery], true)) {
+            if ($record->customer_id === null || ! in_array($record->state, [RequestState::UnderReview, RequestState::Discovery], true)) {
                 throw new HttpException(409);
             }
             $question = InformationRequest::query()->forceCreate(['request_id' => $id, 'customer_id' => $record->customer_id,

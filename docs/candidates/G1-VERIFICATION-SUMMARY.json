@@ -1,0 +1,839 @@
+{
+  "classification": "G1 BLOCKED",
+  "production_ready": false,
+  "production_performance": "Pending target VPS; failed B8/P1 evidence retained and original targets unchanged.",
+  "candidate_history": {
+    "recorded_at": "2026-09-26T21:20:50.261790+00:00",
+    "original_main": "96445baded70ddd2e4d8b8617793c78a4a3e1816",
+    "pre_g1_candidate": "55b3b79eb205721ac74c2481a92aeff1ae06db25",
+    "approved_identity_candidate": "9940acf6d9e16c7da3cd08b1a6028c875d5accd0",
+    "g1_resume_baseline": "9940acf6d9e16c7da3cd08b1a6028c875d5accd0",
+    "previous_openapi_sha256": "1422e14ef0c18204c420080c33f0b597f39cce5093acf358aa15aa1ee980499b",
+    "production_ready": false,
+    "evidence_inventory_sha256": "fa35e81daa7a52578b03cee3ac4cc9ac8fe5ef32b6ee846e9054398dcb432dc5"
+  },
+  "focused_intake": {
+    "tests": 48,
+    "assertions": 624,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "unit_feature": {
+    "tests": 937,
+    "assertions": 12309,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "architecture": {
+    "tests": 9,
+    "assertions": 42408,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "full_suite_total": {
+    "tests": 946,
+    "assertions": 54717,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "selected_suites": {
+    "Tests\\Unit\\WrappedConcurrencyErrorsTest": {
+      "tests": 1,
+      "assertions": 5,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\Documents\\DocumentHttpTest": {
+      "tests": 24,
+      "assertions": 419,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\Identity\\SessionLifecycleTest": {
+      "tests": 18,
+      "assertions": 830,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\ProjectIntake\\GuestIntakeConcurrencyTest": {
+      "tests": 8,
+      "assertions": 102,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\ProjectIntake\\GuestIntakeConstraintsTest": {
+      "tests": 3,
+      "assertions": 25,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\ProjectIntake\\GuestIntakeHttpTest": {
+      "tests": 39,
+      "assertions": 448,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\ProjectIntake\\GuestIntakeUpgradeTest": {
+      "tests": 2,
+      "assertions": 271,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\ProjectIntake\\GuestSessionIsolationTest": {
+      "tests": 9,
+      "assertions": 176,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\Reporting\\ReportingHttpTest": {
+      "tests": 24,
+      "assertions": 357,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    }
+  },
+  "openapi": {
+    "baseline": "9940acf6d9e16c7da3cd08b1a6028c875d5accd0",
+    "previous_sha256": "1422e14ef0c18204c420080c33f0b597f39cce5093acf358aa15aa1ee980499b",
+    "new_sha256": "ae8d0a904a0042b80f9adc1224dedf8677794e2d49ca5cdf41daeb5278780be8",
+    "previous_operations": 164,
+    "new_operations": 172,
+    "operations_added": [
+      "POST /api/v1/project-request-claims",
+      "POST /api/v1/guest/project-requests/{projectRequest}/documents",
+      "PUT /api/v1/guest/project-requests/{projectRequest}/documents/{document}/content",
+      "POST /api/v1/guest/project-requests",
+      "POST /api/v1/guest/project-requests/{projectRequest}/submissions",
+      "GET /api/v1/intake/categories/{category}/subcategories",
+      "GET /api/v1/intake/categories",
+      "GET /api/v1/guest/project-requests/{projectRequest}/documents/{document}"
+    ],
+    "existing_operations_changed": [],
+    "schemas_added": [
+      "GuestIntakeClaimInput",
+      "GuestIntakeClaimResponse",
+      "GuestIntakeConfirmationResponse",
+      "GuestIntakeDraftResponse",
+      "GuestIntakeSubmissionInput"
+    ],
+    "schemas_changed": [
+      "IntakeRevision"
+    ],
+    "compatibility": "All 164 existing operation objects unchanged. Existing customer revision values unchanged. New guest revisions extend IntakeRevision with nullable submitted_by and guest_submission provenance; consumers displaying new guest records must handle this variant. No frontend contract copy updated.",
+    "guest_binding": "Session ID plus server-side CSRF generation; retired-cookie bootstrap cannot revive a capability."
+  },
+  "contract_validation": {
+    "openapi": "3.1.1",
+    "documented_operations": 172,
+    "validated_responses": 2232,
+    "observed_operations": 145,
+    "success_covered_operations": 121,
+    "status_counts": {
+      "200": 818,
+      "201": 183,
+      "202": 173,
+      "204": 392,
+      "400": 2,
+      "401": 88,
+      "403": 190,
+      "404": 124,
+      "405": 4,
+      "409": 40,
+      "412": 10,
+      "413": 5,
+      "415": 6,
+      "422": 168,
+      "428": 9,
+      "429": 9,
+      "500": 3,
+      "503": 8
+    },
+    "success_coverage": [
+      "DELETE /api/v1/admin/projects/{project}/documents/{document}",
+      "DELETE /api/v1/project-requests/{projectRequest}/documents/{document}",
+      "GET /api/v1",
+      "GET /api/v1/admin/audit-events",
+      "GET /api/v1/admin/categories",
+      "GET /api/v1/admin/customers",
+      "GET /api/v1/admin/customers/{customer}",
+      "GET /api/v1/admin/customers/{customer}/project-requests",
+      "GET /api/v1/admin/customers/{customer}/projects",
+      "GET /api/v1/admin/notification-deliveries/{delivery}",
+      "GET /api/v1/admin/project-requests",
+      "GET /api/v1/admin/project-requests/{projectRequest}",
+      "GET /api/v1/admin/project-requests/{projectRequest}/discovery",
+      "GET /api/v1/admin/project-requests/{projectRequest}/discovery/{revision}",
+      "GET /api/v1/admin/project-requests/{projectRequest}/documents/{document}",
+      "GET /api/v1/admin/project-requests/{projectRequest}/documents/{document}/download",
+      "GET /api/v1/admin/project-requests/{projectRequest}/eligible-assignees",
+      "GET /api/v1/admin/project-requests/{projectRequest}/history",
+      "GET /api/v1/admin/project-requests/{projectRequest}/proposals",
+      "GET /api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}",
+      "GET /api/v1/admin/project-requests/{projectRequest}/revisions",
+      "GET /api/v1/admin/projects",
+      "GET /api/v1/admin/projects/{project}",
+      "GET /api/v1/admin/projects/{project}/activity",
+      "GET /api/v1/admin/projects/{project}/documents",
+      "GET /api/v1/admin/projects/{project}/eligible-staff",
+      "GET /api/v1/admin/projects/{project}/evidence",
+      "GET /api/v1/admin/projects/{project}/milestones",
+      "GET /api/v1/admin/projects/{project}/team-members",
+      "GET /api/v1/admin/projects/{project}/updates",
+      "GET /api/v1/admin/reports/customers",
+      "GET /api/v1/admin/reports/dashboard",
+      "GET /api/v1/admin/reports/projects",
+      "GET /api/v1/admin/reports/requests",
+      "GET /api/v1/ai-runs",
+      "GET /api/v1/ai-runs/{aiRun}",
+      "GET /api/v1/categories",
+      "GET /api/v1/customers",
+      "GET /api/v1/guest/project-requests/{projectRequest}/documents/{document}",
+      "GET /api/v1/identity/me",
+      "GET /api/v1/identity/sessions",
+      "GET /api/v1/intake/categories",
+      "GET /api/v1/intake/categories/{category}/subcategories",
+      "GET /api/v1/notifications",
+      "GET /api/v1/notifications/preferences",
+      "GET /api/v1/notifications/unread-count",
+      "GET /api/v1/notifications/{notification}",
+      "GET /api/v1/project-requests",
+      "GET /api/v1/project-requests/by-reference/{reference}",
+      "GET /api/v1/project-requests/{projectRequest}",
+      "GET /api/v1/project-requests/{projectRequest}/documents/{document}",
+      "GET /api/v1/project-requests/{projectRequest}/documents/{document}/download",
+      "GET /api/v1/project-requests/{projectRequest}/proposals",
+      "GET /api/v1/project-requests/{projectRequest}/proposals/{proposal}",
+      "GET /api/v1/project-requests/{projectRequest}/proposals/{proposal}/documents/{document}/download",
+      "GET /api/v1/project-requests/{projectRequest}/revisions/{revision}",
+      "GET /api/v1/projects",
+      "GET /api/v1/projects/{project}",
+      "GET /api/v1/projects/{project}/documents",
+      "GET /api/v1/projects/{project}/documents/{document}",
+      "GET /api/v1/projects/{project}/documents/{document}/download",
+      "GET /api/v1/projects/{project}/milestones",
+      "GET /api/v1/projects/{project}/updates",
+      "GET /sanctum/csrf-cookie",
+      "PATCH /api/v1/admin/categories/{category}",
+      "PATCH /api/v1/admin/subcategories/{subcategory}",
+      "PATCH /api/v1/customers/{customer}",
+      "PATCH /api/v1/identity/staff/{user}/authorization",
+      "PATCH /api/v1/notifications/preferences",
+      "PATCH /api/v1/project-requests/{projectRequest}/draft",
+      "POST /api/v1/admin/categories",
+      "POST /api/v1/admin/categories/{category}/subcategories",
+      "POST /api/v1/admin/notification-deliveries/{delivery}/replays",
+      "POST /api/v1/admin/project-requests/{projectRequest}/assignments",
+      "POST /api/v1/admin/project-requests/{projectRequest}/conversions",
+      "POST /api/v1/admin/project-requests/{projectRequest}/discovery",
+      "POST /api/v1/admin/project-requests/{projectRequest}/discovery/{revision}/completions",
+      "POST /api/v1/admin/project-requests/{projectRequest}/discovery/{revision}/starts",
+      "POST /api/v1/admin/project-requests/{projectRequest}/proposals",
+      "POST /api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/documents",
+      "POST /api/v1/admin/project-requests/{projectRequest}/rejections",
+      "POST /api/v1/admin/project-requests/{projectRequest}/reviews",
+      "POST /api/v1/admin/projects/{project}/documents",
+      "POST /api/v1/admin/projects/{project}/milestones",
+      "POST /api/v1/admin/projects/{project}/milestones/{milestone}/completions",
+      "POST /api/v1/admin/projects/{project}/milestones/{milestone}/starts",
+      "POST /api/v1/admin/projects/{project}/team-members",
+      "POST /api/v1/admin/projects/{project}/updates",
+      "POST /api/v1/ai-runs",
+      "POST /api/v1/ai-runs/{aiRun}/applications",
+      "POST /api/v1/ai-runs/{aiRun}/cancellations",
+      "POST /api/v1/ai-runs/{aiRun}/dismissals",
+      "POST /api/v1/auth/email/resend",
+      "POST /api/v1/auth/login",
+      "POST /api/v1/auth/logout",
+      "POST /api/v1/auth/mfa/challenge",
+      "POST /api/v1/auth/mfa/enrollment",
+      "POST /api/v1/auth/mfa/enrollment/confirm",
+      "POST /api/v1/auth/mfa/recovery",
+      "POST /api/v1/auth/password/change",
+      "POST /api/v1/auth/password/confirm",
+      "POST /api/v1/auth/password/forgot",
+      "POST /api/v1/auth/register",
+      "POST /api/v1/guest/project-requests",
+      "POST /api/v1/guest/project-requests/{projectRequest}/documents",
+      "POST /api/v1/guest/project-requests/{projectRequest}/submissions",
+      "POST /api/v1/identity/sessions/revoke-others",
+      "POST /api/v1/notifications/read-all",
+      "POST /api/v1/notifications/{notification}/read",
+      "POST /api/v1/project-request-claims",
+      "POST /api/v1/project-requests",
+      "POST /api/v1/project-requests/{projectRequest}/amendments",
+      "POST /api/v1/project-requests/{projectRequest}/documents",
+      "POST /api/v1/project-requests/{projectRequest}/proposals/{proposal}/acceptances",
+      "POST /api/v1/project-requests/{projectRequest}/submissions",
+      "POST /api/v1/project-requests/{projectRequest}/withdrawals",
+      "POST /api/v1/projects/{project}/completion-confirmations",
+      "PUT /api/v1/admin/project-requests/{projectRequest}/discovery/{revision}/requirements",
+      "PUT /api/v1/admin/projects/{project}/documents/{document}/content",
+      "PUT /api/v1/guest/project-requests/{projectRequest}/documents/{document}/content",
+      "PUT /api/v1/project-requests/{projectRequest}/documents/{document}/content"
+    ],
+    "no_success_sample": [
+      "DELETE /api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/documents/{document}",
+      "DELETE /api/v1/admin/projects/{project}/team-members/{member}",
+      "DELETE /api/v1/auth/mfa",
+      "GET /api/v1/admin/categories/{category}",
+      "GET /api/v1/admin/categories/{category}/subcategories",
+      "GET /api/v1/admin/notification-deliveries",
+      "GET /api/v1/admin/project-requests/by-reference/{reference}",
+      "GET /api/v1/admin/project-requests/{projectRequest}/assignments",
+      "GET /api/v1/admin/project-requests/{projectRequest}/information-requests",
+      "GET /api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/documents/{document}",
+      "GET /api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/documents/{document}/download",
+      "GET /api/v1/admin/project-requests/{projectRequest}/revisions/{revision}",
+      "GET /api/v1/admin/projects/{project}/documents/{document}",
+      "GET /api/v1/admin/projects/{project}/documents/{document}/download",
+      "GET /api/v1/admin/subcategories/{subcategory}",
+      "GET /api/v1/categories/{category}/subcategories",
+      "GET /api/v1/customers/{customer}",
+      "GET /api/v1/customers/{customer}/project-requests/{projectRequest}",
+      "GET /api/v1/identities/{identity}/customers/{customer}",
+      "GET /api/v1/identity/staff/{user}",
+      "GET /api/v1/project-requests/{projectRequest}/history",
+      "GET /api/v1/project-requests/{projectRequest}/information-requests",
+      "GET /api/v1/project-requests/{projectRequest}/proposals/{proposal}/documents/{document}",
+      "GET /api/v1/project-requests/{projectRequest}/revisions",
+      "PATCH /api/v1/admin/projects/{project}/milestones/{milestone}",
+      "PATCH /api/v1/identities/{identity}/customers/{customer}",
+      "PATCH /api/v1/identity/me",
+      "POST /api/v1/admin/project-requests/{projectRequest}/discovery-handoffs",
+      "POST /api/v1/admin/project-requests/{projectRequest}/information-requests",
+      "POST /api/v1/admin/project-requests/{projectRequest}/information-requests/{information}/acknowledgements",
+      "POST /api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/approvals",
+      "POST /api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/issuances",
+      "POST /api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/supersessions",
+      "POST /api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/withdrawals",
+      "POST /api/v1/admin/projects/{project}/advances",
+      "POST /api/v1/admin/projects/{project}/cancellations",
+      "POST /api/v1/admin/projects/{project}/documents/{document}/scan-retries",
+      "POST /api/v1/admin/projects/{project}/evidence",
+      "POST /api/v1/admin/projects/{project}/failures",
+      "POST /api/v1/admin/projects/{project}/holds",
+      "POST /api/v1/admin/projects/{project}/milestones/{milestone}/delays",
+      "POST /api/v1/admin/projects/{project}/resumptions",
+      "POST /api/v1/auth/email/verify",
+      "POST /api/v1/auth/mfa/recovery-codes",
+      "POST /api/v1/auth/password/reset",
+      "POST /api/v1/project-requests/{projectRequest}/documents/{document}/scan-retries",
+      "POST /api/v1/project-requests/{projectRequest}/information-requests/{information}/responses",
+      "POST /api/v1/project-requests/{projectRequest}/proposals/{proposal}/declines",
+      "POST /api/v1/project-requests/{projectRequest}/proposals/{proposal}/rescissions",
+      "PUT /api/v1/admin/project-requests/{projectRequest}/discovery/{revision}",
+      "PUT /api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}"
+    ],
+    "undocumented_successes": [],
+    "negative_validator_sentinels": 2,
+    "required_success_coverage": 116,
+    "missing_required_success_samples": [],
+    "failures": [],
+    "passed": true
+  },
+  "images": [
+    "sha256:74f343fde5526ab1115512dcefbb1f53cbaf0603e5fba4a4692cfec9278a7bd4",
+    "sha256:79727592b752b37249c3f78f5c93af3123dfae14a8c2bd5c93ae2464504d6fa6",
+    "sha256:dd33af1c2d1c759a45c29348daf5d4d334586832e08b5c259fa79471f5bba216"
+  ],
+  "development_source_files": 434,
+  "runtime_source_files": 434,
+  "secret_scan_findings": 0,
+  "identity_implementation_and_race_tests_preserved": true,
+  "historical_b8_p1_p2_p3_f1_evidence_files_preserved": 712,
+  "frontend_source_files_unchanged_since_browser_freeze": 258,
+  "frontend_source_files_equal_identity_snapshot": 255,
+  "frontend_external_test_differences": [
+    {
+      "path": "e2e/real/auth.spec.ts",
+      "previous_sha256": "e5030ac0c2e6024f722a4ec223abd726f880f93687385560066aa1a3d15a6d9a",
+      "current_sha256": "c53924352619978297534f6857ea6f63ff4cd19f10cea9963b205bfda718326f",
+      "current_mtime_utc": "2026-09-26T21:51:33.791378+00:00"
+    },
+    {
+      "path": "e2e/real/overview.spec.ts",
+      "previous_sha256": "b21f1715f4fce50d92bd930822cdf860bd7b4da5a919e89a125c016ff5acffec",
+      "current_sha256": "5a4d793c49201f2adad9414eb1294eda9c7e963fe7156058a283485c9f12a9b7",
+      "current_mtime_utc": "2026-09-26T21:51:33.793480+00:00"
+    },
+    {
+      "path": "e2e/support/api-calls.ts",
+      "previous_sha256": "9dec8f3d7c84b887689328e028495e95a1a64ab77a381a69cfdc941c9e9e7741",
+      "current_sha256": null,
+      "current_mtime_utc": null
+    }
+  ],
+  "frontend_external_test_additions": [
+    "e2e/support/sign-in-page.ts"
+  ],
+  "frontend_head": "3420d6c91503376c2039cc2c47ed304157dadaad",
+  "same_origin_identity_races": {
+    "iterations": 6,
+    "held_overview_responses": 18,
+    "final_csrf_mutation": 200,
+    "passed": true
+  },
+  "frontend_f1": {
+    "startTime": "2026-09-26T22:48:35.631Z",
+    "duration": 13951.953,
+    "expected": 0,
+    "skipped": 5,
+    "unexpected": 1,
+    "flaky": 0
+  },
+  "frontend_f1_exit_code": 1,
+  "blocked_gate": "Required frontend F1 6/6 gate has not passed. Final unchanged frozen test run: 0 passed, 1 failed awaiting MFA route, 5 serially skipped. Backend and inherited browser race gates passed. No website/frontend implementation change is authorized.",
+  "guest_browser": {
+    "origin": "https://localhost:8443",
+    "response_mocking": false,
+    "frontend_modified": false,
+    "checks": [
+      {
+        "method": "GET",
+        "path": "/sanctum/csrf-cookie",
+        "status": 204,
+        "cookie_names": [
+          "XSRF-TOKEN",
+          "__Host-holoul_session"
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/login",
+        "status": 200,
+        "cookie_names": [
+          "XSRF-TOKEN",
+          "__Host-holoul_session"
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/intake/categories",
+        "status": 200,
+        "cookie_names": []
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/guest/project-requests",
+        "status": 403,
+        "cookie_names": []
+      },
+      {
+        "method": "GET",
+        "path": "/sanctum/csrf-cookie",
+        "status": 204,
+        "cookie_names": [
+          "XSRF-TOKEN",
+          "__Host-holoul_session"
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/guest/project-requests",
+        "status": 201,
+        "cookie_names": []
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/identity/me",
+        "status": 200,
+        "cookie_names": []
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/login",
+        "status": 200,
+        "cookie_names": [
+          "XSRF-TOKEN",
+          "__Host-holoul_session"
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/sanctum/csrf-cookie",
+        "status": 204,
+        "cookie_names": [
+          "XSRF-TOKEN"
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/guest/project-requests/{id}/documents",
+        "status": 404,
+        "cookie_names": []
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/identity/me",
+        "status": 200,
+        "cookie_names": []
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/logout",
+        "status": 200,
+        "cookie_names": []
+      },
+      {
+        "method": "GET",
+        "path": "/sanctum/csrf-cookie",
+        "status": 204,
+        "cookie_names": [
+          "XSRF-TOKEN"
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/login",
+        "status": 200,
+        "cookie_names": [
+          "XSRF-TOKEN",
+          "__Host-holoul_session"
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/guest/project-requests/{id}/documents",
+        "status": 403,
+        "cookie_names": []
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/identity/me",
+        "status": 200,
+        "cookie_names": []
+      }
+    ],
+    "passed": true,
+    "retained_fixture": "One empty anonymous draft, no contact, submission or uploaded document; normal G1 retention applies.",
+    "chrome": "153.0.8010.53"
+  },
+  "ingress": {
+    "passed": true,
+    "origin": "https://localhost:8443",
+    "checks": [
+      {
+        "path": "/admin/login",
+        "method": "GET",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/admin/_next/static/chunks/%5Broot-of-the-server%5D__0lmwkos._.css",
+        "method": "GET",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/admin/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1di75ot._.js",
+        "method": "GET",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/admin/_next/static/chunks/_0mc45lb._.js",
+        "method": "GET",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/admin/_next/static/chunks/_1anvha4._.js",
+        "method": "GET",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/admin/_next/static/chunks/node_modules_%40swc_helpers_cjs_1r9vbqw._.js",
+        "method": "GET",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/admin/_next/static/chunks/node_modules_14hev8j._.js",
+        "method": "GET",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/admin/_next/static/chunks/node_modules_next_dist_00pwe04._.js",
+        "method": "GET",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/admin/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js",
+        "method": "GET",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/admin/_next/static/chunks/node_modules_next_dist_20wefz_._.js",
+        "method": "GET",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/admin/_next/static/chunks/node_modules_next_dist_build_polyfills_polyfill-nomodule.js",
+        "method": "GET",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/admin/_next/static/chunks/node_modules_next_dist_client_0_90u2t._.js",
+        "method": "GET",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/admin/_next/static/chunks/node_modules_next_dist_compiled_1amofcm._.js",
+        "method": "GET",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/admin/_next/static/chunks/node_modules_next_dist_compiled_next-devtools_index_090k2jm.js",
+        "method": "GET",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/admin/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js",
+        "method": "GET",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/admin/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_164kp-6._.js",
+        "method": "GET",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/admin/_next/static/chunks/src_0fx9etl._.js",
+        "method": "GET",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/admin/_next/static/chunks/turbopack-_0k03753._.js",
+        "method": "GET",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/admin/icon.png?icon.0ahtfdxl0vlx2.png",
+        "method": "GET",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/admin",
+        "method": "GET",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/administrator",
+        "method": "GET",
+        "status": 404,
+        "expected": 404
+      },
+      {
+        "path": "/api/v1",
+        "method": "GET",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/api/v1/identity/me",
+        "method": "GET",
+        "status": 401,
+        "expected": 401
+      },
+      {
+        "path": "/sanctum/csrf-cookie",
+        "method": "GET",
+        "status": 204,
+        "expected": 204
+      },
+      {
+        "path": "/sanctum/csrf-cookie",
+        "method": "GET",
+        "status": 204,
+        "expected": 204
+      },
+      {
+        "path": "/sanctum/csrf-cookie",
+        "method": "GET",
+        "status": 403,
+        "expected": 403
+      },
+      {
+        "path": "/admin/login",
+        "method": "GET",
+        "status": 403,
+        "expected": 403
+      },
+      {
+        "path": "/sanctum/csrf-cookie",
+        "method": "GET",
+        "status": 403,
+        "expected": 403
+      },
+      {
+        "path": "/admin/login",
+        "method": "GET",
+        "status": 403,
+        "expected": 403
+      },
+      {
+        "path": "/sanctum/csrf-cookie",
+        "method": "GET",
+        "status": 403,
+        "expected": 403
+      },
+      {
+        "path": "/admin/login",
+        "method": "GET",
+        "status": 403,
+        "expected": 403
+      },
+      {
+        "path": "/sanctum/csrf-cookie",
+        "method": "GET",
+        "status": 403,
+        "expected": 403
+      },
+      {
+        "path": "/admin/login",
+        "method": "GET",
+        "status": 403,
+        "expected": 403
+      },
+      {
+        "path": "/admin/login",
+        "method": "GET",
+        "status": 200,
+        "expected": 200
+      },
+      {
+        "path": "/sanctum/csrf-cookie",
+        "method": "GET",
+        "status": 204,
+        "expected": 204
+      },
+      {
+        "path": "/admin/login",
+        "method": "GET",
+        "status": 403,
+        "expected": 403
+      },
+      {
+        "path": "/sanctum/csrf-cookie",
+        "method": "GET",
+        "status": 403,
+        "expected": 403
+      },
+      {
+        "path": "/admin/login",
+        "method": "GET",
+        "status": 403,
+        "expected": 403
+      },
+      {
+        "path": "/api/v1",
+        "method": "GET",
+        "status": 400,
+        "expected": 400
+      },
+      {
+        "path": "/admin/login",
+        "method": "GET",
+        "status": 403,
+        "expected": 403
+      },
+      {
+        "path": "/admin/login",
+        "method": "GET",
+        "status": 403,
+        "expected": 403
+      },
+      {
+        "path": "/api/v1/auth/login",
+        "method": "POST",
+        "status": 403,
+        "expected": 403
+      },
+      {
+        "path": "/api/v1",
+        "announced_bytes": 12582913,
+        "status": 413,
+        "expected": 413
+      },
+      {
+        "path": "/admin/api/portfolio",
+        "announced_bytes": 13631488,
+        "status": 100,
+        "expected": 100
+      },
+      {
+        "path": "/admin/api/portfolio",
+        "announced_bytes": 42991617,
+        "status": 413,
+        "expected": 413
+      }
+    ],
+    "asset_content_types": [
+      "application/javascript",
+      "image/png",
+      "text/css"
+    ],
+    "cookie_flags": {
+      "XSRF-TOKEN": {
+        "secure": true,
+        "same_site": "lax",
+        "host_only": true,
+        "http_only": false
+      },
+      "__Host-holoul_session": {
+        "secure": true,
+        "same_site": "lax",
+        "host_only": true,
+        "http_only": true
+      }
+    },
+    "tls_exception": true,
+    "http_with_forged_https_rejected": true
+  },
+  "local_state": {
+    "environment": "local",
+    "debug": false,
+    "database": "holoul",
+    "database_role": "holoul_app",
+    "migration_count": 30,
+    "guest_schema_active": true,
+    "session_driver": "database",
+    "middleware_sha256": "3171198fb17be0600065e8e7058b94508aa1e88e133356b236d79c7ffcdd9d1d"
+  },
+  "local_backup": {
+    "database": "holoul",
+    "file": "artifacts/g1-resume/pre-g1-local.pgdump",
+    "bytes": 21167406,
+    "sha256": "18d9ba1019f08a7cfbbffd90f696b4748660f13cc783406c82a1849f5d401523",
+    "catalog_verified": true
+  },
+  "git_main": "96445baded70ddd2e4d8b8617793c78a4a3e1816"
+}

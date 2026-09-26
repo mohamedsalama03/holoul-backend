@@ -56,7 +56,7 @@ final readonly class IntakeApi
             }
             $contact = $identity->kind === 'customer' ? $this->contacts->currentForIdentity($identity->id) : null;
             if ($identity->kind === 'customer' && $contact === null) {
-                throw new AuthorizationException;
+                throw ValidationException::withMessages(['profile_complete_required' => 'Complete your customer profile before intake.']);
             }
             $actor = new IntakeActor($identity->id, $contact?->customerId, $identity->verifiedEmail, $identity->permissions);
             $id = $this->parameter($request, 'projectRequest');

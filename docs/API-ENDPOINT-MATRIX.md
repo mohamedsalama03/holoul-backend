@@ -118,6 +118,11 @@ Generated from the reviewed OpenAPI source. Permissions never override ownership
 | Read an owned customer profile | `/api/v1/customers/{customer}` | GET | customer | — |
 | Update an owned customer profile | `/api/v1/customers/{customer}` | PATCH | customer | — |
 | Customer Nested project request | `/api/v1/customers/{customer}/project-requests/{projectRequest}` | GET | customer | — |
+| Create an ephemeral guest intake draft | `/api/v1/guest/project-requests` | POST | guest | — |
+| Reserve the guest draft document | `/api/v1/guest/project-requests/{projectRequest}/documents` | POST | guest | — |
+| Read document processing metadata before submission | `/api/v1/guest/project-requests/{projectRequest}/documents/{document}` | GET | guest | — |
+| Upload guest document bytes | `/api/v1/guest/project-requests/{projectRequest}/documents/{document}/content` | PUT | guest | — |
+| Submit a guest idea | `/api/v1/guest/project-requests/{projectRequest}/submissions` | POST | guest | — |
 | Read an owned customer profile | `/api/v1/identities/{identity}/customers/{customer}` | GET | customer | — |
 | Update an owned customer profile | `/api/v1/identities/{identity}/customers/{customer}` | PATCH | customer | — |
 | Get the current identity | `/api/v1/identity/me` | GET | customer, staff | — |
@@ -126,6 +131,8 @@ Generated from the reviewed OpenAPI source. Permissions never override ownership
 | Revoke other sessions | `/api/v1/identity/sessions/revoke-others` | POST | customer, staff | — |
 | Read a staff identity and assigned roles | `/api/v1/identity/staff/{user}` | GET | staff | identity.staff.read |
 | Change staff roles or enabled status | `/api/v1/identity/staff/{user}/authorization` | PATCH | staff | identity.staff.read, identity.staff.manage |
+| List Active Categories | `/api/v1/intake/categories` | GET | guest, customer, staff | — |
+| List Active Subcategories | `/api/v1/intake/categories/{category}/subcategories` | GET | guest, customer, staff | — |
 | List own notifications | `/api/v1/notifications` | GET | customer, staff | notifications.self.read |
 | Read notification preference | `/api/v1/notifications/preferences` | GET | customer, staff | notifications.self.read |
 | Change workflow email preference | `/api/v1/notifications/preferences` | PATCH | customer, staff | notifications.self.manage |
@@ -133,6 +140,7 @@ Generated from the reviewed OpenAPI source. Permissions never override ownership
 | Poll unread notification count | `/api/v1/notifications/unread-count` | GET | customer, staff | notifications.self.read |
 | Read own notification | `/api/v1/notifications/{notification}` | GET | customer, staff | notifications.self.read |
 | Mark notification read | `/api/v1/notifications/{notification}/read` | POST | customer, staff | notifications.self.manage |
+| Explicitly claim an eligible guest submission | `/api/v1/project-request-claims` | POST | customer | — |
 | Customer List project request | `/api/v1/project-requests` | GET | customer | — |
 | Customer Create project request | `/api/v1/project-requests` | POST | customer | — |
 | Customer Reference project request | `/api/v1/project-requests/by-reference/{reference}` | GET | customer | — |

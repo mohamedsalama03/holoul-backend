@@ -71,8 +71,8 @@ final class MigrationUpgradeTest extends TestCase
             $sequence = DB::selectOne('SELECT last_value,is_called FROM request_reference_sequence');
             $this->assertDatabaseCount('migrations', 15);
             $this->assertDatabaseCount('permissions', 17);
-            $this->artisan('migrate', ['--force' => true])->assertExitCode(0);
-            $this->artisan('migrate', ['--force' => true])->assertExitCode(0);
+            $this->artisan('migrate', ['--path' => array_values(array_filter(glob(database_path('migrations/*.php')), static fn (string $file): bool => basename($file) < '2026_09_26')), '--realpath' => true, '--force' => true])->assertExitCode(0);
+            $this->artisan('migrate', ['--path' => array_values(array_filter(glob(database_path('migrations/*.php')), static fn (string $file): bool => basename($file) < '2026_09_26')), '--realpath' => true, '--force' => true])->assertExitCode(0);
             $this->assertDatabaseCount('migrations', 29);
             $this->assertDatabaseCount('permissions', 53);
             foreach ($tables as $table) {

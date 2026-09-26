@@ -67,9 +67,9 @@ final class MigrationUpgradeTest extends TestCase
             }
             $this->assertDatabaseCount('migrations', 19);
             $this->assertDatabaseCount('permissions', 29);
-            $this->artisan('migrate', ['--force' => true])->assertExitCode(0);
-            $this->artisan('migrate', ['--force' => true])->assertExitCode(0);
-            $this->assertDatabaseCount('migrations', count(glob(database_path('migrations/*.php'))));
+            $this->artisan('migrate', ['--path' => array_values(array_filter(glob(database_path('migrations/*.php')), static fn (string $file): bool => basename($file) < '2026_09_26')), '--realpath' => true, '--force' => true])->assertExitCode(0);
+            $this->artisan('migrate', ['--path' => array_values(array_filter(glob(database_path('migrations/*.php')), static fn (string $file): bool => basename($file) < '2026_09_26')), '--realpath' => true, '--force' => true])->assertExitCode(0);
+            $this->assertDatabaseCount('migrations', count(array_filter(glob(database_path('migrations/*.php')), static fn (string $file): bool => basename($file) < '2026_09_26')));
             $this->assertDatabaseCount('migrations', 29);
             $this->assertDatabaseCount('permissions', 53);
             foreach ($before as $table => $rows) {

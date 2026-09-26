@@ -31,7 +31,7 @@ final readonly class ExtractDocumentText implements DocumentTextService
         $document = Document::query()->whereKey($documentId)->where('parent_id', $owner->parentId)
             ->where('customer_id', $owner->customerId)->where('customer_user_id', $owner->userId)
             ->where('state', DocumentState::Available->value)->sharedLock()->first();
-        if ($document === null || $document->storage_version === null) {
+        if ($document === null || $document->storage_version === null || $document->customer_id === null || $document->customer_user_id === null) {
             throw new DocumentSourceUnavailable;
         }
 

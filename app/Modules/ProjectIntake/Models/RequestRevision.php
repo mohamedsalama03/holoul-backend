@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property string $id
  * @property string $request_id
- * @property string $customer_id
+ * @property ?string $customer_id
  * @property int $revision_number
  * @property string $full_name
  * @property string $email
@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property bool $budget_unknown
  * @property ?int $budget_minor
  * @property ?string $currency
- * @property string $submitted_by
+ * @property ?string $submitted_by
  * @property CarbonImmutable $submitted_at
  * @property string $provenance
  */

@@ -42,7 +42,7 @@ final readonly class ConvertRequest
                 return $replay;
             }
             VersionPrecondition::require($etag, $requestId, $request->lock_version);
-            if ($request->state !== RequestState::Approved) {
+            if ($request->state !== RequestState::Approved || $request->customer_id === null || $request->customer_user_id === null) {
                 throw new HttpException(409);
             }
             $baseline = $this->proposals->lockAccepted($requestId, $request->customer_id, $request->customer_user_id);

@@ -9,9 +9,9 @@ final readonly class DocumentOwner
 {
     public function __construct(
         public string $parentId,
-        public string $customerId,
-        public string $userId,
-        public string $actorId,
+        public ?string $customerId,
+        public ?string $userId,
+        public ?string $actorId,
         public string $requestId,
     ) {}
 }

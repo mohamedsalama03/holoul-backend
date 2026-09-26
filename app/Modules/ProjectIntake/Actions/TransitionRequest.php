@@ -34,7 +34,7 @@ final readonly class TransitionRequest
                 $this->store->policy->staff($actor, $record, $permission);
                 $valid = match ($action) {
                     'review' => $record->state === RequestState::Submitted,
-                    'discovery' => $record->state === RequestState::UnderReview,
+                    'discovery' => $record->customer_id !== null && $record->state === RequestState::UnderReview,
                     'reject' => in_array($record->state, [RequestState::UnderReview, RequestState::InformationRequired, RequestState::Discovery], true),
                 };
                 if (! $valid) {
