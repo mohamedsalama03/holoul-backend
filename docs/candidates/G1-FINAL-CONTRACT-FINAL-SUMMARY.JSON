@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "fresh_capture_lines": 1376,
+  "historical_capture_lines": 2232,
+  "all_eight_g1_operations_fresh_success_covered": [
+    "GET /api/v1/guest/project-requests/{projectRequest}/documents/{document}",
+    "GET /api/v1/intake/categories",
+    "GET /api/v1/intake/categories/{category}/subcategories",
+    "POST /api/v1/guest/project-requests",
+    "POST /api/v1/guest/project-requests/{projectRequest}/documents",
+    "POST /api/v1/guest/project-requests/{projectRequest}/submissions",
+    "POST /api/v1/project-request-claims",
+    "PUT /api/v1/guest/project-requests/{projectRequest}/documents/{document}/content"
+  ],
+  "combined_validated_responses": 3608,
+  "combined_observed_operations": 145,
+  "combined_required_success_coverage": 116,
+  "failures": [],
+  "missing_coverage": [],
+  "note": "The unchanged complete historical corpus is preserved separately; final focused responses are fresh, not a new full application test run."
+}

@@ -1,3 +1,7 @@
+> **Current status (2026-09-27): BACKEND FEATURE READY FOR WEBSITE INTEGRATION.** The external F1 blocker has passed final verification. See [G1-FINAL-ACCEPTANCE.md](G1-FINAL-ACCEPTANCE.md) and the [accepted website handoff](G1-WEBSITE-INTEGRATION.md). The earlier report below is preserved as historical evidence, including its then-blocked classification. Production performance remains pending the target VPS.
+
+---
+
 # HOLOUL G1 — dual project intake verification
 
 **G1 BLOCKED — required frontend F1 regression has not passed.** Backend implementation and its full security/migration/contract gate pass, but G1 acceptance requires F1 6/6. Website integration has not started. This is **not Production Ready**. B8 production performance certification remains pending the target VPS.

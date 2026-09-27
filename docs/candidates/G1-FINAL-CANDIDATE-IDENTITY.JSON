@@ -1,0 +1,63 @@
+{
+  "candidate": "7ec83d414783553d3be2dc5f4cb6e3920794c0fe",
+  "parent": "9940acf6d9e16c7da3cd08b1a6028c875d5accd0",
+  "candidate_files": 739,
+  "implementation_manifest_matches": 668,
+  "prior_manifest_expected_changes": [
+    "docker/nginx/nginx.conf"
+  ],
+  "approved_identity_files_unchanged": [
+    "app/Infrastructure/Http/SessionResponse.php",
+    "app/Infrastructure/Http/StartSecureSession.php",
+    "app/Modules/Identity/Http/StrictCsrf.php",
+    "app/Modules/Identity/Security/SessionSecurity.php",
+    "app/Modules/Identity/Mfa/MfaActions.php",
+    "bootstrap/app.php",
+    "tests/Feature/Identity/SessionLifecycleTest.php",
+    "tests/Fixtures/session-lifecycle-worker.php",
+    "tests/Feature/Identity/IdentityHttpTest.php",
+    "tests/Feature/Identity/SessionPruningTest.php",
+    "app/Infrastructure/Database/WrappedConcurrencyErrors.php",
+    "app/Providers/AppServiceProvider.php",
+    "tests/Unit/WrappedConcurrencyErrorsTest.php",
+    "tests/Feature/Reporting/ReportingHttpTest.php"
+  ],
+  "expected_f1_e2_changes": [
+    "docker/nginx/nginx.conf",
+    "docs/contracts/source-manifest.json"
+  ],
+  "additional_files": [
+    "docs/F1-E2-VERIFICATION.md"
+  ],
+  "checkpoint_only_evidence_files": [
+    "docs/candidates/APPROVED-IDENTITY-BROWSER-RACES.cjs",
+    "docs/candidates/G1-ATTEMPTS.json",
+    "docs/candidates/G1-FRONTEND-SNAPSHOT.json",
+    "docs/candidates/G1-GUEST-BROWSER-REGRESSION.cjs",
+    "docs/candidates/G1-OPENAPI-DELTA.json",
+    "docs/candidates/G1-VERIFICATION-SUMMARY.json",
+    "docs/candidates/HISTORICAL-EVIDENCE-SHA256.json",
+    "docs/candidates/IDENTITY-CHECKPOINT.md",
+    "docs/candidates/PRE-G1-EVIDENCE-SHA256.json"
+  ],
+  "openapi": {
+    "version": "1.1.0-g1",
+    "openapi": "3.1.1",
+    "previous_sha256": "1422e14ef0c18204c420080c33f0b597f39cce5093acf358aa15aa1ee980499b",
+    "sha256": "ae8d0a904a0042b80f9adc1224dedf8677794e2d49ca5cdf41daeb5278780be8",
+    "original_operations_unchanged": 164,
+    "operation_count": 172,
+    "added_operations": {
+      "POST /api/v1/guest/project-requests": "guestIntakeCreate",
+      "POST /api/v1/guest/project-requests/{projectRequest}/documents": "guestIntakeReserveDocument",
+      "GET /api/v1/guest/project-requests/{projectRequest}/documents/{document}": "guestIntakeDocumentStatus",
+      "PUT /api/v1/guest/project-requests/{projectRequest}/documents/{document}/content": "guestIntakeUploadDocument",
+      "POST /api/v1/guest/project-requests/{projectRequest}/submissions": "guestIntakeSubmit",
+      "GET /api/v1/intake/categories": "guestIntakeCategories",
+      "GET /api/v1/intake/categories/{category}/subcategories": "guestIntakeSubcategories",
+      "POST /api/v1/project-request-claims": "guestIntakeClaim"
+    }
+  },
+  "main": "96445baded70ddd2e4d8b8617793c78a4a3e1816",
+  "index_clean": true
+}

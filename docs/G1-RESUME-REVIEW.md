@@ -1,3 +1,7 @@
+> **Current status (2026-09-27): BACKEND FEATURE READY FOR WEBSITE INTEGRATION.** The external F1 blocker has passed final verification. See [G1-FINAL-ACCEPTANCE.md](G1-FINAL-ACCEPTANCE.md) and the [accepted website handoff](G1-WEBSITE-INTEGRATION.md). The earlier report below is preserved as historical evidence, including its then-blocked classification. Production performance remains pending the target VPS.
+
+---
+
 # G1 resume: candidate baseline and pre-completion review
 
 This is a backend feature candidate, not a production release. The Identity Session Rotation Race remediation was explicitly approved before G1 resumed. Target VPS performance certification remains pending.

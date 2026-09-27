@@ -1,0 +1,12 @@
+{
+  "implementation_source_unchanged": true,
+  "only_final_documentation_changes": [
+    "docs/G1-RESUME-REVIEW.md",
+    "docs/G1-VERIFICATION.md",
+    "docs/G1-WEBSITE-INTEGRATION.md"
+  ],
+  "new_document": "docs/G1-FINAL-ACCEPTANCE.md",
+  "openapi_sha256": "ae8d0a904a0042b80f9adc1224dedf8677794e2d49ca5cdf41daeb5278780be8",
+  "frontend_source_unchanged": true,
+  "main": "96445baded70ddd2e4d8b8617793c78a4a3e1816"
+}

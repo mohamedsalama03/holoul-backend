@@ -1,0 +1,405 @@
+{
+  "classification": "BACKEND FEATURE READY FOR WEBSITE INTEGRATION",
+  "recorded_at_utc": "2026-09-27T12:28:17.859418+00:00",
+  "production_ready": false,
+  "implementation_candidate": "7ec83d414783553d3be2dc5f4cb6e3920794c0fe",
+  "approved_identity_parent": "9940acf6d9e16c7da3cd08b1a6028c875d5accd0",
+  "main_unchanged": "96445baded70ddd2e4d8b8617793c78a4a3e1816",
+  "frontend_head": "17cca09675ad42f7ae9965b5cb2bcd5950398a26",
+  "backend_image": "sha256:74f343fde5526ab1115512dcefbb1f53cbaf0603e5fba4a4692cfec9278a7bd4",
+  "frontend_e2e": {
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "retries": 0,
+    "tests": [
+      {
+        "title": "staff: password \u2192 MFA \u2192 current user \u2192 /admin \u2192 sign out",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 5759
+      },
+      {
+        "title": "invalid credentials are refused without revealing the account",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 2951
+      },
+      {
+        "title": "staff enrollment: set up MFA \u2192 recovery codes \u2192 current user; a recovery code signs in",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 7077
+      },
+      {
+        "title": "a customer is signed in by the API but denied the dashboard",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 2035
+      },
+      {
+        "title": "a session revoked from another sign-in loses the dashboard",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 36251
+      },
+      {
+        "title": "the API's CSP stays on the API; the dashboard gets its own",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 173
+      }
+    ],
+    "origin": "https://localhost:8443",
+    "production_next": true,
+    "fixture_reset_before_run": true
+  },
+  "unit_architecture": {
+    "tests": 153,
+    "assertions": 42766,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "focused_feature": {
+    "tests": 333,
+    "assertions": 6125,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "nested_postgresql_race": {
+    "tests": 1,
+    "assertions": 12,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "total_backend_tests": 487,
+  "total_backend_assertions": 48903,
+  "suites": {
+    "Tests\\Unit\\AIOutputSchemaTest": {
+      "tests": 1,
+      "assertions": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Unit\\Async\\OperationInputTest": {
+      "tests": 7,
+      "assertions": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Unit\\Audit\\SafeAuditMetadataTest": {
+      "tests": 17,
+      "assertions": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Unit\\Customers\\InternationalPhoneTest": {
+      "tests": 9,
+      "assertions": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Unit\\Http\\ApiErrorTest": {
+      "tests": 5,
+      "assertions": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Unit\\MoneyTest": {
+      "tests": 34,
+      "assertions": 64,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Unit\\ProductionConfigurationTest": {
+      "tests": 48,
+      "assertions": 209,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Unit\\ProposalPricingTest": {
+      "tests": 19,
+      "assertions": 22,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Unit\\SafeLogProcessorTest": {
+      "tests": 3,
+      "assertions": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Unit\\WrappedConcurrencyErrorsTest": {
+      "tests": 1,
+      "assertions": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Architecture\\FoundationArchitectureTest": {
+      "tests": 9,
+      "assertions": 42408,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\ApiContractTest": {
+      "tests": 2,
+      "assertions": 1280,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\Categories\\TaxonomyHttpValidationTest": {
+      "tests": 2,
+      "assertions": 93,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\Commercial\\ProposalDocumentsTest": {
+      "tests": 3,
+      "assertions": 59,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\Documents\\DocumentAdaptersTest": {
+      "tests": 8,
+      "assertions": 65,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\Documents\\DocumentBulkMetadataTest": {
+      "tests": 4,
+      "assertions": 33,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\Documents\\DocumentConcurrencyTest": {
+      "tests": 3,
+      "assertions": 21,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\Documents\\DocumentConstraintsTest": {
+      "tests": 15,
+      "assertions": 35,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\Documents\\DocumentHttpTest": {
+      "tests": 24,
+      "assertions": 419,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\Documents\\DocumentLifecycleTest": {
+      "tests": 19,
+      "assertions": 94,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\Documents\\DocumentQueueTransportTest": {
+      "tests": 2,
+      "assertions": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\Documents\\DocumentReconciliationTest": {
+      "tests": 8,
+      "assertions": 40,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\Documents\\DocumentTextExtractionTest": {
+      "tests": 16,
+      "assertions": 83,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\Documents\\ExpireIntakeUploadsTest": {
+      "tests": 5,
+      "assertions": 52,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\Documents\\MigrationUpgradeTest": {
+      "tests": 1,
+      "assertions": 246,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\Identity\\IdentityHttpTest": {
+      "tests": 34,
+      "assertions": 304,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\Identity\\SessionLifecycleTest": {
+      "tests": 18,
+      "assertions": 830,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\Identity\\SessionPruningTest": {
+      "tests": 6,
+      "assertions": 33,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\LocalE2EFixtureTest": {
+      "tests": 4,
+      "assertions": 66,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\ProjectIntake\\GuestIntakeConcurrencyTest": {
+      "tests": 8,
+      "assertions": 102,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\ProjectIntake\\GuestIntakeConstraintsTest": {
+      "tests": 3,
+      "assertions": 25,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\ProjectIntake\\GuestIntakeHttpTest": {
+      "tests": 39,
+      "assertions": 448,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\ProjectIntake\\GuestIntakeUpgradeTest": {
+      "tests": 2,
+      "assertions": 271,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\ProjectIntake\\GuestSessionIsolationTest": {
+      "tests": 9,
+      "assertions": 176,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\ProjectIntake\\IntakeConcurrencyTest": {
+      "tests": 4,
+      "assertions": 104,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\ProjectIntake\\IntakeConstraintsTest": {
+      "tests": 20,
+      "assertions": 211,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\ProjectIntake\\IntakeHttpTest": {
+      "tests": 45,
+      "assertions": 456,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\ProjectIntake\\IntakeWorkflowTest": {
+      "tests": 17,
+      "assertions": 173,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\ProjectIntake\\MigrationUpgradeTest": {
+      "tests": 1,
+      "assertions": 114,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\ProjectIntake\\ReadConcurrencyTest": {
+      "tests": 1,
+      "assertions": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\Projects\\ProjectDocumentListingQueryTest": {
+      "tests": 1,
+      "assertions": 49,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\Projects\\ProjectDocumentsTest": {
+      "tests": 9,
+      "assertions": 203,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Tests\\Feature\\Reporting\\ReportingHttpTest": {
+      "tests": 1,
+      "assertions": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "contract": {
+    "version": "1.1.0-g1",
+    "openapi": "3.1.1",
+    "previous_sha256": "1422e14ef0c18204c420080c33f0b597f39cce5093acf358aa15aa1ee980499b",
+    "sha256": "ae8d0a904a0042b80f9adc1224dedf8677794e2d49ca5cdf41daeb5278780be8",
+    "original_operations_unchanged": 164,
+    "operation_count": 172,
+    "added_operations": {
+      "POST /api/v1/guest/project-requests": "guestIntakeCreate",
+      "POST /api/v1/guest/project-requests/{projectRequest}/documents": "guestIntakeReserveDocument",
+      "GET /api/v1/guest/project-requests/{projectRequest}/documents/{document}": "guestIntakeDocumentStatus",
+      "PUT /api/v1/guest/project-requests/{projectRequest}/documents/{document}/content": "guestIntakeUploadDocument",
+      "POST /api/v1/guest/project-requests/{projectRequest}/submissions": "guestIntakeSubmit",
+      "GET /api/v1/intake/categories": "guestIntakeCategories",
+      "GET /api/v1/intake/categories/{category}/subcategories": "guestIntakeSubcategories",
+      "POST /api/v1/project-request-claims": "guestIntakeClaim"
+    }
+  },
+  "website_changes": false,
+  "dashboard_changes": false,
+  "new_g1_implementation": false,
+  "production_blocker": "B8 performance certification pending target VPS; original failed evidence and targets retained."
+}

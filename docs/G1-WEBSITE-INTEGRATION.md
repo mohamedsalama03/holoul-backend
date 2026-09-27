@@ -1,90 +1,106 @@
-# G1 website integration contract
+# G1 — Public Website integration handoff
 
-Scope: backend contract only. Website implementation has not started. Use `docs/openapi.json` (OpenAPI 3.1.1, version `1.1.0-g1`) for exact schemas. See `G1-VERIFICATION.md` for the verified candidate and deployment boundary.
+**BACKEND FEATURE READY FOR WEBSITE INTEGRATION.** Acceptance evidence: [G1-FINAL-ACCEPTANCE.md](G1-FINAL-ACCEPTANCE.md). This authorizes integration against the accepted backend contract; no website or Admin Dashboard implementation is included, and this is not Production Ready.
 
-## Select the experience from the existing session
+Authoritative contract: [openapi.json](openapi.json), OpenAPI **3.1.1**, API version **1.1.0-g1**, **172 operations**, SHA-256 `ae8d0a904a0042b80f9adc1224dedf8677794e2d49ca5cdf41daeb5278780be8`. The frontend contract copy has not been changed. The original 164 operation objects and authenticated request bodies remain unchanged. Five GuestIntake schemas are additive. The shared `IntakeRevision` now also represents guest history: `submitted_by` may be null and `provenance` may be `guest_submission`; existing customer-authored values remain unchanged.
 
-Initialize the existing first-party CSRF cookie and resolve the existing identity state. A signed-in customer uses the existing authenticated intake endpoints and profile name/email/phone. Do not ask for those contacts again or send replacement contact/customer IDs. A staff identity or incomplete MFA session must finish its own authentication flow; it is not a guest. An anonymous session uses the new guest flow. Do not infer identity from an entered email.
+## Choose the correct experience
 
-After authentication is complete, `GET /api/v1/identity/me` provides `full_name`, `email`, `kind`, verification and session capabilities. `GET /api/v1/customers` returns the current customer's own profile (0–1 rows), including `phone_e164` and `phone_display`; use these reads for the “Submitting as” presentation only. Final authenticated submission independently reads the current profile again. Refresh CSRF after login/MFA/session rotation. Do not probe `/identity/me` while MFA is pending, since its authenticated guard invalidates an incomplete session; that guard behavior remains part of the inherited security contract.
+**Guest:** Contact Information → Guest Draft → Optional Document → Final Submission → Reference → Secure account/sign-in/claim continuation.
 
-An incomplete authenticated contact profile returns HTTP 422 with `error.fields.profile_complete_required`. Display a profile-completion action; the generic field message is deliberately not product copy. An unverified identity must complete the existing email-verification flow before submitting. There is no guest fallback for an authenticated identity.
+**Authenticated customer:** Authenticated Profile → existing authenticated draft/intake → optional document → submission → own request. **Do not ask for Name, Email or Phone again in Submit Your Idea.** They come from the server-side profile, and the server derives ownership. Do not send forged contact, customer or user ownership fields. An incomplete profile returns 422 with `error.fields.profile_complete_required`; offer profile completion. An unverified customer must complete existing email verification. Staff and incomplete MFA identities are not guests.
 
-Both experiences use: active category → active subcategory → project name → description → optional document → budget → review → submit. USD accepts at most 2 decimal places; LYD accepts at most 3. Send decimal **strings**, including zero. Unknown budget uses `budget_unknown: true` with amount/currency omitted or null. Known budget uses `budget_unknown: false`, `estimated_budget` and `currency` together.
+Resolve identity through the existing authentication state. Do not interpret a transient failed identity request as permission to use guest endpoints. Bootstrap CSRF explicitly with `identityInitializeCsrf` (`GET /sanctum/csrf-cookie`, 204); after completed authentication, read `identityGetCurrentUser` (`GET /api/v1/identity/me`, `IdentityCurrentUserResponse`) and `customerListOwnProfiles` (`GET /api/v1/customers`, `CustomerProfilesResponse`, own 0–1 profiles). These supply name/email and phone for display; authenticated submission independently reads the current profile. Do not call authenticated `/identity/me` while MFA is pending. Refresh CSRF after login/MFA/session rotation.
 
-## New operations
+Guests must provide **Full Name, Email and an international phone with leading `+` and country calling code**. These contacts remain part of the immutable submitted revision. The server validates and normalizes the phone to E.164 and trims/lowercases email without provider-specific rewriting. It does not guess a phone region or associate an account from an email match.
 
-| Method | `/api/v1` path | Purpose |
-|---|---|---|
-| GET | `/intake/categories` | Active shared categories; cursor pagination |
-| GET | `/intake/categories/{category}/subcategories` | Active children of an active parent |
-| POST | `/guest/project-requests` | Empty canonical draft; returns capability, expiry and ETag |
-| POST | `/guest/project-requests/{draft}/documents` | Reserve one private PDF/DOCX |
-| PUT | `/guest/project-requests/{draft}/documents/{document}/content` | Stream raw file bytes into quarantine |
-| GET | `/guest/project-requests/{draft}/documents/{document}` | Bounded processing metadata while draft is editable |
-| POST | `/guest/project-requests/{draft}/submissions` | Commit validated contacts/project and immutable revision |
-| POST | `/project-request-claims` | Authenticated, verified customer's explicit one-time association |
+Both paths use the same active category/subcategory taxonomy, project information, exact money parser, canonical `ProjectRequest`, immutable revisions and private document security. USD permits up to **2** fractional digits and LYD up to **3**; send decimal **strings**, never JSON floating-point numbers. Zero is valid. Known budget requires `budget_unknown:false`, `estimated_budget` and `currency` (`USD`/`LYD`). Unknown budget uses `budget_unknown:true` and omits or nulls amount/currency. Minor units must fit PostgreSQL signed BIGINT.
 
-No guest request-detail, list, download, AI or account-existence endpoint is provided. A request reference or UUID never authorizes access.
+## Eight G1 operations
 
-Public taxonomy GETs are stateless: they retain exact-origin and IP rate controls but do not load, save or emit session cookies. Guest mutations require an explicit `/sanctum/csrf-cookie` bootstrap first; they read its CSRF/session binding but never save or replace authentication state.
+All paths in this table are relative to `/api/v1`. Responses use `{ "data": ... }`; taxonomy also returns `meta.next_cursor`. The named schemas are under `components.schemas` in the accepted contract. Public taxonomy accepts `limit` (1–100) and `cursor`; other path identifiers use UUIDv7.
 
-Login/MFA/logout rotations invalidate the original draft binding. Keep unsent form fields in page state and switch to authenticated intake after login; do not silently transfer anonymous attachments or fall back to guest. A submitted guest request uses its independent claim token, which remains usable after login/logout under the claim rules. Customer login can claim; staff MFA does not grant customer ownership.
+| Method and path | operationId | Request → success schema/status | Required operation headers |
+|---|---|---|---|
+| GET `/intake/categories` | `guestIntakeCategories` | No body → `TaxonomyPageResponse` / 200 | No capability or CSRF header |
+| GET `/intake/categories/{category}/subcategories` | `guestIntakeSubcategories` | No body → `TaxonomyPageResponse` / 200 | No capability or CSRF header |
+| POST `/guest/project-requests` | `guestIntakeCreate` | Empty object `{}` → `GuestIntakeDraftResponse` / 201 | CSRF |
+| POST `/guest/project-requests/{projectRequest}/documents` | `guestIntakeReserveDocument` | `DocumentReserveInput` → `DocumentResponse` / 201 | CSRF, capability, If-Match, Idempotency-Key |
+| PUT `/guest/project-requests/{projectRequest}/documents/{document}/content` | `guestIntakeUploadDocument` | Raw binary → `DocumentResponse` / 200 | CSRF, capability, If-Match |
+| GET `/guest/project-requests/{projectRequest}/documents/{document}` | `guestIntakeDocumentStatus` | No body → `DocumentResponse` / 200 | Capability and original session |
+| POST `/guest/project-requests/{projectRequest}/submissions` | `guestIntakeSubmit` | `GuestIntakeSubmissionInput` → `GuestIntakeConfirmationResponse` / 201 | CSRF, capability, If-Match, Idempotency-Key |
+| POST `/project-request-claims` | `guestIntakeClaim` | `GuestIntakeClaimInput` → `GuestIntakeClaimResponse` / 200 | CSRF, Idempotency-Key, verified matching customer session |
 
-A guest request already authorized and in flight may finish anonymously while login completes. Its response must never replace the current login. Treat any resulting submission receipt as a guest receipt requiring explicit claim; do not silently attach it or automatically create a second authenticated submission. A rotated binding rejects subsequent use of the old draft capability, including bootstrap with a retired cookie.
+“CSRF” means the decoded `XSRF-TOKEN` cookie sent as `X-XSRF-TOKEN`. “Capability” means `X-Intake-Capability`. Send browser cookies using same-origin credentials. Exact allowed origin/host rules remain mandatory; do not add cross-origin access or rewrite Origin. Public taxonomy does not load/save session state or emit session cookies. Guest mutations explicitly require the CSRF bootstrap session but never save or replace authenticated session state. Document status is a read, so no CSRF header is required, but capability/session/origin authorization still applies.
 
-## Guest sequence
+Use JSON `Content-Type: application/json` except the binary upload. Preserve the **quoted parent request ETag** in `If-Match`, not a document ID/version. Create returns ETag both in the header and `data.etag`; reservation, upload and metadata return parent ETag headers. Claim returns the resulting request ETag. Final submission returns its confirmation receipt without a new ETag.
 
-1. Keep form fields in the current page's state. Send `{}` to create the draft when the workflow needs its upload identity or is ready to submit. The response contains `draft_id`, `capability`, `expires_at`, `etag`; the response also carries ETag. The capability lasts 30 minutes and is bound to the current browser session and its CSRF generation. There is no persistent public draft reader.
-2. Collect `full_name`, `email` and `phone`. The phone must include `+` and the selected country calling code; the backend normalizes it to E.164. It does not guess a country. Emails are trimmed/lowercased without provider-specific rewriting. These are submitted contacts, not proof of an account.
-3. For a document, send `filename`, integer `bytes` and lowercase SHA-256 to the reservation endpoint. Include `X-Intake-Capability`, a fresh `Idempotency-Key`, and the current quoted `If-Match`. Preserve the returned parent ETag. Upload with `Content-Type: application/octet-stream`, the capability and that ETag; do not use multipart. Upload authorization expires 10 minutes after reservation and is checked again after storage I/O.
-4. Submit the complete contact/project payload below with the capability, current parent `If-Match` and a distinct final-submission `Idempotency-Key`. At most one PDF/DOCX of 10 MiB can be attached. It must have finished upload and be Quarantined or Available. Download remains blocked until Available and authorized account/staff access.
-5. On success, display the safe `reference` and confirmation. The identical continuation for every email is `sign_in_verify_email_and_claim`. Securely retain `claim_token` only for the current continuation. Never put capabilities or claims in URLs, logs, analytics, error reports or localStorage. In-memory state can retain the token across an in-page authentication flow; if a full navigation is necessary, a protected server session must carry it. Losing it does not authorize an email/reference recovery shortcut.
-6. Create/sign into an account through existing identity APIs and verify the same email used for submission. POST `{ "token": "<claim_token>" }` to `/project-request-claims` with CSRF and a fresh retained `Idempotency-Key`. The claim is eligible for 72 hours while Submitted or Under Review. The independent token and the authenticated verified matching identity are both required. Success returns `request_id`, `reference`, `version` and the resulting ETag. Read the request through the existing authenticated endpoint and offer “View My Request”.
+## Guest sequence and expiry
 
-Example final body (category values must be actual active UUIDv7 identifiers):
+1. Collect the form in page state. Create the empty draft when an upload identity or final submission is needed. `GuestIntakeDraftResponse.data` has `draft_id`, `capability`, `expires_at`, `etag`. The 256-bit capability is returned once, stored hashed server-side, and lasts **30 minutes**, bound to the original browser session **and its CSRF generation**. It is not a persistent public draft-reader token. Draft creation has no idempotency key; do not automatically create another draft after an ambiguous response.
+2. Use the exact optional upload sequence below, retaining its latest parent ETag.
+3. Submit `GuestIntakeSubmissionInput`: required `full_name`, `email`, `phone`, `category_id`, `subcategory_id`, `project_name`, `project_description`, `budget_unknown`; optional exact `estimated_budget` and `currency` under the money rules. No contact/ownership overrides or unsupported fields are allowed. Final submission records the complete contact/project snapshot atomically; it does not persist partial form fields.
+4. Display `GuestIntakeConfirmationResponse.data.reference` and `confirmation: submitted`. Every email gets the same `next_step: sign_in_verify_email_and_claim`, plus `claim_token` and `claim_expires_at`. **A reference is not an authentication credential. Email equality alone never establishes ownership.** No guest private request list/detail/download or account-existence lookup is available.
+5. Retain the independent claim token securely for account creation/sign-in and email verification. Never put it or the draft capability in URLs, localStorage, logs, analytics, error reports or screenshots. Prefer memory during an in-page flow; a full navigation needs protected server-session continuity. Loss does not authorize an email/reference-based recovery shortcut.
+6. Complete existing authentication and verify the submitted email. Send `GuestIntakeClaimInput` (`{ "token": "<claim_token>" }`) to the claim operation with fresh CSRF and a retained distinct Idempotency-Key. Both the token and the currently enabled, verified matching **customer** are required. An unconsumed claim expires after **72 hours**, and initial claim is allowed while Submitted or Under Review. Staff MFA grants no customer claim permission.
+7. Claim atomically associates the canonical request, mutable draft and document authorization; it does not rewrite original contact/author history or copy private bytes. `GuestIntakeClaimResponse.data` returns `request_id`, `reference`, `version`; use authenticated detail for “View My Request”.
 
-```json
-{
-  "full_name": "Guest Person",
-  "email": "person@example.test",
-  "phone": "+218912345678",
-  "category_id": "019961a0-0000-7000-8000-000000000001",
-  "subcategory_id": "019961a0-0000-7000-8000-000000000002",
-  "project_name": "Learning portal",
-  "project_description": "A bilingual learning portal for our team.",
-  "budget_unknown": false,
-  "estimated_budget": "1234.567",
-  "currency": "LYD"
-}
-```
+Login/MFA/logout rotation invalidates the old draft binding, including attempts to bootstrap a retired cookie. Keep unsent fields in page state, resolve the completed identity, and continue through authenticated intake after login. Do not silently transfer anonymous attachments. An already-authorized in-flight guest submission may finish while login completes; its receipt remains a guest receipt requiring explicit claim. Do not create a duplicate authenticated submission. A completed guest submission's independent claim token survives session rotation under the claim rules.
 
-## Retries and safe errors
+## Exact private upload sequence
 
-All mutations retain existing exact HTTPS origin, session cookie and CSRF requirements. Send cookies from the same origin and the decoded XSRF cookie value in `X-XSRF-TOKEN`. Do not cache private responses. Preserve `X-Request-ID` for support without recording request bodies or secrets.
+**PDF or DOCX only; one optional file, maximum 10 MiB (10,485,760 bytes).** No multipart upload, presigned/public storage URL or guest download is exposed.
 
-Final submission returns a confirmation receipt without a new resource ETag. Final submission retries must preserve the same normalized body, Idempotency-Key and **original** If-Match. The exact receipt replays within the capability lifetime; changed data/key conflicts. Reusing that final key on another draft in the same browser also conflicts. Separate intentional ideas are not deduplicated by email/content. A lost/expired capability requires a new workflow; do not silently submit again after an uncertain successful response.
+1. Compute the actual file length and lowercase SHA-256. Reserve with `DocumentReserveInput`: `filename`, integer `bytes`, `sha256`, capability, CSRF, current parent If-Match and a unique retained Idempotency-Key. Save the document ID and returned parent ETag. Reservation expires after **10 minutes**, while the parent capability must also remain valid.
+2. PUT the exact raw bytes to the guest content endpoint using `Content-Type: application/octet-stream`, capability, CSRF and the returned parent If-Match. No separate Idempotency-Key is required for this PUT. Authorization/expiry/attachment association and ETag are checked before storage I/O and again before finalization. The object uses a server-generated private quarantine key; size/checksum/content rules remain B4's rules.
+3. Read bounded processing metadata with the status operation, original session and capability while the draft remains editable. Metadata carries the parent ETag. Quarantine, bounded inspection and malware scanning run through the existing durable workers. Submission requires completed upload with the file Quarantined or Available; pending/incomplete upload cannot be attached to the final revision. Rejected content cannot be submitted as acceptable content.
+4. Submit with the latest parent ETag. There is **no guest download**, even for an Available file. After claim, normal authenticated document authorization applies and download remains blocked until Available. Scanning is not bypassed by claim. Original attachment history stays immutable.
 
-An exact claim retry by the same verified current owner and key replays its immutable receipt, including after claim expiry; it performs no second association. Fetch the request for a current ETag before a later mutation. Wrong identity/token, expired unconsumed claim, another key, consumed claim or terminal request gets a generic 404. There is no public token reissue. A typo in the submitted email cannot be corrected by rewriting the historic revision.
+Expired unsubmitted draft attachments are retired after 24 hours through the existing deletion pipeline; submitted immutable history is retained. Anonymous reservations share bounded capacity (500 MiB, 100 active files, 50 pending uploads). Claim must fit the customer's existing 1 GiB/1000-document quota; quota failure rolls back the entire association.
 
-| Status | Website behavior |
+## Authenticated intake operations
+
+All use an authenticated customer session and the server-derived profile/owner. Reads require normal identity authorization; mutations also require CSRF. Path prefix `/api/v1`:
+
+| operationId | Method/path | Request → response | Extra requirements |
+|---|---|---|---|
+| `intakeCustomerCreate` | POST `/project-requests` | `IntakeDraftInput` → `IntakeCustomerSummaryResponse` / 201 | No contact/owner fields; receive parent ETag |
+| `intakeCustomerUpdate` | PATCH `/project-requests/{projectRequest}/draft` | `IntakeDraftInput` → `IntakeCustomerSummaryResponse` / 200 | Current If-Match |
+| `documentReserve` | POST `/project-requests/{projectRequest}/documents` | `DocumentReserveInput` → `DocumentResponse` / 201 | If-Match and Idempotency-Key |
+| `documentUpload` | PUT `/project-requests/{projectRequest}/documents/{document}/content` | Raw octet-stream → `DocumentResponse` / 200 | If-Match |
+| `intakeCustomerSubmit` | POST `/project-requests/{projectRequest}/submissions` | `IdentityEmptyInput` (`{}`) → `IntakeSubmissionReceiptResponse` / 201 | If-Match and Idempotency-Key |
+| `intakeCustomerDetail` | GET `/project-requests/{projectRequest}` | No body → `IntakeCustomerDetailResponse` / 200 | Own request; returns ETag |
+| `intakeCustomerList` | GET `/project-requests` | No body → `IntakeCustomerPageResponse` / 200 | Own requests only |
+
+Use the contract for optional draft fields and cursor filters. Complete project/taxonomy/budget fields before submitting. Both paths snapshot contact/project information into the same immutable revision model.
+
+## Idempotency and safe errors
+
+Use distinct Idempotency-Key values for reservation, final submission and claim; retain each key and its original input/precondition until the result is known. Keys must contain 16–128 characters from `A–Z`, `a–z`, `0–9`, `_`, `.`, `:`, `-`; a generated UUID is suitable. Do not silently retry non-idempotent draft creation.
+
+Guest final submission retries require the same normalized body, original quoted If-Match and original key; its receipt can replay within capability expiry. Changed content/key conflicts; the same final key cannot be reused on another draft in the same browser. Independent intentional ideas are not deduplicated by email. A lost/expired capability requires an explicitly resolved new workflow, not an automatic duplicate after an uncertain successful response.
+
+An exact claim retry by the same current verified owner with the same token/key replays its immutable receipt, including after claim expiry, without a second association. Other identities, wrong/expired unconsumed tokens, different keys, or ineligible state fail generically. Read current detail for a fresh ETag before a later mutation. No public token reissue or historical contact rewrite exists.
+
+Failures use `ErrorEnvelope`: `error.code`, fixed safe `error.message`, optional `error.fields`, and `request_id` matching `X-Request-ID`. Display product wording based on safe codes/fields; retain request IDs for support without recording payloads or secrets.
+
+| HTTP / error.code | Integration behavior |
 |---|---|
-| 401 | Resolve authentication; never assume a transient authentication failure means guest mode |
-| 403 | Origin/CSRF/persona/permission restriction; do not switch endpoints to bypass it |
-| 404 | Generic inaccessible/invalid/expired capability or claim; do not reveal account existence |
-| 409 | Conflicting key/content/state, incomplete upload, or work that requires claim first |
-| 412 / 428 | Stale/missing quoted parent ETag; preserve original precondition for exact retries |
-| 413 / 415 | Oversized body/file or unsupported format/content type |
-| 422 | Field validation; map safe field names to product copy |
-| 429 | Respect Retry-After; may represent abuse limits or customer document quota |
-| 503 | Dependency unavailable; retain the same operation key and retry only after backoff |
+| 400 `MALFORMED_REQUEST` / 405 `METHOD_NOT_ALLOWED` | Correct request shape/method |
+| 401 `UNAUTHENTICATED` | Resolve authentication; do not assume guest mode |
+| 403 `FORBIDDEN` | CSRF/origin/persona/permission restriction; never bypass via another flow |
+| 404 `NOT_FOUND` | Generic inaccessible/invalid/expired capability or claim; reveal no account existence |
+| 409 `CONFLICT` | Conflicting key/body/state or incomplete upload; resolve state before proceeding |
+| 412 `STALE_VERSION` / 428 `PRECONDITION_REQUIRED` | Supply quoted parent ETag; preserve the original for an exact retry |
+| 413 `REQUEST_TOO_LARGE` / 415 `UNSUPPORTED_MEDIA_TYPE` | Respect file/body/format limits |
+| 422 `VALIDATION_FAILED` | Map safe fields to form errors, including profile completion |
+| 429 `RATE_LIMITED` | Respect Retry-After when present; may include quota rejection |
+| 500 `INTERNAL_ERROR` / 503 `SERVICE_UNAVAILABLE` | Keep operation identity and request ID; resolve ambiguous completion before retry |
 
-Limits: guest JSON 128 KiB; creation 5/IP/session/hour and 100/hour globally; submission 15/IP/session/hour; claims 10/IP/session/minute; remaining guest operations 60/IP/session/minute. Anonymous document reservations additionally share 500 MiB / 100 active files / 50 pending uploads. Claimed files must fit the existing customer's 1 GiB / 1000-file quota. Quota failure rolls back the whole claim. File scanning/deletion use existing durable workers. Expired unsubmitted attachments are retired after 24 hours; submitted immutable history is preserved.
+Guest JSON is capped at 128 KiB. Public taxonomy is limited to 60/IP/minute; guest creation 5/IP/session/hour plus 100/hour globally, submission 15/IP/session/hour, claim 10/IP/session/minute and other guest operations 60/IP/session/minute. No limiter bypass or anonymous account discovery is permitted.
 
-## Existing consumers and operations
+## AI and deployment boundary
 
-The original 164 operation paths and authenticated request bodies remain. Eight operations are added. `IntakeRevision.submitted_by` can now be null for the original guest revision and `provenance` adds `guest_submission`; customer-authored revisions retain their prior values. Render the new provenance safely in any future staff integration. Guest historic revision author/contact do not change after claim. Current root/draft/document ownership changes once, without re-uploading or copying private bytes.
+**G1 works with AI disabled.** No anonymous AI endpoint is added. Integrate AI assistance as a separate website phase **after the core Dual Intake flow works**; that phase is outside this acceptance.
 
-Authorized staff retain existing scope/assignment rules and can inspect, review and reject unclaimed submissions. Discovery, information requests, proposals, project conversion and existing private AI sources require ownership first. No guest email notification is sent and no identity-specific B7 event is fabricated before claim; durable canonical intake submission intent and audit remain. No external paid AI provider is enabled.
-
-Once any guest request exists, the migration refuses downgrade; take the existing approved backup before a future release. Recovery then means restoring the pre-G1 database and application together, not detaching customers or rewriting history. An unused extension can be removed while restoring the original constraints. See the verification report for actual image/test evidence. Production performance certification remains pending the target VPS.
+The accepted additive migration extends 29 migrations to 30 without changing prior migration files. Once guest history exists, downgrade refuses to destroy it; use a reviewed forward migration or restore the previously verified database/application pair. Local acceptance does not authorize a production deployment. B8 target-VPS performance certification remains pending; failed performance, identity remediation and F1-E1/F1-E2 evidence are preserved.
