@@ -1,0 +1,202 @@
+{
+  "classification": "F1-E2 LOCAL INTEGRATION STABLE",
+  "frontend_acceptance": "May resume; not run by this task",
+  "production_ready": false,
+  "unit_architecture": {
+    "tests": 153,
+    "assertions": 42766,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "focused_security_excluding_contract": {
+    "tests": 72,
+    "assertions": 1279,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "contract_rerun": {
+    "tests": 2,
+    "assertions": 1280,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "original_focused_attempt": {
+    "tests": 74,
+    "assertions": 1351,
+    "errors": 1,
+    "failures": 0,
+    "skipped": 0
+  },
+  "stability": {
+    "window_start_utc": "2026-09-27T10:56:20Z",
+    "window_end_utc": "2026-09-27T11:07:07.996880+00:00",
+    "windows_requests": 640,
+    "windows_max_ms": 184.52999999999884,
+    "windows_p50_ms": 12.84845000000496,
+    "container_requests": 656,
+    "container_max_ms": 222.388,
+    "container_max_connect_ms": 63.182,
+    "nginx_events": 2226,
+    "nginx_statuses": {
+      "200": 2048,
+      "101": 14,
+      "204": 28,
+      "401": 135,
+      "404": 1
+    },
+    "bad_edge_statuses": 0,
+    "next_pids": [
+      77160
+    ],
+    "next_event_loop_max_ms": 215.744511,
+    "next_event_loop_p99_max_ms": 83.820543,
+    "next_rss_first_bytes": 108462080,
+    "next_rss_last_bytes": 206905344,
+    "next_rss_peak_bytes": 219537408,
+    "host_cpu_max_percent": 100,
+    "host_available_memory_min_kib": 411156,
+    "fpm_kernel_listen_queue_samples": 76,
+    "fpm_kernel_listen_queue_max": 0,
+    "pg_samples_with_active_waits": 0,
+    "note": "Kernel listen backlog and sampled PostgreSQL waits are observations, not historical per-request FPM timing. No automatic retries."
+  },
+  "authentication": {
+    "samples": [
+      {
+        "utc": "2026-09-27T10:59:02.470Z",
+        "id": "d15bb306-4044-482c-975f-fb65d57f92de",
+        "path": "/api/v1/auth/login",
+        "status": 200,
+        "total_ms": 660.7473,
+        "ttfb_ms": 659.9993999999999,
+        "tcp_ms": 4.646199999999993,
+        "server_ms": 601,
+        "sql_ms": 46,
+        "queries": 10,
+        "upstream_connect_ms": 1.0,
+        "upstream_header_ms": 609.0,
+        "upstream_response_ms": 609.0,
+        "host_cpu_nearest_percent": 83,
+        "host_available_memory_nearest_kib": 1939120,
+        "host_sample_distance_s": 0.9078631401062012
+      },
+      {
+        "utc": "2026-09-27T10:59:19.531Z",
+        "id": "c570d1f3-f909-4b30-89df-29f60e62d43f",
+        "path": "/api/v1/auth/login",
+        "status": 200,
+        "total_ms": 827.6235000000015,
+        "ttfb_ms": 826.9340000000011,
+        "tcp_ms": 31.753899999999703,
+        "server_ms": 705,
+        "sql_ms": 35,
+        "queries": 10,
+        "upstream_connect_ms": 1.0,
+        "upstream_header_ms": 711.0,
+        "upstream_response_ms": 711.0,
+        "host_cpu_nearest_percent": 100,
+        "host_available_memory_nearest_kib": 694156,
+        "host_sample_distance_s": 1.9090588092803955
+      },
+      {
+        "utc": "2026-09-27T10:59:37.028Z",
+        "id": "3126c314-3eab-4a3d-9d36-659dde1557c8",
+        "path": "/api/v1/auth/login",
+        "status": 200,
+        "total_ms": 1062.8508999999976,
+        "ttfb_ms": 1062.367299999998,
+        "tcp_ms": 20.15729999999894,
+        "server_ms": 932,
+        "sql_ms": 35,
+        "queries": 10,
+        "upstream_connect_ms": 22.0,
+        "upstream_header_ms": 960.0,
+        "upstream_response_ms": 960.0,
+        "host_cpu_nearest_percent": 100,
+        "host_available_memory_nearest_kib": 1460012,
+        "host_sample_distance_s": 3.5724642276763916
+      },
+      {
+        "utc": "2026-09-27T10:59:54.258Z",
+        "id": "c5081036-19fc-412b-bc80-97d45e1ce8b0",
+        "path": "/api/v1/auth/login",
+        "status": 200,
+        "total_ms": 965.1702000000005,
+        "ttfb_ms": 964.9113999999972,
+        "tcp_ms": 4.362399999998161,
+        "server_ms": 889,
+        "sql_ms": 17,
+        "queries": 10,
+        "upstream_connect_ms": 1.0,
+        "upstream_header_ms": 895.0,
+        "upstream_response_ms": 895.0,
+        "host_cpu_nearest_percent": 23,
+        "host_available_memory_nearest_kib": 2557964,
+        "host_sample_distance_s": 0.8731551170349121
+      },
+      {
+        "utc": "2026-09-27T11:00:11.019Z",
+        "id": "95b3b36e-23eb-4955-a4c7-63a93e835814",
+        "path": "/api/v1/auth/login",
+        "status": 200,
+        "total_ms": 650.2249000000011,
+        "ttfb_ms": 649.8833000000013,
+        "tcp_ms": 3.1560000000026776,
+        "server_ms": 597,
+        "sql_ms": 39,
+        "queries": 10,
+        "upstream_connect_ms": 0.0,
+        "upstream_header_ms": 601.0,
+        "upstream_response_ms": 601.0,
+        "host_cpu_nearest_percent": 92,
+        "host_available_memory_nearest_kib": 2579248,
+        "host_sample_distance_s": 2.008890151977539
+      },
+      {
+        "utc": "2026-09-27T11:00:27.891Z",
+        "id": "8a3656e6-e17a-43f0-a3fa-0f0de506549e",
+        "path": "/api/v1/auth/login",
+        "status": 200,
+        "total_ms": 747.4763999999996,
+        "ttfb_ms": 747.1591000000044,
+        "tcp_ms": 3.508400000006077,
+        "server_ms": 684,
+        "sql_ms": 23,
+        "queries": 10,
+        "upstream_connect_ms": 0.0,
+        "upstream_header_ms": 688.0,
+        "upstream_response_ms": 689.0,
+        "host_cpu_nearest_percent": 41,
+        "host_available_memory_nearest_kib": 2152356,
+        "host_sample_distance_s": 0.7259960174560547
+      }
+    ],
+    "network_p50_ms": 787.5499500000005,
+    "network_max_ms": 1062.8508999999976,
+    "server_p50_ms": 694.5,
+    "server_max_ms": 932,
+    "no_retries": true,
+    "account_spacing_seconds": 16,
+    "rate_limits_not_cleared": true
+  },
+  "source_preservation": {
+    "backend": {
+      "head": "96445baded70ddd2e4d8b8617793c78a4a3e1816",
+      "changed_since_start": [
+        "docker/nginx/nginx.conf",
+        "docs/contracts/source-manifest.json"
+      ],
+      "files_checked": 730
+    },
+    "frontend": {
+      "head": "3420d6c91503376c2039cc2c47ed304157dadaad",
+      "changed_since_start": [],
+      "files_checked": 258
+    }
+  },
+  "inherited_session_race_tests": 18,
+  "report_sha256": "d747194dd40424dee005d91713596bdf9f33bb791cbd20266cff8003c65cd071"
+}

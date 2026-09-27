@@ -419,7 +419,7 @@
   "database/migrations/2026_09_21_100000_add_reporting_permissions.php": "bd66136694af9e39ae876424e9c7959148f22a8b1569549288bae819b6920158",
   "database/migrations/2026_09_22_000000_add_customer_directory_permission.php": "e12d779fa102b326486e6bb8dce4d015ef469eb4df75cdf584e87689c05e25e9",
   "database/migrations/2026_09_26_000000_extend_intake_for_guests.php": "d7903bc1205516a6580e27dc642ecafd2a604cb3f2c1f5fee3c59dc094f57adb",
-  "docker/nginx/nginx.conf": "633c0d1dd064036db9f2437737ec132ad7743754d73ac638712ecf46423099ef",
+  "docker/nginx/nginx.conf": "8182dc8b9815c3c355b9d46e5f437e27bc933b715254a9e28f3c5a2b73b167dd",
   "routes/admin-integration.php": "301af9e783a710fae2fd87bf3313944e5d33d7b07b1e75526c4d85b86b4480aa",
   "routes/ai.php": "9bd0ede27d3e37b369a400f92b21e37bbd35217d71e5688a10df8cf0eba406a2",
   "routes/api.php": "6a08bd979e61c4333fa18a2bb8398eb2bfa511e0167aef8341c87df6d09f89aa",
