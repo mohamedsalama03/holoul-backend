@@ -40,7 +40,7 @@ final class GuestIntakeUpgradeTest extends TestCase
                 $columns[$table] = Schema::getColumnListing($table);
                 $before[$table] = $this->snapshot($table, $columns[$table]);
             }
-            $this->artisan('migrate', ['--force' => true])->assertExitCode(0);
+            $this->artisan('migrate', ['--path' => [...array_keys($manifest), 'database/migrations/2026_09_26_000000_extend_intake_for_guests.php'], '--force' => true])->assertExitCode(0);
             $this->assertDatabaseCount('migrations', 30);
             foreach (array_diff($tables, ['migrations']) as $table) {
                 self::assertSame($before[$table], $this->snapshot($table, $columns[$table]), $table.' original values');
@@ -51,7 +51,7 @@ final class GuestIntakeUpgradeTest extends TestCase
             foreach ($all as $table) {
                 $after[$table] = $this->snapshot($table, ['*']);
             }
-            $this->artisan('migrate', ['--force' => true])->assertExitCode(0);
+            $this->artisan('migrate', ['--path' => [...array_keys($manifest), 'database/migrations/2026_09_26_000000_extend_intake_for_guests.php'], '--force' => true])->assertExitCode(0);
             foreach ($after as $table => $rows) {
                 self::assertSame($rows, $this->snapshot($table, ['*']), $table.' repeat migration');
             }
@@ -60,7 +60,7 @@ final class GuestIntakeUpgradeTest extends TestCase
             foreach (array_diff($tables, ['migrations']) as $table) {
                 self::assertSame($before[$table], $this->snapshot($table, $columns[$table]), $table.' unused extension downgrade');
             }
-            $this->artisan('migrate', ['--force' => true])->assertExitCode(0);
+            $this->artisan('migrate', ['--path' => [...array_keys($manifest), 'database/migrations/2026_09_26_000000_extend_intake_for_guests.php'], '--force' => true])->assertExitCode(0);
         } finally {
             $this->artisan('migrate:fresh', ['--force' => true])->assertExitCode(0);
         }

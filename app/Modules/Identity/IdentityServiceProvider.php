@@ -11,6 +11,8 @@ use App\Modules\Identity\Recovery\Adapters\SmtpMailTransport;
 use App\Modules\Identity\Recovery\Contracts\MailTransport;
 use App\Modules\Identity\Security\DatabaseIdentityReader;
 use App\Modules\Identity\Security\PruneIdentitySessions;
+use App\Modules\Identity\Staff\ExpireInvitations;
+use App\Modules\Identity\Staff\InvitationMailHandler;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\Sanctum;
 
@@ -26,6 +28,7 @@ final class IdentityServiceProvider extends ServiceProvider
     {
         Sanctum::getAccessTokenFromRequestUsing(static fn (): string => '');
         $operations->register('identity.recovery_mail', new RecoveryMailHandler($this->app));
-        $this->commands([BootstrapSuperAdminCommand::class, PruneIdentitySessions::class]);
+        $operations->register('identity.staff_invitation_mail', new InvitationMailHandler($this->app));
+        $this->commands([BootstrapSuperAdminCommand::class, PruneIdentitySessions::class, ExpireInvitations::class]);
     }
 }

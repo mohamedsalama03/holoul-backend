@@ -47,6 +47,16 @@ final class ApiError
         $id = is_string($id) && Str::isUuid($id) ? $id : (string) Str::uuid7();
         $body = ['error' => ['code' => $code, 'message' => $message], 'request_id' => $id];
 
+        $publicFailure = $exception instanceof PublicFailureReason ? $exception : $exception->getPrevious();
+        if ($request->attributes->get('staff_contract') === true && $publicFailure instanceof PublicFailureReason
+            && preg_match('/\A[A-Z][A-Z0-9_]{1,63}\z/D', $publicFailure->reason()) === 1) {
+            $body['error']['reason'] = $publicFailure->reason();
+            $related = $publicFailure->resourceId();
+            if ($related !== null && Str::isUuid($related)) {
+                $body['error']['resource_id'] = $related;
+            }
+        }
+
         if ($exception instanceof ValidationException) {
             // Validator messages may include custom provider errors or submitted
             // values. Return a bounded field map, never arbitrary exception text.

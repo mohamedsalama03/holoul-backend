@@ -112,6 +112,8 @@ Generated from the reviewed OpenAPI source. Permissions never override ownership
 | Request a password-reset email | `/api/v1/auth/password/forgot` | POST | guest, customer, staff | — |
 | Reset a password with a one-use token | `/api/v1/auth/password/reset` | POST | guest, customer, staff | — |
 | Request customer registration | `/api/v1/auth/register` | POST | guest, customer, staff | — |
+| Team and invitations | `/api/v1/auth/staff-invitations/accept` | POST | guest | — |
+| Team and invitations | `/api/v1/auth/staff-invitations/lookup` | POST | guest | — |
 | List Active Categories | `/api/v1/categories` | GET | customer, staff | — |
 | List Active Subcategories | `/api/v1/categories/{category}/subcategories` | GET | customer, staff | — |
 | Find the current customer profile | `/api/v1/customers` | GET | customer | — |
@@ -125,12 +127,20 @@ Generated from the reviewed OpenAPI source. Permissions never override ownership
 | Submit a guest idea | `/api/v1/guest/project-requests/{projectRequest}/submissions` | POST | guest | — |
 | Read an owned customer profile | `/api/v1/identities/{identity}/customers/{customer}` | GET | customer | — |
 | Update an owned customer profile | `/api/v1/identities/{identity}/customers/{customer}` | PATCH | customer | — |
+| Team and invitations | `/api/v1/identity/capabilities` | GET | customer, staff | — |
 | Get the current identity | `/api/v1/identity/me` | GET | customer, staff | — |
 | Update the current full name | `/api/v1/identity/me` | PATCH | customer, staff | — |
 | List active sessions | `/api/v1/identity/sessions` | GET | customer, staff | — |
 | Revoke other sessions | `/api/v1/identity/sessions/revoke-others` | POST | customer, staff | — |
+| Team and invitations | `/api/v1/identity/staff` | GET | staff | identity.staff.read |
+| Team and invitations | `/api/v1/identity/staff/invitations` | GET | staff | identity.staff.read |
+| Team and invitations | `/api/v1/identity/staff/invitations` | POST | staff | identity.staff.read, identity.staff.manage |
+| Team and invitations | `/api/v1/identity/staff/invitations/{invitation}/resends` | POST | staff | identity.staff.read, identity.staff.manage |
+| Team and invitations | `/api/v1/identity/staff/invitations/{invitation}/revocations` | POST | staff | identity.staff.read, identity.staff.manage |
 | Read a staff identity and assigned roles | `/api/v1/identity/staff/{user}` | GET | staff | identity.staff.read |
 | Change staff roles or enabled status | `/api/v1/identity/staff/{user}/authorization` | PATCH | staff | identity.staff.read, identity.staff.manage |
+| Team and invitations | `/api/v1/identity/staff/{user}/authorization` | GET | staff | identity.staff.read |
+| Team and invitations | `/api/v1/identity/staff/{user}/authorization` | PUT | staff | identity.staff.read, identity.staff.manage |
 | List Active Categories | `/api/v1/intake/categories` | GET | guest, customer, staff | — |
 | List Active Subcategories | `/api/v1/intake/categories/{category}/subcategories` | GET | guest, customer, staff | — |
 | List own notifications | `/api/v1/notifications` | GET | customer, staff | notifications.self.read |

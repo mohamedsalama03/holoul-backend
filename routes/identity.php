@@ -8,9 +8,12 @@ use App\Modules\Identity\Http\Controllers\AuthController;
 use App\Modules\Identity\Http\Controllers\OwnIdentityController;
 use App\Modules\Identity\Http\Controllers\RecoveryController;
 use App\Modules\Identity\Mfa\Controllers\MfaController;
+use App\Modules\Identity\Staff\StaffController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('identity.spa')->group(function (): void {
+    Route::post('auth/staff-invitations/lookup', [StaffController::class, 'lookup']);
+    Route::post('auth/staff-invitations/accept', [StaffController::class, 'accept']);
     Route::post('auth/register', [AuthController::class, 'register'])->middleware('identity.throttle:register');
     Route::post('auth/login', [AuthController::class, 'login'])->middleware('identity.throttle:login');
     Route::post('auth/email/verify', [RecoveryController::class, 'verify'])->middleware('identity.throttle:verify');
@@ -37,6 +40,14 @@ Route::middleware('identity.spa')->group(function (): void {
         Route::patch('customers/{customer}', [CustomerController::class, 'update']);
         Route::get('identities/{identity}/customers/{customer}', [CustomerController::class, 'nestedShow']);
         Route::patch('identities/{identity}/customers/{customer}', [CustomerController::class, 'nestedUpdate']);
+        Route::get('identity/capabilities', [StaffController::class, 'capabilities']);
+        Route::get('identity/staff', [StaffController::class, 'directory']);
+        Route::get('identity/staff/invitations', [StaffController::class, 'invitations']);
+        Route::post('identity/staff/invitations', [StaffController::class, 'issue']);
+        Route::post('identity/staff/invitations/{invitation}/resends', [StaffController::class, 'resend']);
+        Route::post('identity/staff/invitations/{invitation}/revocations', [StaffController::class, 'revoke']);
+        Route::get('identity/staff/{user}/authorization', [StaffController::class, 'authorization']);
+        Route::put('identity/staff/{user}/authorization', [StaffController::class, 'replaceAuthorization'])->middleware('identity.throttle:security');
         Route::get('identity/staff/{user}', [StaffAuthorizationController::class, 'show']);
         Route::patch('identity/staff/{user}/authorization', [StaffAuthorizationController::class, 'update'])->middleware('identity.throttle:security');
     });

@@ -17,3 +17,5 @@ Schedule::command('identity:sessions:prune')->everyFifteenMinutes();
 Schedule::call(function (): void {
     file_put_contents('/tmp/holoul-scheduler-heartbeat', (string) time());
 })->everyMinute();
+
+Schedule::command('identity:expire-staff-invitations')->everyMinute()->withoutOverlapping();

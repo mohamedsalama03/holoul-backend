@@ -1,0 +1,3965 @@
+{
+  "paths": {
+    "/api/v1/identity/staff": {
+      "get": {
+        "operationId": "identityListStaff",
+        "summary": "List staff",
+        "description": "Completed staff MFA; no recent password. Filters/count are authorized before pagination. onboarding_pending means invitation accepted but first MFA not yet complete; roles alone never bypass MFA. Reads do not reissue session cookies.",
+        "tags": [
+          "Staff onboarding"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "identity.staff.read"
+        ],
+        "x-frontend-feature": "Team and invitations",
+        "x-source": [
+          "routes/identity.php",
+          "app/Modules/Identity/Staff/StaffController.php"
+        ],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 100
+            },
+            "description": "Trimmed literal case-insensitive substring on name/email; %, _ and backslash are literals; controls rejected."
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 2048
+            },
+            "description": "Opaque filter-bound cursor; fixed id ASC order."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            },
+            "description": ""
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "super_admin",
+                "administrator",
+                "project_manager",
+                "business_analyst",
+                "sales",
+                "reviewer",
+                "support"
+              ]
+            },
+            "description": ""
+          },
+          {
+            "name": "enabled",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "1",
+                "0"
+              ]
+            },
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List staff",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffDirectoryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP 400; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP 401; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP 403; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP 404; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP 409; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "HTTP 412; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "HTTP 413; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "HTTP 415; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "HTTP 422; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "428": {
+            "description": "HTTP 428; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "HTTP 429; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP 500; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP 503; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/identity/capabilities": {
+      "get": {
+        "operationId": "identityGetCapabilities",
+        "summary": "Read current and confirmable capabilities",
+        "description": "Current authenticated session, including completed MFA for staff. confirmable_capabilities contains only hints unlocked solely by fresh password confirmation. assignable_roles is actor-level; editing an existing target also checks all of its current roles. The original /identity/me response is unchanged.",
+        "tags": [
+          "Staff onboarding"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "customer",
+          "staff"
+        ],
+        "x-permissions": [],
+        "x-frontend-feature": "Team and invitations",
+        "x-source": [
+          "routes/identity.php",
+          "app/Modules/Identity/Staff/StaffController.php"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Read current and confirmable capabilities",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffCapabilitiesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP 400; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP 401; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP 403; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP 404; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP 409; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "HTTP 412; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "HTTP 413; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "HTTP 415; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "HTTP 422; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "428": {
+            "description": "HTTP 428; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "HTTP 429; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP 500; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP 503; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/identity/staff/{user}/authorization": {
+      "get": {
+        "operationId": "identityGetStaffAuthorization",
+        "summary": "Read authorization snapshot",
+        "description": "Snapshot of id, enabled and roles; ETag is the dedicated authorization revision, not the session auth_version.",
+        "tags": [
+          "Staff onboarding"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "identity.staff.read"
+        ],
+        "x-frontend-feature": "Team and invitations",
+        "x-source": [
+          "routes/identity.php",
+          "app/Modules/Identity/Staff/StaffController.php"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read authorization snapshot",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAuthorizationSnapshotResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP 400; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP 401; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP 403; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP 404; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP 409; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "HTTP 412; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "HTTP 413; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "HTTP 415; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "HTTP 422; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "428": {
+            "description": "HTTP 428; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "HTTP 429; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP 500; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP 503; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "identityReplaceStaffAuthorization",
+        "summary": "Replace staff authorization with version protection",
+        "description": "Completed MFA and password confirmation within 300 seconds; same security-role, grant ceiling and last enabled Super Admin rules as legacy PATCH. Both writers advance the authorization revision on real changes. No-op does not revoke sessions. Changed self-edit revokes the initiating session; a delayed response must not clear a newer login. Legacy PATCH still permits unguarded writes.",
+        "tags": [
+          "Staff onboarding"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "identity.staff.read",
+          "identity.staff.manage"
+        ],
+        "x-frontend-feature": "Team and invitations",
+        "x-source": [
+          "routes/identity.php",
+          "app/Modules/Identity/Staff/StaffController.php"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          },
+          {
+            "$ref": "#/components/parameters/StaffIfMatch"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Replace staff authorization with version protection",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAuthorizationReplaceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP 400; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP 401; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP 403; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP 404; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP 409; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "HTTP 412; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "HTTP 413; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "HTTP 415; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "HTTP 422; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "428": {
+            "description": "HTTP 428; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "HTTP 429; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP 500; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP 503; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StaffAuthorizationReplaceInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/identity/staff/invitations": {
+      "get": {
+        "operationId": "identityListStaffInvitations",
+        "summary": "List staff invitations",
+        "description": "Staff MFA and read grant, no recent password. Fixed id ASC. Expired pending records are reported expired immediately, even before expiry reconciliation. Per-record etag changes with mail delivery progress. last_sent_at/send_count reflect acknowledged SMTP deliveries, not inbox delivery. Inviter name is captured at issue. accepted_at creates credentials; activated_at records MFA completion.",
+        "tags": [
+          "Staff onboarding"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "identity.staff.read"
+        ],
+        "x-frontend-feature": "Team and invitations",
+        "x-source": [
+          "routes/identity.php",
+          "app/Modules/Identity/Staff/StaffController.php"
+        ],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 100
+            },
+            "description": "Trimmed literal case-insensitive substring on name/email; %, _ and backslash are literals; controls rejected."
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 2048
+            },
+            "description": "Opaque filter-bound cursor; fixed id ASC order."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            },
+            "description": ""
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "accepted",
+                "expired",
+                "revoked"
+              ]
+            },
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List staff invitations",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffInvitationListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP 400; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP 401; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP 403; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP 404; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP 409; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "HTTP 412; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "HTTP 413; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "HTTP 415; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "HTTP 422; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "428": {
+            "description": "HTTP 428; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "HTTP 429; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP 500; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP 503; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "identityIssueStaffInvitation",
+        "summary": "Issue a staff invitation",
+        "description": "Completed MFA and password confirmation within 300 seconds. Same role grant policy as T3. Seven-day validity. Email normalized exactly as identity login. Existing staff/customer emails refused. One pending invitation per email; duplicate returns INVITATION_ALREADY_PENDING with error.resource_id and never resends implicitly. Mail is durable asynchronous work; response never contains the token. Limit 20 issue attempts per actor/hour, fails closed on limiter outage. Roles immutable; revoke and reissue to change them.",
+        "tags": [
+          "Staff onboarding"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "identity.staff.read",
+          "identity.staff.manage"
+        ],
+        "x-frontend-feature": "Team and invitations",
+        "x-source": [
+          "routes/identity.php",
+          "app/Modules/Identity/Staff/StaffController.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          },
+          {
+            "$ref": "#/components/parameters/StaffIdempotencyKey"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Issue a staff invitation",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffInvitationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP 400; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP 401; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP 403; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP 404; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP 409; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "HTTP 412; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "HTTP 413; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "HTTP 415; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "HTTP 422; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "428": {
+            "description": "HTTP 428; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "HTTP 429; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP 500; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP 503; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StaffInvitationInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/identity/staff/invitations/{invitation}/resends": {
+      "post": {
+        "operationId": "identityResendStaffInvitation",
+        "summary": "Resend staff invitation",
+        "description": "Completed MFA and recent password; current actor must grant every offered role. Pending/unexpired only. Resend invalidates the prior token at commit, queues a new token and resets expiry to seven days; checks original inviter authority too. Minimum 60 seconds between requests and at most 5 mail generations per invitation in 24 hours. Both commands limited to 30 attempts per actor/minute. Expired invitations require new issue. No request body fields allowed.",
+        "tags": [
+          "Staff onboarding"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "identity.staff.read",
+          "identity.staff.manage"
+        ],
+        "x-frontend-feature": "Team and invitations",
+        "x-source": [
+          "routes/identity.php",
+          "app/Modules/Identity/Staff/StaffController.php"
+        ],
+        "parameters": [
+          {
+            "name": "invitation",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          },
+          {
+            "$ref": "#/components/parameters/StaffIfMatch"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resend staff invitation",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffInvitationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP 400; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP 401; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP 403; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP 404; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP 409; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "HTTP 412; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "HTTP 413; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "HTTP 415; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "HTTP 422; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "428": {
+            "description": "HTTP 428; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "HTTP 429; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP 500; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP 503; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/identity/staff/invitations/{invitation}/revocations": {
+      "post": {
+        "operationId": "identityRevokeStaffInvitation",
+        "summary": "Revoke staff invitation",
+        "description": "Completed MFA and recent password; current actor must grant every offered role. Pending/unexpired only. Resend invalidates the prior token at commit, queues a new token and resets expiry to seven days; checks original inviter authority too. Minimum 60 seconds between requests and at most 5 mail generations per invitation in 24 hours. Both commands limited to 30 attempts per actor/minute. Expired invitations require new issue. No request body fields allowed.",
+        "tags": [
+          "Staff onboarding"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "identity.staff.read",
+          "identity.staff.manage"
+        ],
+        "x-frontend-feature": "Team and invitations",
+        "x-source": [
+          "routes/identity.php",
+          "app/Modules/Identity/Staff/StaffController.php"
+        ],
+        "parameters": [
+          {
+            "name": "invitation",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          },
+          {
+            "$ref": "#/components/parameters/StaffIfMatch"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Revoke staff invitation",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffInvitationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP 400; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP 401; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP 403; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP 404; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP 409; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "HTTP 412; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "HTTP 413; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "HTTP 415; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "HTTP 422; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "428": {
+            "description": "HTTP 428; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "HTTP 429; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP 500; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP 503; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/staff-invitations/lookup": {
+      "post": {
+        "operationId": "identityLookupStaffInvitation",
+        "summary": "Inspect a recipient invitation",
+        "description": "Anonymous same-origin CSRF session required. Token in body from /admin/invitation#token=...; never send token in query/path. Signed-in or pending-MFA browser receives INVITATION_SIGN_OUT_REQUIRED without session replacement. Invalid/expired/revoked/used/authority-lost token returns the same 422 INVITATION_UNAVAILABLE. Shared lookup/accept IP limits: 30/minute, 120/hour; fail closed on limiter outage. No staff identity initialization or session cookie rotation.",
+        "tags": [
+          "Staff onboarding"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "guest"
+        ],
+        "x-permissions": [],
+        "x-frontend-feature": "Team and invitations",
+        "x-source": [
+          "routes/identity.php",
+          "app/Modules/Identity/Staff/StaffController.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Inspect a recipient invitation",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffInvitationLookupResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP 400; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP 401; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP 403; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP 404; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP 409; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "HTTP 412; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "HTTP 413; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "HTTP 415; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "HTTP 422; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "428": {
+            "description": "HTTP 428; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "HTTP 429; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP 500; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP 503; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StaffInvitationTokenInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/staff-invitations/accept": {
+      "post": {
+        "operationId": "identityAcceptStaffInvitation",
+        "summary": "Accept a recipient invitation",
+        "description": "Same CSRF/origin/guest-only restrictions and shared limits as lookup. Rechecks original inviter current grant/security authority and email uniqueness under transaction locks. Token is single use; possession verifies the invited email. Creates verified staff credentials and the authorized offered roles, without logging in. Explicit normal login and existing first MFA enrollment are required before access. Accepted accounts use normal guarded role/status editing, even before first MFA; inviter demotion after completed acceptance does not retroactively revoke the employee. Pending invitations/unactivated accounts cannot satisfy last-Super-Admin safeguard. No password in email. Uniform token failures; valid token with invalid password has normal field errors.",
+        "tags": [
+          "Staff onboarding"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "guest"
+        ],
+        "x-permissions": [],
+        "x-frontend-feature": "Team and invitations",
+        "x-source": [
+          "routes/identity.php",
+          "app/Modules/Identity/Staff/StaffController.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Accept a recipient invitation",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffInvitationAcceptResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP 400; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP 401; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP 403; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP 404; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP 409; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "HTTP 412; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "HTTP 413; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "HTTP 415; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "HTTP 422; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "428": {
+            "description": "HTTP 428; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "HTTP 429; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP 500; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP 503; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StaffInvitationAcceptInput"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StaffDirectoryRecord": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "full_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 254,
+            "description": "Trimmed and lowercased before lookup; registration also requires printable ASCII."
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "super_admin",
+                "administrator",
+                "project_manager",
+                "business_analyst",
+                "sales",
+                "reviewer",
+                "support"
+              ]
+            },
+            "maxItems": 7,
+            "uniqueItems": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "mfa_enrolled": {
+            "type": "boolean"
+          },
+          "onboarding_pending": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "full_name",
+          "email",
+          "enabled",
+          "roles",
+          "created_at",
+          "mfa_enrolled",
+          "onboarding_pending"
+        ],
+        "additionalProperties": false
+      },
+      "StaffPageMeta": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "next_cursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "next_cursor",
+          "limit",
+          "total"
+        ]
+      },
+      "StaffDirectoryResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StaffDirectoryRecord"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/StaffPageMeta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ]
+      },
+      "StaffCapabilitiesResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "capabilities": {
+                "type": "array",
+                "uniqueItems": true,
+                "maxItems": 37,
+                "items": {
+                  "enum": [
+                    "admin.customers.view",
+                    "admin.dashboard.view",
+                    "ai.request",
+                    "audit.investigate",
+                    "categories.manage",
+                    "categories.view",
+                    "customer_profile.update",
+                    "customer_profile.view",
+                    "discovery.manage",
+                    "discovery.view",
+                    "notifications.manage",
+                    "notifications.view",
+                    "profile.update",
+                    "profile.view",
+                    "project_requests.assign",
+                    "project_requests.create",
+                    "project_requests.documents.upload",
+                    "project_requests.request_information",
+                    "project_requests.review",
+                    "project_requests.submit",
+                    "project_requests.view",
+                    "projects.completion.confirm",
+                    "projects.manage",
+                    "projects.milestones.manage",
+                    "projects.team.manage",
+                    "projects.updates.publish",
+                    "projects.view",
+                    "proposals.accept",
+                    "proposals.create",
+                    "proposals.view",
+                    "reports.view",
+                    "security.password.change",
+                    "security.password.confirm",
+                    "sessions.manage",
+                    "staff.authorization.manage",
+                    "staff.invitations.manage",
+                    "staff.view"
+                  ]
+                }
+              },
+              "confirmable_capabilities": {
+                "type": "array",
+                "uniqueItems": true,
+                "maxItems": 37,
+                "items": {
+                  "enum": [
+                    "admin.customers.view",
+                    "admin.dashboard.view",
+                    "ai.request",
+                    "audit.investigate",
+                    "categories.manage",
+                    "categories.view",
+                    "customer_profile.update",
+                    "customer_profile.view",
+                    "discovery.manage",
+                    "discovery.view",
+                    "notifications.manage",
+                    "notifications.view",
+                    "profile.update",
+                    "profile.view",
+                    "project_requests.assign",
+                    "project_requests.create",
+                    "project_requests.documents.upload",
+                    "project_requests.request_information",
+                    "project_requests.review",
+                    "project_requests.submit",
+                    "project_requests.view",
+                    "projects.completion.confirm",
+                    "projects.manage",
+                    "projects.milestones.manage",
+                    "projects.team.manage",
+                    "projects.updates.publish",
+                    "projects.view",
+                    "proposals.accept",
+                    "proposals.create",
+                    "proposals.view",
+                    "reports.view",
+                    "security.password.change",
+                    "security.password.confirm",
+                    "sessions.manage",
+                    "staff.authorization.manage",
+                    "staff.invitations.manage",
+                    "staff.view"
+                  ]
+                }
+              },
+              "assignable_roles": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "super_admin",
+                    "administrator",
+                    "project_manager",
+                    "business_analyst",
+                    "sales",
+                    "reviewer",
+                    "support"
+                  ]
+                },
+                "maxItems": 7,
+                "uniqueItems": true,
+                "minItems": 0
+              },
+              "recent_password_confirmation": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "required",
+                  "expires_at"
+                ],
+                "properties": {
+                  "required": {
+                    "type": "boolean"
+                  },
+                  "expires_at": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "required": [
+              "capabilities",
+              "confirmable_capabilities",
+              "assignable_roles",
+              "recent_password_confirmation"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "StaffAuthorizationSnapshot": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "super_admin",
+                "administrator",
+                "project_manager",
+                "business_analyst",
+                "sales",
+                "reviewer",
+                "support"
+              ]
+            },
+            "maxItems": 7,
+            "uniqueItems": true,
+            "minItems": 0
+          }
+        },
+        "required": [
+          "id",
+          "enabled",
+          "roles"
+        ]
+      },
+      "StaffAuthorizationSnapshotResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/StaffAuthorizationSnapshot"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "StaffAuthorizationReplaceInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "super_admin",
+                "administrator",
+                "project_manager",
+                "business_analyst",
+                "sales",
+                "reviewer",
+                "support"
+              ]
+            },
+            "maxItems": 7,
+            "uniqueItems": true,
+            "minItems": 1
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "roles",
+          "enabled"
+        ]
+      },
+      "StaffAuthorizationReplaceResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/StaffAuthorizationSnapshot"
+          },
+          "meta": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "changed": {
+                "type": "boolean"
+              },
+              "current_session_revoked": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "changed",
+              "current_session_revoked"
+            ]
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ]
+      },
+      "StaffInvitationRecord": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "full_name": {
+            "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "super_admin",
+                "administrator",
+                "project_manager",
+                "business_analyst",
+                "sales",
+                "reviewer",
+                "support"
+              ]
+            },
+            "maxItems": 7,
+            "uniqueItems": true,
+            "minItems": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "accepted",
+              "expired",
+              "revoked"
+            ]
+          },
+          "invited_by": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "full_name": {
+                "type": "string",
+                "description": "Name captured when issued."
+              }
+            },
+            "required": [
+              "id",
+              "full_name"
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_sent_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "send_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "accepted_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "accepted_user_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "activated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "revoked_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "delivery_status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "sending",
+              "sent",
+              "uncertain",
+              "discarded"
+            ]
+          },
+          "etag": {
+            "type": "string",
+            "pattern": "^\"[1-9][0-9]{0,14}\"$"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "full_name",
+          "roles",
+          "status",
+          "invited_by",
+          "created_at",
+          "expires_at",
+          "last_sent_at",
+          "send_count",
+          "accepted_at",
+          "accepted_user_id",
+          "activated_at",
+          "revoked_at",
+          "delivery_status",
+          "etag"
+        ]
+      },
+      "StaffInvitationResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/StaffInvitationRecord"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "StaffInvitationListResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StaffInvitationRecord"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/StaffPageMeta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ]
+      },
+      "StaffInvitationInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 254
+          },
+          "full_name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 160
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "super_admin",
+                "administrator",
+                "project_manager",
+                "business_analyst",
+                "sales",
+                "reviewer",
+                "support"
+              ]
+            },
+            "maxItems": 7,
+            "uniqueItems": true,
+            "minItems": 1
+          }
+        },
+        "required": [
+          "email",
+          "full_name",
+          "roles"
+        ]
+      },
+      "StaffInvitationTokenInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "token": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "description": "Recipient-bound secret from the URL fragment. Never log or persist it in the browser."
+          }
+        },
+        "required": [
+          "token"
+        ]
+      },
+      "StaffInvitationAcceptInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "token": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "description": "Recipient-bound secret from the URL fragment. Never log or persist it in the browser."
+          },
+          "password": {
+            "type": "string",
+            "minLength": 12,
+            "maxLength": 128,
+            "writeOnly": true,
+            "description": "At least one lowercase letter, uppercase letter and digit."
+          },
+          "password_confirmation": {
+            "type": "string",
+            "writeOnly": true
+          }
+        },
+        "required": [
+          "token",
+          "password",
+          "password_confirmation"
+        ]
+      },
+      "StaffInvitationLookupResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "full_name": {
+                "type": "string"
+              },
+              "email_hint": {
+                "type": "string"
+              },
+              "roles": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "super_admin",
+                    "administrator",
+                    "project_manager",
+                    "business_analyst",
+                    "sales",
+                    "reviewer",
+                    "support"
+                  ]
+                },
+                "maxItems": 7,
+                "uniqueItems": true,
+                "minItems": 1
+              },
+              "role_labels": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "super_admin",
+                        "administrator",
+                        "project_manager",
+                        "business_analyst",
+                        "sales",
+                        "reviewer",
+                        "support"
+                      ]
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "name"
+                  ]
+                },
+                "minItems": 1,
+                "maxItems": 7
+              },
+              "invited_by": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "full_name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "full_name"
+                ]
+              },
+              "expires_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "password_policy": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "min_length": {
+                    "const": 12
+                  },
+                  "max_length": {
+                    "const": 128
+                  },
+                  "uppercase": {
+                    "const": true
+                  },
+                  "lowercase": {
+                    "const": true
+                  },
+                  "number": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "min_length",
+                  "max_length",
+                  "uppercase",
+                  "lowercase",
+                  "number"
+                ]
+              }
+            },
+            "required": [
+              "full_name",
+              "email_hint",
+              "roles",
+              "role_labels",
+              "invited_by",
+              "expires_at",
+              "password_policy"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "StaffInvitationAcceptResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "next_step": {
+                "const": "sign_in"
+              }
+            },
+            "required": [
+              "next_step"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "StaffErrorEnvelope": {
+        "type": "object",
+        "required": [
+          "error",
+          "request_id"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "error": {
+            "type": "object",
+            "required": [
+              "code",
+              "message"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string",
+                "enum": [
+                  "MALFORMED_REQUEST",
+                  "UNAUTHENTICATED",
+                  "FORBIDDEN",
+                  "NOT_FOUND",
+                  "METHOD_NOT_ALLOWED",
+                  "CONFLICT",
+                  "STALE_VERSION",
+                  "REQUEST_TOO_LARGE",
+                  "UNSUPPORTED_MEDIA_TYPE",
+                  "VALIDATION_FAILED",
+                  "PRECONDITION_REQUIRED",
+                  "RATE_LIMITED",
+                  "INTERNAL_ERROR",
+                  "SERVICE_UNAVAILABLE"
+                ]
+              },
+              "message": {
+                "type": "string"
+              },
+              "fields": {
+                "description": "Only present for validation errors; safe field names and fixed messages.",
+                "type": "object",
+                "maxProperties": 100,
+                "propertyNames": {
+                  "pattern": "^[a-zA-Z_][a-zA-Z0-9_.]{0,127}$"
+                },
+                "additionalProperties": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 1,
+                  "items": {
+                    "const": "This field is invalid."
+                  }
+                }
+              },
+              "reason": {
+                "type": "string",
+                "enum": [
+                  "LAST_ENABLED_SUPER_ADMIN",
+                  "ROLE_AUTHORITY_EXCEEDED",
+                  "SECURITY_ROLE_RESTRICTED",
+                  "STAFF_CUSTOMER_ROLE_MIX",
+                  "PASSWORD_CONFIRMATION_REQUIRED",
+                  "EMAIL_ALREADY_STAFF",
+                  "EMAIL_ALREADY_CUSTOMER",
+                  "INVITATION_ALREADY_PENDING",
+                  "IDEMPOTENCY_KEY_REUSED",
+                  "INVITATION_ALREADY_ACCEPTED",
+                  "INVITATION_ALREADY_REVOKED",
+                  "INVITATION_EXPIRED",
+                  "INVITATION_RESEND_LIMIT",
+                  "INVITATION_UNAVAILABLE",
+                  "INVITATION_SIGN_OUT_REQUIRED",
+                  "NOT_FOUND",
+                  "STALE_VERSION",
+                  "PRECONDITION_REQUIRED"
+                ]
+              },
+              "resource_id": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "StaffIfMatch": {
+        "name": "If-Match",
+        "in": "header",
+        "required": true,
+        "description": "Exact quoted authorization/invitation revision. Missing 428; malformed 422; stale 412. Use the snapshot or record ETag.",
+        "schema": {
+          "type": "string",
+          "pattern": "^\"[1-9][0-9]{0,14}\"$"
+        }
+      },
+      "StaffIdempotencyKey": {
+        "name": "Idempotency-Key",
+        "in": "header",
+        "required": true,
+        "description": "Retain the same key and payload for retries. Replay returns the same invitation in its current state and does not send mail again.",
+        "schema": {
+          "type": "string",
+          "minLength": 16,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]{16,128}$"
+        }
+      }
+    }
+  }
+}

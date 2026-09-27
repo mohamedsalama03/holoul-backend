@@ -6,8 +6,10 @@ namespace App\Modules\Identity\Mfa;
 
 use App\Modules\Audit\Actions\RecordAuditEvent;
 use App\Modules\Audit\Data\SafeAuditMetadata;
+use App\Modules\Identity\Authorization\RoleAuthority;
 use App\Modules\Identity\Models\User;
 use App\Modules\Identity\Security\SessionSecurity;
+use App\Modules\Identity\Staff\InvitationActions;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
@@ -46,6 +48,7 @@ final readonly class MfaActions
     public function confirmEnrollment(Request $request, #[SensitiveParameter] string $code): array
     {
         $result = DB::transaction(function () use ($request, $code): ?array {
+            app(RoleAuthority::class)->lockChanges();
             $user = $this->pendingUser($request);
             $credential = $this->credential($user);
 
@@ -69,6 +72,7 @@ final readonly class MfaActions
             $credential->last_accepted_step = $step;
             $credential->save();
             $codes = $this->replaceRecoveryCodes($credential);
+            app(InvitationActions::class)->activate($user, $this->requestId($request));
             $user->auth_version = $this->sessions->revokeAll($user->id, $this->requestId($request), $user->id);
             $this->record($request, $user, 'identity.mfa.enrollment_confirmed');
 

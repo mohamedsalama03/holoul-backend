@@ -16,6 +16,7 @@ use Illuminate\Support\Carbon;
  * @property string $password
  * @property string $kind
  * @property bool $enabled
+ * @property int $authorization_revision
  * @property int $auth_version
  * @property Carbon|null $email_verified_at
  */
@@ -32,6 +33,6 @@ final class User extends Authenticatable
     /** @return array<string, string> */
     protected function casts(): array
     {
-        return ['password' => 'hashed', 'enabled' => 'boolean', 'auth_version' => 'integer', 'email_verified_at' => 'immutable_datetime'];
+        return ['password' => 'hashed', 'enabled' => 'boolean', 'auth_version' => 'integer', 'authorization_revision' => 'integer', 'email_verified_at' => 'immutable_datetime'];
     }
 }

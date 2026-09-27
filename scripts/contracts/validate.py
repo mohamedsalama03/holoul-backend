@@ -88,7 +88,15 @@ def validate(samples_path, report_path):
             failures.append({"operation": key or "test-only error route", "test": sample["test"], "status": status, "issue": "error must use JSON envelope"})
             continue
         if sample["json"] and sample["status"] >= 400:
+            # New versioned operations may have a separately reviewed error
+            # schema; legacy operations and test-only routes retain the exact
+            # original envelope. Never relax the global error validator.
             schema_validator = error_validator
+            if key and status in operations[key]["responses"]:
+                response = dereference(spec, operations[key]["responses"][status])
+                schema = response.get("content", {}).get("application/json", {}).get("schema")
+                assert schema, (key, status, "Missing documented error schema")
+                schema_validator = validator(schema)
             if sample["status"] in ERRORS:
                 if sample["body"].get("error", {}).get("code") != ERRORS[sample["status"]][1]:
                     failures.append({"operation": key or "test-only error route", "test": sample["test"], "status": status, "issue": "status/code mismatch"})
@@ -153,6 +161,16 @@ def validate(samples_path, report_path):
     mutated = copy.deepcopy(sample_error)
     del mutated["request_id"]
     assert not error_validator.is_valid(mutated), "Missing correlation sentinel was accepted"
+    staff_error_validator = validator({"$ref": "#/components/schemas/StaffErrorEnvelope"})
+    reason_error = copy.deepcopy(sample_error)
+    reason_error["error"]["reason"] = "NOT_FOUND"
+    assert staff_error_validator.is_valid(reason_error), "Reviewed staff reason rejected"
+    assert not error_validator.is_valid(reason_error), "Legacy errors were silently extended"
+    reason_error["error"]["reason"] = "arbitrary internal exception"
+    assert not staff_error_validator.is_valid(reason_error), "Unreviewed reason accepted"
+    reason_error["error"]["reason"] = "NOT_FOUND"
+    reason_error["error"]["token"] = "synthetic-secret-marker"
+    assert not staff_error_validator.is_valid(reason_error), "Staff secret leakage accepted"
     assert samples > 0 and success_covered, "No actual API responses were recorded"
     expected_coverage = set(json.loads((ROOT / "docs/contracts/required-response-coverage.json").read_text()))
     assert expected_coverage and expected_coverage <= operations.keys(), "Invalid reviewed response coverage inventory"
@@ -161,7 +179,7 @@ def validate(samples_path, report_path):
               "validated_responses": samples, "observed_operations": len(covered),
               "success_covered_operations": len(success_covered), "status_counts": dict(sorted(statuses.items())),
               "success_coverage": sorted(success_covered), "no_success_sample": sorted(operations.keys() - success_covered),
-              "undocumented_successes": sorted(unknown_successes), "negative_validator_sentinels": 2,
+              "undocumented_successes": sorted(unknown_successes), "negative_validator_sentinels": 5, "positive_validator_sentinels": 1,
               "required_success_coverage": len(expected_coverage), "missing_required_success_samples": missing_coverage,
               "failures": failures, "passed": not failures and not unknown_successes and not missing_coverage}
     Path(report_path).write_text(encoded(report))

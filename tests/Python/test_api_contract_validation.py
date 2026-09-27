@@ -48,5 +48,17 @@ class ContractGateTest(unittest.TestCase):
                              lambda s: s["headers"].update({"content-type": ["text/html"]}), "undocumented binary media")
 
 
+    def test_staff_reason_does_not_extend_legacy_error_responses(self):
+        self.assert_rejected(lambda s: s["path"] == "/api/v1/identity/me" and s["status"] == 401,
+                             lambda s: s["body"]["error"].update(reason="NOT_FOUND"), "additionalProperties")
+
+    def test_staff_errors_reject_token_leakage(self):
+        self.assert_rejected(lambda s: s["path"] == "/api/v1/auth/staff-invitations/lookup" and s["status"] == 422,
+                             lambda s: s["body"]["error"].update(token="synthetic-secret-marker"), "additionalProperties")
+
+    def test_staff_errors_reject_unreviewed_reason_values(self):
+        self.assert_rejected(lambda s: s["path"] == "/api/v1/auth/staff-invitations/lookup" and s["status"] == 422,
+                             lambda s: s["body"]["error"].update(reason="INTERNAL_EXCEPTION_TEXT"), "enum")
+
 if __name__ == "__main__":
     unittest.main()
