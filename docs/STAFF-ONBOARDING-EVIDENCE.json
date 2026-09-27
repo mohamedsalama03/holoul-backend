@@ -1,0 +1,186 @@
+{
+  "classification": "BACKEND FEATURE READY FOR DASHBOARD INTEGRATION",
+  "production_ready": false,
+  "production_performance": "Pending target VPS",
+  "baseline": "acd04c1dcf8d9ec0a66bdf88fe061fe6b7f340f6",
+  "implementation_commit": "16da33bdba245d3c7dbbc15dd790bc9cc0e87946",
+  "branch": "codex/staff-invitations",
+  "scope": {
+    "implemented": [
+      "T1",
+      "T2",
+      "T3",
+      "I1",
+      "I2",
+      "I3",
+      "I4",
+      "I5"
+    ],
+    "deferred": [
+      "I6 inviter acceptance/expiry notifications"
+    ],
+    "frontend_implementation_started": false
+  },
+  "contract": {
+    "previous_sha256": "ae8d0a904a0042b80f9adc1224dedf8677794e2d49ca5cdf41daeb5278780be8",
+    "new_sha256": "af3c96ac459717fb3ab4c86ac68513d4516e843e410de36820af2e188eded43d",
+    "operations_added": [
+      "POST /api/v1/auth/staff-invitations/accept",
+      "POST /api/v1/auth/staff-invitations/lookup",
+      "GET /api/v1/identity/capabilities",
+      "GET /api/v1/identity/staff",
+      "GET /api/v1/identity/staff/invitations",
+      "POST /api/v1/identity/staff/invitations",
+      "POST /api/v1/identity/staff/invitations/{invitation}/resends",
+      "POST /api/v1/identity/staff/invitations/{invitation}/revocations",
+      "GET /api/v1/identity/staff/{user}/authorization",
+      "PUT /api/v1/identity/staff/{user}/authorization"
+    ],
+    "schemas_added": [
+      "StaffAuthorizationReplaceInput",
+      "StaffAuthorizationReplaceResponse",
+      "StaffAuthorizationSnapshot",
+      "StaffAuthorizationSnapshotResponse",
+      "StaffCapabilitiesResponse",
+      "StaffDirectoryRecord",
+      "StaffDirectoryResponse",
+      "StaffErrorEnvelope",
+      "StaffInvitationAcceptInput",
+      "StaffInvitationAcceptResponse",
+      "StaffInvitationInput",
+      "StaffInvitationListResponse",
+      "StaffInvitationLookupResponse",
+      "StaffInvitationRecord",
+      "StaffInvitationResponse",
+      "StaffInvitationTokenInput",
+      "StaffPageMeta"
+    ],
+    "existing_operations_or_components_changed": [],
+    "inherited_security_sources_unchanged": [
+      "app/Infrastructure/Http/SessionResponse.php",
+      "app/Infrastructure/Http/StartSecureSession.php",
+      "app/Modules/Identity/Security/SessionSecurity.php",
+      "app/Infrastructure/Database/WrappedConcurrencyErrors.php",
+      "tests/Unit/WrappedConcurrencyErrorsTest.php",
+      "tests/Feature/Identity/SessionLifecycleTest.php",
+      "tests/Feature/ProjectIntake/GuestSessionIsolationTest.php",
+      "tests/Fixtures/session-lifecycle-worker.php",
+      "tests/Fixtures/guest-session-worker.php"
+    ]
+  },
+  "verification": {
+    "full_before_final_review": {
+      "tests": 958,
+      "assertions": 12916,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "full_architecture": {
+      "tests": 9,
+      "assertions": 45007,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "final_review_first_focused": {
+      "tests": 70,
+      "assertions": 1494,
+      "errors": 0,
+      "failures": 1,
+      "skipped": 0
+    },
+    "corrected_staff_recheck": {
+      "tests": 24,
+      "assertions": 602,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "final_unique_focused_cases": 70,
+    "all_final_focused_cases_pass_across_runs": true,
+    "final_architecture": {
+      "tests": 9,
+      "assertions": 44995,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "composer_validate_platform_audit": "passed; no advisories",
+    "phpstan_level": 10,
+    "phpstan": "passed",
+    "pint": "full initial check and final changed-file checks passed",
+    "fresh_migrations": 31,
+    "exact_upgrade": "30 accepted G1 migrations to 31; retained values, repeat, unused rollback/reupgrade tested",
+    "openapi": {
+      "documented_operations": 182,
+      "validated_responses": 2945,
+      "observed_operations": 155,
+      "success_covered_operations": 131,
+      "required_success_coverage": 126,
+      "missing_required_success_samples": [],
+      "passed": true
+    },
+    "contract_negative_tests": 7,
+    "route_drift": {
+      "actual_operations": 182,
+      "documented_operations": 182,
+      "undocumented": [],
+      "missing_routes": [],
+      "passed": true
+    },
+    "real_https_checks": [
+      "verified_https_super_admin_login_mfa_cookie_flags",
+      "capabilities_directory_reads_do_not_replace_cookies",
+      "runtime_role_issues_and_replays_one_invitation",
+      "real_mail_sandbox_delivery_fragment_link",
+      "anonymous_csrf_and_authenticated_session_preservation",
+      "single_use_acceptance_does_not_log_in_or_set_cookies",
+      "invited_staff_normal_login_mfa_and_verified_identity",
+      "guarded_edit_stale_version_and_revocation_without_cookie_clobber",
+      "logout_rejects_replayed_authenticated_cookie"
+    ],
+    "frontend_e2e": {
+      "startTime": "2026-09-27T19:51:06.053Z",
+      "duration": 125939.63900000001,
+      "expected": 7,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "frontend_f1_auth_tests": 6,
+    "frontend_overview_tests": 1,
+    "frontend_source_snapshot": {
+      "head_before": "400ca8fec2647d4931f5537aa04f05e687dd2535",
+      "head_after": "400ca8fec2647d4931f5537aa04f05e687dd2535",
+      "files_fingerprinted": 281,
+      "changed_during_e2e": [
+        "src/app/(dashboard)/categories/page.tsx",
+        "src/components/categories/category-catalog.tsx",
+        "src/components/dashboard/categories-board.tsx",
+        "src/components/dashboard/status-badge.tsx"
+      ],
+      "contract_copy_sha256": "ae8d0a904a0042b80f9adc1224dedf8677794e2d49ca5cdf41daeb5278780be8",
+      "passed": false
+    },
+    "frontend_f1_sources": {
+      "files_checked": 32,
+      "changes": [],
+      "passed": true,
+      "scope": "F1 E2E/auth sources and frontend contract; other frontend editing continued concurrently."
+    },
+    "images": {
+      "development": "sha256:ab0d6f816148a69f65c2e300c40200e7d43b011a48612ee54ee007378f49c104",
+      "runtime": "sha256:5e5517044af9c3a9e9dd814fcbef6c80ef2e4b53ca608783acdd4327acc188b2",
+      "validator": "sha256:978401473245f5ad792a821dc37dd3e685d1dc600d9bd6f4f14edc96a1f38202"
+    },
+    "original_runtime_unchanged": true,
+    "isolated_runtime_stopped_after_verification": true
+  },
+  "failed_attempts_retained": [
+    "Initial focused/style/type/architecture setup failures were corrected before the full passing gate.",
+    "Post-review 70-test run: one boundary-test hook expected an unquoted aggregate alias; pinned Laravel quotes it. Hook corrected without removing delay/assertions; all 24 staff tests then passed.",
+    "One WSL command-start connection timeout was retried; no application failure.",
+    "Full frontend source snapshot was not frozen: four category/status UI files changed concurrently outside this backend work. F1/E2E/auth sources and frontend contract stayed unchanged."
+  ]
+}

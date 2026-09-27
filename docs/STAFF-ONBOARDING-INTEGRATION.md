@@ -98,4 +98,4 @@ The existing default queue worker handles `identity.staff_invitation_mail`. The 
 
 No target-user MFA-reset or dedicated forced-sign-out endpoint is added. Do not simulate one by toggling roles/status. I6 user notifications are deferred; audit events and invitation records remain the source of lifecycle evidence.
 
-Verification results and the final candidate/contract hashes are recorded separately in `STAFF-ONBOARDING-VERIFICATION.md` when the gates finish. Production performance certification remains pending the target VPS.
+Verification passed for the reviewed application candidate; results, retained failed attempts and the exact hashes are in [STAFF-ONBOARDING-VERIFICATION.md](STAFF-ONBOARDING-VERIFICATION.md). Implementation checkpoint: `16da33bdba245d3c7dbbc15dd790bc9cc0e87946`. Production performance certification remains pending the target VPS.
