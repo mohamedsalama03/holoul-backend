@@ -1,0 +1,1072 @@
+{
+  "date": "2026-09-28",
+  "reviewBaseline": "b79d3eb3824858565ffcbe0e6143ef6006be83de",
+  "applicationBaseline": "e3957df723ea01a6005feaec90d8130a26c93b62",
+  "websiteBaseline": "39536e65ad0a6df24b2577d0d44fc81fde2b19be",
+  "backendVersion": "1.3.0-directory-sort-candidate",
+  "backendSha256": "fafbc8b62976788dae0cc98492add8bed014228ad42844d2c7498ca57d1a7f4e",
+  "websiteVersion": "1.1.0-g1",
+  "websiteSha256": "ae8d0a904a0042b80f9adc1224dedf8677794e2d49ca5cdf41daeb5278780be8",
+  "backendOperations": 182,
+  "websiteOperations": 172,
+  "consumedOperations": 31,
+  "unchangedReferencedComponents": 71,
+  "consumedDefinitionChanges": [],
+  "newOperations": [
+    "identityAcceptStaffInvitation",
+    "identityGetCapabilities",
+    "identityGetStaffAuthorization",
+    "identityIssueStaffInvitation",
+    "identityListStaff",
+    "identityListStaffInvitations",
+    "identityLookupStaffInvitation",
+    "identityReplaceStaffAuthorization",
+    "identityResendStaffInvitation",
+    "identityRevokeStaffInvitation"
+  ],
+  "removedOperations": [],
+  "runtimeImage": "sha256:d9ecddaab6437d96f69942cb278a0db7567f05bf5e2b609dc6ef9de5fe824ba9",
+  "runtime": {
+    "environment": "local",
+    "profile": "local-verification",
+    "debug": false,
+    "origin": "https://localhost:8443",
+    "sandbox_mail": true,
+    "mail_host": "mailpit",
+    "ai_enabled": false,
+    "ai_driver": "sandbox",
+    "ai_model": "sandbox-v1",
+    "customer_accounts_without_profile": 0,
+    "enabled_customer_accounts_without_profile": 0,
+    "active_categories": 16,
+    "visible_subcategories": 16,
+    "migrations": 31
+  },
+  "httpProbes": [
+    {
+      "path": "/",
+      "status": 503,
+      "expected": 200,
+      "pass": false,
+      "setCookie": false,
+      "cacheControl": "no-store",
+      "contentType": "application/json"
+    },
+    {
+      "path": "/submit-idea",
+      "status": 503,
+      "expected": 200,
+      "pass": false,
+      "setCookie": false,
+      "cacheControl": "no-store",
+      "contentType": "application/json"
+    },
+    {
+      "path": "/admin",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "setCookie": false,
+      "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/health/live",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "setCookie": false,
+      "cacheControl": "no-store",
+      "contentType": "application/json"
+    },
+    {
+      "path": "/health/ready",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "setCookie": false,
+      "cacheControl": "no-store",
+      "contentType": "application/json"
+    },
+    {
+      "path": "/api/v1/intake/categories",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "setCookie": false,
+      "cacheControl": "no-store",
+      "contentType": "application/json"
+    },
+    {
+      "path": "/api/v1/identity/me",
+      "status": 401,
+      "expected": 401,
+      "pass": true,
+      "setCookie": false,
+      "cacheControl": "no-store",
+      "contentType": "application/json"
+    },
+    {
+      "path": "/sanctum/csrf-cookie",
+      "status": 204,
+      "expected": 204,
+      "pass": true,
+      "setCookie": true,
+      "cacheControl": "no-store",
+      "contentType": null
+    },
+    {
+      "path": "/api/v1/public/portfolio/projects",
+      "status": 404,
+      "expected": 404,
+      "pass": true,
+      "setCookie": false,
+      "cacheControl": "no-store",
+      "contentType": "application/json"
+    },
+    {
+      "path": "/api/v1/public/portfolio/categories",
+      "status": 404,
+      "expected": 404,
+      "pass": true,
+      "setCookie": false,
+      "cacheControl": "no-store",
+      "contentType": "application/json"
+    }
+  ],
+  "publicTaxonomy": {
+    "count": 16,
+    "allB8Synthetic": true
+  },
+  "services": [
+    {
+      "name": "holoul-notification-queue-1",
+      "image": "holoul-app:customer-order-runtime",
+      "status": "Up 40 minutes (healthy)"
+    },
+    {
+      "name": "holoul-queue-1",
+      "image": "holoul-app:customer-order-runtime",
+      "status": "Up 40 minutes (healthy)"
+    },
+    {
+      "name": "holoul-ai-queue-1",
+      "image": "holoul-app:customer-order-runtime",
+      "status": "Up 40 minutes (healthy)"
+    },
+    {
+      "name": "holoul-document-queue-1",
+      "image": "holoul-app:customer-order-runtime",
+      "status": "Up 40 minutes (healthy)"
+    },
+    {
+      "name": "holoul-app-1",
+      "image": "holoul-app:customer-order-runtime",
+      "status": "Up 2 hours (healthy)"
+    },
+    {
+      "name": "holoul-scheduler-1",
+      "image": "holoul-app:customer-order-runtime",
+      "status": "Up 2 hours (healthy)"
+    },
+    {
+      "name": "holoul-nginx-1",
+      "image": "nginx:1.30.5-alpine",
+      "status": "Up 2 hours (healthy)"
+    },
+    {
+      "name": "holoul-postgres-1",
+      "image": "holoul-postgres:b1-runtime",
+      "status": "Up 2 hours (healthy)"
+    },
+    {
+      "name": "holoul-storage-1",
+      "image": "holoul-storage:b4-runtime",
+      "status": "Up 2 hours (healthy)"
+    },
+    {
+      "name": "holoul-redis-1",
+      "image": "holoul-redis:b1-runtime",
+      "status": "Up 2 hours (healthy)"
+    },
+    {
+      "name": "holoul-scanner-1",
+      "image": "holoul-scanner:b4-runtime",
+      "status": "Up 2 hours (healthy)"
+    },
+    {
+      "name": "holoul-signature-updater-1",
+      "image": "holoul-scanner:b4-runtime",
+      "status": "Up 2 hours"
+    },
+    {
+      "name": "holoul-inspector-1",
+      "image": "holoul-inspector:b8-runtime",
+      "status": "Up 2 hours (healthy)"
+    },
+    {
+      "name": "holoul-mailpit-1",
+      "image": "axllent/mailpit:v1.31.1",
+      "status": "Up 2 hours (healthy)"
+    }
+  ],
+  "afterWebsiteStart": [
+    {
+      "path": "/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "setCookie": false
+    },
+    {
+      "path": "/submit-idea",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "setCookie": false
+    },
+    {
+      "path": "/sign-in",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "setCookie": false
+    },
+    {
+      "path": "/verify-email",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "setCookie": false
+    },
+    {
+      "path": "/reset-password",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "setCookie": false
+    },
+    {
+      "path": "/account",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "setCookie": false
+    },
+    {
+      "path": "/my-requests",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "setCookie": false
+    },
+    {
+      "path": "/admin",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "setCookie": false
+    },
+    {
+      "path": "/api/v1/intake/categories",
+      "status": 200,
+      "contentType": "application/json",
+      "setCookie": false
+    }
+  ],
+  "browserSmoke": [
+    {
+      "path": "/",
+      "status": 200,
+      "title": "HOLOUL — Turn Ideas Into Digital Solutions",
+      "errors": [],
+      "apiCalls": [],
+      "guestDraftCreated": false
+    },
+    {
+      "path": "/submit-idea",
+      "status": 200,
+      "title": "Submit Your Idea — HOLOUL",
+      "errors": [],
+      "apiCalls": [
+        {
+          "method": "GET",
+          "path": "/api/v1/identity/me",
+          "status": 401,
+          "setCookie": false
+        },
+        {
+          "method": "GET",
+          "path": "/api/v1/intake/categories",
+          "status": 200,
+          "setCookie": false
+        }
+      ],
+      "guestDraftCreated": false
+    }
+  ],
+  "serviceImages": {
+    "app": "sha256:d9ecddaab6437d96f69942cb278a0db7567f05bf5e2b609dc6ef9de5fe824ba9",
+    "queue": "sha256:d9ecddaab6437d96f69942cb278a0db7567f05bf5e2b609dc6ef9de5fe824ba9",
+    "document-queue": "sha256:d9ecddaab6437d96f69942cb278a0db7567f05bf5e2b609dc6ef9de5fe824ba9",
+    "ai-queue": "sha256:d9ecddaab6437d96f69942cb278a0db7567f05bf5e2b609dc6ef9de5fe824ba9",
+    "notification-queue": "sha256:d9ecddaab6437d96f69942cb278a0db7567f05bf5e2b609dc6ef9de5fe824ba9",
+    "scheduler": "sha256:d9ecddaab6437d96f69942cb278a0db7567f05bf5e2b609dc6ef9de5fe824ba9"
+  },
+  "legacyPortfolio": {
+    "source": "dashboard default .data/portfolio/projects.json",
+    "sourceSha256": "ad31a1d8de23f4533d252e759dbed60851ba838db8605cc3073db13274f53fe3",
+    "count": 1,
+    "published": 1,
+    "imageReferences": 4,
+    "projectFields": [
+      "category",
+      "createdAt",
+      "description",
+      "id",
+      "images",
+      "status",
+      "summary",
+      "title",
+      "updatedAt"
+    ],
+    "imageFields": [
+      "alt",
+      "height",
+      "id",
+      "width"
+    ]
+  },
+  "websiteUnitTests": {
+    "tests": 65,
+    "files": 5,
+    "passed": true,
+    "isBrowserE2E": false,
+    "warning": "Vite future configLoader warning retained"
+  },
+  "websiteContractCheck": "passed against unchanged 1.1.0-g1 pinned copy",
+  "newApiImplemented": false,
+  "productionCertification": false,
+  "backendTests": {
+    "tests": 202,
+    "assertions": 3012,
+    "failures": 0,
+    "errors": 0,
+    "database": "isolated PostgreSQL holoul_test",
+    "suites": [
+      {
+        "name": "Tests\\Feature\\Documents\\DocumentConcurrencyTest",
+        "tests": "3",
+        "assertions": "21",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "6.712127"
+      },
+      {
+        "name": "Tests\\Feature\\Documents\\DocumentHttpTest",
+        "tests": "24",
+        "assertions": "419",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "72.149511"
+      },
+      {
+        "name": "Tests\\Feature\\Identity\\IdentityAtomicityTest",
+        "tests": "3",
+        "assertions": "52",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "7.856178"
+      },
+      {
+        "name": "Tests\\Feature\\Identity\\IdentityHttpTest",
+        "tests": "34",
+        "assertions": "304",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "92.424400"
+      },
+      {
+        "name": "Tests\\Feature\\Identity\\RecoveryTest",
+        "tests": "15",
+        "assertions": "100",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "32.296412"
+      },
+      {
+        "name": "Tests\\Feature\\Identity\\SessionLifecycleTest",
+        "tests": "18",
+        "assertions": "830",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "76.814417"
+      },
+      {
+        "name": "Tests\\Feature\\ProjectIntake\\GuestIntakeConcurrencyTest",
+        "tests": "8",
+        "assertions": "102",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "13.760245"
+      },
+      {
+        "name": "Tests\\Feature\\ProjectIntake\\GuestIntakeHttpTest",
+        "tests": "39",
+        "assertions": "448",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "69.016512"
+      },
+      {
+        "name": "Tests\\Feature\\ProjectIntake\\GuestSessionIsolationTest",
+        "tests": "9",
+        "assertions": "176",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "23.380359"
+      },
+      {
+        "name": "Tests\\Feature\\ProjectIntake\\IntakeConcurrencyTest",
+        "tests": "4",
+        "assertions": "104",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "7.324655"
+      },
+      {
+        "name": "Tests\\Feature\\ProjectIntake\\IntakeHttpTest",
+        "tests": "45",
+        "assertions": "456",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "116.331456"
+      }
+    ],
+    "isBrowserE2E": false,
+    "durationSeconds": 518.127
+  },
+  "browserAccountAndClaimJourney": {
+    "date": "2026-09-28T18:05:02.517Z",
+    "origin": "https://localhost:8443",
+    "tlsVerification": true,
+    "mockedApis": false,
+    "steps": [
+      {
+        "name": "guest submission without attachment",
+        "pass": true
+      },
+      {
+        "name": "account registration",
+        "pass": true
+      },
+      {
+        "name": "Mailpit verification link and email confirmation",
+        "pass": true
+      },
+      {
+        "name": "login after verification preserves receipt",
+        "pass": true
+      },
+      {
+        "name": "claim same request and customer retrieval",
+        "pass": true,
+        "detailPath": "/my-requests/01a0e931-1675-726a-9269-c81e44a99108"
+      },
+      {
+        "name": "registration creates exactly one customer profile",
+        "pass": true
+      },
+      {
+        "name": "logout",
+        "pass": true
+      },
+      {
+        "name": "Mailpit reset link and password reset",
+        "pass": true
+      },
+      {
+        "name": "login with reset password and authenticated contact from profile",
+        "pass": true
+      }
+    ],
+    "network": [
+      {
+        "method": "GET",
+        "path": "/api/v1/identity/me",
+        "status": 401,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/intake/categories",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/sanctum/csrf-cookie",
+        "status": 204,
+        "setCookie": true
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/identity/me",
+        "status": 401,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/intake/categories",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/intake/categories/01a0c342-40c2-732a-aa56-bf66d4fea073/subcategories",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/sanctum/csrf-cookie",
+        "status": 204,
+        "setCookie": false
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/guest/project-requests",
+        "status": 201,
+        "setCookie": false
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/guest/project-requests/01a0e931-1675-726a-9269-c81e44a99108/submissions",
+        "status": 201,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/identity/me",
+        "status": 401,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/identity/me",
+        "status": 401,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/sanctum/csrf-cookie",
+        "status": 204,
+        "setCookie": false
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/register",
+        "status": 202,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/identity/me",
+        "status": 401,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/sanctum/csrf-cookie",
+        "status": 204,
+        "setCookie": false
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/email/verify",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/identity/me",
+        "status": 401,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/sanctum/csrf-cookie",
+        "status": 204,
+        "setCookie": false
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/login",
+        "status": 200,
+        "setCookie": true
+      },
+      {
+        "method": "GET",
+        "path": "/sanctum/csrf-cookie",
+        "status": 204,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/identity/me",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/customers",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/identity/me",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/identity/me",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/customers",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/sanctum/csrf-cookie",
+        "status": 204,
+        "setCookie": false
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/project-request-claims",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/project-requests/01a0e931-1675-726a-9269-c81e44a99108",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/identity/me",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/customers",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/project-requests",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/project-requests/01a0e931-1675-726a-9269-c81e44a99108",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/customers",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/identity/me",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/customers",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/identity/me",
+        "status": 401,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/sanctum/csrf-cookie",
+        "status": 204,
+        "setCookie": true
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/password/forgot",
+        "status": 202,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/identity/me",
+        "status": 401,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/sanctum/csrf-cookie",
+        "status": 204,
+        "setCookie": false
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/password/reset",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/identity/me",
+        "status": 401,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/sanctum/csrf-cookie",
+        "status": 204,
+        "setCookie": false
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/login",
+        "status": 200,
+        "setCookie": true
+      },
+      {
+        "method": "GET",
+        "path": "/sanctum/csrf-cookie",
+        "status": 204,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/identity/me",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/customers",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/identity/me",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/intake/categories",
+        "status": 200,
+        "setCookie": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/customers",
+        "status": 200,
+        "setCookie": false
+      }
+    ],
+    "remaining": [
+      "real PDF/DOCX upload and scan",
+      "second customer isolation browser journey",
+      "expired capability and lost response browser scenarios",
+      "full mobile acceptance"
+    ],
+    "pass": true,
+    "finishedAt": "2026-09-28T18:05:08.943Z"
+  },
+  "browserDocumentJourneys": {
+    "startedAt": "2026-09-28T18:06:17.996Z",
+    "tlsVerification": true,
+    "mockedApis": false,
+    "cases": [
+      {
+        "extension": "pdf",
+        "steps": [
+          "uploaded",
+          "available after real scan",
+          "submitted with document"
+        ],
+        "http": [
+          {
+            "method": "GET",
+            "path": "/api/v1/identity/me",
+            "status": 401,
+            "setCookie": false
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/intake/categories",
+            "status": 200,
+            "setCookie": false
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/identity/me",
+            "status": 401,
+            "setCookie": false
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/intake/categories",
+            "status": 200,
+            "setCookie": false
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/intake/categories/01a0c342-40c2-732a-aa56-bf66d4fea073/subcategories",
+            "status": 200,
+            "setCookie": false
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/guest/project-requests",
+            "status": 201,
+            "setCookie": false
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/guest/project-requests/01a0e932-3d76-73c0-ab52-5fc1ee891f14/documents",
+            "status": 201,
+            "setCookie": false
+          },
+          {
+            "method": "PUT",
+            "path": "/api/v1/guest/project-requests/01a0e932-3d76-73c0-ab52-5fc1ee891f14/documents/01a0e932-3da9-73da-8ff6-23b1404b7aa7/content",
+            "status": 200,
+            "setCookie": false
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/guest/project-requests/01a0e932-3d76-73c0-ab52-5fc1ee891f14/documents/01a0e932-3da9-73da-8ff6-23b1404b7aa7",
+            "status": 200,
+            "setCookie": false,
+            "state": "available"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/guest/project-requests/01a0e932-3d76-73c0-ab52-5fc1ee891f14/documents/01a0e932-3da9-73da-8ff6-23b1404b7aa7",
+            "status": 200,
+            "setCookie": false,
+            "state": "available"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/guest/project-requests/01a0e932-3d76-73c0-ab52-5fc1ee891f14/submissions",
+            "status": 201,
+            "setCookie": false
+          }
+        ],
+        "pass": true
+      },
+      {
+        "extension": "docx",
+        "steps": [
+          "uploaded",
+          "available after real scan",
+          "submitted with document"
+        ],
+        "http": [
+          {
+            "method": "GET",
+            "path": "/api/v1/identity/me",
+            "status": 401,
+            "setCookie": false
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/intake/categories",
+            "status": 200,
+            "setCookie": false
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/identity/me",
+            "status": 401,
+            "setCookie": false
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/intake/categories",
+            "status": 200,
+            "setCookie": false
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/intake/categories/01a0c342-40c2-732a-aa56-bf66d4fea073/subcategories",
+            "status": 200,
+            "setCookie": false
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/guest/project-requests",
+            "status": 201,
+            "setCookie": false
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/guest/project-requests/01a0e932-4fc5-71b7-969a-c36d82d215aa/documents",
+            "status": 201,
+            "setCookie": false
+          },
+          {
+            "method": "PUT",
+            "path": "/api/v1/guest/project-requests/01a0e932-4fc5-71b7-969a-c36d82d215aa/documents/01a0e932-4ff1-7257-a4f2-ee8a50143b8c/content",
+            "status": 200,
+            "setCookie": false
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/guest/project-requests/01a0e932-4fc5-71b7-969a-c36d82d215aa/documents/01a0e932-4ff1-7257-a4f2-ee8a50143b8c",
+            "status": 200,
+            "setCookie": false,
+            "state": "available"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/guest/project-requests/01a0e932-4fc5-71b7-969a-c36d82d215aa/documents/01a0e932-4ff1-7257-a4f2-ee8a50143b8c",
+            "status": 200,
+            "setCookie": false,
+            "state": "available"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/guest/project-requests/01a0e932-4fc5-71b7-969a-c36d82d215aa/submissions",
+            "status": 201,
+            "setCookie": false
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/identity/me",
+            "status": 401,
+            "setCookie": false
+          }
+        ],
+        "pass": true
+      }
+    ],
+    "finishedAt": "2026-09-28T18:06:27.611Z",
+    "pass": true
+  },
+  "invalidDocumentBrowserAttempt": {
+    "startedAt": "2026-09-28T18:07:48.056Z",
+    "tlsVerification": true,
+    "mockedApis": false,
+    "cases": [
+      {
+        "extension": "invalid-pdf",
+        "steps": [],
+        "http": [
+          {
+            "method": "GET",
+            "path": "/api/v1/intake/categories",
+            "status": 200,
+            "setCookie": false
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/identity/me",
+            "status": 401,
+            "setCookie": false
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/identity/me",
+            "status": 401,
+            "setCookie": false
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/intake/categories",
+            "status": 200,
+            "setCookie": false
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/intake/categories/01a0c342-40c2-732a-aa56-bf66d4fea073/subcategories",
+            "status": 200,
+            "setCookie": false
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/guest/project-requests",
+            "status": 429,
+            "setCookie": false
+          }
+        ],
+        "pass": false,
+        "failedStep": "invalid content upload",
+        "errorType": "TimeoutError",
+        "browserAlerts": [
+          "Please wait before trying this action again. Try again in 3376 seconds. Support reference: 168d5ae3-00ef-44c9-820d-c0c58429980c.",
+          ""
+        ],
+        "documentStatus": [
+          "Upload not confirmed. Check its status before continuing."
+        ]
+      }
+    ],
+    "finishedAt": "2026-09-28T18:08:09.042Z",
+    "pass": false
+  },
+  "documentRuntimeAdapters": {
+    "App\\Modules\\Documents\\Contracts\\PrivateObjectStore": "App\\Application\\Documents\\ObservedObjectStore",
+    "App\\Modules\\Documents\\Contracts\\MalwareScanner": "App\\Modules\\Documents\\Adapters\\ClamAvScanner",
+    "App\\Modules\\Documents\\Contracts\\DocumentInspector": "App\\Modules\\Documents\\Adapters\\IsolatedDocumentInspector"
+  },
+  "harnessCorrections": [
+    {
+      "attempts": 2,
+      "effect": "Post-claim test harness stopped; application claim and reads had HTTP 200. Native fetch Response.status was incorrectly called as a function; corrected harness then completed 9 steps. No application source change."
+    },
+    {
+      "attempt": 1,
+      "effect": "Response.headers omits security headers in Playwright. Cookie booleans from attempt 1 discarded; successful run uses allHeaders."
+    }
+  ],
+  "localSyntheticFootprint": {
+    "newVerifiedCustomerAccounts": 3,
+    "submittedGuestRequests": 5,
+    "claimedRequests": 3,
+    "uploadedDocuments": 2,
+    "additionalGuestCreationRateLimited": 1,
+    "passwordsOrTokensPublished": false,
+    "historicalRecordsDeleted": false
+  },
+  "limits": [
+    "Local verification only; production performance certification pending target VPS.",
+    "Invalid-file browser rejection not reached because guest draft creation returned 429; Retry-After was respected without disabling or resetting rate limits.",
+    "No complete mobile/second-customer/expired-token/lost-response browser acceptance in this review. Those security behaviors have focused backend test coverage, not equivalent browser proof.",
+    "No fresh full Pint/PHPStan/Architecture/Composer/Docker rebuild or migration rerun: this review changes documentation and fixtures only.",
+    "No new API contract, routes, schema, grants, launch taxonomy import or frontend source changes."
+  ]
+}

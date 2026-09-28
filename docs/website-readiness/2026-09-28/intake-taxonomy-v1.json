@@ -1,0 +1,406 @@
+{
+  "schema_version": 1,
+  "catalog": "intake-launch-v1",
+  "status": "PREPARED_AWAITING_CATALOG_APPROVAL_NOT_IMPORTED",
+  "source_attachment_sha256": "fc80977156e598282cc4b4f2a5466cace8b8409d5db4705ba81620ae4c280e76",
+  "website_reference": "39536e65ad0a6df24b2577d0d44fc81fde2b19be",
+  "production_origin": "https://holoul.com.ly",
+  "contact_recipient": "info@holoul.ly",
+  "staging_origin_proposal": "https://staging.holoul.com.ly",
+  "staging_approved": false,
+  "sender_address": null,
+  "smtp_provider": null,
+  "identity_policy": "UUIDv7 generated server-side. Stable unique category slug and parent-scoped subcategory slug identify repeat imports. No ownership supplied by frontend.",
+  "categories": [
+    {
+      "name": "Web Development",
+      "slug": "web-development",
+      "active": true,
+      "display_order": 10,
+      "subcategories": [
+        {
+          "name": "Corporate Website",
+          "slug": "corporate-website",
+          "active": true,
+          "display_order": 10
+        },
+        {
+          "name": "Customer Portal",
+          "slug": "customer-portal",
+          "active": true,
+          "display_order": 20
+        },
+        {
+          "name": "Web Platform",
+          "slug": "web-platform",
+          "active": true,
+          "display_order": 30
+        },
+        {
+          "name": "Other",
+          "slug": "other",
+          "active": true,
+          "display_order": 40
+        }
+      ]
+    },
+    {
+      "name": "Mobile Applications",
+      "slug": "mobile-applications",
+      "active": true,
+      "display_order": 20,
+      "subcategories": [
+        {
+          "name": "iOS & Android App",
+          "slug": "ios-android-app",
+          "active": true,
+          "display_order": 10
+        },
+        {
+          "name": "Customer App",
+          "slug": "customer-app",
+          "active": true,
+          "display_order": 20
+        },
+        {
+          "name": "Operations App",
+          "slug": "operations-app",
+          "active": true,
+          "display_order": 30
+        },
+        {
+          "name": "Other",
+          "slug": "other",
+          "active": true,
+          "display_order": 40
+        }
+      ]
+    },
+    {
+      "name": "E-Commerce",
+      "slug": "e-commerce",
+      "active": true,
+      "display_order": 30,
+      "subcategories": [
+        {
+          "name": "Online Store",
+          "slug": "online-store",
+          "active": true,
+          "display_order": 10
+        },
+        {
+          "name": "Marketplace",
+          "slug": "marketplace",
+          "active": true,
+          "display_order": 20
+        },
+        {
+          "name": "B2B Commerce",
+          "slug": "b2b-commerce",
+          "active": true,
+          "display_order": 30
+        },
+        {
+          "name": "Other",
+          "slug": "other",
+          "active": true,
+          "display_order": 40
+        }
+      ]
+    },
+    {
+      "name": "Business Management Systems",
+      "slug": "business-management-systems",
+      "active": true,
+      "display_order": 40,
+      "subcategories": [
+        {
+          "name": "ERP",
+          "slug": "erp",
+          "active": true,
+          "display_order": 10
+        },
+        {
+          "name": "CRM",
+          "slug": "crm",
+          "active": true,
+          "display_order": 20
+        },
+        {
+          "name": "HR Management",
+          "slug": "hr-management",
+          "active": true,
+          "display_order": 30
+        },
+        {
+          "name": "Inventory Management",
+          "slug": "inventory-management",
+          "active": true,
+          "display_order": 40
+        },
+        {
+          "name": "Accounting",
+          "slug": "accounting",
+          "active": true,
+          "display_order": 50
+        },
+        {
+          "name": "Workflow Automation",
+          "slug": "workflow-automation",
+          "active": true,
+          "display_order": 60
+        },
+        {
+          "name": "Other",
+          "slug": "other",
+          "active": true,
+          "display_order": 70
+        }
+      ]
+    },
+    {
+      "name": "Logistics & Delivery",
+      "slug": "logistics-delivery",
+      "active": true,
+      "display_order": 50,
+      "subcategories": [
+        {
+          "name": "Delivery Management",
+          "slug": "delivery-management",
+          "active": true,
+          "display_order": 10
+        },
+        {
+          "name": "Fleet Management",
+          "slug": "fleet-management",
+          "active": true,
+          "display_order": 20
+        },
+        {
+          "name": "Order Tracking",
+          "slug": "order-tracking",
+          "active": true,
+          "display_order": 30
+        },
+        {
+          "name": "Other",
+          "slug": "other",
+          "active": true,
+          "display_order": 40
+        }
+      ]
+    },
+    {
+      "name": "Healthcare Solutions",
+      "slug": "healthcare-solutions",
+      "active": true,
+      "display_order": 60,
+      "subcategories": [
+        {
+          "name": "Clinic Management",
+          "slug": "clinic-management",
+          "active": true,
+          "display_order": 10
+        },
+        {
+          "name": "Patient Portal",
+          "slug": "patient-portal",
+          "active": true,
+          "display_order": 20
+        },
+        {
+          "name": "Appointments",
+          "slug": "appointments",
+          "active": true,
+          "display_order": 30
+        },
+        {
+          "name": "Other",
+          "slug": "other",
+          "active": true,
+          "display_order": 40
+        }
+      ]
+    },
+    {
+      "name": "Education Technology",
+      "slug": "education-technology",
+      "active": true,
+      "display_order": 70,
+      "subcategories": [
+        {
+          "name": "Learning Platform",
+          "slug": "learning-platform",
+          "active": true,
+          "display_order": 10
+        },
+        {
+          "name": "School Management",
+          "slug": "school-management",
+          "active": true,
+          "display_order": 20
+        },
+        {
+          "name": "Student Portal",
+          "slug": "student-portal",
+          "active": true,
+          "display_order": 30
+        },
+        {
+          "name": "Other",
+          "slug": "other",
+          "active": true,
+          "display_order": 40
+        }
+      ]
+    },
+    {
+      "name": "Financial Solutions",
+      "slug": "financial-solutions",
+      "active": true,
+      "display_order": 80,
+      "subcategories": [
+        {
+          "name": "Accounting",
+          "slug": "accounting",
+          "active": true,
+          "display_order": 10
+        },
+        {
+          "name": "Payments",
+          "slug": "payments",
+          "active": true,
+          "display_order": 20
+        },
+        {
+          "name": "Financial Operations",
+          "slug": "financial-operations",
+          "active": true,
+          "display_order": 30
+        },
+        {
+          "name": "Other",
+          "slug": "other",
+          "active": true,
+          "display_order": 40
+        }
+      ]
+    },
+    {
+      "name": "Booking & Reservation Systems",
+      "slug": "booking-reservation-systems",
+      "active": true,
+      "display_order": 90,
+      "subcategories": [
+        {
+          "name": "Appointments",
+          "slug": "appointments",
+          "active": true,
+          "display_order": 10
+        },
+        {
+          "name": "Hospitality",
+          "slug": "hospitality",
+          "active": true,
+          "display_order": 20
+        },
+        {
+          "name": "Resource Booking",
+          "slug": "resource-booking",
+          "active": true,
+          "display_order": 30
+        },
+        {
+          "name": "Other",
+          "slug": "other",
+          "active": true,
+          "display_order": 40
+        }
+      ]
+    },
+    {
+      "name": "Real Estate Technology",
+      "slug": "real-estate-technology",
+      "active": true,
+      "display_order": 100,
+      "subcategories": [
+        {
+          "name": "Property Management",
+          "slug": "property-management",
+          "active": true,
+          "display_order": 10
+        },
+        {
+          "name": "Listings Platform",
+          "slug": "listings-platform",
+          "active": true,
+          "display_order": 20
+        },
+        {
+          "name": "Tenant Portal",
+          "slug": "tenant-portal",
+          "active": true,
+          "display_order": 30
+        },
+        {
+          "name": "Other",
+          "slug": "other",
+          "active": true,
+          "display_order": 40
+        }
+      ]
+    },
+    {
+      "name": "Custom Software",
+      "slug": "custom-software",
+      "active": true,
+      "display_order": 110,
+      "subcategories": [
+        {
+          "name": "Internal System",
+          "slug": "internal-system",
+          "active": true,
+          "display_order": 10
+        },
+        {
+          "name": "Workflow Automation",
+          "slug": "workflow-automation",
+          "active": true,
+          "display_order": 20
+        },
+        {
+          "name": "System Integration",
+          "slug": "system-integration",
+          "active": true,
+          "display_order": 30
+        },
+        {
+          "name": "Other",
+          "slug": "other",
+          "active": true,
+          "display_order": 40
+        }
+      ]
+    },
+    {
+      "name": "Other",
+      "slug": "other",
+      "active": true,
+      "display_order": 120,
+      "subcategories": [
+        {
+          "name": "Not sure yet",
+          "slug": "not-sure-yet",
+          "active": true,
+          "display_order": 10
+        },
+        {
+          "name": "Other",
+          "slug": "other",
+          "active": true,
+          "display_order": 20
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "synthetic-intake.pdf": {
+    "bytes": 611,
+    "sha256": "d012a264a22958933d3da53127263c1ea103179ec8e688dfcdaa98f13e7a8ade",
+    "purpose": "synthetic upload fixture; accepted by real local ClamAV/isolated inspector and submitted from website on 2026-09-28"
+  },
+  "synthetic-intake.docx": {
+    "bytes": 896,
+    "sha256": "c52251000e8a996497c40bc9addb04292ea292f6db5dacd42c5ea50650a22db5",
+    "purpose": "synthetic upload fixture; accepted by real local ClamAV/isolated inspector and submitted from website on 2026-09-28"
+  },
+  "invalid-content.pdf": {
+    "bytes": 57,
+    "sha256": "cc1cc887b2999adc588835b471fc2ec433514f80348bd680fdd47275354c71ed",
+    "purpose": "reject content signature",
+    "runtime_result": "Browser scenario blocked by 429 on guest draft creation before upload; invalid-content rejection not established by this browser attempt."
+  }
+}
