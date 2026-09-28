@@ -110,7 +110,7 @@ final readonly class AdminIntegrationApi
             if (isset($input['email_verified'])) {
                 $query->whereNull('identity.email_verified_at', not: $input['email_verified'] === 'true');
             }
-            $page = $this->page($query, 'customers.id', $input);
+            $page = $this->page($query, 'customers.id', $input, ($input['sort'] ?? 'oldest') === 'newest');
             $this->audit->handle('customers.directory_viewed', 'user', $actor->id, $request->attributes->getString('request_id'), $actor->id);
 
             return $page;
@@ -140,13 +140,13 @@ final readonly class AdminIntegrationApi
     /** @param array<string,mixed> $input
      * @return array{data:list<array<array-key,mixed>>,meta:array{next_after:mixed,per_page:int}}
      */
-    private function page(Builder $query, string $idColumn, array $input): array
+    private function page(Builder $query, string $idColumn, array $input, bool $descending = false): array
     {
         $limit = is_int($input['limit'] ?? null) ? $input['limit'] : 25;
         if (is_string($input['after'] ?? null)) {
-            $query->where($idColumn, '>', $input['after']);
+            $query->where($idColumn, $descending ? '<' : '>', $input['after']);
         }
-        $rows = $query->orderBy($idColumn)->limit($limit + 1)->get();
+        $rows = $query->orderBy($idColumn, $descending ? 'desc' : 'asc')->limit($limit + 1)->get();
         $page = array_values($rows->take($limit)->map(static fn (stdClass $row): array => get_object_vars($row))->all());
 
         return ['data' => $page, 'meta' => ['next_after' => $rows->count() > $limit ? $page[$limit - 1]['id'] : null, 'per_page' => $limit]];

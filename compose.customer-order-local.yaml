@@ -1,0 +1,21 @@
+# Local C1 customer-order follow-up only. Use with the existing holoul project's compose.yaml.
+# Preserve shared volumes and ingress; requires the already-applied staff migration 31.
+x-staff-runtime: &staff-runtime
+  image: holoul-app:customer-order-runtime
+services:
+  app:
+    <<: *staff-runtime
+  queue:
+    <<: *staff-runtime
+  scheduler:
+    <<: *staff-runtime
+  document-queue:
+    <<: *staff-runtime
+  ai-queue:
+    <<: *staff-runtime
+  notification-queue:
+    <<: *staff-runtime
+  migrate:
+    <<: *staff-runtime
+  verify:
+    image: holoul-app:customer-order-development

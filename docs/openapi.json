@@ -3,8 +3,8 @@
   "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
   "info": {
     "title": "HOLOUL frontend API",
-    "version": "1.2.0-staff-candidate",
-    "description": "Accepted G1 candidate acd04c1 plus additive T1–T3 staff management and I1–I5 invitations. Historical B8/P1/P2/P3/F1-E1 evidence remains retained. This feature candidate is not production certification; performance certification remains pending the target VPS. Same-origin session API; the only non-/api/v1 frontend operation is Sanctum CSRF initialization."
+    "version": "1.3.0-directory-sort-candidate",
+    "description": "Accepted G1 candidate acd04c1 plus reviewed staff onboarding and an optional customer registration sort parameter (C1), preserving the existing default and response shape. Historical B8/P1/P2/P3/F1-E1 evidence remains retained. This feature candidate is not production certification; performance certification remains pending the target VPS. Same-origin session API; the only non-/api/v1 frontend operation is Sanctum CSRF initialization."
   },
   "servers": [
     {
@@ -1025,7 +1025,7 @@
           "Admin integration"
         ],
         "summary": "Customer directory",
-        "description": "Authenticated staff session with satisfied MFA. Unknown query/body fields return 422; no request body. Rate limited to 120 calls per identity per minute. No mutation, If-Match or Idempotency-Key is required. All reads are private, no-store. Requires customers.directory.read and intake.read or projects.read. Existing non-draft intake assignment/unassigned-manager/read_all and active Project membership/read_all scopes are reused. Counts and child summaries include only resources visible to this staff identity. Only both intake.read+intake.read_all and projects.read+projects.read_all permit profiles with no visible submitted work. Administrator/Support have no default directory grant. Active project count excludes on_hold, completed and cancelled; on_hold has a separate count. Search matches full_name, email/email_display and normalized/display phone. Fixed id ascending sort.",
+        "description": "Authenticated staff session with satisfied MFA. Unknown query/body fields return 422; no request body. Rate limited to 120 calls per identity per minute. No mutation, If-Match or Idempotency-Key is required. All reads are private, no-store. Requires customers.directory.read and intake.read or projects.read. Existing non-draft intake assignment/unassigned-manager/read_all and active Project membership/read_all scopes are reused. Counts and child summaries include only resources visible to this staff identity. Only both intake.read+intake.read_all and projects.read+projects.read_all permit profiles with no visible submitted work. Administrator/Support have no default directory grant. Active project count excludes on_hold, completed and cancelled; on_hold has a separate count. Search matches full_name, email/email_display and normalized/display phone. Registration order uses the server-generated customer UUIDv7: sort=oldest (default) is ascending; sort=newest is descending. The default preserves existing clients. Keep sort and all filters unchanged while following meta.next_after; restart from the first page when changing them. New registrations appear on a refreshed newest-first page, not in an already-started continuation.",
         "security": [
           {
             "SessionCookie": []
@@ -1066,7 +1066,7 @@
               "format": "uuid",
               "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
             },
-            "description": "Exclusive UUIDv7 position; keep the same filters/context while following meta.next_after. Authorization is recalculated on every page."
+            "description": "Exclusive customer UUIDv7 position from meta.next_after: IDs above the cursor for oldest (default), below for newest. Keep sort and filters unchanged; restart pagination after changing them. Authorization is recalculated on every page."
           },
           {
             "name": "limit",
@@ -1115,6 +1115,20 @@
               ]
             },
             "description": ""
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "oldest",
+                "newest"
+              ],
+              "default": "oldest"
+            },
+            "description": "Customer registration UUIDv7 order. Use newest for the dashboard. Existing requests without sort remain oldest-first; keep this value on every cursor continuation."
           }
         ],
         "responses": {

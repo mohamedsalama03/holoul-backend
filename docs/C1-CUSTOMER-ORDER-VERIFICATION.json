@@ -1,0 +1,195 @@
+{
+  "classification": "C1 BACKEND READY FOR DASHBOARD CONTRACT ADOPTION; NOT PRODUCTION READY",
+  "verified_at": "2026-09-28T11:10:12.016839+00:00",
+  "baseline_commit": "0ac65486c3f4379786cd206358e2ce98f8be17a5",
+  "contract": {
+    "passed": true,
+    "previous_sha256": "af3c96ac459717fb3ab4c86ac68513d4516e843e410de36820af2e188eded43d",
+    "new_sha256": "fafbc8b62976788dae0cc98492add8bed014228ad42844d2c7498ca57d1a7f4e",
+    "operations": 182,
+    "operations_added": 0,
+    "operations_changed": [
+      "adminCustomerList"
+    ],
+    "schemas_changed": 0,
+    "security_schemes_changed": 0,
+    "new_query_parameters": [
+      "sort: oldest (default), newest"
+    ],
+    "compatibility": "Existing default, response schemas, permissions and other operations unchanged. Existing UUID cursors retain their meaning when sort is omitted. Reset cursor when changing sort/filter."
+  },
+  "runtime": {
+    "image_id": "sha256:d9ecddaab6437d96f69942cb278a0db7567f05bf5e2b609dc6ef9de5fe824ba9",
+    "services": [
+      {
+        "name": "/holoul-app-1",
+        "image_id": "sha256:d9ecddaab6437d96f69942cb278a0db7567f05bf5e2b609dc6ef9de5fe824ba9",
+        "health": "healthy"
+      },
+      {
+        "name": "/holoul-queue-1",
+        "image_id": "sha256:d9ecddaab6437d96f69942cb278a0db7567f05bf5e2b609dc6ef9de5fe824ba9",
+        "health": "healthy"
+      },
+      {
+        "name": "/holoul-scheduler-1",
+        "image_id": "sha256:d9ecddaab6437d96f69942cb278a0db7567f05bf5e2b609dc6ef9de5fe824ba9",
+        "health": "healthy"
+      },
+      {
+        "name": "/holoul-document-queue-1",
+        "image_id": "sha256:d9ecddaab6437d96f69942cb278a0db7567f05bf5e2b609dc6ef9de5fe824ba9",
+        "health": "healthy"
+      },
+      {
+        "name": "/holoul-ai-queue-1",
+        "image_id": "sha256:d9ecddaab6437d96f69942cb278a0db7567f05bf5e2b609dc6ef9de5fe824ba9",
+        "health": "healthy"
+      },
+      {
+        "name": "/holoul-notification-queue-1",
+        "image_id": "sha256:d9ecddaab6437d96f69942cb278a0db7567f05bf5e2b609dc6ef9de5fe824ba9",
+        "health": "healthy"
+      }
+    ],
+    "at": "2026-09-28T11:07:06.974689+00:00"
+  },
+  "development_image": "sha256:a6c2efa2822f479b328171f4d3944db54c652c89d57e4df8eec654650320fce4",
+  "local_origin": "https://localhost:8443",
+  "quality": {
+    "unit": {
+      "tests": 144,
+      "assertions": 358,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "feature": {
+      "tests": 69,
+      "assertions": 3223,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "architecture": {
+      "tests": 9,
+      "assertions": 44995,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "pint": true,
+    "phpstan_level_10": true,
+    "composer_validate_audit_platform": true,
+    "fresh_repeat_migrations_holoul_test": true,
+    "route_spec_operations": 182
+  },
+  "independent_checks": [
+    {
+      "check": "openapi",
+      "exit_code": 0
+    },
+    {
+      "check": "runtime-boundary",
+      "exit_code": 0
+    },
+    {
+      "check": "compose",
+      "exit_code": 0
+    }
+  ],
+  "live_c1": {
+    "passed": true,
+    "real_mfa": true,
+    "newest_first": true,
+    "cursor_descending_exclusive": true,
+    "pages_disjoint": true,
+    "default_unchanged": true,
+    "invalid_sort_rejected": true,
+    "administrator_existing_directory_denial_preserved": true,
+    "ordinary_reads_no_set_cookie": true,
+    "customer_data_logged": false
+  },
+  "frontend": {
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "f1": 6,
+    "overview": 1,
+    "finished_at": "2026-09-28T11:09:04.8627305Z",
+    "test_edits": false,
+    "retries": 0
+  },
+  "database": {
+    "database": "holoul",
+    "migrations": 31,
+    "last_migration": "2026_09_27_000000_add_staff_onboarding"
+  },
+  "migration_applied_by_c1": false,
+  "source_preservation": {
+    "only_application_changes": [
+      "app/Application/Administration/AdminIntegrationApi.php",
+      "app/Http/Requests/AdminIntegrationRequest.php"
+    ],
+    "identity_session_race_sources_unchanged": true,
+    "migration_sources_unchanged": true,
+    "grant_policy_sources_unchanged": true,
+    "source_manifest_reviewed": true
+  },
+  "preservation": {
+    "staff": {
+      "head": "0ac65486c3f4379786cd206358e2ce98f8be17a5",
+      "clean": true
+    },
+    "vps": {
+      "head": "b6d3f27ee9fbde274b04a75c4d4ece35aa8e4de0",
+      "clean": true
+    },
+    "frontend": {
+      "recorded_files_unchanged": 291,
+      "contract_sha256": "ae8d0a904a0042b80f9adc1224dedf8677794e2d49ca5cdf41daeb5278780be8",
+      "source_edits_by_this_task": false
+    }
+  },
+  "original_main": {
+    "unchanged": true,
+    "head": "96445baded70ddd2e4d8b8617793c78a4a3e1816"
+  },
+  "health": [
+    {
+      "path": "/health/live",
+      "status": 200
+    },
+    {
+      "path": "/health/ready",
+      "status": 200
+    },
+    {
+      "path": "/admin/login",
+      "status": 200
+    },
+    {
+      "path": "/api/v1",
+      "status": 200
+    }
+  ],
+  "source_security": {
+    "exit_code": 0,
+    "scanners": [
+      "vulnerability",
+      "secret"
+    ],
+    "high_critical_findings": 0,
+    "dependency_cache_reused": true,
+    "development_dependencies_included": true
+  },
+  "final_private_fixture_reset_passed": true,
+  "private_exports_match": true,
+  "vps_deployment": false,
+  "production_performance_certification": false,
+  "limits": [
+    "Full inherited backend test suite not rerun; focused security, concurrency, API and architecture checks passed.",
+    "Frontend adoption of the new contract and use of sort=newest belong to the dashboard team.",
+    "Ordering follows customer UUIDv7 registration IDs, not a user-selectable arbitrary field."
+  ]
+}

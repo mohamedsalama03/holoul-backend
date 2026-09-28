@@ -37,7 +37,7 @@ final class AdminIntegrationTest extends TestCase
         $b = $this->intakeCustomer();
         $customer = DB::table('customers')->where('user_id', $b->id)->value('id');
         $this->signIn($a)->assertOk();
-        foreach (['/api/v1/admin/customers', '/api/v1/admin/customers/'.$customer, '/api/v1/admin/customers/'.$customer.'/projects'] as $path) {
+        foreach (['/api/v1/admin/customers', '/api/v1/admin/customers?sort=newest', '/api/v1/admin/customers/'.$customer, '/api/v1/admin/customers/'.$customer.'/projects'] as $path) {
             $this->browser('GET', $path)->assertForbidden()->assertJsonMissing(['id' => $customer]);
         }
         foreach (['support', 'administrator'] as $role) {
@@ -74,10 +74,44 @@ final class AdminIntegrationTest extends TestCase
         self::assertSame($expected, $keys);
         self::assertSame(0, $row['request_count']);
         $this->browser('GET', '/api/v1/admin/customers?status=disabled')->assertOk()->assertJsonPath('data.0.full_name', 'Beta Contact');
-        foreach (['limit=51', 'limit=0', 'limit=%2B10', 'limit=1.0', 'limit[]=1', 'after=bad', 'sort=email', 'q=a', 'status=deleted', 'email_verified=1', 'q[]=abc', 'customer_id='.Str::uuid7()] as $query) {
+        foreach (['limit=51', 'limit=0', 'limit=%2B10', 'limit=1.0', 'limit[]=1', 'after=bad', 'sort=email', 'sort=desc', 'sort[]=newest', 'sort=', 'sort=newest%20desc', 'q=a', 'status=deleted', 'email_verified=1', 'q[]=abc', 'customer_id='.Str::uuid7()] as $query) {
             $this->browser('GET', '/api/v1/admin/customers?'.$query)->assertUnprocessable();
         }
         $this->browser('GET', '/api/v1/admin/customers/not-a-uuid')->assertNotFound();
+        $this->browser('GET', '/api/v1/admin/customers/'.Str::uuid7().'/projects?sort=newest')->assertUnprocessable();
+    }
+
+    public function test_customer_registration_sort_preserves_default_and_pages_newest_without_duplicates(): void
+    {
+        $ids = [];
+        for ($i = 0; $i < 4; $i++) {
+            $user = $this->intakeCustomer();
+            $user->update(['full_name' => 'Directory sorting '.$i]);
+            $ids[] = DB::table('customers')->where('user_id', $user->id)->value('id');
+        }
+        sort($ids, SORT_STRING);
+        $this->staffLogin($this->intakeStaff('super_admin'));
+        $path = '/api/v1/admin/customers?q=Directory%20sorting';
+        foreach (['', '&sort=oldest'] as $sort) {
+            $result = $this->browser('GET', $path.$sort)->assertOk();
+            self::assertSame($ids, array_column($result->json('data'), 'id'));
+        }
+        $expected = array_reverse($ids);
+        $first = $this->browser('GET', $path.'&sort=newest&limit=2')->assertOk()->assertHeader('Cache-Control', 'no-store, private');
+        self::assertSame(array_slice($expected, 0, 2), array_column($first->json('data'), 'id'));
+        $cursor = $first->json('meta.next_after');
+        self::assertSame($expected[1], $cursor);
+        // A later registration belongs to a refreshed first page, never to this continuation.
+        $later = $this->intakeCustomer();
+        $later->update(['full_name' => 'Directory sorting later']);
+        $laterId = DB::table('customers')->where('user_id', $later->id)->value('id');
+        $next = $this->browser('GET', $path.'&sort=newest&limit=2&after='.$cursor)->assertOk()->assertJsonPath('meta.next_after', null);
+        self::assertSame(array_slice($expected, 2), array_column($next->json('data'), 'id'));
+        $this->browser('GET', $path.'&sort=newest&limit=2&after='.$expected[3])->assertOk()->assertJsonCount(0, 'data')->assertJsonPath('meta.next_after', null);
+        $this->browser('GET', $path.'&sort=newest&limit=1')->assertOk()->assertJsonPath('data.0.id', $laterId);
+        $later->update(['enabled' => false]);
+        $this->browser('GET', $path.'&sort=newest&status=active&limit=1')->assertOk()->assertJsonPath('data.0.id', $expected[0]);
+        $this->browser('GET', $path.'&sort=newest&status=disabled')->assertOk()->assertJsonCount(1, 'data')->assertJsonPath('data.0.id', $laterId);
     }
 
     public function test_directory_and_summaries_follow_existing_assignment_and_membership_visibility(): void
@@ -94,6 +128,7 @@ final class AdminIntegrationTest extends TestCase
         $this->staffLogin($reviewer);
         $this->browser('GET', '/api/v1/admin/customers')->assertOk()->assertJsonCount(1, 'data')
             ->assertJsonPath('data.0.id', $visibleCustomer)->assertJsonPath('data.0.request_count', 1)->assertJsonPath('data.0.active_project_count', 0);
+        $this->browser('GET', '/api/v1/admin/customers?sort=newest')->assertOk()->assertJsonCount(1, 'data')->assertJsonPath('data.0.id', $visibleCustomer);
         $this->browser('GET', '/api/v1/admin/customers/'.$other->customer_id)->assertNotFound();
         $this->browser('GET', '/api/v1/admin/customers/'.$visibleCustomer)->assertOk()->assertJsonPath('data.request_count', 1)
             ->assertJsonPath('data.links.projects', '/api/v1/admin/customers/'.$visibleCustomer.'/projects');
@@ -122,7 +157,7 @@ final class AdminIntegrationTest extends TestCase
             $this->intakeStaff('reviewer');
         }
         $this->staffLogin($fixture['author']);
-        foreach (['/api/v1/admin/customers', '/api/v1/admin/project-requests/'.$record->id.'/eligible-assignees',
+        foreach (['/api/v1/admin/customers', '/api/v1/admin/customers?sort=newest', '/api/v1/admin/project-requests/'.$record->id.'/eligible-assignees',
             '/api/v1/admin/projects/'.$fixture['project']->id.'/eligible-staff?role=contributor'] as $path) {
             $counts = [];
             $totals = [];

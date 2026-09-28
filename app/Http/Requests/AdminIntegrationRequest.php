@@ -28,7 +28,7 @@ final class AdminIntegrationRequest extends FormRequest
         $search = ['q' => ['sometimes', 'string', 'min:2', 'max:100', 'not_regex:/[\x00-\x1f\x7f]/']];
 
         return match ($this->operation()) {
-            'customers.list' => [...$page, ...$search, 'status' => ['sometimes', 'string', 'in:active,disabled'], 'email_verified' => ['sometimes', 'string', 'in:true,false']],
+            'customers.list' => [...$page, ...$search, 'sort' => ['sometimes', 'string', 'in:oldest,newest'], 'status' => ['sometimes', 'string', 'in:active,disabled'], 'email_verified' => ['sometimes', 'string', 'in:true,false']],
             'customers.requests', 'customers.projects' => $page,
             'intake.eligible' => [...$page, ...$search],
             'projects.eligible' => [...$page, ...$search, 'role' => ['required', 'string', 'in:project_manager,business_analyst,contributor']],
