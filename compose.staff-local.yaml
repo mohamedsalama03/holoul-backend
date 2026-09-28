@@ -1,0 +1,21 @@
+# Local dashboard integration only. Use with the existing holoul project's compose.yaml.
+# Preserve shared volumes and ingress; activate migration 31 before replacing services.
+x-staff-runtime: &staff-runtime
+  image: holoul-app:staff-local-runtime
+services:
+  app:
+    <<: *staff-runtime
+  queue:
+    <<: *staff-runtime
+  scheduler:
+    <<: *staff-runtime
+  document-queue:
+    <<: *staff-runtime
+  ai-queue:
+    <<: *staff-runtime
+  notification-queue:
+    <<: *staff-runtime
+  migrate:
+    <<: *staff-runtime
+  verify:
+    image: holoul-app:staff-local-development

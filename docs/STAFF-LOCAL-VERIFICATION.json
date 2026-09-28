@@ -1,0 +1,240 @@
+{
+  "classification": "LOCAL STAFF DASHBOARD INTEGRATION ENABLED; NOT PRODUCTION READY",
+  "verified_at": "2026-09-28T10:51:11.268115+00:00",
+  "reviewed_candidate": "0ef734cd9cc2cd3a0794b6b1f92d1d0793914f72",
+  "implementation": "16da33bdba245d3c7dbbc15dd790bc9cc0e87946",
+  "vps_candidate_unchanged": "b6d3f27ee9fbde274b04a75c4d4ece35aa8e4de0",
+  "local_origin": "https://localhost:8443",
+  "mailpit_origin": "http://localhost:8025",
+  "contract": {
+    "version": "1.2.0-staff-candidate",
+    "previous_sha256": "af3c96ac459717fb3ab4c86ac68513d4516e843e410de36820af2e188eded43d",
+    "new_sha256": "af3c96ac459717fb3ab4c86ac68513d4516e843e410de36820af2e188eded43d",
+    "operations": 182,
+    "operations_added_by_this_followup": 0,
+    "schemas_changed_by_this_followup": 0,
+    "compatibility": "No contract or application behavior changes in this follow-up; current oldest-first customer order retained."
+  },
+  "runtime": {
+    "runtime_image_id": "sha256:d23f7a9292d19102a5e335c4c082b40f1870e019450e56156767b273c5ad7198",
+    "services": [
+      {
+        "name": "/holoul-app-1",
+        "image_id": "sha256:d23f7a9292d19102a5e335c4c082b40f1870e019450e56156767b273c5ad7198",
+        "health": "healthy"
+      },
+      {
+        "name": "/holoul-queue-1",
+        "image_id": "sha256:d23f7a9292d19102a5e335c4c082b40f1870e019450e56156767b273c5ad7198",
+        "health": "healthy"
+      },
+      {
+        "name": "/holoul-scheduler-1",
+        "image_id": "sha256:d23f7a9292d19102a5e335c4c082b40f1870e019450e56156767b273c5ad7198",
+        "health": "healthy"
+      },
+      {
+        "name": "/holoul-document-queue-1",
+        "image_id": "sha256:d23f7a9292d19102a5e335c4c082b40f1870e019450e56156767b273c5ad7198",
+        "health": "healthy"
+      },
+      {
+        "name": "/holoul-ai-queue-1",
+        "image_id": "sha256:d23f7a9292d19102a5e335c4c082b40f1870e019450e56156767b273c5ad7198",
+        "health": "healthy"
+      },
+      {
+        "name": "/holoul-notification-queue-1",
+        "image_id": "sha256:d23f7a9292d19102a5e335c4c082b40f1870e019450e56156767b273c5ad7198",
+        "health": "healthy"
+      }
+    ],
+    "observed_at": "2026-09-28T10:46:26.275808+00:00"
+  },
+  "database": {
+    "database": "holoul",
+    "migrations": 31,
+    "last_migration": "2026_09_27_000000_add_staff_onboarding"
+  },
+  "migration_identity": "holoul_migrator",
+  "private_pre_migration_backup": {
+    "archive_verified": true,
+    "shared_database_reset": false
+  },
+  "quality": {
+    "passed": true,
+    "unit": {
+      "tests": 144,
+      "assertions": 358,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "first_feature_run": {
+      "tests": 69,
+      "assertions": 2112,
+      "errors": 1,
+      "failures": 0,
+      "skipped": 0
+    },
+    "corrected_fixture_run": {
+      "tests": 5,
+      "assertions": 130,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "feature_latest_coverage": {
+      "tests": 69,
+      "assertions": 2122,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "scope": "Latest result per case across first focused run and corrected fixture run; not a claim the first run passed."
+    },
+    "architecture": {
+      "tests": 9,
+      "assertions": 44995,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "pint_files": 589,
+    "phpstan_level": 10,
+    "static_errors": 0,
+    "composer_validate_strict": true,
+    "composer_audit_advisories": 0,
+    "python_manifest_tests": 4,
+    "first_failure": "New invitation fixture test used rollback cleanup; migration correctly refused retained history. Switched only that test class to existing holoul_test-only CommercialDatabase fixture. No application/migration/security relaxation."
+  },
+  "route_contract": {
+    "actual": 182,
+    "documented": 182,
+    "missing": [],
+    "undocumented": [],
+    "passed": true
+  },
+  "openapi_validation": "passed",
+  "fresh_and_repeat_migrations": "passed on holoul_test",
+  "exact_upgrade_30_to_31": "passed; shared local additive migration applied with migrator",
+  "source_security": {
+    "high_critical_vulnerabilities": 0,
+    "secrets": 0,
+    "includes_dev_dependencies": true
+  },
+  "real_staff_onboarding": {
+    "passed": true,
+    "origin": "https://localhost:8443",
+    "mailpit_origin": "http://localhost:8025",
+    "checks": [
+      "ADMIN_real_mfa_required",
+      "administrator_support_only_policy",
+      "administrator_can_manage_inactive_taxonomy",
+      "administrator_cannot_invite_super_admin",
+      "real_default_worker_mailpit_delivery_recipient_scoped_fragment",
+      "authenticated_browser_preserved_by_public_lookup",
+      "anonymous_lookup_offers_only_issued_role",
+      "acceptance_does_not_sign_in",
+      "accepted_token_cannot_replay",
+      "accepted_invitee_requires_real_enrollment",
+      "accepted_invitee_mfa_completed",
+      "SUPER_ADMIN_real_mfa_required",
+      "super_admin_assignable_security_roles",
+      "guarded_edit_disables_only_new_synthetic_invitee"
+    ],
+    "token_handling": "memory only; recipient-scoped Mailpit API",
+    "local_history_retained": true,
+    "created_invitee_disabled_after_smoke": true,
+    "created_category_inactive": true
+  },
+  "frontend_regression": {
+    "first_run": {
+      "passed": 2,
+      "failed": 2,
+      "not_run": 3,
+      "retained": true
+    },
+    "after_infrastructure_recovery": {
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0,
+      "f1": 6,
+      "overview": 1,
+      "exit_code": 0,
+      "finished_at": "2026-09-28T10:48:05.7134065Z",
+      "tests_or_timeouts_modified": false
+    },
+    "contract_adoption_commit": "Not performed; owned by dashboard team"
+  },
+  "final_reset": {
+    "passed": true,
+    "five_owned_identities": true,
+    "mfa_enrolled": 3,
+    "pending_enrollment_account_restored": true,
+    "private_exports_match": true
+  },
+  "health": [
+    {
+      "path": "/health/live",
+      "status": 200
+    },
+    {
+      "path": "/health/ready",
+      "status": 200
+    },
+    {
+      "path": "/admin/login",
+      "status": 200
+    },
+    {
+      "path": "/api/v1",
+      "status": 200
+    },
+    {
+      "path": "Mailpit /api/v1/info",
+      "status": 200
+    }
+  ],
+  "preservation": {
+    "main": {
+      "head": "96445baded70ddd2e4d8b8617793c78a4a3e1816",
+      "head_unchanged": true,
+      "status_unchanged": true,
+      "status_compared_with_untracked_files_all": true
+    },
+    "vps": {
+      "head": "b6d3f27ee9fbde274b04a75c4d4ece35aa8e4de0",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    "frontend": {
+      "checked_files": 291,
+      "changed_since_start": [],
+      "contract_sha256": "ae8d0a904a0042b80f9adc1224dedf8677794e2d49ca5cdf41daeb5278780be8",
+      "source_edits_by_this_task": false
+    },
+    "contract_sha256": "af3c96ac459717fb3ab4c86ac68513d4516e843e410de36820af2e188eded43d",
+    "observed_at": "2026-09-28T10:40:56.663575+00:00"
+  },
+  "runtime_fixture_exclusion": {
+    "exit_code": 0,
+    "all_checks_fail_closed": true
+  },
+  "infrastructure_recovery": {
+    "windows_c_was_full": true,
+    "package_cache_removed_by_user": true,
+    "stale_zero_byte_socket_directories_preserved_by_rename": true,
+    "wsl_restarted_to_release_stale_disk_attachment": true,
+    "docker_factory_reset": false,
+    "docker_volume_deletion": false,
+    "docker_data_recreated": false,
+    "runtime_and_db_verified_after_recovery": true
+  },
+  "scope_limits": [
+    "No frontend source or contract edits.",
+    "No grant policy change.",
+    "No VPS deployment or production performance certification.",
+    "No broad e2e-prefix deletion.",
+    "Full inherited backend suite was not rerun for this bounded fixture/local activation change; focused inherited security/concurrency and architecture checks are recorded."
+  ]
+}

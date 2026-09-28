@@ -46,4 +46,4 @@ $contents .= "HOLOUL_E2E_ACCEPT_SELF_SIGNED_TLS=1\n";
 if (file_put_contents($output, $contents, LOCK_EX) !== strlen($contents) || ! chmod($output, 0600)) {
     throw new RuntimeException('Cannot save private E2E configuration.');
 }
-fwrite(STDOUT, "Three synthetic identities reset; real MFA enrolled; private environment saved.\n");
+fwrite(STDOUT, "Five synthetic identities reset; three real MFA enrollments; private environment saved.\n");

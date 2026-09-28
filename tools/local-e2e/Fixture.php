@@ -8,6 +8,7 @@ use App\Modules\Audit\Actions\RecordAuditEvent;
 use App\Modules\Customers\Actions\CreateCustomer;
 use App\Modules\Identity\Actions\Authentication;
 use App\Modules\Identity\Authorization\Actions\AssignCustomerRole;
+use App\Modules\Identity\Authorization\RoleAuthority;
 use App\Modules\Identity\Mfa\MfaActions;
 use App\Modules\Identity\Mfa\MfaCredential;
 use App\Modules\Identity\Models\User;
@@ -40,37 +41,39 @@ final class Fixture
         }
     }
 
-    /** @return array{run:string,passwords:array{staff:string,enroll_staff:string,customer:string}} */
+    /** @return array{run:string,passwords:array{staff:string,enroll_staff:string,customer:string,super_admin:string,admin:string}} */
     public static function manifest(#[SensitiveParameter] string $json): array
     {
         $value = json_decode($json, true, 8, JSON_THROW_ON_ERROR);
         if (strlen($json) > 4096 || ! is_array($value) || array_keys($value) !== ['run', 'passwords']
             || ! is_string($value['run']) || preg_match('/\A[a-f0-9]{24}\z/D', $value['run']) !== 1
-            || ! is_array($value['passwords']) || array_keys($value['passwords']) !== ['staff', 'enroll_staff', 'customer']) {
+            || ! is_array($value['passwords']) || array_keys($value['passwords']) !== ['staff', 'enroll_staff', 'customer', 'super_admin', 'admin']) {
             throw new RuntimeException('Invalid synthetic fixture configuration.');
         }
         $passwords = $value['passwords'];
-        foreach (['staff', 'enroll_staff', 'customer'] as $label) {
+        foreach (['staff', 'enroll_staff', 'customer', 'super_admin', 'admin'] as $label) {
             if (! is_string($passwords[$label]) || preg_match('/\AE2E-[a-f0-9]{64}!aA9\z/D', $passwords[$label]) !== 1) {
                 throw new RuntimeException('Generated per-account credentials required.');
             }
         }
-        if (count(array_unique([$passwords['staff'], $passwords['enroll_staff'], $passwords['customer']])) !== 3) {
+        if (count(array_unique(array_values($passwords))) !== 5) {
             throw new RuntimeException('Distinct credentials required.');
         }
 
-        return ['run' => $value['run'], 'passwords' => ['staff' => $passwords['staff'], 'enroll_staff' => $passwords['enroll_staff'], 'customer' => $passwords['customer']]];
+        return ['run' => $value['run'], 'passwords' => ['staff' => $passwords['staff'], 'enroll_staff' => $passwords['enroll_staff'], 'customer' => $passwords['customer'], 'super_admin' => $passwords['super_admin'], 'admin' => $passwords['admin']]];
     }
 
     /** Internal test recipe. CLI calls the environment and actual database guards before this method.
-     * @param  array{run:string,passwords:array{staff:string,enroll_staff:string,customer:string}}  $manifest
+     * @param  array{run:string,passwords:array{staff:string,enroll_staff:string,customer:string,super_admin:string,admin:string}}  $manifest
      * @return array<string,string>
      */
     public function reset(#[SensitiveParameter] array $manifest): array
     {
         return DB::transaction(function () use ($manifest): array {
             DB::select('SELECT pg_advisory_xact_lock(hashtextextended(?, 0))', ['local-e2e:'.$manifest['run']]);
-            $environment = ['HOLOUL_E2E_ADMIN_URL' => 'https://localhost:8443/admin'];
+            app(RoleAuthority::class)->lockChanges();
+            $environment = ['HOLOUL_E2E_ADMIN_URL' => 'https://localhost:8443/admin',
+                'HOLOUL_E2E_MAILPIT_URL' => 'http://localhost:8025', 'HOLOUL_E2E_RUN' => $manifest['run']];
             foreach ($manifest['passwords'] as $label => $password) {
                 $customer = $label === 'customer';
                 $email = 'local-e2e-'.$manifest['run'].'-'.$label.'@example.test';
@@ -84,6 +87,8 @@ final class Fixture
                     'password' => $password, 'kind' => $customer ? 'customer' : 'staff', 'enabled' => true, 'email_verified_at' => now()]);
                 if (! $user->exists) {
                     $user->auth_version = 1;
+                } else {
+                    $user->authorization_revision++;
                 }
                 $user->save();
                 $requestId = (string) Str::uuid7();
@@ -99,13 +104,19 @@ final class Fixture
                     }
                     app(AssignCustomerRole::class)->handle($user->id, $requestId);
                 } else {
-                    $role = DB::table('roles')->where('code', 'project_manager')->sole();
-                    DB::table('user_roles')->insertOrIgnore(['user_id' => $user->id, 'role_id' => $role->id, 'user_kind' => 'staff']);
+                    $code = match ($label) {
+                        'super_admin' => 'super_admin',
+                        'admin' => 'administrator',
+                        default => 'project_manager',
+                    };
+                    $role = DB::table('roles')->where('code', $code)->sole();
+                    DB::table('user_roles')->where('user_id', $user->id)->delete();
+                    DB::table('user_roles')->insert(['user_id' => $user->id, 'role_id' => $role->id, 'user_kind' => 'staff']);
                 }
                 $prefix = 'HOLOUL_E2E_'.strtoupper($label);
                 $environment[$prefix.'_EMAIL'] = $email;
                 $environment[$prefix.'_PASSWORD'] = $password;
-                if ($label === 'staff') {
+                if (in_array($label, ['staff', 'super_admin', 'admin'], true)) {
                     $environment[$prefix.'_TOTP_SECRET'] = $this->enroll($user, $password);
                 }
                 app(RecordAuditEvent::class)->handle('identity.local_e2e.reset', 'user', $user->id, $requestId);
