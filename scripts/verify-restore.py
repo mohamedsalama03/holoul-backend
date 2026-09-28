@@ -38,7 +38,7 @@ def available_ports():
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--app-image", default="holoul-app:b8-runtime")
-    parser.add_argument("--inspector-image", default="holoul-inspector:b8-runtime")
+    parser.add_argument("--inspector-image", default="holoul-inspector:g1-vps-runtime")
     parser.add_argument("--keep-failed", action="store_true", help="Retain isolated failed resources for explicit diagnosis; never shared resources.")
     args = parser.parse_args()
     os.umask(0o077)
@@ -83,6 +83,7 @@ def main():
             "scripts/verify-intake-runtime.php", "fixtures", nonce), timeout=90)
         (private / "fixtures.json").write_bytes(fixture)
         drill.run(drill.compose("source", "cp", "nginx:/run/holoul-tls/certificate.pem", str(private / "ca.pem")))
+        evidence["ingress_checks"] = drill.verify_ingress("source")
         print('{"event":"restore_drill.synthetic_lineage_creating"}', flush=True)
         smoke = drill.run([sys.executable, str(ROOT / "scripts" / "verify-projects.py"),
             "--origin", "https://localhost:" + str(ports[1]), "--ca-cert", str(private / "ca.pem"),

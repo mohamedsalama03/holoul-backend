@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.."
+# Test drivers are not embedded in production images. This override is local-only.
+export COMPOSE_FILE="compose.yaml:compose.verification.yaml"
 b1_workspace="$(pwd -P)"
 mkdir -p artifacts/b8-quality
 # Synthetic local-provider smoke only; no external customer-data provider is enabled.

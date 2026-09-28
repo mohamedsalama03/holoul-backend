@@ -1,0 +1,18 @@
+# Local verification only: intentionally mounts test drivers into runtime containers.
+# Use with compose.yaml only on the guarded local-verification environment.
+x-verification-scripts: &verification-scripts
+  volumes:
+    - ./scripts:/var/www/html/scripts:ro
+services:
+  app:
+    <<: *verification-scripts
+  queue:
+    <<: *verification-scripts
+  scheduler:
+    <<: *verification-scripts
+  document-queue:
+    <<: *verification-scripts
+  ai-queue:
+    <<: *verification-scripts
+  notification-queue:
+    <<: *verification-scripts

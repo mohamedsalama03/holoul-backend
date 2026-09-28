@@ -242,7 +242,10 @@ services:
       start_period: 30s
 
   nginx:
-    image: nginx:1.30.5-alpine@sha256:73c75df4075c918f91017fdda46ad81e55e5af77ba3a64ca3d5014bd9244fe7f
+    image: holoul-nginx:g1-runtime
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
     user: "101:101"
     entrypoint: [nginx, -g, "daemon off;"]
     read_only: true
@@ -390,7 +393,7 @@ services:
     pids_limit: 32
 
   inspector:
-    image: holoul-inspector:b8-runtime
+    image: holoul-inspector:g1-vps-runtime
     build:
       context: .
       dockerfile: docker/documents/inspector/Dockerfile

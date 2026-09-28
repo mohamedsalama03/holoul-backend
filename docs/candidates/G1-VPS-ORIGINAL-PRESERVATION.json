@@ -1,0 +1,14 @@
+{
+  "total_rehashed": 18030,
+  "matching_count": 18029,
+  "source_files_unchanged": 737,
+  "original_head_status_index_unchanged": true,
+  "observed_ignored_changes": [
+    {
+      "path": "artifacts/local-e2e-private/frontend.env",
+      "publication": "Excluded: ignored local fixture credentials; not application source or historical B8 performance evidence."
+    }
+  ],
+  "historical_b8_evidence_changes": [],
+  "private_fingerprint_sha256": "b84306aa0d568a62849fa2a3d07d75447565517c7caeeae4732014eeb78f151a"
+}

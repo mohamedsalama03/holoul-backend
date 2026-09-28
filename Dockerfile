@@ -43,7 +43,11 @@ RUN --mount=type=cache,id=holoul-composer-v2,target=/home/holoul/.cache/composer
 
 FROM dependencies AS production-build
 COPY --chown=holoul:holoul . .
-RUN rm -rf tools/local-e2e \
+# Verification/fixture sources remain in Git and the development target only.
+# Keep the reviewed operator encryption primitive in the release image.
+RUN cp scripts/backup-seal.php /tmp/holoul-backup-seal.php \
+    && rm -rf tools tests scripts .github phpunit.xml phpstan.neon \
+    && mkdir scripts && mv /tmp/holoul-backup-seal.php scripts/backup-seal.php \
     && composer dump-autoload --no-dev --classmap-authoritative --no-scripts \
     && php artisan package:discover --no-ansi
 

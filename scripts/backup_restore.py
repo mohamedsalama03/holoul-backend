@@ -14,6 +14,9 @@ import os
 from pathlib import Path, PurePosixPath
 import re
 import subprocess
+import ssl
+import urllib.error
+import urllib.request
 import tarfile
 import time
 
@@ -83,6 +86,13 @@ class Drill:
             result = subprocess.run(args, cwd=ROOT, env=self.env, input=data,
                                     stdout=stdout or subprocess.PIPE, stderr=error, timeout=timeout, check=False)
         if result.returncode:
+            # Preserve diagnostics only inside this run's private 0700 directory.
+            # A fixture/HTTP command can emit sensitive synthetic values on stdout.
+            if isinstance(result.stdout, bytes):
+                diagnostic = self.private / "failed-command-output.bin"
+                with diagnostic.open("wb") as output:
+                    os.chmod(diagnostic, 0o600)
+                    output.write(result.stdout)
             raise RecoveryError("command_failed:" + args[0])
         return result.stdout
 
@@ -137,6 +147,27 @@ class Drill:
             for logical, definition in plan.get(kind, {}).items():
                 if definition.get("external") or definition.get("name") != project + "_" + logical:
                     raise RecoveryError("compose_resource_not_isolated")
+        # F1 ingress pins exact public ports. Keep those protections when this
+        # isolated drill uses random loopback ports; never broaden the allowlist.
+        http_port, https_port, _ = self.config["ports"][role]
+        ingress = (ROOT / "docker/nginx/nginx.conf").read_text()
+        for host in ("localhost", "127.0.0.1"):
+            ingress = ingress.replace(host + ":8080", host + ":" + str(http_port))
+            ingress = ingress.replace(host + ":8443", host + ":" + str(https_port))
+        ingress = ingress.replace("X-Forwarded-Port 8443", "X-Forwarded-Port " + str(https_port))
+        ingress_path = self.private / (role + "-nginx.conf")
+        ingress_path.write_text(ingress)
+        os.chmod(ingress_path, 0o644)  # Non-secret config; readable by the non-root edge.
+        ingress_mounts = [mount for mount in plan["services"]["nginx"]["volumes"]
+                          if mount["target"] == "/etc/nginx/nginx.conf"]
+        if len(ingress_mounts) != 1 or not ingress_mounts[0].get("read_only"):
+            raise RecoveryError("isolated_ingress_mount_required")
+        ingress_mounts[0]["source"] = str(ingress_path)
+        # The container listens internally on 8080; probe with the exact public
+        # Host used by this namespace rather than broadening the ingress map.
+        plan["services"]["nginx"]["healthcheck"]["test"] = ["CMD-SHELL",
+            "wget -q -O /dev/null --header 'Host: localhost:" + str(http_port)
+            + "' http://127.0.0.1:8080/health/live"]
         images = {}
         for service in plan["services"].values():
             if service.get("container_name") or service.get("network_mode") not in (None, "none"):
@@ -295,6 +326,32 @@ class Drill:
                 raise RecoveryError("volume_restore_failed")
         finally:
             plain.unlink(missing_ok=True)
+
+    def verify_ingress(self, role):
+        port = self.config["ports"][role][1]
+        origin = "https://localhost:" + str(port)
+        context = ssl.create_default_context(cafile=str(self.private / "ca.pem"))
+        cases = [
+            ("wrong_host", {"Host": "untrusted.invalid", "Origin": origin}, 400),
+            ("wrong_origin", {"Origin": "https://untrusted.invalid"}, 403),
+            ("forged_forwarded_metadata", {"Origin": origin, "X-Forwarded-Host": "untrusted.invalid",
+             "X-Forwarded-Proto": "http", "Forwarded": "host=untrusted.invalid;proto=http"}, 204),
+        ]
+        checks = []
+        for name, headers, expected in cases:
+            request = urllib.request.Request(origin + "/sanctum/csrf-cookie", headers=headers)
+            try:
+                response = urllib.request.urlopen(request, context=context, timeout=15)
+            except urllib.error.HTTPError as failure:
+                response = failure
+            with response:
+                status_code = response.status
+                has_cookie = response.headers.get("Set-Cookie") is not None
+                response.read(65536)
+            if status_code != expected or (expected != 204 and has_cookie):
+                raise RecoveryError("isolated_ingress_check_failed:" + name)
+            checks.append(name)
+        return checks
 
     def snapshot(self, role):
         data = self.run(self.compose(role, "run", "--rm", "--no-deps", "-T", "app", "php", "scripts/verify-restore-runtime.php"), timeout=180)

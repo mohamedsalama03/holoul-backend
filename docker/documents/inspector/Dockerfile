@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32
 FROM python:3.14.7-alpine3.24@sha256:c6ead215bfd31f1e433d968853b7a769989117115b728874824e6c0a27cb96fc AS base
-RUN apk upgrade --no-cache && apk add --no-cache libstdc++ libgcc zlib libjpeg-turbo openssl
+RUN apk upgrade --no-cache && apk add --no-cache libstdc++ libgcc zlib libjpeg-turbo openssl 'libexpat>=2.8.5-r0'
 
 FROM base AS builder
 RUN --mount=type=cache,id=holoul-apk-v3.24-v1,target=/var/cache/apk,sharing=locked \

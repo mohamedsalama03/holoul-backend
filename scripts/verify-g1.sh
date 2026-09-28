@@ -3,6 +3,8 @@
 set -euo pipefail
 umask 077
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.."
+# Test drivers are not embedded in production images. This override is local-only.
+export COMPOSE_FILE="compose.yaml:compose.verification.yaml"
 g1_root="$(pwd -P)"
 g1_run="${1:-final}"
 [[ "$g1_run" =~ ^[a-zA-Z0-9_-]+$ ]] || exit 2

@@ -1,0 +1,1606 @@
+{
+  "schema": "holoul-g1-vps-freeze-verification-v1",
+  "verified_at_utc": "2026-09-28T09:25:14.015630+00:00",
+  "classification": "DEPLOYMENT CANDIDATE READY FOR VPS",
+  "production_ready": false,
+  "vps_deployed": false,
+  "vps_performance_certified": false,
+  "git": {
+    "original_branch": "main",
+    "original_head": "96445baded70ddd2e4d8b8617793c78a4a3e1816",
+    "candidate_branch": "release/g1-vps-candidate",
+    "reviewed_parent": "acd04c1dcf8d9ec0a66bdf88fe061fe6b7f340f6",
+    "candidate_commit_identity": "Resolve HEAD of the committed candidate; exact immutable SHA and remote verification are in the external push receipt."
+  },
+  "quality": {
+    "unit_feature": {
+      "tests": 938,
+      "assertions": 12718,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "architecture": {
+      "tests": 9,
+      "assertions": 42408,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    }
+  },
+  "groups": {
+    "G1 guest intake and isolation": {
+      "tests": 61,
+      "assertions": 1022,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "suites": [
+        "Tests\\Feature\\ProjectIntake\\GuestIntakeConcurrencyTest",
+        "Tests\\Feature\\ProjectIntake\\GuestIntakeConstraintsTest",
+        "Tests\\Feature\\ProjectIntake\\GuestIntakeHttpTest",
+        "Tests\\Feature\\ProjectIntake\\GuestIntakeUpgradeTest",
+        "Tests\\Feature\\ProjectIntake\\GuestSessionIsolationTest"
+      ]
+    },
+    "Authenticated intake HTTP": {
+      "tests": 45,
+      "assertions": 456,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "suites": [
+        "Tests\\Feature\\ProjectIntake\\IntakeHttpTest"
+      ]
+    },
+    "Identity/session security": {
+      "tests": 108,
+      "assertions": 1541,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "suites": [
+        "Tests\\Feature\\Identity\\IdentityAtomicityTest",
+        "Tests\\Feature\\Identity\\IdentityHttpTest",
+        "Tests\\Feature\\Identity\\MfaConcurrencyTest",
+        "Tests\\Feature\\Identity\\MfaTest",
+        "Tests\\Feature\\Identity\\MigrationUpgradeTest",
+        "Tests\\Feature\\Identity\\RecoveryTest",
+        "Tests\\Feature\\Identity\\RecoveryTransportTest",
+        "Tests\\Feature\\Identity\\RegistrationConcurrencyTest",
+        "Tests\\Feature\\Identity\\SessionLifecycleTest",
+        "Tests\\Feature\\Identity\\SessionPruningTest"
+      ]
+    },
+    "Real PostgreSQL concurrency suites": {
+      "tests": 47,
+      "assertions": 651,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "suites": [
+        "Tests\\Feature\\AI\\AIConcurrencyTest",
+        "Tests\\Feature\\Authorization\\AuthorizationConcurrencyTest",
+        "Tests\\Feature\\Categories\\TaxonomyConcurrencyTest",
+        "Tests\\Feature\\Commercial\\CommercialConcurrencyTest",
+        "Tests\\Feature\\Documents\\DocumentConcurrencyTest",
+        "Tests\\Feature\\Identity\\MfaConcurrencyTest",
+        "Tests\\Feature\\Identity\\RegistrationConcurrencyTest",
+        "Tests\\Feature\\Notifications\\NotificationConcurrencyTest",
+        "Tests\\Feature\\ProjectIntake\\GuestIntakeConcurrencyTest",
+        "Tests\\Feature\\ProjectIntake\\IntakeConcurrencyTest",
+        "Tests\\Feature\\ProjectIntake\\ReadConcurrencyTest",
+        "Tests\\Feature\\Projects\\ProjectConcurrencyTest"
+      ]
+    },
+    "Document security": {
+      "tests": 105,
+      "assertions": 1111,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "suites": [
+        "Tests\\Feature\\Documents\\DocumentAdaptersTest",
+        "Tests\\Feature\\Documents\\DocumentBulkMetadataTest",
+        "Tests\\Feature\\Documents\\DocumentConcurrencyTest",
+        "Tests\\Feature\\Documents\\DocumentConstraintsTest",
+        "Tests\\Feature\\Documents\\DocumentHttpTest",
+        "Tests\\Feature\\Documents\\DocumentLifecycleTest",
+        "Tests\\Feature\\Documents\\DocumentQueueTransportTest",
+        "Tests\\Feature\\Documents\\DocumentReconciliationTest",
+        "Tests\\Feature\\Documents\\DocumentTextExtractionTest",
+        "Tests\\Feature\\Documents\\ExpireIntakeUploadsTest",
+        "Tests\\Feature\\Documents\\MigrationUpgradeTest"
+      ]
+    },
+    "Reporting and admin": {
+      "tests": 37,
+      "assertions": 674,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "suites": [
+        "Tests\\Feature\\AdminIntegrationTest",
+        "Tests\\Feature\\Reporting\\AuditInvestigationTest",
+        "Tests\\Feature\\Reporting\\ReportingHttpTest"
+      ]
+    },
+    "B7 exact candidate upgrade": {
+      "tests": 1,
+      "assertions": 410,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "suites": [
+        "Tests\\Feature\\Operations\\G1CandidateUpgradeTest"
+      ]
+    }
+  },
+  "all_phpunit_file_suites": [
+    {
+      "name": "Tests\\Unit\\AIOutputSchemaTest",
+      "file": "/var/www/html/tests/Unit/AIOutputSchemaTest.php",
+      "tests": "1",
+      "assertions": "3",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.001131"
+    },
+    {
+      "name": "Tests\\Unit\\Async\\OperationInputTest",
+      "file": "/var/www/html/tests/Unit/Async/OperationInputTest.php",
+      "tests": "7",
+      "assertions": "7",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.003419"
+    },
+    {
+      "name": "Tests\\Unit\\Audit\\SafeAuditMetadataTest",
+      "file": "/var/www/html/tests/Unit/Audit/SafeAuditMetadataTest.php",
+      "tests": "17",
+      "assertions": "17",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.003737"
+    },
+    {
+      "name": "Tests\\Unit\\Customers\\InternationalPhoneTest",
+      "file": "/var/www/html/tests/Unit/Customers/InternationalPhoneTest.php",
+      "tests": "9",
+      "assertions": "10",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.145963"
+    },
+    {
+      "name": "Tests\\Unit\\Http\\ApiErrorTest",
+      "file": "/var/www/html/tests/Unit/Http/ApiErrorTest.php",
+      "tests": "5",
+      "assertions": "15",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.003614"
+    },
+    {
+      "name": "Tests\\Unit\\MoneyTest",
+      "file": "/var/www/html/tests/Unit/MoneyTest.php",
+      "tests": "34",
+      "assertions": "64",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.004254"
+    },
+    {
+      "name": "Tests\\Unit\\ProductionConfigurationTest",
+      "file": "/var/www/html/tests/Unit/ProductionConfigurationTest.php",
+      "tests": "48",
+      "assertions": "209",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.310097"
+    },
+    {
+      "name": "Tests\\Unit\\ProposalPricingTest",
+      "file": "/var/www/html/tests/Unit/ProposalPricingTest.php",
+      "tests": "19",
+      "assertions": "22",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.132419"
+    },
+    {
+      "name": "Tests\\Unit\\SafeLogProcessorTest",
+      "file": "/var/www/html/tests/Unit/SafeLogProcessorTest.php",
+      "tests": "3",
+      "assertions": "6",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.000739"
+    },
+    {
+      "name": "Tests\\Unit\\WrappedConcurrencyErrorsTest",
+      "file": "/var/www/html/tests/Unit/WrappedConcurrencyErrorsTest.php",
+      "tests": "1",
+      "assertions": "5",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.000306"
+    },
+    {
+      "name": "Tests\\Feature\\AI\\AIConcurrencyTest",
+      "file": "/var/www/html/tests/Feature/AI/AIConcurrencyTest.php",
+      "tests": "3",
+      "assertions": "30",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "8.926835"
+    },
+    {
+      "name": "Tests\\Feature\\AI\\AIDomainTest",
+      "file": "/var/www/html/tests/Feature/AI/AIDomainTest.php",
+      "tests": "20",
+      "assertions": "180",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "37.627747"
+    },
+    {
+      "name": "Tests\\Feature\\AdminIntegrationTest",
+      "file": "/var/www/html/tests/Feature/AdminIntegrationTest.php",
+      "tests": "11",
+      "assertions": "279",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "82.129408"
+    },
+    {
+      "name": "Tests\\Feature\\ApiContractTest",
+      "file": "/var/www/html/tests/Feature/ApiContractTest.php",
+      "tests": "2",
+      "assertions": "1280",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.055006"
+    },
+    {
+      "name": "Tests\\Feature\\Assistance\\AIApiTest",
+      "file": "/var/www/html/tests/Feature/Assistance/AIApiTest.php",
+      "tests": "11",
+      "assertions": "236",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "38.758481"
+    },
+    {
+      "name": "Tests\\Feature\\Assistance\\AIOwnerBoundaryTest",
+      "file": "/var/www/html/tests/Feature/Assistance/AIOwnerBoundaryTest.php",
+      "tests": "8",
+      "assertions": "118",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "31.753656"
+    },
+    {
+      "name": "Tests\\Feature\\Assistance\\BusinessNotificationsTest",
+      "file": "/var/www/html/tests/Feature/Assistance/BusinessNotificationsTest.php",
+      "tests": "3",
+      "assertions": "48",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "8.312926"
+    },
+    {
+      "name": "Tests\\Feature\\Assistance\\MigrationUpgradeTest",
+      "file": "/var/www/html/tests/Feature/Assistance/MigrationUpgradeTest.php",
+      "tests": "1",
+      "assertions": "683",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "6.272564"
+    },
+    {
+      "name": "Tests\\Feature\\Async\\DurableOperationsTest",
+      "file": "/var/www/html/tests/Feature/Async/DurableOperationsTest.php",
+      "tests": "17",
+      "assertions": "78",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "54.106124"
+    },
+    {
+      "name": "Tests\\Feature\\Audit\\AuditFoundationTest",
+      "file": "/var/www/html/tests/Feature/Audit/AuditFoundationTest.php",
+      "tests": "29",
+      "assertions": "50",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "89.327608"
+    },
+    {
+      "name": "Tests\\Feature\\Authorization\\AuthorizationConcurrencyTest",
+      "file": "/var/www/html/tests/Feature/Authorization/AuthorizationConcurrencyTest.php",
+      "tests": "2",
+      "assertions": "10",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "4.660203"
+    },
+    {
+      "name": "Tests\\Feature\\Authorization\\IntakeAuthorityTest",
+      "file": "/var/www/html/tests/Feature/Authorization/IntakeAuthorityTest.php",
+      "tests": "20",
+      "assertions": "82",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "38.536578"
+    },
+    {
+      "name": "Tests\\Feature\\Authorization\\RoleFoundationTest",
+      "file": "/var/www/html/tests/Feature/Authorization/RoleFoundationTest.php",
+      "tests": "23",
+      "assertions": "49",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "55.179169"
+    },
+    {
+      "name": "Tests\\Feature\\Categories\\CurrencyCatalogTest",
+      "file": "/var/www/html/tests/Feature/Categories/CurrencyCatalogTest.php",
+      "tests": "5",
+      "assertions": "10",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "9.587870"
+    },
+    {
+      "name": "Tests\\Feature\\Categories\\TaxonomyConcurrencyTest",
+      "file": "/var/www/html/tests/Feature/Categories/TaxonomyConcurrencyTest.php",
+      "tests": "2",
+      "assertions": "14",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "3.923954"
+    },
+    {
+      "name": "Tests\\Feature\\Categories\\TaxonomyHttpValidationTest",
+      "file": "/var/www/html/tests/Feature/Categories/TaxonomyHttpValidationTest.php",
+      "tests": "2",
+      "assertions": "93",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "6.770327"
+    },
+    {
+      "name": "Tests\\Feature\\Categories\\TaxonomyTest",
+      "file": "/var/www/html/tests/Feature/Categories/TaxonomyTest.php",
+      "tests": "25",
+      "assertions": "71",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "44.969653"
+    },
+    {
+      "name": "Tests\\Feature\\Commercial\\CommercialAtomicityTest",
+      "file": "/var/www/html/tests/Feature/Commercial/CommercialAtomicityTest.php",
+      "tests": "4",
+      "assertions": "33",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "12.737852"
+    },
+    {
+      "name": "Tests\\Feature\\Commercial\\CommercialConcurrencyTest",
+      "file": "/var/www/html/tests/Feature/Commercial/CommercialConcurrencyTest.php",
+      "tests": "8",
+      "assertions": "117",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "32.058276"
+    },
+    {
+      "name": "Tests\\Feature\\Commercial\\CommercialConstraintsTest",
+      "file": "/var/www/html/tests/Feature/Commercial/CommercialConstraintsTest.php",
+      "tests": "14",
+      "assertions": "99",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "74.652113"
+    },
+    {
+      "name": "Tests\\Feature\\Commercial\\CommercialHttpTest",
+      "file": "/var/www/html/tests/Feature/Commercial/CommercialHttpTest.php",
+      "tests": "18",
+      "assertions": "218",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "162.831372"
+    },
+    {
+      "name": "Tests\\Feature\\Commercial\\CommercialWorkflowTest",
+      "file": "/var/www/html/tests/Feature/Commercial/CommercialWorkflowTest.php",
+      "tests": "11",
+      "assertions": "104",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "67.485276"
+    },
+    {
+      "name": "Tests\\Feature\\Commercial\\MigrationUpgradeTest",
+      "file": "/var/www/html/tests/Feature/Commercial/MigrationUpgradeTest.php",
+      "tests": "1",
+      "assertions": "133",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "8.570710"
+    },
+    {
+      "name": "Tests\\Feature\\Commercial\\ProposalDocumentsTest",
+      "file": "/var/www/html/tests/Feature/Commercial/ProposalDocumentsTest.php",
+      "tests": "3",
+      "assertions": "59",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "28.507709"
+    },
+    {
+      "name": "Tests\\Feature\\CommercialProjectContractTest",
+      "file": "/var/www/html/tests/Feature/CommercialProjectContractTest.php",
+      "tests": "1",
+      "assertions": "111",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "9.863585"
+    },
+    {
+      "name": "Tests\\Feature\\Console\\SafeExceptionHandlerTest",
+      "file": "/var/www/html/tests/Feature/Console/SafeExceptionHandlerTest.php",
+      "tests": "7",
+      "assertions": "13",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.062793"
+    },
+    {
+      "name": "Tests\\Feature\\Customers\\CustomerContactReaderTest",
+      "file": "/var/www/html/tests/Feature/Customers/CustomerContactReaderTest.php",
+      "tests": "4",
+      "assertions": "30",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "12.251443"
+    },
+    {
+      "name": "Tests\\Feature\\Customers\\CustomerIsolationTest",
+      "file": "/var/www/html/tests/Feature/Customers/CustomerIsolationTest.php",
+      "tests": "26",
+      "assertions": "47",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "54.435199"
+    },
+    {
+      "name": "Tests\\Feature\\Documents\\DocumentAdaptersTest",
+      "file": "/var/www/html/tests/Feature/Documents/DocumentAdaptersTest.php",
+      "tests": "8",
+      "assertions": "65",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.956894"
+    },
+    {
+      "name": "Tests\\Feature\\Documents\\DocumentBulkMetadataTest",
+      "file": "/var/www/html/tests/Feature/Documents/DocumentBulkMetadataTest.php",
+      "tests": "4",
+      "assertions": "33",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "9.519402"
+    },
+    {
+      "name": "Tests\\Feature\\Documents\\DocumentConcurrencyTest",
+      "file": "/var/www/html/tests/Feature/Documents/DocumentConcurrencyTest.php",
+      "tests": "3",
+      "assertions": "21",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "8.215624"
+    },
+    {
+      "name": "Tests\\Feature\\Documents\\DocumentConstraintsTest",
+      "file": "/var/www/html/tests/Feature/Documents/DocumentConstraintsTest.php",
+      "tests": "15",
+      "assertions": "35",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "46.996618"
+    },
+    {
+      "name": "Tests\\Feature\\Documents\\DocumentHttpTest",
+      "file": "/var/www/html/tests/Feature/Documents/DocumentHttpTest.php",
+      "tests": "24",
+      "assertions": "419",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "151.929236"
+    },
+    {
+      "name": "Tests\\Feature\\Documents\\DocumentLifecycleTest",
+      "file": "/var/www/html/tests/Feature/Documents/DocumentLifecycleTest.php",
+      "tests": "19",
+      "assertions": "94",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "67.923624"
+    },
+    {
+      "name": "Tests\\Feature\\Documents\\DocumentQueueTransportTest",
+      "file": "/var/www/html/tests/Feature/Documents/DocumentQueueTransportTest.php",
+      "tests": "2",
+      "assertions": "23",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "8.484537"
+    },
+    {
+      "name": "Tests\\Feature\\Documents\\DocumentReconciliationTest",
+      "file": "/var/www/html/tests/Feature/Documents/DocumentReconciliationTest.php",
+      "tests": "8",
+      "assertions": "40",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "32.811769"
+    },
+    {
+      "name": "Tests\\Feature\\Documents\\DocumentTextExtractionTest",
+      "file": "/var/www/html/tests/Feature/Documents/DocumentTextExtractionTest.php",
+      "tests": "16",
+      "assertions": "83",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "36.847943"
+    },
+    {
+      "name": "Tests\\Feature\\Documents\\ExpireIntakeUploadsTest",
+      "file": "/var/www/html/tests/Feature/Documents/ExpireIntakeUploadsTest.php",
+      "tests": "5",
+      "assertions": "52",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "18.925560"
+    },
+    {
+      "name": "Tests\\Feature\\Documents\\MigrationUpgradeTest",
+      "file": "/var/www/html/tests/Feature/Documents/MigrationUpgradeTest.php",
+      "tests": "1",
+      "assertions": "246",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "4.265342"
+    },
+    {
+      "name": "Tests\\Feature\\HttpFoundationTest",
+      "file": "/var/www/html/tests/Feature/HttpFoundationTest.php",
+      "tests": "10",
+      "assertions": "46",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "41.993023"
+    },
+    {
+      "name": "Tests\\Feature\\Identity\\IdentityAtomicityTest",
+      "file": "/var/www/html/tests/Feature/Identity/IdentityAtomicityTest.php",
+      "tests": "3",
+      "assertions": "52",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "26.691872"
+    },
+    {
+      "name": "Tests\\Feature\\Identity\\IdentityHttpTest",
+      "file": "/var/www/html/tests/Feature/Identity/IdentityHttpTest.php",
+      "tests": "34",
+      "assertions": "304",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "145.813562"
+    },
+    {
+      "name": "Tests\\Feature\\Identity\\MfaConcurrencyTest",
+      "file": "/var/www/html/tests/Feature/Identity/MfaConcurrencyTest.php",
+      "tests": "2",
+      "assertions": "11",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "6.040688"
+    },
+    {
+      "name": "Tests\\Feature\\Identity\\MfaTest",
+      "file": "/var/www/html/tests/Feature/Identity/MfaTest.php",
+      "tests": "19",
+      "assertions": "105",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "60.649449"
+    },
+    {
+      "name": "Tests\\Feature\\Identity\\MigrationUpgradeTest",
+      "file": "/var/www/html/tests/Feature/Identity/MigrationUpgradeTest.php",
+      "tests": "1",
+      "assertions": "60",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.582846"
+    },
+    {
+      "name": "Tests\\Feature\\Identity\\RecoveryTest",
+      "file": "/var/www/html/tests/Feature/Identity/RecoveryTest.php",
+      "tests": "15",
+      "assertions": "100",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "54.757962"
+    },
+    {
+      "name": "Tests\\Feature\\Identity\\RecoveryTransportTest",
+      "file": "/var/www/html/tests/Feature/Identity/RecoveryTransportTest.php",
+      "tests": "9",
+      "assertions": "23",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.126881"
+    },
+    {
+      "name": "Tests\\Feature\\Identity\\RegistrationConcurrencyTest",
+      "file": "/var/www/html/tests/Feature/Identity/RegistrationConcurrencyTest.php",
+      "tests": "1",
+      "assertions": "23",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.544914"
+    },
+    {
+      "name": "Tests\\Feature\\Identity\\SessionLifecycleTest",
+      "file": "/var/www/html/tests/Feature/Identity/SessionLifecycleTest.php",
+      "tests": "18",
+      "assertions": "830",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "92.689081"
+    },
+    {
+      "name": "Tests\\Feature\\Identity\\SessionPruningTest",
+      "file": "/var/www/html/tests/Feature/Identity/SessionPruningTest.php",
+      "tests": "6",
+      "assertions": "33",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "11.246803"
+    },
+    {
+      "name": "Tests\\Feature\\LocalE2EFixtureTest",
+      "file": "/var/www/html/tests/Feature/LocalE2EFixtureTest.php",
+      "tests": "4",
+      "assertions": "66",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "14.879889"
+    },
+    {
+      "name": "Tests\\Feature\\Notifications\\NotificationConcurrencyTest",
+      "file": "/var/www/html/tests/Feature/Notifications/NotificationConcurrencyTest.php",
+      "tests": "1",
+      "assertions": "13",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.071435"
+    },
+    {
+      "name": "Tests\\Feature\\Notifications\\NotificationDeliveryTest",
+      "file": "/var/www/html/tests/Feature/Notifications/NotificationDeliveryTest.php",
+      "tests": "13",
+      "assertions": "99",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "23.313225"
+    },
+    {
+      "name": "Tests\\Feature\\Notifications\\NotificationHttpTest",
+      "file": "/var/www/html/tests/Feature/Notifications/NotificationHttpTest.php",
+      "tests": "5",
+      "assertions": "96",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "15.522795"
+    },
+    {
+      "name": "Tests\\Feature\\Notifications\\NotificationIdentityLockTest",
+      "file": "/var/www/html/tests/Feature/Notifications/NotificationIdentityLockTest.php",
+      "tests": "8",
+      "assertions": "160",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "34.092614"
+    },
+    {
+      "name": "Tests\\Feature\\Operations\\G1CandidateUpgradeTest",
+      "file": "/var/www/html/tests/Feature/Operations/G1CandidateUpgradeTest.php",
+      "tests": "1",
+      "assertions": "410",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "3.900960"
+    },
+    {
+      "name": "Tests\\Feature\\Operations\\IndependentQueueTransportTest",
+      "file": "/var/www/html/tests/Feature/Operations/IndependentQueueTransportTest.php",
+      "tests": "3",
+      "assertions": "33",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "4.690201"
+    },
+    {
+      "name": "Tests\\Feature\\Operations\\MigrationUpgradeTest",
+      "file": "/var/www/html/tests/Feature/Operations/MigrationUpgradeTest.php",
+      "tests": "1",
+      "assertions": "789",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "8.536983"
+    },
+    {
+      "name": "Tests\\Feature\\Operations\\OperationalTelemetryTest",
+      "file": "/var/www/html/tests/Feature/Operations/OperationalTelemetryTest.php",
+      "tests": "7",
+      "assertions": "61",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "21.149310"
+    },
+    {
+      "name": "Tests\\Feature\\ProjectIntake\\GuestIntakeConcurrencyTest",
+      "file": "/var/www/html/tests/Feature/ProjectIntake/GuestIntakeConcurrencyTest.php",
+      "tests": "8",
+      "assertions": "102",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "39.422644"
+    },
+    {
+      "name": "Tests\\Feature\\ProjectIntake\\GuestIntakeConstraintsTest",
+      "file": "/var/www/html/tests/Feature/ProjectIntake/GuestIntakeConstraintsTest.php",
+      "tests": "3",
+      "assertions": "25",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "17.100551"
+    },
+    {
+      "name": "Tests\\Feature\\ProjectIntake\\GuestIntakeHttpTest",
+      "file": "/var/www/html/tests/Feature/ProjectIntake/GuestIntakeHttpTest.php",
+      "tests": "39",
+      "assertions": "448",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "112.223962"
+    },
+    {
+      "name": "Tests\\Feature\\ProjectIntake\\GuestIntakeUpgradeTest",
+      "file": "/var/www/html/tests/Feature/ProjectIntake/GuestIntakeUpgradeTest.php",
+      "tests": "2",
+      "assertions": "271",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "10.387593"
+    },
+    {
+      "name": "Tests\\Feature\\ProjectIntake\\GuestSessionIsolationTest",
+      "file": "/var/www/html/tests/Feature/ProjectIntake/GuestSessionIsolationTest.php",
+      "tests": "9",
+      "assertions": "176",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "32.550076"
+    },
+    {
+      "name": "Tests\\Feature\\ProjectIntake\\IntakeConcurrencyTest",
+      "file": "/var/www/html/tests/Feature/ProjectIntake/IntakeConcurrencyTest.php",
+      "tests": "4",
+      "assertions": "103",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "17.569413"
+    },
+    {
+      "name": "Tests\\Feature\\ProjectIntake\\IntakeConstraintsTest",
+      "file": "/var/www/html/tests/Feature/ProjectIntake/IntakeConstraintsTest.php",
+      "tests": "20",
+      "assertions": "211",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "71.756645"
+    },
+    {
+      "name": "Tests\\Feature\\ProjectIntake\\IntakeHttpTest",
+      "file": "/var/www/html/tests/Feature/ProjectIntake/IntakeHttpTest.php",
+      "tests": "45",
+      "assertions": "456",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "233.368459"
+    },
+    {
+      "name": "Tests\\Feature\\ProjectIntake\\IntakeWorkflowTest",
+      "file": "/var/www/html/tests/Feature/ProjectIntake/IntakeWorkflowTest.php",
+      "tests": "17",
+      "assertions": "173",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "66.234095"
+    },
+    {
+      "name": "Tests\\Feature\\ProjectIntake\\MigrationUpgradeTest",
+      "file": "/var/www/html/tests/Feature/ProjectIntake/MigrationUpgradeTest.php",
+      "tests": "1",
+      "assertions": "114",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.751258"
+    },
+    {
+      "name": "Tests\\Feature\\ProjectIntake\\ReadConcurrencyTest",
+      "file": "/var/www/html/tests/Feature/ProjectIntake/ReadConcurrencyTest.php",
+      "tests": "1",
+      "assertions": "17",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.665237"
+    },
+    {
+      "name": "Tests\\Feature\\Projects\\MigrationUpgradeTest",
+      "file": "/var/www/html/tests/Feature/Projects/MigrationUpgradeTest.php",
+      "tests": "1",
+      "assertions": "219",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "5.363532"
+    },
+    {
+      "name": "Tests\\Feature\\Projects\\ProjectConcurrencyTest",
+      "file": "/var/www/html/tests/Feature/Projects/ProjectConcurrencyTest.php",
+      "tests": "12",
+      "assertions": "190",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "58.834426"
+    },
+    {
+      "name": "Tests\\Feature\\Projects\\ProjectConstraintsTest",
+      "file": "/var/www/html/tests/Feature/Projects/ProjectConstraintsTest.php",
+      "tests": "15",
+      "assertions": "104",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "78.988930"
+    },
+    {
+      "name": "Tests\\Feature\\Projects\\ProjectDocumentListingQueryTest",
+      "file": "/var/www/html/tests/Feature/Projects/ProjectDocumentListingQueryTest.php",
+      "tests": "1",
+      "assertions": "49",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "5.486026"
+    },
+    {
+      "name": "Tests\\Feature\\Projects\\ProjectDocumentsTest",
+      "file": "/var/www/html/tests/Feature/Projects/ProjectDocumentsTest.php",
+      "tests": "9",
+      "assertions": "203",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "109.165279"
+    },
+    {
+      "name": "Tests\\Feature\\Projects\\ProjectHttpTest",
+      "file": "/var/www/html/tests/Feature/Projects/ProjectHttpTest.php",
+      "tests": "15",
+      "assertions": "236",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "95.790090"
+    },
+    {
+      "name": "Tests\\Feature\\Projects\\ProjectLifecycleTest",
+      "file": "/var/www/html/tests/Feature/Projects/ProjectLifecycleTest.php",
+      "tests": "6",
+      "assertions": "67",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "20.352363"
+    },
+    {
+      "name": "Tests\\Feature\\Projects\\ProjectTeamMilestonesTest",
+      "file": "/var/www/html/tests/Feature/Projects/ProjectTeamMilestonesTest.php",
+      "tests": "5",
+      "assertions": "51",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "16.989957"
+    },
+    {
+      "name": "Tests\\Feature\\Queue\\SafeFailedJobProviderTest",
+      "file": "/var/www/html/tests/Feature/Queue/SafeFailedJobProviderTest.php",
+      "tests": "8",
+      "assertions": "50",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "14.300297"
+    },
+    {
+      "name": "Tests\\Feature\\Reporting\\AuditInvestigationTest",
+      "file": "/var/www/html/tests/Feature/Reporting/AuditInvestigationTest.php",
+      "tests": "2",
+      "assertions": "38",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "4.145389"
+    },
+    {
+      "name": "Tests\\Feature\\Reporting\\ReportingHttpTest",
+      "file": "/var/www/html/tests/Feature/Reporting/ReportingHttpTest.php",
+      "tests": "24",
+      "assertions": "357",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "85.061571"
+    }
+  ],
+  "static_analysis": {
+    "level": 10,
+    "errors": 0
+  },
+  "pint": {
+    "files": 571,
+    "passed": true
+  },
+  "composer": {
+    "validate_strict": true,
+    "platform_requirements": true,
+    "audit_advisories": 0
+  },
+  "migrations": {
+    "fresh": 30,
+    "exact_b7_baseline": 27,
+    "exact_b7_to_current": 30,
+    "upgrade_test_assertions": 410,
+    "repeated_upgrade": true
+  },
+  "contract": {
+    "openapi": "3.1.1",
+    "api_version": "1.1.0-g1",
+    "sha256_before": "ae8d0a904a0042b80f9adc1224dedf8677794e2d49ca5cdf41daeb5278780be8",
+    "sha256_after": "ae8d0a904a0042b80f9adc1224dedf8677794e2d49ca5cdf41daeb5278780be8",
+    "operations": 172,
+    "operations_added_by_freeze": 0,
+    "schemas_changed_by_freeze": 0,
+    "compatibility": "No API change; Admin Dashboard remains on the accepted G1 contract. Frontend copy untouched.",
+    "validation": {
+      "openapi": "3.1.1",
+      "documented_operations": 172,
+      "validated_responses": 2232,
+      "observed_operations": 145,
+      "success_covered_operations": 121,
+      "status_counts": {
+        "200": 818,
+        "201": 183,
+        "202": 173,
+        "204": 392,
+        "400": 2,
+        "401": 88,
+        "403": 190,
+        "404": 124,
+        "405": 4,
+        "409": 40,
+        "412": 10,
+        "413": 5,
+        "415": 6,
+        "422": 168,
+        "428": 9,
+        "429": 9,
+        "500": 3,
+        "503": 8
+      },
+      "success_coverage": [
+        "DELETE /api/v1/admin/projects/{project}/documents/{document}",
+        "DELETE /api/v1/project-requests/{projectRequest}/documents/{document}",
+        "GET /api/v1",
+        "GET /api/v1/admin/audit-events",
+        "GET /api/v1/admin/categories",
+        "GET /api/v1/admin/customers",
+        "GET /api/v1/admin/customers/{customer}",
+        "GET /api/v1/admin/customers/{customer}/project-requests",
+        "GET /api/v1/admin/customers/{customer}/projects",
+        "GET /api/v1/admin/notification-deliveries/{delivery}",
+        "GET /api/v1/admin/project-requests",
+        "GET /api/v1/admin/project-requests/{projectRequest}",
+        "GET /api/v1/admin/project-requests/{projectRequest}/discovery",
+        "GET /api/v1/admin/project-requests/{projectRequest}/discovery/{revision}",
+        "GET /api/v1/admin/project-requests/{projectRequest}/documents/{document}",
+        "GET /api/v1/admin/project-requests/{projectRequest}/documents/{document}/download",
+        "GET /api/v1/admin/project-requests/{projectRequest}/eligible-assignees",
+        "GET /api/v1/admin/project-requests/{projectRequest}/history",
+        "GET /api/v1/admin/project-requests/{projectRequest}/proposals",
+        "GET /api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}",
+        "GET /api/v1/admin/project-requests/{projectRequest}/revisions",
+        "GET /api/v1/admin/projects",
+        "GET /api/v1/admin/projects/{project}",
+        "GET /api/v1/admin/projects/{project}/activity",
+        "GET /api/v1/admin/projects/{project}/documents",
+        "GET /api/v1/admin/projects/{project}/eligible-staff",
+        "GET /api/v1/admin/projects/{project}/evidence",
+        "GET /api/v1/admin/projects/{project}/milestones",
+        "GET /api/v1/admin/projects/{project}/team-members",
+        "GET /api/v1/admin/projects/{project}/updates",
+        "GET /api/v1/admin/reports/customers",
+        "GET /api/v1/admin/reports/dashboard",
+        "GET /api/v1/admin/reports/projects",
+        "GET /api/v1/admin/reports/requests",
+        "GET /api/v1/ai-runs",
+        "GET /api/v1/ai-runs/{aiRun}",
+        "GET /api/v1/categories",
+        "GET /api/v1/customers",
+        "GET /api/v1/guest/project-requests/{projectRequest}/documents/{document}",
+        "GET /api/v1/identity/me",
+        "GET /api/v1/identity/sessions",
+        "GET /api/v1/intake/categories",
+        "GET /api/v1/intake/categories/{category}/subcategories",
+        "GET /api/v1/notifications",
+        "GET /api/v1/notifications/preferences",
+        "GET /api/v1/notifications/unread-count",
+        "GET /api/v1/notifications/{notification}",
+        "GET /api/v1/project-requests",
+        "GET /api/v1/project-requests/by-reference/{reference}",
+        "GET /api/v1/project-requests/{projectRequest}",
+        "GET /api/v1/project-requests/{projectRequest}/documents/{document}",
+        "GET /api/v1/project-requests/{projectRequest}/documents/{document}/download",
+        "GET /api/v1/project-requests/{projectRequest}/proposals",
+        "GET /api/v1/project-requests/{projectRequest}/proposals/{proposal}",
+        "GET /api/v1/project-requests/{projectRequest}/proposals/{proposal}/documents/{document}/download",
+        "GET /api/v1/project-requests/{projectRequest}/revisions/{revision}",
+        "GET /api/v1/projects",
+        "GET /api/v1/projects/{project}",
+        "GET /api/v1/projects/{project}/documents",
+        "GET /api/v1/projects/{project}/documents/{document}",
+        "GET /api/v1/projects/{project}/documents/{document}/download",
+        "GET /api/v1/projects/{project}/milestones",
+        "GET /api/v1/projects/{project}/updates",
+        "GET /sanctum/csrf-cookie",
+        "PATCH /api/v1/admin/categories/{category}",
+        "PATCH /api/v1/admin/subcategories/{subcategory}",
+        "PATCH /api/v1/customers/{customer}",
+        "PATCH /api/v1/identity/staff/{user}/authorization",
+        "PATCH /api/v1/notifications/preferences",
+        "PATCH /api/v1/project-requests/{projectRequest}/draft",
+        "POST /api/v1/admin/categories",
+        "POST /api/v1/admin/categories/{category}/subcategories",
+        "POST /api/v1/admin/notification-deliveries/{delivery}/replays",
+        "POST /api/v1/admin/project-requests/{projectRequest}/assignments",
+        "POST /api/v1/admin/project-requests/{projectRequest}/conversions",
+        "POST /api/v1/admin/project-requests/{projectRequest}/discovery",
+        "POST /api/v1/admin/project-requests/{projectRequest}/discovery/{revision}/completions",
+        "POST /api/v1/admin/project-requests/{projectRequest}/discovery/{revision}/starts",
+        "POST /api/v1/admin/project-requests/{projectRequest}/proposals",
+        "POST /api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/documents",
+        "POST /api/v1/admin/project-requests/{projectRequest}/rejections",
+        "POST /api/v1/admin/project-requests/{projectRequest}/reviews",
+        "POST /api/v1/admin/projects/{project}/documents",
+        "POST /api/v1/admin/projects/{project}/milestones",
+        "POST /api/v1/admin/projects/{project}/milestones/{milestone}/completions",
+        "POST /api/v1/admin/projects/{project}/milestones/{milestone}/starts",
+        "POST /api/v1/admin/projects/{project}/team-members",
+        "POST /api/v1/admin/projects/{project}/updates",
+        "POST /api/v1/ai-runs",
+        "POST /api/v1/ai-runs/{aiRun}/applications",
+        "POST /api/v1/ai-runs/{aiRun}/cancellations",
+        "POST /api/v1/ai-runs/{aiRun}/dismissals",
+        "POST /api/v1/auth/email/resend",
+        "POST /api/v1/auth/login",
+        "POST /api/v1/auth/logout",
+        "POST /api/v1/auth/mfa/challenge",
+        "POST /api/v1/auth/mfa/enrollment",
+        "POST /api/v1/auth/mfa/enrollment/confirm",
+        "POST /api/v1/auth/mfa/recovery",
+        "POST /api/v1/auth/password/change",
+        "POST /api/v1/auth/password/confirm",
+        "POST /api/v1/auth/password/forgot",
+        "POST /api/v1/auth/register",
+        "POST /api/v1/guest/project-requests",
+        "POST /api/v1/guest/project-requests/{projectRequest}/documents",
+        "POST /api/v1/guest/project-requests/{projectRequest}/submissions",
+        "POST /api/v1/identity/sessions/revoke-others",
+        "POST /api/v1/notifications/read-all",
+        "POST /api/v1/notifications/{notification}/read",
+        "POST /api/v1/project-request-claims",
+        "POST /api/v1/project-requests",
+        "POST /api/v1/project-requests/{projectRequest}/amendments",
+        "POST /api/v1/project-requests/{projectRequest}/documents",
+        "POST /api/v1/project-requests/{projectRequest}/proposals/{proposal}/acceptances",
+        "POST /api/v1/project-requests/{projectRequest}/submissions",
+        "POST /api/v1/project-requests/{projectRequest}/withdrawals",
+        "POST /api/v1/projects/{project}/completion-confirmations",
+        "PUT /api/v1/admin/project-requests/{projectRequest}/discovery/{revision}/requirements",
+        "PUT /api/v1/admin/projects/{project}/documents/{document}/content",
+        "PUT /api/v1/guest/project-requests/{projectRequest}/documents/{document}/content",
+        "PUT /api/v1/project-requests/{projectRequest}/documents/{document}/content"
+      ],
+      "no_success_sample": [
+        "DELETE /api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/documents/{document}",
+        "DELETE /api/v1/admin/projects/{project}/team-members/{member}",
+        "DELETE /api/v1/auth/mfa",
+        "GET /api/v1/admin/categories/{category}",
+        "GET /api/v1/admin/categories/{category}/subcategories",
+        "GET /api/v1/admin/notification-deliveries",
+        "GET /api/v1/admin/project-requests/by-reference/{reference}",
+        "GET /api/v1/admin/project-requests/{projectRequest}/assignments",
+        "GET /api/v1/admin/project-requests/{projectRequest}/information-requests",
+        "GET /api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/documents/{document}",
+        "GET /api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/documents/{document}/download",
+        "GET /api/v1/admin/project-requests/{projectRequest}/revisions/{revision}",
+        "GET /api/v1/admin/projects/{project}/documents/{document}",
+        "GET /api/v1/admin/projects/{project}/documents/{document}/download",
+        "GET /api/v1/admin/subcategories/{subcategory}",
+        "GET /api/v1/categories/{category}/subcategories",
+        "GET /api/v1/customers/{customer}",
+        "GET /api/v1/customers/{customer}/project-requests/{projectRequest}",
+        "GET /api/v1/identities/{identity}/customers/{customer}",
+        "GET /api/v1/identity/staff/{user}",
+        "GET /api/v1/project-requests/{projectRequest}/history",
+        "GET /api/v1/project-requests/{projectRequest}/information-requests",
+        "GET /api/v1/project-requests/{projectRequest}/proposals/{proposal}/documents/{document}",
+        "GET /api/v1/project-requests/{projectRequest}/revisions",
+        "PATCH /api/v1/admin/projects/{project}/milestones/{milestone}",
+        "PATCH /api/v1/identities/{identity}/customers/{customer}",
+        "PATCH /api/v1/identity/me",
+        "POST /api/v1/admin/project-requests/{projectRequest}/discovery-handoffs",
+        "POST /api/v1/admin/project-requests/{projectRequest}/information-requests",
+        "POST /api/v1/admin/project-requests/{projectRequest}/information-requests/{information}/acknowledgements",
+        "POST /api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/approvals",
+        "POST /api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/issuances",
+        "POST /api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/supersessions",
+        "POST /api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}/withdrawals",
+        "POST /api/v1/admin/projects/{project}/advances",
+        "POST /api/v1/admin/projects/{project}/cancellations",
+        "POST /api/v1/admin/projects/{project}/documents/{document}/scan-retries",
+        "POST /api/v1/admin/projects/{project}/evidence",
+        "POST /api/v1/admin/projects/{project}/failures",
+        "POST /api/v1/admin/projects/{project}/holds",
+        "POST /api/v1/admin/projects/{project}/milestones/{milestone}/delays",
+        "POST /api/v1/admin/projects/{project}/resumptions",
+        "POST /api/v1/auth/email/verify",
+        "POST /api/v1/auth/mfa/recovery-codes",
+        "POST /api/v1/auth/password/reset",
+        "POST /api/v1/project-requests/{projectRequest}/documents/{document}/scan-retries",
+        "POST /api/v1/project-requests/{projectRequest}/information-requests/{information}/responses",
+        "POST /api/v1/project-requests/{projectRequest}/proposals/{proposal}/declines",
+        "POST /api/v1/project-requests/{projectRequest}/proposals/{proposal}/rescissions",
+        "PUT /api/v1/admin/project-requests/{projectRequest}/discovery/{revision}",
+        "PUT /api/v1/admin/project-requests/{projectRequest}/proposals/{proposal}"
+      ],
+      "undocumented_successes": [],
+      "negative_validator_sentinels": 2,
+      "required_success_coverage": 116,
+      "missing_required_success_samples": [],
+      "failures": [],
+      "passed": true
+    },
+    "drift": {
+      "actual": 172,
+      "documented": 172,
+      "undocumented": [],
+      "missing": [],
+      "passed": true,
+      "initial_harness_correction": "Include the documented /api/v1 root as well as /api/v1/ children; no application or spec changes."
+    },
+    "negative_python_tests": 4
+  },
+  "images": [
+    {
+      "Id": "sha256:7779029b006749f600a982588c6619bc9fad7cfbe4f5530d864b7ba4ac4c3f8b",
+      "RepoTags": [
+        "holoul-app:g1-vps-runtime-final"
+      ],
+      "Created": "2026-09-28T08:42:40.112066942Z",
+      "user": "holoul"
+    },
+    {
+      "Id": "sha256:f368557d2e6dc585aa6eda13eda13ecfafee41b2b28c9991f109711ff3502966",
+      "RepoTags": [
+        "holoul-app:g1-vps-development-final"
+      ],
+      "Created": "2026-09-28T08:42:21.584394263Z",
+      "user": "holoul"
+    },
+    {
+      "Id": "sha256:e3a0cbbb324ab1dc4112401530f0602c479536a2c09552a84ac02899bcc5a534",
+      "RepoTags": [
+        "holoul-inspector:g1-vps-runtime"
+      ],
+      "Created": "2026-09-28T08:40:21.67451383Z",
+      "user": "1000:1000"
+    },
+    {
+      "Id": "sha256:8ab487964b06eb09143daa34bf65e625e74b90d13655b3059d9215c39d3885bf",
+      "RepoTags": [
+        "holoul-nginx:g1-runtime"
+      ],
+      "Created": "2026-09-28T08:35:23.496579864Z",
+      "user": ""
+    }
+  ],
+  "image_security_scans": [
+    {
+      "report": "app-final-scan.json",
+      "high_critical": 0,
+      "report_sha256": "e9afda8bdc862db39d0494fe1e9d13fb3d479601ba83aa6de1c2d235041c0f70"
+    },
+    {
+      "report": "security-image-1.json",
+      "high_critical": 0,
+      "report_sha256": "32061d41b4e7f211e4c1557fbca9b54fc2985db8edccefcb74bf0eb77beaa435"
+    },
+    {
+      "report": "inspector-patched-scan.json",
+      "high_critical": 0,
+      "report_sha256": "433dd8905e3b1dccd126037cb0566f87749e7b58a49cbc74c7bc70a18ff0a610"
+    },
+    {
+      "report": "security-image-3.json",
+      "high_critical": 0,
+      "report_sha256": "649a8fba13fe46db67bcfd5d36e35a652dfdf98b6c208cc77c52ac8127e47ca6"
+    },
+    {
+      "report": "security-image-4.json",
+      "high_critical": 0,
+      "report_sha256": "f2db9034863fc9452ce60ec044fbe5f2adce86c150ccdace0cfb84057b295621"
+    },
+    {
+      "report": "security-image-5.json",
+      "high_critical": 0,
+      "report_sha256": "fc4d6712bcb80bccdc494882376289be9a178108560211ee8aec7fa7d4f987d8"
+    },
+    {
+      "report": "security-image-6.json",
+      "high_critical": 0,
+      "report_sha256": "04d62e3b4e0fb2f32ff0cf7df92cb0ffac40cec4a9a8ac162c336e4cd271beb0"
+    },
+    {
+      "report": "nginx-patched-scan.json",
+      "high_critical": 0,
+      "report_sha256": "ff472fad820a323cef57fb91113377db7c43c64ba5fb39cfe89ca36397d77526"
+    }
+  ],
+  "inspector_python_tests": 17,
+  "production_image_exclusions": "Passed; non-root uid 1000; only scripts/backup-seal.php remains; no local fixtures, credentials, tests, tools, dev dependencies or build executables.",
+  "restore": {
+    "schema": "holoul-b8-restore-drill-v1",
+    "ok": true,
+    "synthetic_only": true,
+    "recorded_at": "2026-09-28T08:48:14.033105Z",
+    "application_image_reference": "holoul-app:g1-vps-runtime-final",
+    "application_image_id": "sha256:7779029b006749f600a982588c6619bc9fad7cfbe4f5530d864b7ba4ac4c3f8b",
+    "inspector_image_id": "sha256:e3a0cbbb324ab1dc4112401530f0602c479536a2c09552a84ac02899bcc5a534",
+    "production_provider_restore_certified": false,
+    "pitr_certified": false,
+    "offsite_key_escrow_certified": false,
+    "encryption_checks": {
+      "round_trip_bytes": 131328,
+      "negative_cases_rejected": [
+        "changed_ciphertext",
+        "truncated_stream",
+        "trailing_bytes",
+        "bad_header",
+        "wrong_context",
+        "wrong_key"
+      ]
+    },
+    "ingress_checks": [
+      "wrong_host",
+      "wrong_origin",
+      "forged_forwarded_metadata"
+    ],
+    "database_tables": 76,
+    "database_rows": 667,
+    "sequences": 4,
+    "constraints": 1260,
+    "triggers": 148,
+    "runtime_grants_preserved": true,
+    "all_rows_and_sequences_exact": true,
+    "lineage_projects": 1,
+    "history_counts": {
+      "request_revisions": 1,
+      "request_state_changes": 6,
+      "proposal_approvals": 1,
+      "proposal_decisions": 1,
+      "project_state_changes": 12,
+      "project_membership_history": 2,
+      "milestone_changes": 8,
+      "project_phase_evidence": 7,
+      "project_completion_confirmations": 1,
+      "project_updates": 4,
+      "project_activity": 38,
+      "audit_events": 123
+    },
+    "available_documents": 3,
+    "private_object_bytes": 1833,
+    "all_object_versions_and_checksums_exact": true,
+    "mfa_credentials_decrypted": 2,
+    "application_and_storage_keys_recovered": true,
+    "authenticated_encryption": "libsodium XChaCha20-Poly1305 secretstream",
+    "corrupted_ciphertext_rejected": true,
+    "backup_duration_ms": 51668,
+    "restore_duration_ms": 69451,
+    "encrypted_archives": 10,
+    "encrypted_bytes": 729074,
+    "backup_manifest_sha256": "76fc0879ae5f88790f24cc1aed44e5e2ea1e5b22bd7a93c738d167cb5eb11c3f",
+    "transaction_guard": {
+      "source_high_water": 1362,
+      "target_before": 770,
+      "target_after": 1364,
+      "harmless_transactions": 593,
+      "historical_ids_cannot_recur": true
+    },
+    "scope": "quiesced PostgreSQL logical backup and full cold SeaweedFS data/metadata plus separate encrypted key material; synthetic localhost only",
+    "resources_removed": true,
+    "total_duration_ms": 477421
+  },
+  "source_execution_boundary": {
+    "full_gate_image_files": 663,
+    "source_files_changed_since_gate_image": [
+      "compose.restore.yaml",
+      "compose.yaml",
+      "docker/documents/inspector/Dockerfile",
+      "scripts/backup_restore.py",
+      "scripts/verify-restore.py"
+    ],
+    "application_php_migration_tests_changed": [],
+    "new_non_document_source_files_since_gate_image": [
+      "docker/nginx/Dockerfile"
+    ],
+    "scaffold_note": "Existing .gitignore placeholders in cache/log directories were excluded from image manifest, not treated as source additions."
+  },
+  "failures_preserved": [
+    {
+      "gate": "Initial inspector and Nginx scans",
+      "result": "HIGH CVE-2026-93990 in libexpat 2.8.4-r0. Fixed floor >=2.8.5-r0; installed 2.8.5-r0; final rescans passed. No suppression."
+    },
+    {
+      "gate": "Restore attempt 1",
+      "result": "Exact localhost Host/Origin map still used fixed 8443 while isolated drill used random ports; CSRF returned 400. Render exact per-drill port map; retain strict protections."
+    },
+    {
+      "gate": "Restore attempt 2",
+      "result": "Default internal health Host was absent from corrected exact public map. Health request now supplies the exact generated allowed Host; third full restore passed."
+    },
+    {
+      "gate": "Initial route counting harness",
+      "result": "Missed documented bare /api/v1 root; counting corrected to include root. Final actual/spec both 172. No API/spec change."
+    }
+  ],
+  "evidence_files": [
+    {
+      "name": "full-quality.log",
+      "bytes": 744350,
+      "sha256": "d62380d5d14948bbb6252fd7942078dfbd75cd0922a17f8051d8222d36434a36",
+      "location": "private operator evidence directory; raw captures not published"
+    },
+    {
+      "name": "holoul-unit-feature.xml",
+      "bytes": 343364,
+      "sha256": "f2774c5217ef9e430567743f0c5a6ca0ce34d08297c9a6370ddbf59cb79201bb",
+      "location": "private operator evidence directory; raw captures not published"
+    },
+    {
+      "name": "holoul-architecture.xml",
+      "bytes": 3406,
+      "sha256": "011695011336adb9e47b6acd5097589e01c7e66c80f9e96c243ddd4d7d03d9ed",
+      "location": "private operator evidence directory; raw captures not published"
+    },
+    {
+      "name": "contract-report.json",
+      "bytes": 10998,
+      "sha256": "2142bee74dcf3010979a26737041a8cb464a13a03b5c70a314721c0f304875a7",
+      "location": "private operator evidence directory; raw captures not published"
+    },
+    {
+      "name": "contract-negative-tests.log",
+      "bytes": 103,
+      "sha256": "55a8449a53e343d445ac005517ae97c964ab97c0bd2d9ae3f96ffb4aeb31d9cc",
+      "location": "private operator evidence directory; raw captures not published"
+    },
+    {
+      "name": "route-drift.json",
+      "bytes": 231,
+      "sha256": "633fc43ad95c7ba5ed288268d292be4d7625df1e62ae47df2e171db50d2f5733",
+      "location": "private operator evidence directory; raw captures not published"
+    },
+    {
+      "name": "final-runtime-build.log",
+      "bytes": 7939,
+      "sha256": "6ebe260a190df520c5059da831ed7132e926f7311ecd1c8fb211899a7440238f",
+      "location": "private operator evidence directory; raw captures not published"
+    },
+    {
+      "name": "final-development-build.log",
+      "bytes": 6287,
+      "sha256": "f56ff782e42380dd91a3d651843430c51a5d9cc1a3aa7c56c650d0d0d9bae0ec",
+      "location": "private operator evidence directory; raw captures not published"
+    },
+    {
+      "name": "inspector-tests.log",
+      "bytes": 116,
+      "sha256": "8907c414cfc24438758bc1a934a8a0812072db75198035fd0604095a0c23461d",
+      "location": "private operator evidence directory; raw captures not published"
+    },
+    {
+      "name": "final-production-exclusion.log",
+      "bytes": 55,
+      "sha256": "c077c893904421d9a69f6e2b69773a7da91f8535d7cc94ce52db043938ad8204",
+      "location": "private operator evidence directory; raw captures not published"
+    },
+    {
+      "name": "restore-third-attempt.json",
+      "bytes": 2468,
+      "sha256": "eff553111dceadacae6e5b8b77baae58e73ae7508b75ab8539579c5ae756abf1",
+      "location": "private operator evidence directory; raw captures not published"
+    },
+    {
+      "name": "restore-initial.json",
+      "bytes": 940,
+      "sha256": "a5f6f8d6f13dd22b596da9428f492d4d8874ce94ba981d782d3f4ed2ad6d95bb",
+      "location": "private operator evidence directory; raw captures not published"
+    },
+    {
+      "name": "restore-second-attempt.json",
+      "bytes": 946,
+      "sha256": "413ebbcb76455b07f10597a3d9bfeb6aafecfb7fda37b07bab13da8bb125f283",
+      "location": "private operator evidence directory; raw captures not published"
+    },
+    {
+      "name": "security-image-2.json",
+      "bytes": 144239,
+      "sha256": "bde4957372564e456e5c1d08045eb9783d21e633d66ddac3bfca894ddc5c51b0",
+      "location": "private operator evidence directory; raw captures not published"
+    },
+    {
+      "name": "security-image-7.json",
+      "bytes": 162336,
+      "sha256": "5da4ae1394358ff2a0c59d91b11a3f10c7cdc425b90c61b184efd27a59ce624c",
+      "location": "private operator evidence directory; raw captures not published"
+    },
+    {
+      "name": "secret-trivy-initial.json",
+      "bytes": 54382,
+      "sha256": "c6f21cb69a789ce5a7c6ea289973909a510052cab1f280644d493fbc09890802",
+      "location": "private operator evidence directory; raw captures not published"
+    },
+    {
+      "name": "secret-trivy-history.json",
+      "bytes": 229,
+      "sha256": "3bb4019695ffad1246c14e868b15f53a9ebde18dad9538cd7655cc88f1be1c6e",
+      "location": "private operator evidence directory; raw captures not published"
+    },
+    {
+      "name": "secret-candidate-final-code.json",
+      "bytes": 54382,
+      "sha256": "32995f045613ee0f1fd6eee1455d51292f5166b5d20e32b45b6ee9fb8ab2b67c",
+      "location": "private operator evidence directory; raw captures not published"
+    },
+    {
+      "name": "gate-source-boundary.json",
+      "bytes": 529,
+      "sha256": "0745949d753fb692887085881d21b0df42d8e379eca3d5d3196e6786e37e6296",
+      "location": "private operator evidence directory; raw captures not published"
+    }
+  ],
+  "scope_limits": [
+    "No VPS access or deployment",
+    "No target-VPS capacity certification",
+    "No provider/PITR/offsite key escrow certification",
+    "No fresh frontend E2E or GitHub Actions result claimed; inherited evidence retained",
+    "Local compose requires a separate reviewed production topology",
+    "Staff invitations excluded"
+  ]
+}
