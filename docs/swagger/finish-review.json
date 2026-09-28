@@ -1,0 +1,20 @@
+{
+  "initialDisposition": "fix",
+  "finalDisposition": "ship",
+  "scope": "Verdict pass on two initial presentation findings",
+  "findings": [
+    {
+      "finding": "Candidate status above title",
+      "verdict": "resolved"
+    },
+    {
+      "finding": "Operation description line length",
+      "verdict": "resolved"
+    }
+  ],
+  "limitations": [
+    "Degraded detector; computed contrast was not evaluated",
+    "No complete screen-reader or keyboard accessibility audit",
+    "Not backend validation or production certification"
+  ]
+}

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="HOLOUL API reference. Browse the authoritative OpenAPI contract, authentication requirements, request parameters and response schemas.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>HOLOUL — API Reference</title>
+  <link rel="icon" href="assets/holoul-mark.png" type="image/png">
+  <link rel="stylesheet" href="assets/vendor/swagger-ui.css">
+  <link rel="stylesheet" href="assets/reference.css">
+  <script src="assets/contract.js" defer></script>
+  <script src="assets/vendor/swagger-ui-bundle.js" defer></script>
+  <script src="assets/reference.js" defer></script>
+</head>
+<body>
+  <!--
+  THESIS: A precise, searchable HOLOUL contract reference, using the user-requested Swagger standard directly.
+  OWN-WORLD: Existing HOLOUL blue mark, slate ink, white reading surface, fine neutral rules, restrained method colors.
+  STORY: Identify the candidate, understand browser authentication, then inspect operations and download the exact contract.
+  FIRST VIEWPORT: A 252px domain index beside a compact release header, integration guide and searchable operation list. Downloads sit beside the title. Mobile uses a domain selector above the list.
+  FORM: Code-led refinement of the explicitly requested Swagger UI renderer; no concept roll or generated comp applies.
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+  -->
+  <a class="skip-link" href="#main">Skip to API reference</a>
+  <aside class="sidebar" aria-label="Reference navigation">
+    <a class="brand" href="#main" aria-label="HOLOUL API reference">
+      <img src="assets/holoul-mark.png" width="38" height="38" alt="">
+      <span><strong>HOLOUL</strong><small>IDEAS TO SOLUTIONS</small></span>
+    </a>
+    <div class="nav-heading">API reference <span>v1</span></div>
+    <nav id="domain-nav" aria-label="API domains"></nav>
+    <div class="sidebar-footer"><strong>Built for integration</strong><p>Request formats, permissions and response schemas in one reference.</p><a href="README.md">Bundle guide</a></div>
+  </aside>
+
+  <main id="main" tabindex="-1">
+    <header class="page-header">
+      <a class="mobile-brand" href="#main" aria-label="HOLOUL API reference"><img src="assets/holoul-mark.png" width="27" height="27" alt=""><strong>HOLOUL</strong></a>
+      <div class="title-row">
+        <div><h1>API reference</h1></div>
+        <div class="downloads" aria-label="Download the API contract"><a class="button primary" href="openapi.json" download>Download JSON</a><a class="button" href="openapi.yaml" download>YAML</a></div>
+      </div>
+      <p class="intro">The contract for connecting HOLOUL websites, customer experiences and the admin dashboard.</p>
+      <dl class="contract-facts">
+        <div><dt>Version</dt><dd id="contract-version">Loading…</dd></div>
+        <div><dt>Standard</dt><dd id="openapi-version">OpenAPI 3.1.1</dd></div>
+        <div><dt>Operations</dt><dd id="operation-count">—</dd></div>
+        <div><dt>Schemas</dt><dd id="schema-count">—</dd></div>
+      </dl>
+      <p class="release-note"><strong>Integration candidate.</strong> Includes G1 intake, staff onboarding and customer registration sorting. Production performance certification remains pending the target VPS.</p>
+    </header>
+
+    <details class="integration-guide">
+      <summary><span>Before you integrate</span><span class="summary-detail">Sessions, CSRF &amp; request conventions</span></summary>
+      <div class="guide-body">
+        <section><h2>Browser authentication</h2><ol><li>Use the application’s HTTPS origin. Initialize CSRF at <code>GET /sanctum/csrf-cookie</code> when the flow requires a session.</li><li>Sign in at <code>POST /api/v1/auth/login</code>. Staff must complete the returned MFA step before protected APIs are available.</li><li>The browser manages the HttpOnly session cookie. URL-decode <code>XSRF-TOKEN</code> into <code>X-XSRF-TOKEN</code> where required; re-read it after session rotation.</li></ol></section>
+        <section><h2>Follow each operation</h2><p>Security, CSRF requirements, permissions, validation, idempotency and concurrency headers are documented per operation. Public guest intake does not imply session initialization.</p><p>For customer directory pagination, keep the filters and <code>sort</code> unchanged while following <code>meta.next_after</code>. Omitted <code>sort</code> preserves oldest-first behavior.</p></section>
+        <section><h2>Portable reference</h2><p>This edition documents requests without executing them. It does not create a session or send API calls. Use your same-origin application for authenticated integration testing.</p><p>The JSON download is byte-for-byte identical to the authoritative contract. YAML contains the same contract data.</p></section>
+      </div>
+    </details>
+
+    <section class="operation-section" aria-labelledby="operations-title">
+      <div class="operations-heading"><h2 id="operations-title">Operations</h2><button id="clear-filters" class="text-button" type="button" hidden>Clear filters</button></div>
+      <div class="search-row"><div class="search-field"><label for="operation-search">Find an operation</label><input id="operation-search" type="search" placeholder="Search paths, methods, names or domains…" autocomplete="off" spellcheck="false" aria-describedby="search-help"></div><div class="mobile-domains"><label for="domain-select">Domain</label><select id="domain-select"></select></div></div>
+      <p id="search-help" class="search-help">Search by path, operation ID, summary, HTTP method or domain.</p>
+      <p id="result-count" class="result-count" aria-live="polite" aria-atomic="true">Loading contract…</p>
+      <div id="empty-state" class="empty-state" hidden><h3>No matching operations</h3><p>Try a shorter path, another domain or a term such as <code>staff</code>.</p><button id="reset-search" class="button" type="button">Show all operations</button></div>
+      <div id="load-error" role="alert" hidden>Unable to load the reference. Keep the assets folder beside this file, or download the JSON contract above.</div>
+      <noscript><p class="empty-state">Enable JavaScript to browse Swagger UI, or download the complete JSON or YAML contract above.</p></noscript>
+      <div id="swagger-ui"></div>
+    </section>
+
+    <footer class="page-footer"><details><summary>Contract integrity &amp; provenance</summary><p>Authoritative source: <code>docs/openapi.json</code><br>Candidate baseline: <code>e3957df723ea01a6005feaec90d8130a26c93b62</code></p><label for="contract-hash">SHA-256 · JSON contract</label><div class="hash-row"><input id="contract-hash" readonly aria-label="JSON contract SHA-256"><button class="button" id="copy-hash" type="button">Copy</button></div><p id="copy-status" role="status"></p><p>Swagger UI 5.32.11 · All assets included locally · <a href="assets/vendor/LICENSE">Apache 2.0 license</a> · <a href="THIRD-PARTY-NOTICES.md">Asset provenance</a></p></details><p>HOLOUL API · <span id="footer-count">182</span> operations · Reference edition</p></footer>
+  </main>
+</body>
+</html>

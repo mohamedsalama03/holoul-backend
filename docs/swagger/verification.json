@@ -1,0 +1,47 @@
+{
+  "date": "2026-09-28",
+  "browser": "Chromium 153.0.8010.12",
+  "checks": [
+    "All 182 operations render",
+    "Operation ID search",
+    "Customer sort parameter rendered with preserved default",
+    "No executable request controls",
+    "Empty search recovery",
+    "Domain filter: 10 staff operations",
+    "Operation deep link survives reload",
+    "All 221 schema models available",
+    "Mobile 390px: no page overflow",
+    "Mobile expanded operation: no page overflow",
+    "Small 320px viewport: no page overflow",
+    "JSON download exact SHA-256",
+    "YAML download reachable",
+    "No browser errors or external requests",
+    "Offline file:// edition renders 182 operations",
+    "Offline operation search works"
+  ],
+  "errors": [],
+  "externalRequests": [],
+  "contractSha256": "fafbc8b62976788dae0cc98492add8bed014228ad42844d2c7498ca57d1a7f4e",
+  "contractValidation": {
+    "openapi31": "passed: existing pinned holoul-contracts:b8-p3 image, network disabled",
+    "generatedSource": "passed: scripts/contracts/build.py --check,182 operations",
+    "yamlEquivalent": true,
+    "jsonByteIdentical": true,
+    "resolvedInternalReferences": 3004
+  },
+  "designDetector": {
+    "mode": "degraded regex fallback",
+    "reportedFindings": 0,
+    "limitations": "Parser modules unavailable; selectors and computed contrast not evaluated."
+  },
+  "scope": "Documentation only; no application routes, data, migrations, dependency manifests or frontend source changed. Backend runtime suites were not rerun for static documentation.",
+  "finishReview": {
+    "disposition": "ship",
+    "scope": "Verdict on the two original findings only",
+    "findings": {
+      "candidateStatusBelowTitle": "resolved",
+      "operationDescriptionMeasure75ch": "resolved"
+    },
+    "fullAccessibilityAudit": false
+  }
+}

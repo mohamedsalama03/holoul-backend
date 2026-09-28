@@ -1,0 +1,10 @@
+{
+  "version": "1.3.0-directory-sort-candidate",
+  "openapi": "3.1.1",
+  "sha256": "fafbc8b62976788dae0cc98492add8bed014228ad42844d2c7498ca57d1a7f4e",
+  "operations": 182,
+  "schemas": 221,
+  "baseline": "e3957df723ea01a6005feaec90d8130a26c93b62",
+  "swagger_ui": "5.32.11",
+  "mode": "read-only-reference"
+}
