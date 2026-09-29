@@ -1,0 +1,3 @@
+{"passed": true, "origin": "https://localhost:8443", "connection_port": 8443, "runtime_container": "holoul-app-1", "checks": 42, "origin_withdrawal_observed_ms": 63.58, "mailpit_receipt_notifications": 1, "full_website_60_second_cache_acceptance": "pending frontend integration; local edge has no shared cache"}
+
+EXIT 0

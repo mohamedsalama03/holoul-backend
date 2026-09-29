@@ -1,0 +1,14 @@
+ Container holoul-notification-queue-1 Stopping 
+ Container holoul-scheduler-1 Stopping 
+ Container holoul-app-1 Stopping 
+ Container holoul-document-queue-1 Stopping 
+ Container holoul-queue-1 Stopping 
+ Container holoul-ai-queue-1 Stopping 
+ Container holoul-queue-1 Stopped 
+ Container holoul-app-1 Stopped 
+ Container holoul-document-queue-1 Stopped 
+ Container holoul-scheduler-1 Stopped 
+ Container holoul-notification-queue-1 Stopped 
+ Container holoul-ai-queue-1 Stopped 
+
+EXIT 0

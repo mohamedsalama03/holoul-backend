@@ -1,0 +1,12 @@
+{
+  "environment": "local",
+  "debug": false,
+  "database": "holoul",
+  "database_identity": "holoul_app",
+  "migrations": 34,
+  "recipient": "info@holoul.ly",
+  "automatic_redaction": false,
+  "production_mail_enabled": false,
+  "dashboard_accepted": false,
+  "mail_sandbox": true
+}

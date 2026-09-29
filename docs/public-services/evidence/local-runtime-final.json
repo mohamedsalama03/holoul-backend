@@ -1,0 +1,139 @@
+{
+  "captured_at": "2026-09-29T10:59:16.079479+00:00",
+  "services": {
+    "app": {
+      "image": "holoul-app:public-services-runtime",
+      "image_id": "sha256:576eac4e84397946f47004059d5a0512a08923cb757727fc8c97c94522909079",
+      "state": "running",
+      "health": "healthy",
+      "user": "1000:1000",
+      "labels": {
+        "org.holoul.classification": "local-integration-candidate",
+        "org.holoul.openapi-sha256": "7739bd957665b285c3baea8a4883aa987d6d11dee3fb43bcc5ef1ff9fb0c8051",
+        "org.holoul.source-manifest-sha256": "7e87f346970d55767257ef09adc2dcd8ae41e42a17435d8217f126fdb362231d",
+        "org.opencontainers.image.revision": "7c9de8d5eaaf30fc4838445132b5679f495979cb"
+      }
+    },
+    "queue": {
+      "image": "holoul-app:public-services-runtime",
+      "image_id": "sha256:576eac4e84397946f47004059d5a0512a08923cb757727fc8c97c94522909079",
+      "state": "running",
+      "health": "healthy",
+      "user": "1000:1000",
+      "labels": {
+        "org.holoul.classification": "local-integration-candidate",
+        "org.holoul.openapi-sha256": "7739bd957665b285c3baea8a4883aa987d6d11dee3fb43bcc5ef1ff9fb0c8051",
+        "org.holoul.source-manifest-sha256": "7e87f346970d55767257ef09adc2dcd8ae41e42a17435d8217f126fdb362231d",
+        "org.opencontainers.image.revision": "7c9de8d5eaaf30fc4838445132b5679f495979cb"
+      }
+    },
+    "document-queue": {
+      "image": "holoul-app:public-services-runtime",
+      "image_id": "sha256:576eac4e84397946f47004059d5a0512a08923cb757727fc8c97c94522909079",
+      "state": "running",
+      "health": "healthy",
+      "user": "1000:1000",
+      "labels": {
+        "org.holoul.classification": "local-integration-candidate",
+        "org.holoul.openapi-sha256": "7739bd957665b285c3baea8a4883aa987d6d11dee3fb43bcc5ef1ff9fb0c8051",
+        "org.holoul.source-manifest-sha256": "7e87f346970d55767257ef09adc2dcd8ae41e42a17435d8217f126fdb362231d",
+        "org.opencontainers.image.revision": "7c9de8d5eaaf30fc4838445132b5679f495979cb"
+      }
+    },
+    "ai-queue": {
+      "image": "holoul-app:public-services-runtime",
+      "image_id": "sha256:576eac4e84397946f47004059d5a0512a08923cb757727fc8c97c94522909079",
+      "state": "running",
+      "health": "healthy",
+      "user": "1000:1000",
+      "labels": {
+        "org.holoul.classification": "local-integration-candidate",
+        "org.holoul.openapi-sha256": "7739bd957665b285c3baea8a4883aa987d6d11dee3fb43bcc5ef1ff9fb0c8051",
+        "org.holoul.source-manifest-sha256": "7e87f346970d55767257ef09adc2dcd8ae41e42a17435d8217f126fdb362231d",
+        "org.opencontainers.image.revision": "7c9de8d5eaaf30fc4838445132b5679f495979cb"
+      }
+    },
+    "notification-queue": {
+      "image": "holoul-app:public-services-runtime",
+      "image_id": "sha256:576eac4e84397946f47004059d5a0512a08923cb757727fc8c97c94522909079",
+      "state": "running",
+      "health": "healthy",
+      "user": "1000:1000",
+      "labels": {
+        "org.holoul.classification": "local-integration-candidate",
+        "org.holoul.openapi-sha256": "7739bd957665b285c3baea8a4883aa987d6d11dee3fb43bcc5ef1ff9fb0c8051",
+        "org.holoul.source-manifest-sha256": "7e87f346970d55767257ef09adc2dcd8ae41e42a17435d8217f126fdb362231d",
+        "org.opencontainers.image.revision": "7c9de8d5eaaf30fc4838445132b5679f495979cb"
+      }
+    },
+    "scheduler": {
+      "image": "holoul-app:public-services-runtime",
+      "image_id": "sha256:576eac4e84397946f47004059d5a0512a08923cb757727fc8c97c94522909079",
+      "state": "running",
+      "health": "healthy",
+      "user": "1000:1000",
+      "labels": {
+        "org.holoul.classification": "local-integration-candidate",
+        "org.holoul.openapi-sha256": "7739bd957665b285c3baea8a4883aa987d6d11dee3fb43bcc5ef1ff9fb0c8051",
+        "org.holoul.source-manifest-sha256": "7e87f346970d55767257ef09adc2dcd8ae41e42a17435d8217f126fdb362231d",
+        "org.opencontainers.image.revision": "7c9de8d5eaaf30fc4838445132b5679f495979cb"
+      }
+    },
+    "nginx": {
+      "image": "nginx:1.30.5-alpine@sha256:73c75df4075c918f91017fdda46ad81e55e5af77ba3a64ca3d5014bd9244fe7f",
+      "image_id": "sha256:73c75df4075c918f91017fdda46ad81e55e5af77ba3a64ca3d5014bd9244fe7f",
+      "state": "running",
+      "health": "healthy",
+      "user": "101:101"
+    },
+    "postgres": {
+      "image": "holoul-postgres:b1-runtime",
+      "image_id": "sha256:9d3c94996cdef82a3b22fe62099ec173893ab2ae48d0a6aa40624a74c3a2fdcf",
+      "state": "running",
+      "health": "healthy",
+      "user": ""
+    },
+    "redis": {
+      "image": "holoul-redis:b1-runtime",
+      "image_id": "sha256:db87e0459a6fcd6368f28396005d4b96f9983b05dff742e0d5e01209f536fb30",
+      "state": "running",
+      "health": "healthy",
+      "user": "999:999"
+    },
+    "storage": {
+      "image": "holoul-storage:b4-runtime",
+      "image_id": "sha256:d83a6b2fb64881f3a0377260bf484ec16c50891fab9da988e0e68c0a10874b8b",
+      "state": "running",
+      "health": "healthy",
+      "user": "1000:1000"
+    },
+    "scanner": {
+      "image": "holoul-scanner:b4-runtime",
+      "image_id": "sha256:d9281dad1a7b89112cba9036b74620f110aceb7513cb787f2964f00c3185a606",
+      "state": "running",
+      "health": "healthy",
+      "user": "1000:1000"
+    },
+    "inspector": {
+      "image": "holoul-inspector:b8-runtime",
+      "image_id": "sha256:004294317ce43fbb1726b72541c4c5c394fdc144e782c2d9e8aace828a452819",
+      "state": "running",
+      "health": "healthy",
+      "user": "1000:1000"
+    },
+    "mailpit": {
+      "image": "axllent/mailpit:v1.31.1@sha256:98b916bd3c8d61f7633a52d3ea2f58d00620cb01ca57ab59edde68c347a95365",
+      "image_id": "sha256:98b916bd3c8d61f7633a52d3ea2f58d00620cb01ca57ab59edde68c347a95365",
+      "state": "running",
+      "health": "healthy",
+      "user": "1000:1000"
+    },
+    "portfolio-processor": {
+      "image": "holoul-portfolio:public-services-candidate",
+      "image_id": "sha256:2bfe69025432b3d87c0d5126bdb1eca0f99f9e2159da402bd3653169f1108abe",
+      "state": "running",
+      "health": "healthy",
+      "user": "1000:1000"
+    }
+  }
+}

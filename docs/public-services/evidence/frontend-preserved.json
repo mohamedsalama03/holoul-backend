@@ -1,0 +1,26 @@
+{
+  "dashboard": {
+    "head": "7a164197c99524741d65f821a84b00bdb98cc8fb",
+    "head_unchanged": true,
+    "status_unchanged": true,
+    "contracts": [
+      {
+        "path": "contracts/holoul-api-v1.openapi.json",
+        "sha256": "af3c96ac459717fb3ab4c86ac68513d4516e843e410de36820af2e188eded43d"
+      }
+    ],
+    "contracts_unchanged": true
+  },
+  "website": {
+    "head": "39536e65ad0a6df24b2577d0d44fc81fde2b19be",
+    "head_unchanged": true,
+    "status_unchanged": true,
+    "contracts": [
+      {
+        "path": "contracts/holoul-api-v1.openapi.json",
+        "sha256": "ae8d0a904a0042b80f9adc1224dedf8677794e2d49ca5cdf41daeb5278780be8"
+      }
+    ],
+    "contracts_unchanged": true
+  }
+}

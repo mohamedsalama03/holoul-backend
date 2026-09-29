@@ -12,6 +12,9 @@ assert len(operations)==202
 shutil.copytree(ROOT/'docs/swagger/assets',output/'assets',dirs_exist_ok=True)
 html=(ROOT/'docs/swagger/index.html').read_text().replace('Includes G1 intake, staff onboarding and customer registration sorting.','Includes G1 intake, staff onboarding, customer registration sorting, PublicPortfolio and Contact.')
 html=html.replace('Candidate baseline: <code>e3957df723ea01a6005feaec90d8130a26c93b62</code>','Application baseline: <code>e3957df723ea01a6005feaec90d8130a26c93b62</code><br>Public services proposal R2: <code>0f3be1e4c1ec31a6faed7a4d71cfbb4a02e3003d</code>')
+html=html.replace('<span id="footer-count">182</span>','<span id="footer-count">202</span>')
+html=html.replace('Public services proposal R2: <code>0f3be1e4c1ec31a6faed7a4d71cfbb4a02e3003d</code>',
+ 'Public services proposal R2: <code>0f3be1e4c1ec31a6faed7a4d71cfbb4a02e3003d</code><br>Implementation: <code>94d48368a2a3722ed3d147e02b0875e266844d6e</code><br>Local runtime checkpoint: <code>7c9de8d5eaaf30fc4838445132b5679f495979cb</code>')
 (output/'index.html').write_text(html)
 metadata={'version':spec['info']['version'],'openapi':spec['openapi'],'sha256':sha,'operations':len(operations),'schemas':len(spec['components']['schemas']),
  'baseline':'e3957df723ea01a6005feaec90d8130a26c93b62','swagger_ui':'5.32.11','mode':'read-only-reference'}
@@ -26,6 +29,16 @@ for name in ['CHANGELOG.md','response-examples.json','TAXONOMY-AND-LEGACY-CUTOVE
  source=ROOT/'docs/public-services'/name
  if source.exists():shutil.copyfile(source,output/name)
 shutil.copyfile(ROOT/'docs/public-services/SWAGGER-README-AR.md',output/'README.md')
+# Curated, sanitised proof only. Raw authentication captures, fixture environments and backups remain private.
+proof=output/'evidence';proof.mkdir(exist_ok=True)
+for name in ['contract-compatibility-final.json','contract-final.json','contract-negative-tests.txt','phpunit-summary.json','phpunit-subsets.json',
+ 'full-phpunit-third.xml','historical-upgrade-final.xml','phpstan-final.txt','pint-final.txt','composer-validate.txt','composer-audit.json',
+ 'processor-tests.txt','route-contract-drift-final.json','runtime-source-manifest-match.json','runtime-local-https.json','local-runtime-final.json',
+ 'local-runtime-config.json','local-history-before.json','local-history-after-migration.json','local-pre-upgrade-backup.json',
+ 'frontend-final.json','frontend-preserved.json','frontend-first-skipped.json','inherited-security-tests-preserved.json',
+ 'taxonomy-local-apply.json','taxonomy-local-repeat.json','B8-TAXONOMY-INVENTORY-LOCAL.json','B8-TAXONOMY-AFTER-LOCAL.json','legacy-portfolio-inventory.json']:
+ shutil.copyfile(ROOT/'docs/public-services/evidence'/name,proof/name)
+
 files=sorted(f for f in output.rglob('*') if f.is_file() and f.name!='SHA256SUMS')
 (output/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.relative_to(output).as_posix()+'\n' for f in files))
 archive=output.with_name(output.name+'.zip')

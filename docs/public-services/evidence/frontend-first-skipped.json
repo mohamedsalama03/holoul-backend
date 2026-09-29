@@ -1,0 +1,11 @@
+{
+  "stats": {
+    "startTime": "2026-09-29T10:56:38.827Z",
+    "duration": 2292.426,
+    "expected": 0,
+    "skipped": 7,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "reason": "Existing dashboard process on Windows 127.0.0.1:3001 was no longer running. Backend CSRF returned 204; dashboard ingress returned 503. All 7 tests skipped; this run is not a pass. Restarted the already-built dashboard without editing source or contract."
+}

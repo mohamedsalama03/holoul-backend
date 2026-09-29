@@ -1,0 +1,101 @@
+{
+  "origin": "https://localhost:8443",
+  "dashboard_head": "7a164197c99524741d65f821a84b00bdb98cc8fb",
+  "existing_frontend_build_used": true,
+  "frontend_source_changed_by_backend": false,
+  "stats": {
+    "startTime": "2026-09-29T10:58:26.674Z",
+    "duration": 69064.639,
+    "expected": 7,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "file": "e2e/real/auth.spec.ts",
+      "title": "staff: password → MFA → current user → /admin → sign out",
+      "status": "expected",
+      "expected_status": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 4018
+        }
+      ]
+    },
+    {
+      "file": "e2e/real/auth.spec.ts",
+      "title": "invalid credentials are refused without revealing the account",
+      "status": "expected",
+      "expected_status": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 3080
+        }
+      ]
+    },
+    {
+      "file": "e2e/real/auth.spec.ts",
+      "title": "staff enrollment: set up MFA → recovery codes → current user; a recovery code signs in",
+      "status": "expected",
+      "expected_status": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 7364
+        }
+      ]
+    },
+    {
+      "file": "e2e/real/auth.spec.ts",
+      "title": "a customer is signed in by the API but denied the dashboard",
+      "status": "expected",
+      "expected_status": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 2038
+        }
+      ]
+    },
+    {
+      "file": "e2e/real/auth.spec.ts",
+      "title": "a session revoked from another sign-in loses the dashboard",
+      "status": "expected",
+      "expected_status": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 17581
+        }
+      ]
+    },
+    {
+      "file": "e2e/real/auth.spec.ts",
+      "title": "the API's CSP stays on the API; the dashboard gets its own",
+      "status": "expected",
+      "expected_status": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 56
+        }
+      ]
+    },
+    {
+      "file": "e2e/real/overview.spec.ts",
+      "title": "staff: the Overview shows the real report, for each period chosen",
+      "status": "expected",
+      "expected_status": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 33514
+        }
+      ]
+    }
+  ],
+  "passed": true
+}

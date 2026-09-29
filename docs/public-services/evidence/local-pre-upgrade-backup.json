@@ -1,0 +1,15 @@
+{
+  "created_at": "2026-09-29T10:50:24.053823+00:00",
+  "database": "holoul",
+  "environment": "local only",
+  "context": "350f729a7095b9a564b5b7ce:database",
+  "ciphertext_sha256": "5bc0ff32fc276d1fa749402393d0f25641d155a25ab04d6a078553b1c35ef50c",
+  "ciphertext_bytes": 21536171,
+  "plaintext_archive_bytes": 21480969,
+  "plaintext_written_to_disk": false,
+  "authenticated_decryption_matches": true,
+  "pg_restore_catalogue_readable": true,
+  "restore_executed": false,
+  "private_backup_path": "artifacts/public-services-private/backups/350f729a7095b9a564b5b7ce.pgdump.sealed",
+  "separate_private_key_path": "artifacts/public-services-private/backup-keys/350f729a7095b9a564b5b7ce.key"
+}

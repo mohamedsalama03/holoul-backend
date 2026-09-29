@@ -1,0 +1,93 @@
+{
+  "context": {
+    "database": "holoul",
+    "identity": "holoul_app",
+    "environment": "local",
+    "url": "https://localhost:8443",
+    "debug": false,
+    "profile": "local-verification"
+  },
+  "migrations": [
+    "2026_09_16_000000_create_framework_infrastructure",
+    "2026_09_16_000100_create_audit_events_table",
+    "2026_09_16_000200_create_async_operations_table",
+    "2026_09_16_010000_create_identity_core",
+    "2026_09_16_010100_create_customers_table",
+    "2026_09_16_010200_create_identity_authorization_tables",
+    "2026_09_16_010300_create_identity_recovery",
+    "2026_09_16_010400_create_identity_mfa",
+    "2026_09_16_020000_create_currencies",
+    "2026_09_16_020100_create_categories",
+    "2026_09_16_020200_add_intake_permissions",
+    "2026_09_16_020300_create_project_intake",
+    "2026_09_17_030000_create_document_tables",
+    "2026_09_17_030100_create_intake_document_attachments",
+    "2026_09_17_030200_seed_document_permissions",
+    "2026_09_17_040000_extend_intake_for_commercial_workflow",
+    "2026_09_17_040100_create_discovery",
+    "2026_09_17_040200_create_proposals",
+    "2026_09_17_040300_seed_commercial_permissions",
+    "2026_09_20_050000_extend_intake_for_project_conversion",
+    "2026_09_20_050100_create_projects",
+    "2026_09_20_050200_create_project_documents",
+    "2026_09_20_050300_create_project_command_keys",
+    "2026_09_20_050400_seed_project_permissions",
+    "2026_09_21_000001_create_ai_assistance",
+    "2026_09_21_000002_create_notifications",
+    "2026_09_21_000003_seed_assistance_permissions",
+    "2026_09_21_100000_add_reporting_permissions",
+    "2026_09_22_000000_add_customer_directory_permission",
+    "2026_09_26_000000_extend_intake_for_guests",
+    "2026_09_27_000000_add_staff_onboarding"
+  ],
+  "tables": {
+    "users": {
+      "count": 2599,
+      "sha256": "447dc5accd611511027ec1b8a0a3a548d3a61b3ab0a06aad4b86348ff93336bf"
+    },
+    "customers": {
+      "count": 2483,
+      "sha256": "25e80b5045e656787105d3a3826e9b50ec7771b2fa7ab45f0e68f80201d41b01"
+    },
+    "project_requests": {
+      "count": 16073,
+      "sha256": "11da6123a37dd531e19d97cc4d05b3d32a5c6a572bb1b6d545bb0e99d9411874"
+    },
+    "request_drafts": {
+      "count": 16073,
+      "sha256": "a2ffe09ee750be2f3d0a403a7baf2137444545a21fff2023444987e92ce28cc7"
+    },
+    "request_revisions": {
+      "count": 11541,
+      "sha256": "19315d87e980105d91adfcb87a20fc77e4655aeb682ceea3ab5c404a5bb1d82c"
+    },
+    "categories": {
+      "count": 54,
+      "sha256": "2f4c0d755d7e73d34af605d01a2ffa81a934a0b856d9c1fc10fbd1c61de1ee4a"
+    },
+    "subcategories": {
+      "count": 53,
+      "sha256": "f8674bbaa746dd01fb1652df21221d09e5ffca912a3d2657531be18d3d47d82d"
+    },
+    "audit_events": {
+      "count": 84013,
+      "sha256": "ba7a47f2accd7501ddfeb2de6f11ec6627be8db90357c8f5b196ea2e429ff790"
+    },
+    "roles": {
+      "count": 8,
+      "sha256": "dd409f5422f6f4e8c9374a7046cb0c65154cc789dbb71a3e7d3c0b86a38d2625"
+    },
+    "permissions": {
+      "count": 53,
+      "sha256": "f4a3edb494f68ed64d33bcf1bef66a2e4ff2566dad21a60d3fd3b755628162a0"
+    },
+    "role_permissions": {
+      "count": 155,
+      "sha256": "f80de39f01078750b24ef184dc9b04ec55c81f85158cc5621d9216925baa3e23"
+    },
+    "user_roles": {
+      "count": 11,
+      "sha256": "8fc44a7bad22052f55739a83a027027f3dc977c41a573b94a5746395ac736c7c"
+    }
+  }
+}

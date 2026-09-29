@@ -1,0 +1,130 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 5.42kB 0.0s done
+#1 DONE 0.1s
+
+#2 resolve image config for docker-image://docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32
+#2 DONE 1.6s
+
+#3 docker-image://docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32
+#3 resolve docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32 0.0s done
+#3 DONE 0.0s
+
+#3 docker-image://docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32
+#3 CACHED
+
+#4 [internal] load metadata for docker.io/library/php:8.4.25-fpm-alpine3.24@sha256:b7d9b8c58641dec579abcc5882766742c05cc92acf7b43b9f7f4b575241b1900
+#4 DONE 0.9s
+
+#5 [internal] load metadata for docker.io/library/composer:2.10.3@sha256:aaeab4b6b031e0a88efb907f0f26b563532a644fc2f4ea0d000ecf8658f7a2b8
+#5 DONE 0.9s
+
+#6 [internal] load .dockerignore
+#6 transferring context: 288B done
+#6 DONE 0.1s
+
+#7 [php-source 1/1] FROM docker.io/library/php:8.4.25-fpm-alpine3.24@sha256:b7d9b8c58641dec579abcc5882766742c05cc92acf7b43b9f7f4b575241b1900
+#7 resolve docker.io/library/php:8.4.25-fpm-alpine3.24@sha256:b7d9b8c58641dec579abcc5882766742c05cc92acf7b43b9f7f4b575241b1900
+#7 resolve docker.io/library/php:8.4.25-fpm-alpine3.24@sha256:b7d9b8c58641dec579abcc5882766742c05cc92acf7b43b9f7f4b575241b1900 0.0s done
+#7 DONE 0.0s
+
+#8 [internal] setting cache mount permissions
+#8 DONE 0.0s
+
+#9 [composer-bin 1/1] FROM docker.io/library/composer:2.10.3@sha256:aaeab4b6b031e0a88efb907f0f26b563532a644fc2f4ea0d000ecf8658f7a2b8
+#9 resolve docker.io/library/composer:2.10.3@sha256:aaeab4b6b031e0a88efb907f0f26b563532a644fc2f4ea0d000ecf8658f7a2b8 0.0s done
+#9 DONE 0.0s
+
+#10 [internal] load build context
+#10 transferring context: 88.29kB 0.0s done
+#10 DONE 0.0s
+
+#11 [base 3/9] RUN --mount=type=cache,id=holoul-apk-v3.24-v1,target=/var/cache/apk,sharing=locked     apk --cache-dir /var/cache/apk add git unzip     && apk --cache-dir /var/cache/apk add --virtual .holoul-build-deps        autoconf 		dpkg-dev dpkg 		file 		g++ 		gcc 		libc-dev 		make 		pkgconf 		re2c linux-headers libpq-dev icu-dev oniguruma-dev libzip-dev     && docker-php-ext-install -j2 pdo_pgsql intl mbstring zip pcntl bcmath opcache     && pecl install redis-6.3.0 && docker-php-ext-enable redis     && apk --cache-dir /var/cache/apk del --no-network .holoul-build-deps     && rm -rf /tmp/pear
+#11 CACHED
+
+#12 [base 5/9] RUN addgroup -g 1000 holoul && adduser -D -u 1000 -G holoul -h /home/holoul holoul     && mkdir -p /var/www/html /run/holoul-secrets /run/holoul-app /run/holoul-migrator /run/holoul-bootstrap /run/holoul-redis /run/holoul-tls /run/holoul-storage-server /run/holoul-storage-admin /run/holoul-storage /run/holoul-clamav /run/holoul-inspector /run/holoul-portfolio     && chown -R holoul:holoul /var/www/html /run/holoul-secrets /run/holoul-app /run/holoul-migrator /run/holoul-bootstrap /run/holoul-redis /run/holoul-tls /run/holoul-storage-server /run/holoul-storage-admin /run/holoul-storage /run/holoul-clamav /run/holoul-inspector /run/holoul-portfolio
+#12 CACHED
+
+#13 [base 1/9] COPY --from=php-source /usr/local/ /usr/local/
+#13 CACHED
+
+#14 [runtime-os 1/1] RUN apk upgrade --no-cache     && apk add --no-cache libpq icu-libs icu-data-full oniguruma libzip ca-certificates     && rm -rf /usr/local/include/php /usr/local/lib/php/build /usr/src/php     && rm -f /usr/src/php.tar.xz /usr/src/php.tar.xz.asc     && rm -f /usr/local/bin/pecl /usr/local/bin/pear /usr/local/bin/peardev        /usr/local/bin/phpize /usr/local/bin/php-config /usr/local/bin/docker-php-ext-configure        /usr/local/bin/docker-php-ext-install /usr/local/bin/docker-php-source
+#14 CACHED
+
+#15 [base 8/9] COPY docker/php/pool.conf /usr/local/etc/php-fpm.d/zz-holoul.conf
+#15 CACHED
+
+#16 [base 6/9] WORKDIR /var/www/html
+#16 CACHED
+
+#17 [base 4/9] COPY --from=composer-bin /usr/bin/composer /usr/local/bin/composer
+#17 CACHED
+
+#18 [base 9/9] COPY --chmod=755 docker/app/entrypoint.sh /usr/local/bin/holoul-entrypoint
+#18 CACHED
+
+#19 [base 7/9] COPY docker/php/holoul.ini /usr/local/etc/php/conf.d/zz-holoul.ini
+#19 CACHED
+
+#20 [dependencies 1/2] COPY --chown=holoul:holoul composer.json composer.lock ./
+#20 CACHED
+
+#21 [base 2/9] COPY --from=php-source /usr/src/ /usr/src/
+#21 CACHED
+
+#22 [dependencies 2/2] RUN --mount=type=cache,id=holoul-composer-v2,target=/home/holoul/.cache/composer,uid=1000,gid=1000,sharing=locked     COMPOSER_CACHE_DIR=/home/holoul/.cache/composer     composer install --no-dev --prefer-dist --no-scripts --no-interaction --no-progress --no-autoloader
+#22 CACHED
+
+#23 [production-build 1/2] COPY --chown=holoul:holoul . .
+#23 DONE 0.2s
+
+#24 [production-build 2/2] RUN rm -rf tools/local-e2e     && composer dump-autoload --no-dev --classmap-authoritative --no-scripts     && php artisan package:discover --no-ansi
+#24 0.432 Generating optimized autoload files (authoritative)
+#24 1.422 Generated optimized autoload files (authoritative) containing 6984 classes
+#24 1.601 
+#24 1.601    INFO  Discovering packages.  
+#24 1.601 
+#24 1.604   nesbot/carbon ......................................................... DONE
+#24 1.605   nunomaduro/termwind ................................................... DONE
+#24 1.605 
+#24 DONE 1.6s
+
+#25 [runtime 4/8] COPY --from=base /usr/local/bin/holoul-entrypoint /usr/local/bin/holoul-entrypoint
+#25 CACHED
+
+#26 [runtime 1/8] COPY --from=base /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
+#26 CACHED
+
+#27 [runtime 5/8] RUN addgroup -g 1000 holoul && adduser -D -u 1000 -G holoul -h /home/holoul holoul     && mkdir -p /var/www/html /run/holoul-secrets /run/holoul-app /run/holoul-migrator /run/holoul-bootstrap /run/holoul-redis /run/holoul-tls /run/holoul-storage-server /run/holoul-storage-admin /run/holoul-storage /run/holoul-clamav /run/holoul-inspector /run/holoul-portfolio     && chown -R holoul:holoul /var/www/html /run/holoul-secrets /run/holoul-app /run/holoul-migrator /run/holoul-bootstrap /run/holoul-redis /run/holoul-tls /run/holoul-storage-server /run/holoul-storage-admin /run/holoul-storage /run/holoul-clamav /run/holoul-inspector /run/holoul-portfolio
+#27 CACHED
+
+#28 [runtime 2/8] COPY --from=base /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
+#28 CACHED
+
+#29 [runtime 3/8] COPY --from=base /usr/local/etc/php-fpm.d/zz-holoul.conf /usr/local/etc/php-fpm.d/zz-holoul.conf
+#29 CACHED
+
+#30 [runtime 6/8] WORKDIR /var/www/html
+#30 CACHED
+
+#31 [runtime 7/8] COPY --from=production-build --chown=holoul:holoul /var/www/html/ /var/www/html/
+#31 DONE 1.8s
+
+#32 [runtime 8/8] RUN php -r 'foreach (["pdo_pgsql", "redis", "intl", "mbstring", "zip", "pcntl", "bcmath", "Zend OPcache"] as $extension) { if (!extension_loaded($extension)) { fwrite(STDERR, "Required runtime extension unavailable.\n"); exit(1); } }'     && test ! -e /usr/local/bin/composer     && test ! -e /usr/bin/git     && test ! -e /usr/bin/gcc     && test ! -e /usr/bin/make     && test ! -e /usr/local/include/php     && test ! -e vendor/bin/phpunit
+#32 DONE 0.3s
+
+#33 exporting to image
+#33 exporting layers
+#33 exporting layers 3.0s done
+#33 exporting manifest sha256:44a0e2ce37419ca4e9c142d62eef018cb959fe91be968c4b03aad34f4b319163 0.0s done
+#33 exporting config sha256:54927dfe59a5948c20682d7022d0120ca2dde674f90c10d660a34ddfdf055921 0.0s done
+#33 exporting attestation manifest sha256:aaf4a7ab4eaab461ce39195b34ff58d8b52808c7321a072d8c558c4731eb44a1 0.0s done
+#33 exporting manifest list sha256:1fa85ff6d2af27bea93ecb98a646779b27377484eeb552818af4c68bed15f828 0.0s done
+#33 naming to docker.io/library/holoul-app:public-services-runtime
+#33 naming to docker.io/library/holoul-app:public-services-runtime done
+#33 unpacking to docker.io/library/holoul-app:public-services-runtime
+#33 unpacking to docker.io/library/holoul-app:public-services-runtime 1.6s done
+#33 DONE 4.8s
+
+EXIT 0

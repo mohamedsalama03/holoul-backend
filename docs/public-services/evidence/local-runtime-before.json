@@ -1,0 +1,32 @@
+{
+  "app": {
+    "image": "holoul-app:customer-order-runtime",
+    "id": "sha256:d9ecddaab6437d96f69942cb278a0db7567f05bf5e2b609dc6ef9de5fe824ba9",
+    "running": true
+  },
+  "queue": {
+    "image": "holoul-app:customer-order-runtime",
+    "id": "sha256:d9ecddaab6437d96f69942cb278a0db7567f05bf5e2b609dc6ef9de5fe824ba9",
+    "running": true
+  },
+  "document-queue": {
+    "image": "holoul-app:customer-order-runtime",
+    "id": "sha256:d9ecddaab6437d96f69942cb278a0db7567f05bf5e2b609dc6ef9de5fe824ba9",
+    "running": true
+  },
+  "ai-queue": {
+    "image": "holoul-app:customer-order-runtime",
+    "id": "sha256:d9ecddaab6437d96f69942cb278a0db7567f05bf5e2b609dc6ef9de5fe824ba9",
+    "running": true
+  },
+  "notification-queue": {
+    "image": "holoul-app:customer-order-runtime",
+    "id": "sha256:d9ecddaab6437d96f69942cb278a0db7567f05bf5e2b609dc6ef9de5fe824ba9",
+    "running": true
+  },
+  "scheduler": {
+    "image": "holoul-app:customer-order-runtime",
+    "id": "sha256:d9ecddaab6437d96f69942cb278a0db7567f05bf5e2b609dc6ef9de5fe824ba9",
+    "running": true
+  }
+}

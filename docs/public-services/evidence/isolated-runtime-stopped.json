@@ -1,0 +1,13 @@
+{
+  "stopped": [
+    "holoul-public-runtime-app",
+    "holoul-public-runtime-edge",
+    "holoul-public-verify",
+    "holoul-public-verify-portfolio-processor-1",
+    "holoul-public-verify-public-verify-redis-1",
+    "holoul-public-verify-public-verify-postgres-1"
+  ],
+  "volumes_deleted": false,
+  "main_local_stack_untouched": true,
+  "reason": "Verification completed; release isolated runtime memory while preserving test databases and evidence."
+}

@@ -1,0 +1,6 @@
+ Container holoul-portfolio-processor-1 Creating 
+ Container holoul-portfolio-processor-1 Created 
+ Container holoul-portfolio-processor-1 Starting 
+ Container holoul-portfolio-processor-1 Started 
+
+EXIT 0

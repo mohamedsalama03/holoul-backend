@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "directory": "/mnt/c/Users/Mohamed/Documents/HOLOUL/swagger-1.4.0-public-services-candidate",
+  "zip_file": "swagger-1.4.0-public-services-candidate.zip",
+  "zip_bytes": 790241,
+  "zip_sha256": "0dbd70925a8e4b7070c6cf1db91b790f40e5586f0f75d59a5cf3902c90c50385",
+  "contract_sha256": "7739bd957665b285c3baea8a4883aa987d6d11dee3fb43bcc5ef1ff9fb0c8051",
+  "operations": 202,
+  "schemas": 250,
+  "example_operations": 20,
+  "scenario_examples": 10,
+  "local_asset_references_valid": true,
+  "embedded_json_equal": true,
+  "json_yaml_equal": true,
+  "all_sha256sums_verified": true,
+  "archive_integrity_verified": true,
+  "credential_findings": 0,
+  "visual_preview": "NOT PERFORMED: file:// browser action rejected by protocol policy; no workaround attempted"
+}

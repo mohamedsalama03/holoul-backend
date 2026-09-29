@@ -1,0 +1,17 @@
+{
+  "PublicServices": {
+    "tests": 46,
+    "assertions": 791,
+    "failures": 0
+  },
+  "Architecture": {
+    "tests": 9,
+    "assertions": 51245,
+    "failures": 0
+  },
+  "SessionAndConcurrency": {
+    "tests": 93,
+    "assertions": 1827,
+    "failures": 0
+  }
+}

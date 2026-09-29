@@ -1,5 +1,5 @@
 {
-  "notice": "Real synthetic test responses. Historical example image links have intentionally been withdrawn; not permanent demo data. Authentication secrets and cookies are excluded.",
+  "notice": "Real synthetic test responses. Historical example image links were intentionally withdrawn; not permanent demo data. Authentication secrets and cookies are excluded.",
   "contract_sha256": "7739bd957665b285c3baea8a4883aa987d6d11dee3fb43bcc5ef1ff9fb0c8051",
   "examples": [
     {
@@ -16,7 +16,7 @@
           "no-store"
         ],
         "x-request-id": [
-          "46fb9066-575c-427e-847d-0e59daa533f8"
+          "9a998f6b-e3c7-4085-8b01-767447b3024b"
         ],
         "x-content-type-options": [
           "nosniff"
@@ -25,19 +25,19 @@
       "body": {
         "data": [
           {
-            "id": "01a0eca6-7c1c-726c-84e4-c652390886f5",
-            "reference": "CNT-2026-00003",
+            "id": "01a0eccb-76da-72df-b877-ca77af94f5a0",
+            "reference": "CNT-2026-00001",
             "full_name": "Synthetic Runtime Contact",
-            "email": "e2e-public-6f91661d-85a2-4106-b78f-e4116555c349@example.test",
+            "email": "e2e-public-5ac0e8fc-31a0-4843-8929-f5305cdab562@example.test",
             "status": "received",
-            "received_at": "2026-09-29T10:12:08.851072Z",
-            "updated_at": "2026-09-29T10:12:08.851072Z",
+            "received_at": "2026-09-29T10:52:32.339160Z",
+            "updated_at": "2026-09-29T10:52:32.339160Z",
             "redacted_at": null,
-            "etag": "\"01a0eca6-7c1c-726c-84e4-c652390886f5:1\""
+            "etag": "\"01a0eccb-76da-72df-b877-ca77af94f5a0:1\""
           }
         ],
         "meta": {
-          "next_cursor": "eyJpdiI6IitLT0FyV3BxQTZGSmhGUWY3M2E0aVE9PSIsInZhbHVlIjoiYUNYZFlCVnNzckMyeEFlT0FFYU1XQ1dkZ1FSSHlmUmN5RFdQREpWRzF4VVpJcmRZekZwU0VuL2ZnV2JLRmM4YXFVZlpWOURqYjljYS9aZXJ5TGRxWkE9PSIsIm1hYyI6ImQwNjlmNDU3N2IyNjViZDE1MGQ5ZmQ1M2EzNDU1NmJmNGZiZDViZDkwODBhMWIzMzRlY2VlYWU3MzFhZjliYzYiLCJ0YWciOiIifQ==",
+          "next_cursor": null,
           "limit": 1
         }
       },
@@ -47,7 +47,7 @@
       "operationId": "adminContactDetail",
       "method": "GET",
       "path_template": "/api/v1/admin/contact-messages/{message}",
-      "actual_test_path": "/api/v1/admin/contact-messages/01a0eca6-7c1c-726c-84e4-c652390886f5",
+      "actual_test_path": "/api/v1/admin/contact-messages/01a0eccb-76da-72df-b877-ca77af94f5a0",
       "status": 200,
       "headers": {
         "content-type": [
@@ -57,10 +57,10 @@
           "no-store"
         ],
         "x-request-id": [
-          "50215ac5-6c9d-47f4-88ac-abed9c74ec6b"
+          "30db4bf3-fffe-48ab-85d5-d591c5b27f77"
         ],
         "etag": [
-          "\"01a0eca6-7c1c-726c-84e4-c652390886f5:1\""
+          "\"01a0eccb-76da-72df-b877-ca77af94f5a0:1\""
         ],
         "x-content-type-options": [
           "nosniff"
@@ -68,15 +68,15 @@
       },
       "body": {
         "data": {
-          "id": "01a0eca6-7c1c-726c-84e4-c652390886f5",
-          "reference": "CNT-2026-00003",
+          "id": "01a0eccb-76da-72df-b877-ca77af94f5a0",
+          "reference": "CNT-2026-00001",
           "full_name": "Synthetic Runtime Contact",
-          "email": "e2e-public-6f91661d-85a2-4106-b78f-e4116555c349@example.test",
+          "email": "e2e-public-5ac0e8fc-31a0-4843-8929-f5305cdab562@example.test",
           "status": "received",
-          "received_at": "2026-09-29T10:12:08.851072Z",
-          "updated_at": "2026-09-29T10:12:08.851072Z",
+          "received_at": "2026-09-29T10:52:32.339160Z",
+          "updated_at": "2026-09-29T10:52:32.339160Z",
           "redacted_at": null,
-          "etag": "\"01a0eca6-7c1c-726c-84e4-c652390886f5:1\"",
+          "etag": "\"01a0eccb-76da-72df-b877-ca77af94f5a0:1\"",
           "phone": "+12025550123",
           "company": null,
           "message": "Synthetic private message for local integration verification only.",
@@ -89,7 +89,7 @@
       "operationId": "adminContactUpdate",
       "method": "PATCH",
       "path_template": "/api/v1/admin/contact-messages/{message}",
-      "actual_test_path": "/api/v1/admin/contact-messages/01a0eca6-7c1c-726c-84e4-c652390886f5",
+      "actual_test_path": "/api/v1/admin/contact-messages/01a0eccb-76da-72df-b877-ca77af94f5a0",
       "status": 200,
       "headers": {
         "content-type": [
@@ -99,10 +99,10 @@
           "no-store"
         ],
         "x-request-id": [
-          "d382d793-f257-4153-8f8a-2c41d59c851b"
+          "733453ac-e5d8-4f58-8647-20549150fd58"
         ],
         "etag": [
-          "\"01a0eca6-7c1c-726c-84e4-c652390886f5:2\""
+          "\"01a0eccb-76da-72df-b877-ca77af94f5a0:2\""
         ],
         "x-content-type-options": [
           "nosniff"
@@ -110,15 +110,15 @@
       },
       "body": {
         "data": {
-          "id": "01a0eca6-7c1c-726c-84e4-c652390886f5",
-          "reference": "CNT-2026-00003",
+          "id": "01a0eccb-76da-72df-b877-ca77af94f5a0",
+          "reference": "CNT-2026-00001",
           "full_name": "Synthetic Runtime Contact",
-          "email": "e2e-public-6f91661d-85a2-4106-b78f-e4116555c349@example.test",
+          "email": "e2e-public-5ac0e8fc-31a0-4843-8929-f5305cdab562@example.test",
           "status": "resolved",
-          "received_at": "2026-09-29T10:12:08.851072Z",
-          "updated_at": "2026-09-29T10:12:18.614335Z",
+          "received_at": "2026-09-29T10:52:32.339160Z",
+          "updated_at": "2026-09-29T10:52:33.670692Z",
           "redacted_at": null,
-          "etag": "\"01a0eca6-7c1c-726c-84e4-c652390886f5:2\"",
+          "etag": "\"01a0eccb-76da-72df-b877-ca77af94f5a0:2\"",
           "phone": "+12025550123",
           "company": null,
           "message": "Synthetic private message for local integration verification only.",
@@ -131,7 +131,7 @@
       "operationId": "adminContactRedact",
       "method": "DELETE",
       "path_template": "/api/v1/admin/contact-messages/{message}",
-      "actual_test_path": "/api/v1/admin/contact-messages/01a0eca6-7c1c-726c-84e4-c652390886f5",
+      "actual_test_path": "/api/v1/admin/contact-messages/01a0eccb-76da-72df-b877-ca77af94f5a0",
       "status": 200,
       "headers": {
         "content-type": [
@@ -141,10 +141,10 @@
           "no-store"
         ],
         "x-request-id": [
-          "a6c42352-1e57-4ed6-8a4c-bd76ee2e86fb"
+          "dafd0280-9faf-4788-848b-9ac22cf4ffcc"
         ],
         "etag": [
-          "\"01a0eca6-7c1c-726c-84e4-c652390886f5:3\""
+          "\"01a0eccb-76da-72df-b877-ca77af94f5a0:3\""
         ],
         "x-content-type-options": [
           "nosniff"
@@ -152,15 +152,15 @@
       },
       "body": {
         "data": {
-          "id": "01a0eca6-7c1c-726c-84e4-c652390886f5",
-          "reference": "CNT-2026-00003",
+          "id": "01a0eccb-76da-72df-b877-ca77af94f5a0",
+          "reference": "CNT-2026-00001",
           "full_name": null,
           "email": null,
           "status": "redacted",
-          "received_at": "2026-09-29T10:12:08.851072Z",
-          "updated_at": "2026-09-29T10:12:18.658124Z",
-          "redacted_at": "2026-09-29T10:12:18.658077Z",
-          "etag": "\"01a0eca6-7c1c-726c-84e4-c652390886f5:3\"",
+          "received_at": "2026-09-29T10:52:32.339160Z",
+          "updated_at": "2026-09-29T10:52:33.707742Z",
+          "redacted_at": "2026-09-29T10:52:33.707702Z",
+          "etag": "\"01a0eccb-76da-72df-b877-ca77af94f5a0:3\"",
           "phone": null,
           "company": null,
           "message": null,
@@ -183,7 +183,7 @@
           "no-store"
         ],
         "x-request-id": [
-          "84366be3-d9c6-44cf-8b26-02467db1d5dd"
+          "50be31e8-0df7-4527-8601-3d35bcb0ec9a"
         ],
         "x-content-type-options": [
           "nosniff"
@@ -192,14 +192,14 @@
       "body": {
         "data": [
           {
-            "id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
-            "public_id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
+            "id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
+            "public_id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
             "title": "E2E public portfolio",
             "summary": "A synthetic public portfolio for runtime verification.",
             "category_id": "web",
             "status": "published",
-            "updated_at": "2026-09-29T10:12:27.771706Z",
-            "etag": "\"01a0eca6-a2ac-72cb-9c7d-b4d743345464:6\""
+            "updated_at": "2026-09-29T10:52:34.651078Z",
+            "etag": "\"01a0eccb-7c6d-7090-a48b-56f1f09f34ed:6\""
           }
         ],
         "meta": {
@@ -223,10 +223,10 @@
           "no-store"
         ],
         "x-request-id": [
-          "fd7c51ea-3aba-4d83-8356-30ff5b7d8807"
+          "1860b9c5-64ba-4be1-83d2-b21df53747b1"
         ],
         "etag": [
-          "\"01a0eca6-a2ac-72cb-9c7d-b4d743345464:1\""
+          "\"01a0eccb-7c6d-7090-a48b-56f1f09f34ed:1\""
         ],
         "x-content-type-options": [
           "nosniff"
@@ -234,8 +234,8 @@
       },
       "body": {
         "data": {
-          "id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
-          "public_id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
+          "id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
+          "public_id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
           "title": "E2E public portfolio",
           "summary": "A synthetic public portfolio for runtime verification.",
           "description": "Synthetic content created only to verify the local integration candidate end to end.",
@@ -244,9 +244,9 @@
           "featured_image_id": null,
           "publication_id": null,
           "status": "draft",
-          "etag": "\"01a0eca6-a2ac-72cb-9c7d-b4d743345464:1\"",
-          "created_at": "2026-09-29T10:12:18.732742Z",
-          "updated_at": "2026-09-29T10:12:18.732745Z",
+          "etag": "\"01a0eccb-7c6d-7090-a48b-56f1f09f34ed:1\"",
+          "created_at": "2026-09-29T10:52:33.774139Z",
+          "updated_at": "2026-09-29T10:52:33.774142Z",
           "images": []
         }
       },
@@ -256,7 +256,7 @@
       "operationId": "adminPortfolioDetail",
       "method": "GET",
       "path_template": "/api/v1/admin/portfolio/projects/{project}",
-      "actual_test_path": "/api/v1/admin/portfolio/projects/01a0eca6-a2ac-72cb-9c7d-b4d743345464",
+      "actual_test_path": "/api/v1/admin/portfolio/projects/01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
       "status": 200,
       "headers": {
         "content-type": [
@@ -266,10 +266,10 @@
           "no-store"
         ],
         "x-request-id": [
-          "cef07c28-3bad-4683-8926-1f0c3a3fdcf5"
+          "210ca584-7c75-4fd8-8798-01deed170f43"
         ],
         "etag": [
-          "\"01a0eca6-a2ac-72cb-9c7d-b4d743345464:4\""
+          "\"01a0eccb-7c6d-7090-a48b-56f1f09f34ed:4\""
         ],
         "x-content-type-options": [
           "nosniff"
@@ -277,8 +277,8 @@
       },
       "body": {
         "data": {
-          "id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
-          "public_id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
+          "id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
+          "public_id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
           "title": "E2E public portfolio",
           "summary": "A synthetic public portfolio for runtime verification.",
           "description": "Synthetic content created only to verify the local integration candidate end to end.",
@@ -287,13 +287,13 @@
           "featured_image_id": null,
           "publication_id": null,
           "status": "draft",
-          "etag": "\"01a0eca6-a2ac-72cb-9c7d-b4d743345464:4\"",
-          "created_at": "2026-09-29T10:12:18.732742Z",
-          "updated_at": "2026-09-29T10:12:19.555865Z",
+          "etag": "\"01a0eccb-7c6d-7090-a48b-56f1f09f34ed:4\"",
+          "created_at": "2026-09-29T10:52:33.774139Z",
+          "updated_at": "2026-09-29T10:52:34.337182Z",
           "images": [
             {
-              "id": "01a0eca6-a2df-702e-95b6-375a0bd7e3df",
-              "project_id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
+              "id": "01a0eccb-7c99-7081-a386-a53aaddf1951",
+              "project_id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
               "state": "ready",
               "alt": "Synthetic test image",
               "display_order": 0,
@@ -301,8 +301,8 @@
               "byte_size": 192,
               "sha256": "34bc17850f6e0d62577b401b128ceaabef228294cd68d0f18bfb2ffe8ac45c6f",
               "failure_code": null,
-              "expires_at": "2026-09-29T11:12:18.783802Z",
-              "etag": "\"01a0eca6-a2df-702e-95b6-375a0bd7e3df:3\""
+              "expires_at": "2026-09-29T11:52:33.817285Z",
+              "etag": "\"01a0eccb-7c99-7081-a386-a53aaddf1951:3\""
             }
           ]
         }
@@ -313,7 +313,7 @@
       "operationId": "adminPortfolioUpdate",
       "method": "PATCH",
       "path_template": "/api/v1/admin/portfolio/projects/{project}",
-      "actual_test_path": "/api/v1/admin/portfolio/projects/01a0eca6-a2ac-72cb-9c7d-b4d743345464",
+      "actual_test_path": "/api/v1/admin/portfolio/projects/01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
       "status": 200,
       "headers": {
         "content-type": [
@@ -323,10 +323,10 @@
           "no-store"
         ],
         "x-request-id": [
-          "0e5f194f-d0a3-42c8-841f-46859bfdfa69"
+          "d9efd236-6956-4c6f-83d5-cacf833026be"
         ],
         "etag": [
-          "\"01a0eca6-a2ac-72cb-9c7d-b4d743345464:5\""
+          "\"01a0eccb-7c6d-7090-a48b-56f1f09f34ed:5\""
         ],
         "x-content-type-options": [
           "nosniff"
@@ -334,23 +334,23 @@
       },
       "body": {
         "data": {
-          "id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
-          "public_id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
+          "id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
+          "public_id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
           "title": "E2E public portfolio",
           "summary": "A synthetic public portfolio for runtime verification.",
           "description": "Synthetic content created only to verify the local integration candidate end to end.",
           "category_id": "web",
-          "cover_image_id": "01a0eca6-a2df-702e-95b6-375a0bd7e3df",
-          "featured_image_id": "01a0eca6-a2df-702e-95b6-375a0bd7e3df",
+          "cover_image_id": "01a0eccb-7c99-7081-a386-a53aaddf1951",
+          "featured_image_id": "01a0eccb-7c99-7081-a386-a53aaddf1951",
           "publication_id": null,
           "status": "draft",
-          "etag": "\"01a0eca6-a2ac-72cb-9c7d-b4d743345464:5\"",
-          "created_at": "2026-09-29T10:12:18.732742Z",
-          "updated_at": "2026-09-29T10:12:27.724084Z",
+          "etag": "\"01a0eccb-7c6d-7090-a48b-56f1f09f34ed:5\"",
+          "created_at": "2026-09-29T10:52:33.774139Z",
+          "updated_at": "2026-09-29T10:52:34.607461Z",
           "images": [
             {
-              "id": "01a0eca6-a2df-702e-95b6-375a0bd7e3df",
-              "project_id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
+              "id": "01a0eccb-7c99-7081-a386-a53aaddf1951",
+              "project_id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
               "state": "ready",
               "alt": "Synthetic test image",
               "display_order": 0,
@@ -358,8 +358,8 @@
               "byte_size": 192,
               "sha256": "34bc17850f6e0d62577b401b128ceaabef228294cd68d0f18bfb2ffe8ac45c6f",
               "failure_code": null,
-              "expires_at": "2026-09-29T11:12:18.783802Z",
-              "etag": "\"01a0eca6-a2df-702e-95b6-375a0bd7e3df:3\""
+              "expires_at": "2026-09-29T11:52:33.817285Z",
+              "etag": "\"01a0eccb-7c99-7081-a386-a53aaddf1951:3\""
             }
           ]
         }
@@ -370,7 +370,7 @@
       "operationId": "adminPortfolioReserveImage",
       "method": "POST",
       "path_template": "/api/v1/admin/portfolio/projects/{project}/images",
-      "actual_test_path": "/api/v1/admin/portfolio/projects/01a0eca6-a2ac-72cb-9c7d-b4d743345464/images",
+      "actual_test_path": "/api/v1/admin/portfolio/projects/01a0eccb-7c6d-7090-a48b-56f1f09f34ed/images",
       "status": 201,
       "headers": {
         "content-type": [
@@ -380,10 +380,10 @@
           "no-store"
         ],
         "x-request-id": [
-          "c4e4339a-1922-4871-8719-00d673f7f691"
+          "3fd959cf-9b51-4b69-8229-90e6db25b162"
         ],
         "etag": [
-          "\"01a0eca6-a2df-702e-95b6-375a0bd7e3df:1\""
+          "\"01a0eccb-7c99-7081-a386-a53aaddf1951:1\""
         ],
         "x-content-type-options": [
           "nosniff"
@@ -391,8 +391,8 @@
       },
       "body": {
         "data": {
-          "id": "01a0eca6-a2df-702e-95b6-375a0bd7e3df",
-          "project_id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
+          "id": "01a0eccb-7c99-7081-a386-a53aaddf1951",
+          "project_id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
           "state": "reserved",
           "alt": "Synthetic test image",
           "display_order": 0,
@@ -400,8 +400,8 @@
           "byte_size": 192,
           "sha256": "34bc17850f6e0d62577b401b128ceaabef228294cd68d0f18bfb2ffe8ac45c6f",
           "failure_code": null,
-          "expires_at": "2026-09-29T11:12:18.783802Z",
-          "etag": "\"01a0eca6-a2df-702e-95b6-375a0bd7e3df:1\""
+          "expires_at": "2026-09-29T11:52:33.817285Z",
+          "etag": "\"01a0eccb-7c99-7081-a386-a53aaddf1951:1\""
         }
       },
       "binary_bytes": null
@@ -410,7 +410,7 @@
       "operationId": "adminPortfolioImageStatus",
       "method": "GET",
       "path_template": "/api/v1/admin/portfolio/projects/{project}/images/{image}",
-      "actual_test_path": "/api/v1/admin/portfolio/projects/01a0eca6-a2ac-72cb-9c7d-b4d743345464/images/01a0eca6-a2df-702e-95b6-375a0bd7e3df",
+      "actual_test_path": "/api/v1/admin/portfolio/projects/01a0eccb-7c6d-7090-a48b-56f1f09f34ed/images/01a0eccb-7c99-7081-a386-a53aaddf1951",
       "status": 200,
       "headers": {
         "content-type": [
@@ -420,10 +420,10 @@
           "no-store"
         ],
         "x-request-id": [
-          "3ee69b16-3767-4898-8d0d-851e962e8007"
+          "83cbb9b5-da1c-4771-8622-a37a8c3ff797"
         ],
         "etag": [
-          "\"01a0eca6-a2df-702e-95b6-375a0bd7e3df:3\""
+          "\"01a0eccb-7c99-7081-a386-a53aaddf1951:2\""
         ],
         "x-content-type-options": [
           "nosniff"
@@ -431,17 +431,17 @@
       },
       "body": {
         "data": {
-          "id": "01a0eca6-a2df-702e-95b6-375a0bd7e3df",
-          "project_id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
-          "state": "ready",
+          "id": "01a0eccb-7c99-7081-a386-a53aaddf1951",
+          "project_id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
+          "state": "processing",
           "alt": "Synthetic test image",
           "display_order": 0,
           "media_type": "image/png",
           "byte_size": 192,
           "sha256": "34bc17850f6e0d62577b401b128ceaabef228294cd68d0f18bfb2ffe8ac45c6f",
           "failure_code": null,
-          "expires_at": "2026-09-29T11:12:18.783802Z",
-          "etag": "\"01a0eca6-a2df-702e-95b6-375a0bd7e3df:3\""
+          "expires_at": "2026-09-29T11:52:33.817285Z",
+          "etag": "\"01a0eccb-7c99-7081-a386-a53aaddf1951:2\""
         }
       },
       "binary_bytes": null
@@ -450,7 +450,7 @@
       "operationId": "adminPortfolioRemoveImage",
       "method": "DELETE",
       "path_template": "/api/v1/admin/portfolio/projects/{project}/images/{image}",
-      "actual_test_path": "/api/v1/admin/portfolio/projects/01a0eca6-a2ac-72cb-9c7d-b4d743345464/images/01a0eca6-a2df-702e-95b6-375a0bd7e3df",
+      "actual_test_path": "/api/v1/admin/portfolio/projects/01a0eccb-7c6d-7090-a48b-56f1f09f34ed/images/01a0eccb-7c99-7081-a386-a53aaddf1951",
       "status": 200,
       "headers": {
         "content-type": [
@@ -460,10 +460,10 @@
           "no-store"
         ],
         "x-request-id": [
-          "4abf1a7e-3152-45bd-8110-c5de0a5589cb"
+          "0551c22e-232a-4279-871e-7db597c53f78"
         ],
         "etag": [
-          "\"01a0eca6-a2ac-72cb-9c7d-b4d743345464:8\""
+          "\"01a0eccb-7c6d-7090-a48b-56f1f09f34ed:8\""
         ],
         "x-content-type-options": [
           "nosniff"
@@ -471,8 +471,8 @@
       },
       "body": {
         "data": {
-          "id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
-          "public_id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
+          "id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
+          "public_id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
           "title": "E2E public portfolio",
           "summary": "A synthetic public portfolio for runtime verification.",
           "description": "Synthetic content created only to verify the local integration candidate end to end.",
@@ -481,9 +481,9 @@
           "featured_image_id": null,
           "publication_id": null,
           "status": "draft",
-          "etag": "\"01a0eca6-a2ac-72cb-9c7d-b4d743345464:8\"",
-          "created_at": "2026-09-29T10:12:18.732742Z",
-          "updated_at": "2026-09-29T10:12:28.248375Z",
+          "etag": "\"01a0eccb-7c6d-7090-a48b-56f1f09f34ed:8\"",
+          "created_at": "2026-09-29T10:52:33.774139Z",
+          "updated_at": "2026-09-29T10:52:35.106220Z",
           "images": []
         }
       },
@@ -493,7 +493,7 @@
       "operationId": "adminPortfolioUploadImage",
       "method": "PUT",
       "path_template": "/api/v1/admin/portfolio/projects/{project}/images/{image}/content",
-      "actual_test_path": "/api/v1/admin/portfolio/projects/01a0eca6-a2ac-72cb-9c7d-b4d743345464/images/01a0eca6-a2df-702e-95b6-375a0bd7e3df/content",
+      "actual_test_path": "/api/v1/admin/portfolio/projects/01a0eccb-7c6d-7090-a48b-56f1f09f34ed/images/01a0eccb-7c99-7081-a386-a53aaddf1951/content",
       "status": 202,
       "headers": {
         "content-type": [
@@ -503,10 +503,10 @@
           "no-store"
         ],
         "x-request-id": [
-          "d97cb918-f017-49f8-8a57-42f390be79fa"
+          "7544af40-8e71-4577-85d1-b97a3997fc7d"
         ],
         "etag": [
-          "\"01a0eca6-a2df-702e-95b6-375a0bd7e3df:2\""
+          "\"01a0eccb-7c99-7081-a386-a53aaddf1951:2\""
         ],
         "x-content-type-options": [
           "nosniff"
@@ -514,8 +514,8 @@
       },
       "body": {
         "data": {
-          "id": "01a0eca6-a2df-702e-95b6-375a0bd7e3df",
-          "project_id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
+          "id": "01a0eccb-7c99-7081-a386-a53aaddf1951",
+          "project_id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
           "state": "processing",
           "alt": "Synthetic test image",
           "display_order": 0,
@@ -523,8 +523,8 @@
           "byte_size": 192,
           "sha256": "34bc17850f6e0d62577b401b128ceaabef228294cd68d0f18bfb2ffe8ac45c6f",
           "failure_code": null,
-          "expires_at": "2026-09-29T11:12:18.783802Z",
-          "etag": "\"01a0eca6-a2df-702e-95b6-375a0bd7e3df:2\""
+          "expires_at": "2026-09-29T11:52:33.817285Z",
+          "etag": "\"01a0eccb-7c99-7081-a386-a53aaddf1951:2\""
         }
       },
       "binary_bytes": null
@@ -533,7 +533,7 @@
       "operationId": "adminPortfolioPublish",
       "method": "POST",
       "path_template": "/api/v1/admin/portfolio/projects/{project}/publications",
-      "actual_test_path": "/api/v1/admin/portfolio/projects/01a0eca6-a2ac-72cb-9c7d-b4d743345464/publications",
+      "actual_test_path": "/api/v1/admin/portfolio/projects/01a0eccb-7c6d-7090-a48b-56f1f09f34ed/publications",
       "status": 201,
       "headers": {
         "content-type": [
@@ -543,10 +543,10 @@
           "no-store"
         ],
         "x-request-id": [
-          "f6cc80e2-b572-4956-8b8d-8eecbb317493"
+          "e28db57e-7e67-4147-821c-eac917a911fa"
         ],
         "etag": [
-          "\"01a0eca6-a2ac-72cb-9c7d-b4d743345464:6\""
+          "\"01a0eccb-7c6d-7090-a48b-56f1f09f34ed:6\""
         ],
         "x-content-type-options": [
           "nosniff"
@@ -554,23 +554,23 @@
       },
       "body": {
         "data": {
-          "id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
-          "public_id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
+          "id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
+          "public_id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
           "title": "E2E public portfolio",
           "summary": "A synthetic public portfolio for runtime verification.",
           "description": "Synthetic content created only to verify the local integration candidate end to end.",
           "category_id": "web",
-          "cover_image_id": "01a0eca6-a2df-702e-95b6-375a0bd7e3df",
-          "featured_image_id": "01a0eca6-a2df-702e-95b6-375a0bd7e3df",
-          "publication_id": "01a0eca6-c5f8-733a-8391-b1250468fff4",
+          "cover_image_id": "01a0eccb-7c99-7081-a386-a53aaddf1951",
+          "featured_image_id": "01a0eccb-7c99-7081-a386-a53aaddf1951",
+          "publication_id": "01a0eccb-7fd8-72cd-ac7e-ccbf5440e46a",
           "status": "published",
-          "etag": "\"01a0eca6-a2ac-72cb-9c7d-b4d743345464:6\"",
-          "created_at": "2026-09-29T10:12:18.732742Z",
-          "updated_at": "2026-09-29T10:12:27.771706Z",
+          "etag": "\"01a0eccb-7c6d-7090-a48b-56f1f09f34ed:6\"",
+          "created_at": "2026-09-29T10:52:33.774139Z",
+          "updated_at": "2026-09-29T10:52:34.651078Z",
           "images": [
             {
-              "id": "01a0eca6-a2df-702e-95b6-375a0bd7e3df",
-              "project_id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
+              "id": "01a0eccb-7c99-7081-a386-a53aaddf1951",
+              "project_id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
               "state": "ready",
               "alt": "Synthetic test image",
               "display_order": 0,
@@ -578,8 +578,8 @@
               "byte_size": 192,
               "sha256": "34bc17850f6e0d62577b401b128ceaabef228294cd68d0f18bfb2ffe8ac45c6f",
               "failure_code": null,
-              "expires_at": "2026-09-29T11:12:18.783802Z",
-              "etag": "\"01a0eca6-a2df-702e-95b6-375a0bd7e3df:3\""
+              "expires_at": "2026-09-29T11:52:33.817285Z",
+              "etag": "\"01a0eccb-7c99-7081-a386-a53aaddf1951:3\""
             }
           ]
         }
@@ -590,7 +590,7 @@
       "operationId": "adminPortfolioUnpublish",
       "method": "POST",
       "path_template": "/api/v1/admin/portfolio/projects/{project}/unpublications",
-      "actual_test_path": "/api/v1/admin/portfolio/projects/01a0eca6-a2ac-72cb-9c7d-b4d743345464/unpublications",
+      "actual_test_path": "/api/v1/admin/portfolio/projects/01a0eccb-7c6d-7090-a48b-56f1f09f34ed/unpublications",
       "status": 200,
       "headers": {
         "content-type": [
@@ -600,10 +600,10 @@
           "no-store"
         ],
         "x-request-id": [
-          "2cd0c41c-e137-47cf-8866-b77f93f43c76"
+          "b3e34010-9abe-4fd2-8321-038b370c004a"
         ],
         "etag": [
-          "\"01a0eca6-a2ac-72cb-9c7d-b4d743345464:7\""
+          "\"01a0eccb-7c6d-7090-a48b-56f1f09f34ed:7\""
         ],
         "x-content-type-options": [
           "nosniff"
@@ -611,23 +611,23 @@
       },
       "body": {
         "data": {
-          "id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
-          "public_id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
+          "id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
+          "public_id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
           "title": "E2E public portfolio",
           "summary": "A synthetic public portfolio for runtime verification.",
           "description": "Synthetic content created only to verify the local integration candidate end to end.",
           "category_id": "web",
-          "cover_image_id": "01a0eca6-a2df-702e-95b6-375a0bd7e3df",
-          "featured_image_id": "01a0eca6-a2df-702e-95b6-375a0bd7e3df",
+          "cover_image_id": "01a0eccb-7c99-7081-a386-a53aaddf1951",
+          "featured_image_id": "01a0eccb-7c99-7081-a386-a53aaddf1951",
           "publication_id": null,
           "status": "draft",
-          "etag": "\"01a0eca6-a2ac-72cb-9c7d-b4d743345464:7\"",
-          "created_at": "2026-09-29T10:12:18.732742Z",
-          "updated_at": "2026-09-29T10:12:28.125334Z",
+          "etag": "\"01a0eccb-7c6d-7090-a48b-56f1f09f34ed:7\"",
+          "created_at": "2026-09-29T10:52:33.774139Z",
+          "updated_at": "2026-09-29T10:52:34.989686Z",
           "images": [
             {
-              "id": "01a0eca6-a2df-702e-95b6-375a0bd7e3df",
-              "project_id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
+              "id": "01a0eccb-7c99-7081-a386-a53aaddf1951",
+              "project_id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
               "state": "ready",
               "alt": "Synthetic test image",
               "display_order": 0,
@@ -635,8 +635,8 @@
               "byte_size": 192,
               "sha256": "34bc17850f6e0d62577b401b128ceaabef228294cd68d0f18bfb2ffe8ac45c6f",
               "failure_code": null,
-              "expires_at": "2026-09-29T11:12:18.783802Z",
-              "etag": "\"01a0eca6-a2df-702e-95b6-375a0bd7e3df:3\""
+              "expires_at": "2026-09-29T11:52:33.817285Z",
+              "etag": "\"01a0eccb-7c99-7081-a386-a53aaddf1951:3\""
             }
           ]
         }
@@ -657,7 +657,7 @@
           "no-store"
         ],
         "x-request-id": [
-          "56de6198-289d-4d68-8193-c0fe385e5f15"
+          "23e4aa22-e722-4656-8637-00b23732f81a"
         ],
         "x-content-type-options": [
           "nosniff"
@@ -690,7 +690,7 @@
           "no-store"
         ],
         "x-request-id": [
-          "f843cd01-d094-46b0-858f-6c157ea5a257"
+          "c84bcf20-aa62-4d4f-8898-c59489917bed"
         ],
         "x-content-type-options": [
           "nosniff"
@@ -698,10 +698,10 @@
       },
       "body": {
         "data": {
-          "id": "01a0eca6-7c1c-726c-84e4-c652390886f5",
-          "reference": "CNT-2026-00003",
+          "id": "01a0eccb-76da-72df-b877-ca77af94f5a0",
+          "reference": "CNT-2026-00001",
           "status": "received",
-          "received_at": "2026-09-29T10:12:08.851072Z"
+          "received_at": "2026-09-29T10:52:32.339160Z"
         }
       },
       "binary_bytes": null
@@ -720,7 +720,7 @@
           "public, max-age=0, s-maxage=60, must-revalidate"
         ],
         "x-request-id": [
-          "fc23c06f-a95a-4c30-81b5-dfdc9ee20f93"
+          "b23c0cd7-b6dd-48b1-83f0-f6f08a2b49a9"
         ],
         "x-content-type-options": [
           "nosniff"
@@ -766,7 +766,7 @@
       "operationId": "publicPortfolioImage",
       "method": "GET",
       "path_template": "/api/v1/public/portfolio/images/{image}/{variant}",
-      "actual_test_path": "/api/v1/public/portfolio/images/01a0eca6-c5f8-733a-8391-b12504811c12/gallery",
+      "actual_test_path": "/api/v1/public/portfolio/images/01a0eccb-7fd8-72cd-ac7e-ccbf55169b25/card",
       "status": 200,
       "headers": {
         "content-type": [
@@ -776,7 +776,7 @@
           "public, max-age=0, s-maxage=60, must-revalidate"
         ],
         "x-request-id": [
-          "ef9dc9d9-4652-43eb-898e-1223e895cb51"
+          "effe49a7-5b15-42c8-8ac2-337ae9ac5000"
         ],
         "x-content-type-options": [
           "nosniff",
@@ -800,7 +800,7 @@
           "public, max-age=0, s-maxage=60, must-revalidate"
         ],
         "x-request-id": [
-          "0719ecb6-9951-4ed4-80ae-1ef5a0cc437b"
+          "ec32311b-e24e-40d0-8d37-d51b93bf2abc"
         ],
         "x-content-type-options": [
           "nosniff"
@@ -809,24 +809,24 @@
       "body": {
         "data": [
           {
-            "id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
+            "id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
             "title": "E2E public portfolio",
             "summary": "A synthetic public portfolio for runtime verification.",
-            "updated_at": "2026-09-29T10:12:27.768721Z",
+            "updated_at": "2026-09-29T10:52:34.648677Z",
             "category_id": "web",
             "cover_image": {
-              "id": "01a0eca6-c5f8-733a-8391-b12504811c12",
+              "id": "01a0eccb-7fd8-72cd-ac7e-ccbf55169b25",
               "alt": "Synthetic test image",
               "variants": [
                 {
-                  "url": "/api/v1/public/portfolio/images/01a0eca6-c5f8-733a-8391-b12504811c12/card",
+                  "url": "/api/v1/public/portfolio/images/01a0eccb-7fd8-72cd-ac7e-ccbf55169b25/card",
                   "name": "card",
                   "width": 100,
                   "height": 50,
                   "media_type": "image/webp"
                 },
                 {
-                  "url": "/api/v1/public/portfolio/images/01a0eca6-c5f8-733a-8391-b12504811c12/gallery",
+                  "url": "/api/v1/public/portfolio/images/01a0eccb-7fd8-72cd-ac7e-ccbf55169b25/gallery",
                   "name": "gallery",
                   "width": 100,
                   "height": 50,
@@ -847,7 +847,7 @@
       "operationId": "publicPortfolioDetail",
       "method": "GET",
       "path_template": "/api/v1/public/portfolio/projects/{project}",
-      "actual_test_path": "/api/v1/public/portfolio/projects/01a0eca6-a2ac-72cb-9c7d-b4d743345464",
+      "actual_test_path": "/api/v1/public/portfolio/projects/01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
       "status": 200,
       "headers": {
         "content-type": [
@@ -857,7 +857,7 @@
           "public, max-age=0, s-maxage=60, must-revalidate"
         ],
         "x-request-id": [
-          "e0abeb9d-da1f-45ba-8eed-b6a3e0bbd2a2"
+          "81374d25-bda9-411e-89c5-87d380267c70"
         ],
         "x-content-type-options": [
           "nosniff"
@@ -865,22 +865,22 @@
       },
       "body": {
         "data": {
-          "id": "01a0eca6-a2ac-72cb-9c7d-b4d743345464",
+          "id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
           "title": "E2E public portfolio",
           "images": [
             {
-              "id": "01a0eca6-c5f8-733a-8391-b12504811c12",
+              "id": "01a0eccb-7fd8-72cd-ac7e-ccbf55169b25",
               "alt": "Synthetic test image",
               "variants": [
                 {
-                  "url": "/api/v1/public/portfolio/images/01a0eca6-c5f8-733a-8391-b12504811c12/card",
+                  "url": "/api/v1/public/portfolio/images/01a0eccb-7fd8-72cd-ac7e-ccbf55169b25/card",
                   "name": "card",
                   "width": 100,
                   "height": 50,
                   "media_type": "image/webp"
                 },
                 {
-                  "url": "/api/v1/public/portfolio/images/01a0eca6-c5f8-733a-8391-b12504811c12/gallery",
+                  "url": "/api/v1/public/portfolio/images/01a0eccb-7fd8-72cd-ac7e-ccbf55169b25/gallery",
                   "name": "gallery",
                   "width": 100,
                   "height": 50,
@@ -890,21 +890,21 @@
             }
           ],
           "summary": "A synthetic public portfolio for runtime verification.",
-          "updated_at": "2026-09-29T10:12:27.768721Z",
+          "updated_at": "2026-09-29T10:52:34.648677Z",
           "category_id": "web",
           "cover_image": {
-            "id": "01a0eca6-c5f8-733a-8391-b12504811c12",
+            "id": "01a0eccb-7fd8-72cd-ac7e-ccbf55169b25",
             "alt": "Synthetic test image",
             "variants": [
               {
-                "url": "/api/v1/public/portfolio/images/01a0eca6-c5f8-733a-8391-b12504811c12/card",
+                "url": "/api/v1/public/portfolio/images/01a0eccb-7fd8-72cd-ac7e-ccbf55169b25/card",
                 "name": "card",
                 "width": 100,
                 "height": 50,
                 "media_type": "image/webp"
               },
               {
-                "url": "/api/v1/public/portfolio/images/01a0eca6-c5f8-733a-8391-b12504811c12/gallery",
+                "url": "/api/v1/public/portfolio/images/01a0eccb-7fd8-72cd-ac7e-ccbf55169b25/gallery",
                 "name": "gallery",
                 "width": 100,
                 "height": 50,
@@ -913,8 +913,348 @@
             ]
           },
           "description": "Synthetic content created only to verify the local integration candidate end to end.",
-          "featured_image_id": "01a0eca6-c5f8-733a-8391-b12504811c12"
+          "featured_image_id": "01a0eccb-7fd8-72cd-ac7e-ccbf55169b25"
         }
+      },
+      "binary_bytes": null
+    }
+  ],
+  "scenarios": [
+    {
+      "operationId": "publicContactCreate",
+      "scenario": "saved receipt",
+      "method": "POST",
+      "path_template": "/api/v1/public/contact-messages",
+      "actual_test_path": "/api/v1/public/contact-messages",
+      "status": 201,
+      "headers": {
+        "content-type": [
+          "application/json"
+        ],
+        "cache-control": [
+          "no-store"
+        ],
+        "x-request-id": [
+          "c84bcf20-aa62-4d4f-8898-c59489917bed"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ]
+      },
+      "body": {
+        "data": {
+          "id": "01a0eccb-76da-72df-b877-ca77af94f5a0",
+          "reference": "CNT-2026-00001",
+          "status": "received",
+          "received_at": "2026-09-29T10:52:32.339160Z"
+        }
+      },
+      "binary_bytes": null
+    },
+    {
+      "operationId": "publicContactCreate",
+      "scenario": "exact retry; same receipt",
+      "method": "POST",
+      "path_template": "/api/v1/public/contact-messages",
+      "actual_test_path": "/api/v1/public/contact-messages",
+      "status": 201,
+      "headers": {
+        "content-type": [
+          "application/json"
+        ],
+        "cache-control": [
+          "no-store"
+        ],
+        "x-request-id": [
+          "f3f3ec9a-daa6-4abb-81cb-5c97d3f90c36"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ]
+      },
+      "body": {
+        "data": {
+          "id": "01a0eccb-76da-72df-b877-ca77af94f5a0",
+          "reference": "CNT-2026-00001",
+          "status": "received",
+          "received_at": "2026-09-29T10:52:32.339160Z"
+        }
+      },
+      "binary_bytes": null
+    },
+    {
+      "operationId": "publicContactCreate",
+      "scenario": "same receipt after authorised redaction",
+      "method": "POST",
+      "path_template": "/api/v1/public/contact-messages",
+      "actual_test_path": "/api/v1/public/contact-messages",
+      "status": 201,
+      "headers": {
+        "content-type": [
+          "application/json"
+        ],
+        "cache-control": [
+          "no-store"
+        ],
+        "x-request-id": [
+          "680b5ef1-a25c-47c9-8115-ea061d0e78a1"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ]
+      },
+      "body": {
+        "data": {
+          "id": "01a0eccb-76da-72df-b877-ca77af94f5a0",
+          "reference": "CNT-2026-00001",
+          "status": "received",
+          "received_at": "2026-09-29T10:52:32.339160Z"
+        }
+      },
+      "binary_bytes": null
+    },
+    {
+      "operationId": "adminPortfolioImageStatus",
+      "scenario": "rejected real image",
+      "method": "GET",
+      "path_template": "/api/v1/admin/portfolio/projects/{project}/images/{image}",
+      "actual_test_path": "/api/v1/admin/portfolio/projects/01a0eccb-7c6d-7090-a48b-56f1f09f34ed/images/01a0eccb-81d0-71d1-b4a4-6bf9679f7f05",
+      "status": 200,
+      "headers": {
+        "content-type": [
+          "application/json"
+        ],
+        "cache-control": [
+          "no-store"
+        ],
+        "x-request-id": [
+          "8d1fe408-cc4c-4287-8b6c-8d210d1aa250"
+        ],
+        "etag": [
+          "\"01a0eccb-81d0-71d1-b4a4-6bf9679f7f05:3\""
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ]
+      },
+      "body": {
+        "data": {
+          "id": "01a0eccb-81d0-71d1-b4a4-6bf9679f7f05",
+          "project_id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
+          "state": "rejected",
+          "alt": "Synthetic rejected image",
+          "display_order": 1,
+          "media_type": "image/png",
+          "byte_size": 212,
+          "sha256": "12262e6cadb2d938e48757ba880e44498f0626ffba8af95835ea2c59b2b29414",
+          "failure_code": "invalid_image",
+          "expires_at": "2026-09-29T11:52:35.152123Z",
+          "etag": "\"01a0eccb-81d0-71d1-b4a4-6bf9679f7f05:3\""
+        }
+      },
+      "binary_bytes": null
+    },
+    {
+      "operationId": "adminPortfolioDetail",
+      "scenario": "editorial draft",
+      "method": "GET",
+      "path_template": "/api/v1/admin/portfolio/projects/{project}",
+      "actual_test_path": "/api/v1/admin/portfolio/projects/01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
+      "status": 200,
+      "headers": {
+        "content-type": [
+          "application/json"
+        ],
+        "cache-control": [
+          "no-store"
+        ],
+        "x-request-id": [
+          "210ca584-7c75-4fd8-8798-01deed170f43"
+        ],
+        "etag": [
+          "\"01a0eccb-7c6d-7090-a48b-56f1f09f34ed:4\""
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ]
+      },
+      "body": {
+        "data": {
+          "id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
+          "public_id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
+          "title": "E2E public portfolio",
+          "summary": "A synthetic public portfolio for runtime verification.",
+          "description": "Synthetic content created only to verify the local integration candidate end to end.",
+          "category_id": "web",
+          "cover_image_id": null,
+          "featured_image_id": null,
+          "publication_id": null,
+          "status": "draft",
+          "etag": "\"01a0eccb-7c6d-7090-a48b-56f1f09f34ed:4\"",
+          "created_at": "2026-09-29T10:52:33.774139Z",
+          "updated_at": "2026-09-29T10:52:34.337182Z",
+          "images": [
+            {
+              "id": "01a0eccb-7c99-7081-a386-a53aaddf1951",
+              "project_id": "01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
+              "state": "ready",
+              "alt": "Synthetic test image",
+              "display_order": 0,
+              "media_type": "image/png",
+              "byte_size": 192,
+              "sha256": "34bc17850f6e0d62577b401b128ceaabef228294cd68d0f18bfb2ffe8ac45c6f",
+              "failure_code": null,
+              "expires_at": "2026-09-29T11:52:33.817285Z",
+              "etag": "\"01a0eccb-7c99-7081-a386-a53aaddf1951:3\""
+            }
+          ]
+        }
+      },
+      "binary_bytes": null
+    },
+    {
+      "operationId": "publicPortfolioDetail",
+      "scenario": "withdrawn or unpublished project",
+      "method": "GET",
+      "path_template": "/api/v1/public/portfolio/projects/{project}",
+      "actual_test_path": "/api/v1/public/portfolio/projects/01a0eccb-7c6d-7090-a48b-56f1f09f34ed",
+      "status": 404,
+      "headers": {
+        "content-type": [
+          "application/json"
+        ],
+        "cache-control": [
+          "no-store"
+        ],
+        "x-request-id": [
+          "e40420ac-ebcb-4e22-8b53-c2fc7814e9d2"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ]
+      },
+      "body": {
+        "error": {
+          "code": "NOT_FOUND",
+          "message": "The resource was not found."
+        },
+        "request_id": "e40420ac-ebcb-4e22-8b53-c2fc7814e9d2"
+      },
+      "binary_bytes": null
+    },
+    {
+      "operationId": "publicPortfolioImage",
+      "scenario": "withdrawn image version",
+      "method": "GET",
+      "path_template": "/api/v1/public/portfolio/images/{image}/{variant}",
+      "actual_test_path": "/api/v1/public/portfolio/images/01a0eccb-7fd8-72cd-ac7e-ccbf55169b25/card",
+      "status": 404,
+      "headers": {
+        "content-type": [
+          "application/json"
+        ],
+        "cache-control": [
+          "no-store"
+        ],
+        "x-request-id": [
+          "c6bedf71-27cc-48b2-876d-1f6faf9e1eee"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ]
+      },
+      "body": {
+        "error": {
+          "code": "NOT_FOUND",
+          "message": "The resource was not found."
+        },
+        "request_id": "c6bedf71-27cc-48b2-876d-1f6faf9e1eee"
+      },
+      "binary_bytes": null
+    },
+    {
+      "operationId": "publicContactCreate",
+      "scenario": "same key with different normalized body",
+      "method": "POST",
+      "path_template": "/api/v1/public/contact-messages",
+      "actual_test_path": "/api/v1/public/contact-messages",
+      "status": 409,
+      "headers": {
+        "x-request-id": [
+          "01a0ecc2-97db-701f-b888-00dbb20b6392"
+        ],
+        "cache-control": [
+          "no-store, private"
+        ],
+        "content-type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "error": {
+          "code": "CONFLICT",
+          "message": "The request could not be completed."
+        },
+        "request_id": "01a0ecc2-97db-701f-b888-00dbb20b6392"
+      },
+      "binary_bytes": null
+    },
+    {
+      "operationId": "publicContactCreate",
+      "scenario": "invalid contact fields",
+      "method": "POST",
+      "path_template": "/api/v1/public/contact-messages",
+      "actual_test_path": "/api/v1/public/contact-messages",
+      "status": 422,
+      "headers": {
+        "x-request-id": [
+          "01a0ecc2-a4ab-71ef-8dde-a0df8d48b0d8"
+        ],
+        "cache-control": [
+          "no-store, private"
+        ],
+        "content-type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "error": {
+          "code": "VALIDATION_FAILED",
+          "message": "The submitted fields are invalid.",
+          "fields": {
+            "input": [
+              "This field is invalid."
+            ]
+          }
+        },
+        "request_id": "01a0ecc2-a4ab-71ef-8dde-a0df8d48b0d8"
+      },
+      "binary_bytes": null
+    },
+    {
+      "operationId": "adminContactRedact",
+      "scenario": "redaction lacks required authority or recent confirmation",
+      "method": "DELETE",
+      "path_template": "/api/v1/admin/contact-messages/{message}",
+      "actual_test_path": "/api/v1/admin/contact-messages/01a0ecc2-b85c-72da-bbf1-d139061aceeb",
+      "status": 403,
+      "headers": {
+        "x-request-id": [
+          "01a0ecc2-bf2b-718c-ae80-e8bef57bf3e4"
+        ],
+        "cache-control": [
+          "no-store, private"
+        ],
+        "content-type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "error": {
+          "code": "FORBIDDEN",
+          "message": "This action is not permitted."
+        },
+        "request_id": "01a0ecc2-bf2b-718c-ae80-e8bef57bf3e4"
       },
       "binary_bytes": null
     }

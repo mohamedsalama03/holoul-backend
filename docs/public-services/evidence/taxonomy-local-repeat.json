@@ -1,0 +1,282 @@
+{
+  "catalog": "intake-launch-v1",
+  "sha256": "3b8f5c3253e74441e467227e45578c883324df0690b168364eefa7d3acb41b0f",
+  "applied": true,
+  "parents": 12,
+  "children": 49,
+  "missing_before": {
+    "parents": 0,
+    "children": 0
+  },
+  "existing_rows_changed": 0,
+  "mapping": [
+    {
+      "id": "01a0eccc-1850-736f-8cce-f51f81ed3017",
+      "slug": "web-development",
+      "children": [
+        {
+          "id": "01a0eccc-1858-721f-be07-9f9f8346313b",
+          "slug": "corporate-website"
+        },
+        {
+          "id": "01a0eccc-185c-700b-9147-14f3eed1d3e2",
+          "slug": "customer-portal"
+        },
+        {
+          "id": "01a0eccc-185d-73c7-b3fb-b228f906ac78",
+          "slug": "web-platform"
+        },
+        {
+          "id": "01a0eccc-1860-70cd-8f09-5df4891cfc6a",
+          "slug": "other"
+        }
+      ]
+    },
+    {
+      "id": "01a0eccc-1861-7123-8a03-c149921a1fc0",
+      "slug": "mobile-applications",
+      "children": [
+        {
+          "id": "01a0eccc-1863-7228-8512-c44bd1971bc4",
+          "slug": "ios-android-app"
+        },
+        {
+          "id": "01a0eccc-1865-7364-9b29-fd6eae7c9106",
+          "slug": "customer-app"
+        },
+        {
+          "id": "01a0eccc-1867-7397-8b8f-e77421842164",
+          "slug": "operations-app"
+        },
+        {
+          "id": "01a0eccc-1868-73b1-9947-8cb118d06cbf",
+          "slug": "other"
+        }
+      ]
+    },
+    {
+      "id": "01a0eccc-186a-73a3-afd0-72f70d19a563",
+      "slug": "e-commerce",
+      "children": [
+        {
+          "id": "01a0eccc-186b-70b9-a06f-9faececbfb57",
+          "slug": "online-store"
+        },
+        {
+          "id": "01a0eccc-186d-7021-ab37-8a1e7f9d251c",
+          "slug": "marketplace"
+        },
+        {
+          "id": "01a0eccc-186f-72d2-8b17-9d9be3e76e52",
+          "slug": "b2b-commerce"
+        },
+        {
+          "id": "01a0eccc-1871-7315-aad0-76d192796dcb",
+          "slug": "other"
+        }
+      ]
+    },
+    {
+      "id": "01a0eccc-1873-7118-baa5-9498054fe3be",
+      "slug": "business-management-systems",
+      "children": [
+        {
+          "id": "01a0eccc-1875-7240-8259-75ad2415c0e4",
+          "slug": "erp"
+        },
+        {
+          "id": "01a0eccc-1877-7319-a366-f8a9165ad541",
+          "slug": "crm"
+        },
+        {
+          "id": "01a0eccc-1879-7319-ab3f-8c654accc89e",
+          "slug": "hr-management"
+        },
+        {
+          "id": "01a0eccc-187c-72c0-9d65-35ec2a5702b0",
+          "slug": "inventory-management"
+        },
+        {
+          "id": "01a0eccc-187e-721e-8911-e8626c9289a3",
+          "slug": "accounting"
+        },
+        {
+          "id": "01a0eccc-1880-70d5-84f9-c59fc9ec2251",
+          "slug": "workflow-automation"
+        },
+        {
+          "id": "01a0eccc-1882-719b-84c4-15efa548482b",
+          "slug": "other"
+        }
+      ]
+    },
+    {
+      "id": "01a0eccc-1884-72ab-a8b7-138ede696b70",
+      "slug": "logistics-delivery",
+      "children": [
+        {
+          "id": "01a0eccc-1886-73a0-bdf5-f02f4eb8decb",
+          "slug": "delivery-management"
+        },
+        {
+          "id": "01a0eccc-1888-71f8-8f87-5efa950276f8",
+          "slug": "fleet-management"
+        },
+        {
+          "id": "01a0eccc-188a-72a7-b601-a6f57c3bd971",
+          "slug": "order-tracking"
+        },
+        {
+          "id": "01a0eccc-188c-7225-aa22-5ac3ee272d04",
+          "slug": "other"
+        }
+      ]
+    },
+    {
+      "id": "01a0eccc-188e-7181-8c46-ecd22c03c12f",
+      "slug": "healthcare-solutions",
+      "children": [
+        {
+          "id": "01a0eccc-1890-701c-b99c-fe2d1a84fd0a",
+          "slug": "clinic-management"
+        },
+        {
+          "id": "01a0eccc-1892-7001-a6e9-7d8b8da7bb31",
+          "slug": "patient-portal"
+        },
+        {
+          "id": "01a0eccc-1894-71cd-bd06-7f796d73cfa8",
+          "slug": "appointments"
+        },
+        {
+          "id": "01a0eccc-1896-73e0-bb7c-d2495456dc69",
+          "slug": "other"
+        }
+      ]
+    },
+    {
+      "id": "01a0eccc-1898-72ac-9827-b2238f99b4f5",
+      "slug": "education-technology",
+      "children": [
+        {
+          "id": "01a0eccc-189a-711c-b557-39fafe000b42",
+          "slug": "learning-platform"
+        },
+        {
+          "id": "01a0eccc-189c-70c1-9021-f3bb7bcebbf7",
+          "slug": "school-management"
+        },
+        {
+          "id": "01a0eccc-189e-7341-ae86-5844a9a1a751",
+          "slug": "student-portal"
+        },
+        {
+          "id": "01a0eccc-18a0-7093-8388-e8353dec8900",
+          "slug": "other"
+        }
+      ]
+    },
+    {
+      "id": "01a0eccc-18a2-70f7-8599-a63861941fb9",
+      "slug": "financial-solutions",
+      "children": [
+        {
+          "id": "01a0eccc-18a4-7000-bd21-33ead5306456",
+          "slug": "accounting"
+        },
+        {
+          "id": "01a0eccc-18a7-73f1-9888-63bc7c496a75",
+          "slug": "payments"
+        },
+        {
+          "id": "01a0eccc-18a9-734e-89aa-ac367e9b929c",
+          "slug": "financial-operations"
+        },
+        {
+          "id": "01a0eccc-18ac-7227-83e0-2be7b47fea44",
+          "slug": "other"
+        }
+      ]
+    },
+    {
+      "id": "01a0eccc-18ad-718b-8c40-dedc0a5a9c6b",
+      "slug": "booking-reservation-systems",
+      "children": [
+        {
+          "id": "01a0eccc-18af-711d-b3f2-29b0be9d01f8",
+          "slug": "appointments"
+        },
+        {
+          "id": "01a0eccc-18b2-7164-8ae4-6c532328bda0",
+          "slug": "hospitality"
+        },
+        {
+          "id": "01a0eccc-18b4-72e0-a3a6-26c243b12271",
+          "slug": "resource-booking"
+        },
+        {
+          "id": "01a0eccc-18b7-71f2-9cec-a3f93533e0ec",
+          "slug": "other"
+        }
+      ]
+    },
+    {
+      "id": "01a0eccc-18b8-7221-88e2-a0d71665bd49",
+      "slug": "real-estate-technology",
+      "children": [
+        {
+          "id": "01a0eccc-18ba-739b-9c9b-01f9bc0f8cce",
+          "slug": "property-management"
+        },
+        {
+          "id": "01a0eccc-18bc-718f-ab69-486bd5c162ac",
+          "slug": "listings-platform"
+        },
+        {
+          "id": "01a0eccc-18be-7304-8e67-3c6caa057ad8",
+          "slug": "tenant-portal"
+        },
+        {
+          "id": "01a0eccc-18c1-72bb-b9c8-4c3f28ef4e9c",
+          "slug": "other"
+        }
+      ]
+    },
+    {
+      "id": "01a0eccc-18c2-7164-a869-805497a6b922",
+      "slug": "custom-software",
+      "children": [
+        {
+          "id": "01a0eccc-18c4-7028-8091-6600d90b600e",
+          "slug": "internal-system"
+        },
+        {
+          "id": "01a0eccc-18c6-7147-8077-6271e49f01cb",
+          "slug": "workflow-automation"
+        },
+        {
+          "id": "01a0eccc-18c8-72d0-958a-a07893830e9f",
+          "slug": "system-integration"
+        },
+        {
+          "id": "01a0eccc-18cb-72b7-be21-5a1de610ad76",
+          "slug": "other"
+        }
+      ]
+    },
+    {
+      "id": "01a0eccc-18cc-72f5-afad-41786ad6e560",
+      "slug": "other",
+      "children": [
+        {
+          "id": "01a0eccc-18cf-7131-a72a-e41578248a91",
+          "slug": "not-sure-yet"
+        },
+        {
+          "id": "01a0eccc-18d1-71be-9bd1-fc33568aa4de",
+          "slug": "other"
+        }
+      ]
+    }
+  ]
+}

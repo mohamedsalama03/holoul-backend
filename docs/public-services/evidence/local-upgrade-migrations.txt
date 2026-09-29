@@ -1,0 +1,11 @@
+
+   INFO  Running migrations.  
+
+  2026_09_29_000000_add_public_content_permissions .............. 21.59ms DONE
+  2026_09_29_000100_create_contact .............................. 31.26ms DONE
+  2026_09_29_000200_create_public_portfolio ..................... 45.75ms DONE
+
+ Container holoul-migrate-run-83c88550074f Creating 
+ Container holoul-migrate-run-83c88550074f Created 
+
+EXIT 0
