@@ -14,14 +14,14 @@ final class OperationPolicy
         return match (true) {
             self::documents($kind) => 'documents',
             $kind === 'ai.generate' => 'ai',
-            $kind === 'notifications.email' => 'notifications',
+            in_array($kind, ['notifications.email', 'contact.email'], true) => 'notifications',
             default => 'default',
         };
     }
 
     public static function documents(string $kind): bool
     {
-        return in_array($kind, ['documents.scan', 'documents.delete', 'documents.delete_orphan'], true);
+        return in_array($kind, ['documents.scan', 'documents.delete', 'documents.delete_orphan', 'portfolio.process_image'], true);
     }
 
     public static function leaseSeconds(string $kind): int
@@ -38,7 +38,7 @@ final class OperationPolicy
     {
         $delays = match (true) {
             self::documents($kind) => [30, 120],
-            $kind === 'notifications.email' => [30, 60, 120, 240],
+            in_array($kind, ['notifications.email', 'contact.email'], true) => [30, 60, 120, 240],
             default => [5, 30, 120, 300],
         };
 

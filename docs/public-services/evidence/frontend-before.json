@@ -1,0 +1,65 @@
+{
+  "dashboard": {
+    "head": "7a164197c99524741d65f821a84b00bdb98cc8fb",
+    "status_before": [
+      " M e2e/support/sign-in-page.ts",
+      " M e2e/support/totp.ts",
+      " M src/app/(dashboard)/page.tsx",
+      " D src/app/(dashboard)/project-requests/[id]/page.tsx",
+      " M src/app/(dashboard)/project-requests/page.tsx",
+      " M src/components/auth/sign-in.test.tsx",
+      " M src/components/customers/customer-detail.test.tsx",
+      " M src/components/customers/customer-detail.tsx",
+      " D src/components/dashboard/new-request-button.tsx",
+      " M src/components/dashboard/not-connected-card.tsx",
+      " D src/components/dashboard/request-actions.tsx",
+      " D src/components/dashboard/request-detail.tsx",
+      " D src/components/dashboard/request-dialogs.tsx",
+      " D src/components/dashboard/requests-table.tsx",
+      " D src/components/dashboard/session-request.tsx",
+      " M src/components/dashboard/status-badge.tsx",
+      " M src/components/dashboard/work-store.tsx",
+      " M src/components/layout/search-command.tsx",
+      " M src/components/overview/not-connected.test.tsx",
+      " M src/components/overview/not-connected.tsx",
+      " M src/data/records.ts",
+      " M src/data/requests.ts",
+      " M src/lib/api/contract.ts",
+      " M src/lib/api/identity.test.ts",
+      " M src/lib/api/identity.ts",
+      " M src/lib/api/taxonomy.ts",
+      " M src/lib/format.test.ts",
+      " M src/lib/format.ts",
+      " M src/lib/reporting/overview-model.ts",
+      " M src/test/fixtures.ts",
+      " M src/types/index.ts",
+      "?? src/app/(dashboard)/project-requests/[reference]/",
+      "?? src/components/overview/recent-requests.test.tsx",
+      "?? src/components/overview/recent-requests.tsx",
+      "?? src/components/requests/",
+      "?? src/lib/api/requests.test.ts",
+      "?? src/lib/api/requests.ts",
+      "?? src/lib/requests/"
+    ],
+    "contract_files": [
+      {
+        "path": "contracts/holoul-api-v1.openapi.json",
+        "sha256": "af3c96ac459717fb3ab4c86ac68513d4516e843e410de36820af2e188eded43d"
+      }
+    ]
+  },
+  "website": {
+    "head": "39536e65ad0a6df24b2577d0d44fc81fde2b19be",
+    "status_before": [
+      "?? docs/BACKEND-REQUIREMENTS-AR.md",
+      "?? docs/LAUNCH-DATA-AR.md",
+      "?? docs/PUBLIC-SERVICES-REVIEW-AR.md"
+    ],
+    "contract_files": [
+      {
+        "path": "contracts/holoul-api-v1.openapi.json",
+        "sha256": "ae8d0a904a0042b80f9adc1224dedf8677794e2d49ca5cdf41daeb5278780be8"
+      }
+    ]
+  }
+}

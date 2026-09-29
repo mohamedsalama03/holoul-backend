@@ -59,4 +59,10 @@ enum Permission: string
     case ReplayNotificationDelivery = 'notifications.delivery.replay';
     case ReadReporting = 'reporting.read';
     case InvestigateAudit = 'audit.investigate';
+    case ReadPortfolio = 'portfolio.read';
+    case ManagePortfolio = 'portfolio.manage';
+    case PublishPortfolio = 'portfolio.publish';
+    case ReadContact = 'contact.read';
+    case ManageContact = 'contact.manage';
+    case RedactContact = 'contact.redact';
 }

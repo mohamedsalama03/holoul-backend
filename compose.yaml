@@ -49,12 +49,35 @@ x-application: &application
     - documents_storage_client:/run/holoul-storage:ro
     - documents_scan_socket:/run/holoul-clamav:ro
     - documents_inspector_socket:/run/holoul-inspector:ro
+    - portfolio_processor_socket:/run/holoul-portfolio:ro
   networks: [internal]
   mem_limit: 512m
   pids_limit: 128
   restart: unless-stopped
 
 services:
+  portfolio-processor:
+    image: holoul-portfolio:public-services-candidate
+    build:
+      context: .
+      dockerfile: docker/portfolio/Dockerfile
+    init: true
+    user: "1000:1000"
+    read_only: true
+    tmpfs: ["/tmp:size=64m,mode=0700,uid=1000,gid=1000"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    volumes: [portfolio_processor_socket:/run/holoul-portfolio]
+    network_mode: none
+    healthcheck:
+      test: [CMD, python3, -I, /opt/holoul/processor.py, --health]
+      interval: 20s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+    mem_limit: 768m
+    cpus: 1.0
+    pids_limit: 32
   initialize:
     <<: *application
     command: [php, docker/app/initialize.php]
@@ -432,6 +455,7 @@ services:
       - documents_storage_client:/run/holoul-storage:ro
       - documents_scan_socket:/run/holoul-clamav:ro
       - documents_inspector_socket:/run/holoul-inspector:ro
+      - portfolio_processor_socket:/run/holoul-portfolio:ro
     networks: [internal, ingress]
     depends_on:
       postgres: {condition: service_healthy}
@@ -457,3 +481,5 @@ volumes:
   documents_signatures: {}
   documents_scan_socket: {}
   documents_inspector_socket: {}
+
+  portfolio_processor_socket: {}

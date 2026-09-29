@@ -28,7 +28,17 @@ final class RequestLimits
             // bounds the stream, including chunked/misdeclared request bodies.
             return $next($request);
         }
-        $limit = $request->is('api/v1/guest/*') ? 128 * 1024 : 12 * 1024 * 1024;
+        if ($request->isMethod('PUT') && preg_match('#\Aapi/v1/admin/portfolio/projects/[0-9a-f-]{36}/images/[0-9a-f-]{36}/content\z#D', $request->path()) === 1) {
+            if ($request->header('Content-Type') !== 'application/octet-stream') {
+                throw new HttpException(415);
+            }
+            if ((int) $request->header('Content-Length', '0') > 5242880) {
+                throw new HttpException(413);
+            }
+
+            return $next($request);
+        }
+        $limit = $request->is('api/v1/public/contact-messages') ? 32 * 1024 : ($request->is('api/v1/guest/*') ? 128 * 1024 : 12 * 1024 * 1024);
         if (strlen($request->getContent()) > $limit) {
             throw new HttpException(413);
         }

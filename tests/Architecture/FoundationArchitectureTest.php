@@ -29,6 +29,8 @@ final class FoundationArchitectureTest extends TestCase
 {
     /** @var array<string, list<string>> */
     private const MODULE_DEPENDENCIES = [
+        'PublicPortfolio' => ['Audit'],
+        'Contact' => ['Audit'],
         'Identity' => ['Audit'],
         'Customers' => ['Identity', 'Audit'],
         'Categories' => ['Audit'],
@@ -62,7 +64,9 @@ final class FoundationArchitectureTest extends TestCase
         'project_updates', 'project_activity', 'project_document_uploads', 'project_documents', 'project_command_keys',
         'ai_budget_days', 'ai_runs', 'ai_suggestions', 'ai_provider_attempts', 'ai_command_keys',
         'notifications', 'notification_inboxes', 'notification_preferences', 'notification_deliveries',
-        'notification_delivery_attempts', 'notification_replays', 'notification_command_keys'];
+        'notification_delivery_attempts', 'notification_replays', 'notification_command_keys',
+        'contact_messages', 'contact_submission_keys', 'contact_deliveries', 'contact_delivery_attempts',
+        'portfolio_projects', 'portfolio_assets', 'portfolio_publications', 'portfolio_public_images', 'portfolio_command_keys', 'portfolio_invalidations', 'portfolio_imports'];
 
     /** @var array<string, list<string>> */
     private const CONTRACT_ONLY_DEPENDENCIES = [
@@ -222,7 +226,7 @@ final class FoundationArchitectureTest extends TestCase
         foreach (array_keys(self::MODULE_DEPENDENCIES) as $module) {
             self::assertDirectoryExists(app_path("Modules/$module"));
 
-            if (! in_array($module, ['Audit', 'Identity', 'Customers', 'Categories', 'ProjectIntake', 'Documents', 'Discovery', 'Proposals', 'Projects', 'AI', 'Notifications', 'Reporting'], true)) {
+            if (! in_array($module, ['PublicPortfolio', 'Contact', 'Audit', 'Identity', 'Customers', 'Categories', 'ProjectIntake', 'Documents', 'Discovery', 'Proposals', 'Projects', 'AI', 'Notifications', 'Reporting'], true)) {
                 self::assertSame([], $this->phpFiles(app_path("Modules/$module")), "$module implementation belongs to a later approved batch");
             }
         }
@@ -268,6 +272,27 @@ final class FoundationArchitectureTest extends TestCase
 
         sort($actual);
         $expected = [
+            'GET|HEAD api/v1/public/portfolio/projects',
+            'GET|HEAD api/v1/public/portfolio/projects/{project}',
+            'GET|HEAD api/v1/public/portfolio/categories',
+            'GET|HEAD api/v1/public/portfolio/images/{image}/{variant}',
+            'POST api/v1/public/contact-messages',
+            'GET|HEAD api/v1/admin/public-content/capabilities',
+            'GET|HEAD api/v1/admin/contact-messages',
+            'GET|HEAD api/v1/admin/contact-messages/{message}',
+            'PATCH api/v1/admin/contact-messages/{message}',
+            'DELETE api/v1/admin/contact-messages/{message}',
+            'GET|HEAD api/v1/admin/portfolio/projects',
+            'POST api/v1/admin/portfolio/projects',
+            'GET|HEAD api/v1/admin/portfolio/projects/{project}',
+            'PATCH api/v1/admin/portfolio/projects/{project}',
+            'POST api/v1/admin/portfolio/projects/{project}/images',
+            'PUT api/v1/admin/portfolio/projects/{project}/images/{image}/content',
+            'GET|HEAD api/v1/admin/portfolio/projects/{project}/images/{image}',
+            'DELETE api/v1/admin/portfolio/projects/{project}/images/{image}',
+            'POST api/v1/admin/portfolio/projects/{project}/publications',
+            'POST api/v1/admin/portfolio/projects/{project}/unpublications',
+
             'GET|HEAD api/v1/intake/categories', 'GET|HEAD api/v1/intake/categories/{category}/subcategories',
             'POST api/v1/guest/project-requests', 'POST api/v1/guest/project-requests/{projectRequest}/submissions',
             'POST api/v1/guest/project-requests/{projectRequest}/documents',
@@ -423,6 +448,13 @@ final class FoundationArchitectureTest extends TestCase
                 self::assertSame(['GET', 'HEAD'], $route->methods());
                 self::assertContains(GuestIntakeThrottle::class, $middleware);
                 self::assertNotContains(StartSecureSession::class, $middleware);
+
+                continue;
+            }
+            if (str_starts_with($route->uri(), 'api/v1/public/portfolio/')) {
+                self::assertSame(['GET', 'HEAD'], $route->methods());
+                self::assertNotContains(StartSecureSession::class, $middleware);
+                self::assertNotContains(StrictCsrf::class, $middleware);
 
                 continue;
             }

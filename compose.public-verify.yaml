@@ -1,0 +1,152 @@
+name: holoul-public-verify
+services:
+  portfolio-processor:
+    image: holoul-portfolio:public-services-candidate
+    build:
+      context: .
+      dockerfile: docker/portfolio/Dockerfile
+    init: true
+    user: "1000:1000"
+    read_only: true
+    tmpfs: ["/tmp:size=64m,mode=0700,uid=1000,gid=1000"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    volumes: [portfolio_processor_socket:/run/holoul-portfolio]
+    network_mode: none
+    healthcheck:
+      test: [CMD, python3, -I, /opt/holoul/processor.py, --health]
+      interval: 20s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+    mem_limit: 768m
+    cpus: 1.0
+    pids_limit: 32
+  public-verify-postgres:
+    image: holoul-postgres:b1-runtime
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD_FILE: /run/holoul-bootstrap/postgres_password
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256 --locale-provider=builtin --builtin-locale=C.UTF-8 --encoding=UTF8
+    volumes:
+      - verification_postgres:/var/lib/postgresql
+      - bootstrap_secrets:/run/holoul-bootstrap:ro
+      - app_secrets:/run/holoul-app:ro
+      - migrator_secrets:/run/holoul-migrator:ro
+      - ./docker/postgres/initialize.sh:/docker-entrypoint-initdb.d/10-holoul.sh:ro
+    networks:
+      internal:
+        aliases: [public-verify-postgres]
+    mem_limit: 768m
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -h 127.0.0.1 -U postgres -d postgres"]
+      interval: 3s
+      retries: 20
+  public-verify-redis:
+    image: holoul-redis:b1-runtime
+    user: "999:999"
+    entrypoint: [sh, /etc/holoul/start.sh]
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    volumes:
+      - redis_secrets:/run/holoul-redis:ro
+      - ./docker/redis/start.sh:/etc/holoul/start.sh:ro
+    networks:
+      internal:
+        aliases: [public-verify-redis]
+    mem_limit: 192m
+  verify:
+    image: holoul-app:public-services-development
+    container_name: holoul-public-verify
+    init: true
+    user: "1000:1000"
+    command: [tail, -f, /dev/null]
+    environment:
+      APP_ENV: testing
+      APP_URL: https://localhost:8443
+      HOLOUL_DEPLOYMENT_PROFILE: local-verification
+      HOLOUL_PROCESS_ROLE: app
+      APP_KEY_FILE: /run/holoul-secrets/app_key
+      APP_TRUSTED_HOSTS: localhost,127.0.0.1
+      DB_HOST: public-verify-postgres
+      DB_DATABASE: holoul_test
+      DB_USERNAME: holoul_migrator
+      DB_PASSWORD_FILE: /run/holoul-migrator/password
+      DB_SSLMODE: disable
+      REDIS_HOST: public-verify-redis
+      REDIS_PASSWORD_FILE: /run/holoul-secrets/redis_password
+      REDIS_PREFIX: holoul_testing_
+      IDENTITY_MAIL_SANDBOX: 'true'
+      HOLOUL_AI_ENABLED: 'false'
+      MAIL_SCHEME: smtp
+      MAIL_HOST: mailpit
+      MAIL_PORT: '1025'
+      MAIL_FROM_ADDRESS: noreply@holoul.test
+      DOCUMENTS_S3_ENDPOINT: https://storage:8333
+      DOCUMENTS_S3_REGION: us-east-1
+      DOCUMENTS_S3_BUCKET: holoul-documents
+      DOCUMENTS_S3_ACCESS_KEY_FILE: /run/holoul-secrets/storage_access_key
+      DOCUMENTS_S3_SECRET_KEY_FILE: /run/holoul-secrets/storage_secret_key
+      DOCUMENTS_S3_CA_BUNDLE: /run/holoul-storage/client-ca.crt
+    volumes:
+      - app_secrets:/run/holoul-secrets:ro
+      - migrator_secrets:/run/holoul-migrator:ro
+      - documents_storage_client:/run/holoul-storage:ro
+      - documents_scan_socket:/run/holoul-clamav:ro
+      - documents_inspector_socket:/run/holoul-inspector:ro
+      - portfolio_processor_socket:/run/holoul-portfolio:ro
+      - ./app:/var/www/html/app
+      - ./bootstrap:/var/www/html/bootstrap
+      - ./config:/var/www/html/config
+      - ./database:/var/www/html/database
+      - ./routes:/var/www/html/routes
+      - ./tests:/var/www/html/tests
+      - ./scripts:/var/www/html/scripts
+      - ./docs:/var/www/html/docs
+      - ./docker:/var/www/html/docker
+      - ./tools:/var/www/html/tools
+      - ./composer.json:/var/www/html/composer.json:ro
+      - ./composer.lock:/var/www/html/composer.lock:ro
+      - ./phpunit.xml:/var/www/html/phpunit.xml:ro
+      - ./phpstan.neon:/var/www/html/phpstan.neon:ro
+      - ./pint.json:/var/www/html/pint.json:ro
+      - ./compose.yaml:/var/www/html/compose.yaml:ro
+      - ./Dockerfile:/var/www/html/Dockerfile:ro
+    networks: [internal, ingress]
+    mem_limit: 2g
+    pids_limit: 256
+    depends_on:
+      public-verify-postgres: {condition: service_healthy}
+networks:
+  internal:
+    external: true
+    name: holoul_internal
+  ingress: {}
+volumes:
+  verification_postgres: {}
+  app_secrets:
+    external: true
+    name: holoul_app_secrets
+  migrator_secrets:
+    external: true
+    name: holoul_migrator_secrets
+  bootstrap_secrets:
+    external: true
+    name: holoul_bootstrap_secrets
+  redis_secrets:
+    external: true
+    name: holoul_redis_secrets
+  documents_storage_client:
+    external: true
+    name: holoul_documents_storage_client
+  documents_scan_socket:
+    external: true
+    name: holoul_documents_scan_socket
+  documents_inspector_socket:
+    external: true
+    name: holoul_documents_inspector_socket
+
+  portfolio_processor_socket: {}

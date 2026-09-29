@@ -19,3 +19,7 @@ Schedule::call(function (): void {
 })->everyMinute();
 
 Schedule::command('identity:expire-staff-invitations')->everyMinute()->withoutOverlapping();
+
+Schedule::command('portfolio:reconcile --limit=20')->everyFiveMinutes()->withoutOverlapping();
+
+Schedule::command('contact:reconcile-delivery')->everyMinute()->withoutOverlapping();

@@ -1,0 +1,26 @@
+ ------ --------------------------------------------------------------------- 
+  Line   app/Modules/PublicPortfolio/Actions/ManagePortfolio.php              
+ ------ --------------------------------------------------------------------- 
+  139    Method                                                               
+         App\Modules\PublicPortfolio\Actions\ManagePortfolio::publication()   
+         should return array<string, mixed> but returns array<mixed, mixed>.  
+         🪪  return.type                                                      
+ ------ --------------------------------------------------------------------- 
+
+ ------ ----------------------------------------------------------------------- 
+  Line   app/Modules/PublicPortfolio/Adapters/IsolatedImageProcessor.php        
+ ------ ----------------------------------------------------------------------- 
+  72     Parameter #2 $variants of class                                        
+         App\Modules\PublicPortfolio\Data\ProcessedImage constructor expects    
+         array<string, array{bytes: string, width: int, height: int}>, array<a  
+         rray{bytes: non-falsy-string, width: int<1, 1800>, height: int<1,      
+         1400>}> given.                                                         
+         🪪  argument.type                                                      
+  86     Parameter #2 $length of function fread expects int<1, max>, int<min,   
+         65536> given.                                                          
+         🪪  argument.type                                                      
+ ------ ----------------------------------------------------------------------- 
+
+ [ERROR] Found 3 errors                                                         
+
+Note: Using configuration file /var/www/html/phpstan.neon.

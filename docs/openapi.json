@@ -3,8 +3,8 @@
   "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
   "info": {
     "title": "HOLOUL frontend API",
-    "version": "1.3.0-directory-sort-candidate",
-    "description": "Accepted G1 candidate acd04c1 plus reviewed staff onboarding and an optional customer registration sort parameter (C1), preserving the existing default and response shape. Historical B8/P1/P2/P3/F1-E1 evidence remains retained. This feature candidate is not production certification; performance certification remains pending the target VPS. Same-origin session API; the only non-/api/v1 frontend operation is Sanctum CSRF initialization."
+    "version": "1.4.0-public-services-candidate",
+    "description": "Accepted G1, staff onboarding and optional customer-directory sort preserved exactly; adds the approved PublicPortfolio and Contact operations with independent self-capabilities. Historical B8/P1/P2/P3/F1-E1 evidence remains retained. This feature candidate is not production certification; performance certification remains pending the target VPS. Same-origin session API; the only non-/api/v1 frontend operation is Sanctum CSRF initialization."
   },
   "servers": [
     {
@@ -1018,6 +1018,479 @@
         "x-source-operation": "taxonomy.create_subcategory"
       }
     },
+    "/api/v1/admin/contact-messages": {
+      "get": {
+        "operationId": "adminContactList",
+        "summary": "List contact inbox entries",
+        "description": "Descending immutable receipt UUIDv7; cursor scoped to status. Listing and personal-content reads are audited without logging message bodies or contact details. Requires an enabled staff identity, verified email, complete MFA and current server-side permission. Only Super Admin and Administrator receive the six new permissions by default. Existing staff invitation and role-grant policy is unchanged.",
+        "tags": [
+          "Contact"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "contact.read"
+        ],
+        "x-frontend-feature": "List contact inbox entries",
+        "x-source": [
+          "routes/public-content.php",
+          "app/Application/PublicServices/ContactApi.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "received",
+                "in_progress",
+                "resolved",
+                "spam",
+                "redacted"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 25
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List contact inbox entries",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminContactPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/contact-messages/{message}": {
+      "get": {
+        "operationId": "adminContactDetail",
+        "summary": "Read a contact message and delivery outcome",
+        "description": "Requires an enabled staff identity, verified email, complete MFA and current server-side permission. Only Super Admin and Administrator receive the six new permissions by default. Existing staff invitation and role-grant policy is unchanged.",
+        "tags": [
+          "Contact"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "contact.read"
+        ],
+        "x-frontend-feature": "Read a contact message and delivery outcome",
+        "x-source": [
+          "routes/public-content.php",
+          "app/Application/PublicServices/ContactApi.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "message",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read a contact message and delivery outcome",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[0-9a-f-]{36}:[1-9][0-9]*\"$"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminContactResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "adminContactUpdate",
+        "summary": "Update contact handling status",
+        "description": "If-Match is the receipt administrative ETag; received content and receipt identity stay immutable. Redacted content cannot be restored. Requires an enabled staff identity, verified email, complete MFA and current server-side permission. Only Super Admin and Administrator receive the six new permissions by default. Existing staff invitation and role-grant policy is unchanged.",
+        "tags": [
+          "Contact"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "contact.manage"
+        ],
+        "x-frontend-feature": "Update contact handling status",
+        "x-source": [
+          "routes/public-content.php",
+          "app/Application/PublicServices/ContactApi.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "message",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          },
+          {
+            "$ref": "#/components/parameters/IfMatch"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update contact handling status",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[0-9a-f-]{36}:[1-9][0-9]*\"$"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminContactResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "428": {
+            "$ref": "#/components/responses/PreconditionRequired"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "412": {
+            "$ref": "#/components/responses/PreconditionFailed"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminContactUpdateInput"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "adminContactRedact",
+        "summary": "Manually redact personal contact content",
+        "description": "Nulls personal fields while preserving immutable receipt, audit and delivery history. If-Match is the receipt administrative ETag. No anonymous deletion by email. Backups require a reviewed retention/restore procedure; no scheduled redaction is enabled. Requires an enabled staff identity, verified email, complete MFA and current server-side permission. Only Super Admin and Administrator receive the six new permissions by default. Existing staff invitation and role-grant policy is unchanged. Requires recent password confirmation using the existing identityConfirmPassword operation.",
+        "tags": [
+          "Contact"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "contact.redact"
+        ],
+        "x-frontend-feature": "Manually redact personal contact content",
+        "x-source": [
+          "routes/public-content.php",
+          "app/Application/PublicServices/ContactApi.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "message",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          },
+          {
+            "$ref": "#/components/parameters/IfMatch"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Manually redact personal contact content",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[0-9a-f-]{36}:[1-9][0-9]*\"$"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminContactResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "428": {
+            "$ref": "#/components/responses/PreconditionRequired"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "412": {
+            "$ref": "#/components/responses/PreconditionFailed"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
     "/api/v1/admin/customers": {
       "get": {
         "operationId": "adminCustomerList",
@@ -1967,6 +2440,1245 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/NotificationReplayInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/portfolio/projects": {
+      "get": {
+        "operationId": "adminPortfolioList",
+        "summary": "List editorial portfolio projects",
+        "description": "Requires an enabled staff identity, verified email, complete MFA and current server-side permission. Only Super Admin and Administrator receive the six new permissions by default. Existing staff invitation and role-grant policy is unchanged.",
+        "tags": [
+          "Public portfolio"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "portfolio.read"
+        ],
+        "x-frontend-feature": "List editorial portfolio projects",
+        "x-source": [
+          "routes/public-content.php",
+          "app/Application/PublicServices/PortfolioApi.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "draft",
+                "published"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 48,
+              "default": 12
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List editorial portfolio projects",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminPortfolioPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      },
+      "post": {
+        "operationId": "adminPortfolioCreate",
+        "summary": "Create an independent editorial draft",
+        "description": "Does not create or expose any private customer project. Plain Unicode NFC text only; display as text, never trusted HTML. Requires an enabled staff identity, verified email, complete MFA and current server-side permission. Only Super Admin and Administrator receive the six new permissions by default. Existing staff invitation and role-grant policy is unchanged.",
+        "tags": [
+          "Public portfolio"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "portfolio.manage"
+        ],
+        "x-frontend-feature": "Create an independent editorial draft",
+        "x-source": [
+          "routes/public-content.php",
+          "app/Application/PublicServices/PortfolioApi.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create an independent editorial draft",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[0-9a-f-]{36}:[1-9][0-9]*\"$"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminPortfolioResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminPortfolioCreateInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/portfolio/projects/{project}": {
+      "get": {
+        "operationId": "adminPortfolioDetail",
+        "summary": "Read an editorial draft and image states",
+        "description": "Requires an enabled staff identity, verified email, complete MFA and current server-side permission. Only Super Admin and Administrator receive the six new permissions by default. Existing staff invitation and role-grant policy is unchanged.",
+        "tags": [
+          "Public portfolio"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "portfolio.read"
+        ],
+        "x-frontend-feature": "Read an editorial draft and image states",
+        "x-source": [
+          "routes/public-content.php",
+          "app/Application/PublicServices/PortfolioApi.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read an editorial draft and image states",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[0-9a-f-]{36}:[1-9][0-9]*\"$"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminPortfolioResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "adminPortfolioUpdate",
+        "summary": "Edit draft fields and select cover/featured assets",
+        "description": "The strong version precondition is the project ETag. The currently published snapshot is unchanged until explicit publication. Selected image ids must belong to this project. Requires an enabled staff identity, verified email, complete MFA and current server-side permission. Only Super Admin and Administrator receive the six new permissions by default. Existing staff invitation and role-grant policy is unchanged.",
+        "tags": [
+          "Public portfolio"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "portfolio.manage"
+        ],
+        "x-frontend-feature": "Edit draft fields and select cover/featured assets",
+        "x-source": [
+          "routes/public-content.php",
+          "app/Application/PublicServices/PortfolioApi.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          },
+          {
+            "$ref": "#/components/parameters/IfMatch"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Edit draft fields and select cover/featured assets",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[0-9a-f-]{36}:[1-9][0-9]*\"$"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminPortfolioResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "428": {
+            "$ref": "#/components/responses/PreconditionRequired"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "412": {
+            "$ref": "#/components/responses/PreconditionFailed"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminPortfolioUpdateInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/portfolio/projects/{project}/images": {
+      "post": {
+        "operationId": "adminPortfolioReserveImage",
+        "summary": "Reserve a private image upload",
+        "description": "If-Match is the parent project ETag. At most 8 active reservations/assets. Reservation expires in one hour. Only static JPEG/PNG/WebP <=5 MiB and <=24 million pixels; isolated processing corrects orientation, strips metadata and emits WebP. The reserving staff identity must perform the upload. Expired reservations are retired by bounded reconciliation. Requires an enabled staff identity, verified email, complete MFA and current server-side permission. Only Super Admin and Administrator receive the six new permissions by default. Existing staff invitation and role-grant policy is unchanged.",
+        "tags": [
+          "Public portfolio"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "portfolio.manage"
+        ],
+        "x-frontend-feature": "Reserve a private image upload",
+        "x-source": [
+          "routes/public-content.php",
+          "app/Application/PublicServices/PortfolioApi.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          },
+          {
+            "$ref": "#/components/parameters/IfMatch"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Reserve a private image upload",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[0-9a-f-]{36}:[1-9][0-9]*\"$"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminPortfolioImageResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "428": {
+            "$ref": "#/components/responses/PreconditionRequired"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "412": {
+            "$ref": "#/components/responses/PreconditionFailed"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminPortfolioImageInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/portfolio/projects/{project}/images/{image}": {
+      "get": {
+        "operationId": "adminPortfolioImageStatus",
+        "summary": "Read private image reservation and processing state",
+        "description": "Requires an enabled staff identity, verified email, complete MFA and current server-side permission. Only Super Admin and Administrator receive the six new permissions by default. Existing staff invitation and role-grant policy is unchanged.",
+        "tags": [
+          "Public portfolio"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "portfolio.read"
+        ],
+        "x-frontend-feature": "Read private image reservation and processing state",
+        "x-source": [
+          "routes/public-content.php",
+          "app/Application/PublicServices/PortfolioApi.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "name": "image",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read private image reservation and processing state",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[0-9a-f-]{36}:[1-9][0-9]*\"$"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminPortfolioImageResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "adminPortfolioRemoveImage",
+        "summary": "Retire an editorial image",
+        "description": "If-Match is the parent project ETag. A currently published image cannot be removed; publish a replacement set or unpublish first. History remains; private retired bytes are purged after a 24-hour race-safety grace period. Requires an enabled staff identity, verified email, complete MFA and current server-side permission. Only Super Admin and Administrator receive the six new permissions by default. Existing staff invitation and role-grant policy is unchanged. Requires recent password confirmation using the existing identityConfirmPassword operation.",
+        "tags": [
+          "Public portfolio"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "portfolio.manage"
+        ],
+        "x-frontend-feature": "Retire an editorial image",
+        "x-source": [
+          "routes/public-content.php",
+          "app/Application/PublicServices/PortfolioApi.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "name": "image",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          },
+          {
+            "$ref": "#/components/parameters/IfMatch"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retire an editorial image",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[0-9a-f-]{36}:[1-9][0-9]*\"$"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminPortfolioResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "428": {
+            "$ref": "#/components/responses/PreconditionRequired"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "412": {
+            "$ref": "#/components/responses/PreconditionFailed"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/portfolio/projects/{project}/images/{image}/content": {
+      "put": {
+        "operationId": "adminPortfolioUploadImage",
+        "summary": "Upload exact reserved bytes for isolated processing",
+        "description": "If-Match is the image reservation ETag, not the project ETag. Raw application/octet-stream body must match reserved length and SHA-256. Current staff/session authority is rechecked after storage I/O. A response lost after acceptance requires polling image status; no blind overwrite. 202 means processing queued; only ready images may publish. Requires an enabled staff identity, verified email, complete MFA and current server-side permission. Only Super Admin and Administrator receive the six new permissions by default. Existing staff invitation and role-grant policy is unchanged.",
+        "tags": [
+          "Public portfolio"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "portfolio.manage"
+        ],
+        "x-frontend-feature": "Upload exact reserved bytes for isolated processing",
+        "x-source": [
+          "routes/public-content.php",
+          "app/Application/PublicServices/PortfolioApi.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "name": "image",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          },
+          {
+            "$ref": "#/components/parameters/IfMatch"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Upload exact reserved bytes for isolated processing",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[0-9a-f-]{36}:[1-9][0-9]*\"$"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminPortfolioImageResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "428": {
+            "$ref": "#/components/responses/PreconditionRequired"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "412": {
+            "$ref": "#/components/responses/PreconditionFailed"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/octet-stream": {
+              "schema": {
+                "type": "string",
+                "format": "binary",
+                "maxLength": 5242880
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/portfolio/projects/{project}/publications": {
+      "post": {
+        "operationId": "adminPortfolioPublish",
+        "summary": "Publish an immutable portfolio snapshot",
+        "description": "Requires 1–8 ready images with alt text, owned cover and featured images, and explicit publication-rights confirmation. If-Match is the project ETag. Snapshot, new public image ids, audit and durable invalidation intent commit together. Exact command replay returns the original response; re-fetch detail for current state. Requires an enabled staff identity, verified email, complete MFA and current server-side permission. Only Super Admin and Administrator receive the six new permissions by default. Existing staff invitation and role-grant policy is unchanged. Requires recent password confirmation using the existing identityConfirmPassword operation.",
+        "tags": [
+          "Public portfolio"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "portfolio.publish"
+        ],
+        "x-frontend-feature": "Publish an immutable portfolio snapshot",
+        "x-source": [
+          "routes/public-content.php",
+          "app/Application/PublicServices/PortfolioApi.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          },
+          {
+            "$ref": "#/components/parameters/IfMatch"
+          },
+          {
+            "$ref": "#/components/parameters/PublicServicesIdempotencyKey"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Publish an immutable portfolio snapshot",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[0-9a-f-]{36}:[1-9][0-9]*\"$"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminPortfolioResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "428": {
+            "$ref": "#/components/responses/PreconditionRequired"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "412": {
+            "$ref": "#/components/responses/PreconditionFailed"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminPortfolioPublishInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/portfolio/projects/{project}/unpublications": {
+      "post": {
+        "operationId": "adminPortfolioUnpublish",
+        "summary": "Withdraw a published portfolio project",
+        "description": "Withdraws the origin immediately at commit, preserving snapshots/audit. If-Match is the project ETag. All image ids from the withdrawn publication become unavailable; a later publication uses fresh ids. Durable invalidation tracks origin application; no CDN is configured on the local edge. Requires an enabled staff identity, verified email, complete MFA and current server-side permission. Only Super Admin and Administrator receive the six new permissions by default. Existing staff invitation and role-grant policy is unchanged. Requires recent password confirmation using the existing identityConfirmPassword operation.",
+        "tags": [
+          "Public portfolio"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "portfolio.publish"
+        ],
+        "x-frontend-feature": "Withdraw a published portfolio project",
+        "x-source": [
+          "routes/public-content.php",
+          "app/Application/PublicServices/PortfolioApi.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          },
+          {
+            "$ref": "#/components/parameters/IfMatch"
+          },
+          {
+            "$ref": "#/components/parameters/PublicServicesIdempotencyKey"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Withdraw a published portfolio project",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[0-9a-f-]{36}:[1-9][0-9]*\"$"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminPortfolioResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "428": {
+            "$ref": "#/components/responses/PreconditionRequired"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "412": {
+            "$ref": "#/components/responses/PreconditionFailed"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublicServicesEmptyInput"
               }
             }
           }
@@ -11225,6 +12937,90 @@
                 "$ref": "#/components/schemas/ProjectUpdateInput"
               }
             }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/public-content/capabilities": {
+      "get": {
+        "operationId": "adminPublicContentCapabilities",
+        "summary": "Read own public-content permissions",
+        "description": "Booleans express currently granted permissions; sensitive actions also require recent_password_confirmation. Existing IdentityCurrentUser/StaffCapabilities schemas are unchanged. Requires an enabled staff identity, verified email, complete MFA and current server-side permission. Only Super Admin and Administrator receive the six new permissions by default. Existing staff invitation and role-grant policy is unchanged.",
+        "tags": [
+          "Public content administration"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [],
+        "x-frontend-feature": "Read own public-content permissions",
+        "x-source": [
+          "routes/public-content.php",
+          "app/Application/PublicServices/PublicContentCapabilities.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read own public-content permissions",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminPublicContentCapabilitiesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
           }
         }
       }
@@ -25126,6 +26922,490 @@
         }
       }
     },
+    "/api/v1/public/contact-messages": {
+      "post": {
+        "operationId": "publicContactCreate",
+        "summary": "Save a contact message and return its durable receipt",
+        "description": "Explicit CSRF bootstrap is required for every persona. The response never creates, rotates or replaces authentication state. Receipt and one durable notification intent commit atomically. 201 confirms storage, not email delivery. Email goes only to configured info@holoul.ly and contains a reference plus the authorized dashboard link once that page is accepted. Ambiguous SMTP outcome is not blindly retried. Automatic redaction is disabled; the proposed 180-day retention period remains unapproved.",
+        "tags": [
+          "Contact"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "guest",
+          "customer",
+          "staff"
+        ],
+        "x-permissions": [],
+        "x-frontend-feature": "Save a contact message and return its durable receipt",
+        "x-source": [
+          "routes/public-content.php",
+          "app/Application/PublicServices/ContactApi.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          },
+          {
+            "$ref": "#/components/parameters/PublicServicesIdempotencyKey"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Save a contact message and return its durable receipt",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicContactReceiptResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublicContactInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/public/portfolio/categories": {
+      "get": {
+        "operationId": "publicPortfolioCategories",
+        "summary": "List portfolio categories and published counts",
+        "description": "Fixed editorial category codes, independent from the intake UUID taxonomy. Anonymous, cookie-independent read: no session bootstrap, Set-Cookie or authentication state changes. Success Cache-Control is public,max-age=0,s-maxage=60,must-revalidate. Errors are no-store; no stale-* fallback or 304. The full website/cache path must keep the total withdrawal budget within 60 seconds; the local edge itself does not cache.",
+        "tags": [
+          "Public portfolio"
+        ],
+        "security": [],
+        "x-personas": [
+          "public"
+        ],
+        "x-permissions": [],
+        "x-frontend-feature": "List portfolio categories and published counts",
+        "x-source": [
+          "routes/public-content.php",
+          "app/Application/PublicServices/PortfolioApi.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List portfolio categories and published counts",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicPortfolioCategoriesResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/public/portfolio/images/{image}/{variant}": {
+      "get": {
+        "operationId": "publicPortfolioImage",
+        "summary": "Read immutable published WebP bytes",
+        "description": "The image id is a UUIDv7 publication image, not an admin upload asset. Every publication issues fresh ids, including unchanged bytes. Replaced/unpublished image ids return 404 at origin and can never revive. Membership is rechecked after private storage I/O. Card fits 640x640; gallery fits 1800x1400; neither upscales. No metadata or private storage keys are exposed. Anonymous, cookie-independent read: no session bootstrap, Set-Cookie or authentication state changes. Success Cache-Control is public,max-age=0,s-maxage=60,must-revalidate. Errors are no-store; no stale-* fallback or 304. The full website/cache path must keep the total withdrawal budget within 60 seconds; the local edge itself does not cache.",
+        "tags": [
+          "Public portfolio"
+        ],
+        "security": [],
+        "x-personas": [
+          "public"
+        ],
+        "x-permissions": [],
+        "x-frontend-feature": "Read immutable published WebP bytes",
+        "x-source": [
+          "routes/public-content.php",
+          "app/Application/PublicServices/PortfolioApi.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "image",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "name": "variant",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "card",
+                "gallery"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read immutable published WebP bytes",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "content": {
+              "image/webp": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/public/portfolio/projects": {
+      "get": {
+        "operationId": "publicPortfolioList",
+        "summary": "List published portfolio cards",
+        "description": "Stable published_at DESC, publication ID DESC cursor; concurrent changes do not provide a page snapshot. The website deduplicates by project id. Anonymous, cookie-independent read: no session bootstrap, Set-Cookie or authentication state changes. Success Cache-Control is public,max-age=0,s-maxage=60,must-revalidate. Errors are no-store; no stale-* fallback or 304. The full website/cache path must keep the total withdrawal budget within 60 seconds; the local edge itself does not cache.",
+        "tags": [
+          "Public portfolio"
+        ],
+        "security": [],
+        "x-personas": [
+          "public"
+        ],
+        "x-permissions": [],
+        "x-frontend-feature": "List published portfolio cards",
+        "x-source": [
+          "routes/public-content.php",
+          "app/Application/PublicServices/PortfolioApi.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web",
+                "mobile",
+                "business",
+                "commerce",
+                "custom"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 48,
+              "default": 12
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List published portfolio cards",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicPortfolioPage"
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/public/portfolio/projects/{project}": {
+      "get": {
+        "operationId": "publicPortfolioDetail",
+        "summary": "Read a published portfolio project",
+        "description": "Draft edits do not change the immutable public snapshot. Unpublished, unknown and retired aliases return 404. Anonymous, cookie-independent read: no session bootstrap, Set-Cookie or authentication state changes. Success Cache-Control is public,max-age=0,s-maxage=60,must-revalidate. Errors are no-store; no stale-* fallback or 304. The full website/cache path must keep the total withdrawal budget within 60 seconds; the local edge itself does not cache.",
+        "tags": [
+          "Public portfolio"
+        ],
+        "security": [],
+        "x-personas": [
+          "public"
+        ],
+        "x-permissions": [],
+        "x-frontend-feature": "Read a published portfolio project",
+        "x-source": [
+          "routes/public-content.php",
+          "app/Application/PublicServices/PortfolioApi.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read a published portfolio project",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicPortfolioDetailResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
     "/sanctum/csrf-cookie": {
       "get": {
         "operationId": "identityInitializeCsrf",
@@ -33518,6 +35798,1211 @@
             }
           }
         }
+      },
+      "PublicPortfolioCategory": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "display_order",
+          "published_count"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": [
+              "web",
+              "mobile",
+              "business",
+              "commerce",
+              "custom"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "display_order": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "published_count": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "PublicPortfolioImageVariant": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "url",
+          "width",
+          "height",
+          "media_type"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "enum": [
+              "card",
+              "gallery"
+            ]
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^/api/v1/public/portfolio/images/[0-9a-f-]{36}/(card|gallery)$"
+          },
+          "width": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1800
+          },
+          "height": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1400
+          },
+          "media_type": {
+            "const": "image/webp"
+          }
+        }
+      },
+      "PublicPortfolioImage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "alt",
+          "variants"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "alt": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "variants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicPortfolioImageVariant"
+            },
+            "maxItems": 2,
+            "minItems": 2
+          }
+        }
+      },
+      "PublicPortfolioCard": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "summary",
+          "category_id",
+          "cover_image",
+          "updated_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "UUIDv7 for new records; imported legacy UUIDv4 is preserved for existing project links."
+          },
+          "title": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 120
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 240
+          },
+          "category_id": {
+            "type": "string",
+            "enum": [
+              "web",
+              "mobile",
+              "business",
+              "commerce",
+              "custom"
+            ]
+          },
+          "cover_image": {
+            "$ref": "#/components/schemas/PublicPortfolioImage"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PublicPortfolioDetail": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "summary",
+          "category_id",
+          "cover_image",
+          "updated_at",
+          "description",
+          "images",
+          "featured_image_id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "UUIDv7 for new records; imported legacy UUIDv4 is preserved for existing project links."
+          },
+          "title": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 120
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 240
+          },
+          "category_id": {
+            "type": "string",
+            "enum": [
+              "web",
+              "mobile",
+              "business",
+              "commerce",
+              "custom"
+            ]
+          },
+          "cover_image": {
+            "$ref": "#/components/schemas/PublicPortfolioImage"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 30,
+            "maxLength": 12000
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicPortfolioImage"
+            },
+            "maxItems": 8,
+            "minItems": 1
+          },
+          "featured_image_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          }
+        }
+      },
+      "PublicPortfolioPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data",
+          "meta"
+        ],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicPortfolioCard"
+            },
+            "maxItems": 48,
+            "minItems": 0
+          },
+          "meta": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "limit",
+              "next_cursor"
+            ],
+            "properties": {
+              "limit": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 48
+              },
+              "next_cursor": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "PublicPortfolioDetailResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PublicPortfolioDetail"
+          }
+        }
+      },
+      "PublicPortfolioCategoriesResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicPortfolioCategory"
+            },
+            "maxItems": 5,
+            "minItems": 5
+          }
+        }
+      },
+      "AdminPublicContentCapabilities": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "portfolio_read",
+          "portfolio_manage",
+          "portfolio_publish",
+          "contact_read",
+          "contact_manage",
+          "contact_redact",
+          "recent_password_confirmation"
+        ],
+        "properties": {
+          "portfolio_read": {
+            "type": "boolean"
+          },
+          "portfolio_manage": {
+            "type": "boolean"
+          },
+          "portfolio_publish": {
+            "type": "boolean"
+          },
+          "contact_read": {
+            "type": "boolean"
+          },
+          "contact_manage": {
+            "type": "boolean"
+          },
+          "contact_redact": {
+            "type": "boolean"
+          },
+          "recent_password_confirmation": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AdminPublicContentCapabilitiesResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AdminPublicContentCapabilities"
+          }
+        }
+      },
+      "AdminPortfolioCreateInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "title",
+          "summary",
+          "description",
+          "category_id"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 120
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 240
+          },
+          "description": {
+            "type": "string",
+            "minLength": 30,
+            "maxLength": 12000
+          },
+          "category_id": {
+            "type": "string",
+            "enum": [
+              "web",
+              "mobile",
+              "business",
+              "commerce",
+              "custom"
+            ]
+          }
+        }
+      },
+      "AdminPortfolioUpdateInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [],
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 120
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 240
+          },
+          "description": {
+            "type": "string",
+            "minLength": 30,
+            "maxLength": 12000
+          },
+          "category_id": {
+            "type": "string",
+            "enum": [
+              "web",
+              "mobile",
+              "business",
+              "commerce",
+              "custom"
+            ]
+          },
+          "cover_image_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "featured_image_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "AdminPortfolioImageInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "media_type",
+          "byte_size",
+          "sha256",
+          "alt",
+          "display_order"
+        ],
+        "properties": {
+          "media_type": {
+            "type": "string",
+            "enum": [
+              "image/jpeg",
+              "image/png",
+              "image/webp"
+            ]
+          },
+          "byte_size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5242880
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "alt": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "display_order": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 7
+          }
+        }
+      },
+      "AdminPortfolioPublishInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "rights_confirmed"
+        ],
+        "properties": {
+          "rights_confirmed": {
+            "const": true,
+            "description": "Staff explicitly attests authorization to publish the content and all images."
+          }
+        }
+      },
+      "PublicServicesEmptyInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [],
+        "properties": {}
+      },
+      "AdminPortfolioImageStatus": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "media_type",
+          "byte_size",
+          "sha256",
+          "alt",
+          "display_order",
+          "id",
+          "project_id",
+          "state",
+          "failure_code",
+          "expires_at",
+          "etag"
+        ],
+        "properties": {
+          "media_type": {
+            "type": "string",
+            "enum": [
+              "image/jpeg",
+              "image/png",
+              "image/webp"
+            ]
+          },
+          "byte_size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5242880
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "alt": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "display_order": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 7
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "project_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "reserved",
+              "processing",
+              "ready",
+              "rejected",
+              "removed",
+              "expired"
+            ]
+          },
+          "failure_code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "invalid_image",
+                  "resource_limit",
+                  "authority_revoked",
+                  "processing_unavailable",
+                  "processing_failed"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "etag": {
+            "type": "string",
+            "pattern": "^\"[0-9a-f-]{36}:[1-9][0-9]*\"$"
+          }
+        }
+      },
+      "AdminPortfolioImageResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AdminPortfolioImageStatus"
+          }
+        }
+      },
+      "AdminPortfolioCard": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "public_id",
+          "title",
+          "summary",
+          "category_id",
+          "status",
+          "updated_at",
+          "etag"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "public_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 120
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 240
+          },
+          "category_id": {
+            "type": "string",
+            "enum": [
+              "web",
+              "mobile",
+              "business",
+              "commerce",
+              "custom"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "published"
+            ]
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "etag": {
+            "type": "string",
+            "pattern": "^\"[0-9a-f-]{36}:[1-9][0-9]*\"$"
+          }
+        }
+      },
+      "AdminPortfolioProject": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "public_id",
+          "title",
+          "summary",
+          "category_id",
+          "status",
+          "updated_at",
+          "etag",
+          "description",
+          "cover_image_id",
+          "featured_image_id",
+          "publication_id",
+          "created_at",
+          "images"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "public_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 120
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 240
+          },
+          "category_id": {
+            "type": "string",
+            "enum": [
+              "web",
+              "mobile",
+              "business",
+              "commerce",
+              "custom"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "published"
+            ]
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "etag": {
+            "type": "string",
+            "pattern": "^\"[0-9a-f-]{36}:[1-9][0-9]*\"$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 30,
+            "maxLength": 12000
+          },
+          "cover_image_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "featured_image_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "publication_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdminPortfolioImageStatus"
+            },
+            "maxItems": 8,
+            "minItems": 0
+          }
+        }
+      },
+      "AdminPortfolioResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AdminPortfolioProject"
+          }
+        }
+      },
+      "AdminPortfolioPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data",
+          "meta"
+        ],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdminPortfolioCard"
+            },
+            "maxItems": 48,
+            "minItems": 0
+          },
+          "meta": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "limit",
+              "next_cursor"
+            ],
+            "properties": {
+              "limit": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 48
+              },
+              "next_cursor": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "PublicContactInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "full_name",
+          "email",
+          "phone",
+          "message"
+        ],
+        "properties": {
+          "full_name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 120
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 254
+          },
+          "phone": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 64,
+            "description": "Required international phone, starting +; normalized and validated with libphonenumber to E.164. No country inference."
+          },
+          "company": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "message": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 5000
+          }
+        },
+        "description": "NFC-normalized plain text; email follows Identity normalization; blank company becomes null; unknown fields rejected; JSON <=32 KiB. No attachments, owner IDs or recipient override."
+      },
+      "PublicContactReceipt": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "reference",
+          "status",
+          "received_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "reference": {
+            "type": "string",
+            "pattern": "^CNT-[0-9]{4}-[0-9]{5,19}$"
+          },
+          "status": {
+            "const": "received"
+          },
+          "received_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PublicContactReceiptResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PublicContactReceipt"
+          }
+        }
+      },
+      "AdminContactSummary": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "reference",
+          "full_name",
+          "email",
+          "status",
+          "received_at",
+          "updated_at",
+          "redacted_at",
+          "etag"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "reference": {
+            "type": "string",
+            "pattern": "^CNT-[0-9]{4}-[0-9]{5,19}$"
+          },
+          "full_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 2,
+                "maxLength": 120
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "email",
+                "maxLength": 254
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "received",
+              "in_progress",
+              "resolved",
+              "spam",
+              "redacted"
+            ]
+          },
+          "received_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "redacted_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "etag": {
+            "type": "string",
+            "pattern": "^\"[0-9a-f-]{36}:[1-9][0-9]*\"$"
+          }
+        }
+      },
+      "AdminContactMessage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "reference",
+          "full_name",
+          "email",
+          "status",
+          "received_at",
+          "updated_at",
+          "redacted_at",
+          "etag",
+          "phone",
+          "company",
+          "message",
+          "delivery_status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "reference": {
+            "type": "string",
+            "pattern": "^CNT-[0-9]{4}-[0-9]{5,19}$"
+          },
+          "full_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 2,
+                "maxLength": 120
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "email",
+                "maxLength": 254
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "received",
+              "in_progress",
+              "resolved",
+              "spam",
+              "redacted"
+            ]
+          },
+          "received_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "redacted_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "etag": {
+            "type": "string",
+            "pattern": "^\"[0-9a-f-]{36}:[1-9][0-9]*\"$"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^\\+[1-9][0-9]{1,14}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "company": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 10,
+                "maxLength": 5000
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "delivery_status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "sending",
+              "sent",
+              "uncertain",
+              "blocked",
+              "suppressed"
+            ]
+          }
+        }
+      },
+      "AdminContactResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AdminContactMessage"
+          }
+        }
+      },
+      "AdminContactPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data",
+          "meta"
+        ],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdminContactSummary"
+            },
+            "maxItems": 50,
+            "minItems": 0
+          },
+          "meta": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "limit",
+              "next_cursor"
+            ],
+            "properties": {
+              "limit": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 50
+              },
+              "next_cursor": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "AdminContactUpdateInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "received",
+              "in_progress",
+              "resolved",
+              "spam"
+            ]
+          }
+        }
       }
     },
     "responses": {
@@ -34030,6 +37515,16 @@
           "maxLength": 128,
           "pattern": "^[A-Za-z0-9_-]{16,128}$"
         }
+      },
+      "PublicServicesIdempotencyKey": {
+        "name": "Idempotency-Key",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "description": "Random UUID. Retain key, normalized body and precondition for an exact uncertain retry. Contact key window is [first receipt time, +72h); same body replays identical 201, different body=409; at/after expiry a new receipt is created atomically. Never automatically retry an uncertain contact operation with a new key or after expiry. Portfolio publication keys are retained with immutable history and scoped to the staff actor."
       }
     },
     "securitySchemes": {

@@ -1,0 +1,19 @@
+PHPUnit 12.5.35 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.25
+Configuration: /var/www/html/phpunit.xml
+
+{"message":"telemetry.http","context":{"request_id":"01a0ec84-0fff-7013-a8af-7bf049f369e8","family":"auth","method":"GET","status":204,"duration_ms":19,"query_count":3,"sql_duration_ms":3},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:34:32.979847+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec84-10ea-7269-b5de-105bfabd9978","family":"auth","method":"POST","status":202,"duration_ms":562,"query_count":7,"sql_duration_ms":3},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:34:33.757303+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec84-131d-708a-af02-99a53a57df7b","family":"auth","method":"POST","status":200,"duration_ms":475,"query_count":7,"sql_duration_ms":3},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:34:34.233773+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec84-14fb-706a-87c5-75d3732450e9","family":"auth","method":"POST","status":200,"duration_ms":481,"query_count":31,"sql_duration_ms":2},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:34:34.716462+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec84-17e4-7115-8619-144dc58295d6","family":"other","method":"GET","status":200,"duration_ms":57,"query_count":1,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:34:35.038250+00:00","extra":{}}
+.{"message":"telemetry.http","context":{"request_id":"01a0ec84-1eca-72c8-82f3-91a45fce8724","family":"auth","method":"GET","status":204,"duration_ms":5,"query_count":3,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:34:36.752181+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec84-1f8e-730a-8879-040556c7bc6f","family":"auth","method":"POST","status":202,"duration_ms":571,"query_count":7,"sql_duration_ms":3},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:34:37.515271+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec84-21cb-71c6-bec2-11e604c2cc06","family":"auth","method":"POST","status":200,"duration_ms":469,"query_count":7,"sql_duration_ms":2},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:34:37.985567+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec84-23a1-73e6-a9c1-ccb01fbaf40b","family":"auth","method":"POST","status":200,"duration_ms":481,"query_count":31,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:34:38.468224+00:00","extra":{}}
+.                                                                  2 / 2 (100%)
+
+Time: 00:07.404, Memory: 75.00 MB
+
+[30;42mOK (2 tests, 29 assertions)[0m

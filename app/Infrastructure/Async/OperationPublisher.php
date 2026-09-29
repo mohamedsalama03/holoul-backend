@@ -23,7 +23,7 @@ final class OperationPublisher
                 Queue::connection('documents')->push(new RunDocumentOperationJob($operationId), '', 'documents');
             } elseif ($operation->kind === 'ai.generate') {
                 Queue::connection('ai')->push(new RunAIOperationJob($operationId), '', 'ai');
-            } elseif ($operation->kind === 'notifications.email') {
+            } elseif (OperationPolicy::queue($operation->kind) === 'notifications') {
                 Queue::connection('notifications')->push(new RunOperationJob($operationId), '', 'notifications');
             } else {
                 Queue::connection('redis')->push(new RunOperationJob($operationId), '', Config::string('async.queue'));

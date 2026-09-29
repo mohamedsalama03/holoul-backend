@@ -1,0 +1,121 @@
+PHPUnit 12.5.35 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.25
+Configuration: /var/www/html/phpunit.xml
+
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-06e6-7306-829f-c195989b6981","family":"auth","method":"GET","status":204,"duration_ms":17,"query_count":3,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:02.072395+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-07ad-7054-8d65-16c025e2c9b8","family":"auth","method":"POST","status":202,"duration_ms":566,"query_count":7,"sql_duration_ms":3},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:02.820828+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-09e5-70a0-9646-09c0266030e7","family":"auth","method":"POST","status":200,"duration_ms":463,"query_count":7,"sql_duration_ms":2},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:03.285189+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0bb6-73d8-83d2-9c11e0378602","family":"auth","method":"POST","status":200,"duration_ms":460,"query_count":31,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:03.747445+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0d83-73a1-9cf9-933ef2708ea3","family":"projects","method":"POST","status":201,"duration_ms":19,"query_count":14,"sql_duration_ms":4},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:03.767864+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0d98-71a2-935d-5d2e4aa5f401","family":"projects","method":"GET","status":200,"duration_ms":13,"query_count":13,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:03.782042+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0da6-709e-9965-7ace9aa77219","family":"projects","method":"POST","status":201,"duration_ms":16,"query_count":16,"sql_duration_ms":2},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:03.798882+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0db7-7164-b1f8-664c6c53bbc6","family":"projects","method":"PUT","status":202,"duration_ms":26,"query_count":29,"sql_duration_ms":3},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:03.826271+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0ddf-707a-896e-cdbd8ddcdbe7","family":"projects","method":"GET","status":200,"duration_ms":12,"query_count":13,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:03.852383+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0dec-7075-b057-76a696ad128c","family":"projects","method":"GET","status":200,"duration_ms":3,"query_count":1,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:03.855995+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0df0-73c9-ad10-24eb4ed6c8ad","family":"projects","method":"GET","status":404,"duration_ms":3,"query_count":1,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:03.859871+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0df4-7250-aa74-632fe63ab112","family":"other","method":"GET","status":404,"duration_ms":2,"query_count":1,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:03.862573+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0df6-7074-a5b9-6e66db2af922","family":"projects","method":"GET","status":200,"duration_ms":11,"query_count":13,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:03.874503+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0e02-7337-a449-04a5f3577dcb","family":"projects","method":"PATCH","status":200,"duration_ms":15,"query_count":17,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:03.890139+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0e12-72f0-8108-059527548da9","family":"projects","method":"POST","status":201,"duration_ms":23,"query_count":27,"sql_duration_ms":3},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:03.914170+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0e2a-734e-ad45-9d27c2e73d88","family":"projects","method":"GET","status":200,"duration_ms":1,"query_count":1,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:03.916576+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0e2c-7259-a7db-9ab3ffada79f","family":"other","method":"GET","status":200,"duration_ms":2,"query_count":3,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:03.919282+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0e2f-73ad-b85d-407e61913a27","family":"other","method":"GET","status":200,"duration_ms":1,"query_count":1,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:03.921237+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0e31-7357-ad85-53c96b657dbd","family":"projects","method":"PATCH","status":200,"duration_ms":13,"query_count":15,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:03.935444+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0e3f-72f9-8355-ecc5febf916f","family":"projects","method":"GET","status":200,"duration_ms":1,"query_count":1,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:03.937782+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0e42-73fa-a7cb-eb7542bfdf6d","family":"projects","method":"DELETE","status":409,"duration_ms":11,"query_count":14,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:03.949604+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0e4d-703f-a3c4-0539b841fe7f","family":"projects","method":"GET","status":200,"duration_ms":11,"query_count":13,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:03.961845+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0e5a-72c7-b0af-3cf60e29ed49","family":"projects","method":"PATCH","status":200,"duration_ms":14,"query_count":17,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:03.976574+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0e68-7277-95e8-8ffc27d48fdb","family":"projects","method":"POST","status":201,"duration_ms":20,"query_count":27,"sql_duration_ms":3},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:03.998144+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0e7e-7373-89c6-97e9100b4c46","family":"projects","method":"GET","status":200,"duration_ms":1,"query_count":1,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:04.000655+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0e80-707a-98c3-ce232afb0be7","family":"other","method":"GET","status":404,"duration_ms":1,"query_count":1,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:04.002487+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0e82-728d-8a4d-198ca1020785","family":"projects","method":"POST","status":200,"duration_ms":49,"query_count":25,"sql_duration_ms":32},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:04.052657+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0eb4-70dd-8fa6-0cbb9debc70d","family":"other","method":"GET","status":404,"duration_ms":1,"query_count":1,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:04.054480+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0eb6-7076-8ce1-0bba8153a620","family":"other","method":"GET","status":404,"duration_ms":1,"query_count":1,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:04.056175+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0eb8-72b2-b956-7636ec95fe9a","family":"other","method":"GET","status":404,"duration_ms":1,"query_count":1,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:04.057752+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0eba-7056-8920-9731199dcf0d","family":"other","method":"GET","status":404,"duration_ms":1,"query_count":1,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:04.059389+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0ebb-7343-a92b-b7190926c28d","family":"projects","method":"GET","status":404,"duration_ms":1,"query_count":1,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:04.061420+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0ebd-70fd-85e0-c496b53ba39e","family":"other","method":"GET","status":200,"duration_ms":1,"query_count":1,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:04.063979+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0ec0-72b0-8ad5-8be0b6d6d027","family":"projects","method":"GET","status":200,"duration_ms":11,"query_count":13,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:04.076062+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0ecc-7248-a9cc-c6bff3052a1e","family":"projects","method":"PATCH","status":200,"duration_ms":14,"query_count":17,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:04.091533+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0edc-73eb-b5ca-9ba9f2628c55","family":"projects","method":"POST","status":201,"duration_ms":19,"query_count":27,"sql_duration_ms":2},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:04.112173+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-0ef0-70cd-954b-3eb02f87ea82","family":"other","method":"GET","status":404,"duration_ms":1,"query_count":1,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:04.114701+00:00","extra":{}}
+.{"message":"telemetry.http","context":{"request_id":"01a0ec74-144e-70da-915e-0d8dbad80a6b","family":"auth","method":"GET","status":204,"duration_ms":4,"query_count":3,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:05.491855+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-1506-730a-ba8c-ed5ab7ed8a9c","family":"auth","method":"POST","status":202,"duration_ms":568,"query_count":7,"sql_duration_ms":2},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:06.238810+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-173f-73e8-bab0-a0b2dd016026","family":"auth","method":"POST","status":200,"duration_ms":455,"query_count":7,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:06.695367+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-1907-71f0-aaff-ac06aa835d94","family":"auth","method":"POST","status":200,"duration_ms":480,"query_count":31,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:07.176883+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-1ae9-735f-ae05-ba991bf479c7","family":"projects","method":"POST","status":201,"duration_ms":19,"query_count":15,"sql_duration_ms":5},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:07.197193+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-1afd-701a-aeac-a437d00c38a9","family":"projects","method":"GET","status":200,"duration_ms":12,"query_count":13,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:07.210162+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-1b0a-7088-bbdd-f5f632dc7798","family":"projects","method":"POST","status":201,"duration_ms":13,"query_count":16,"sql_duration_ms":2},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:07.224609+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-1b18-7025-a4fc-3c57bebcea75","family":"projects","method":"PUT","status":202,"duration_ms":23,"query_count":29,"sql_duration_ms":3},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:07.248295+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-1b3c-73e1-be92-0cec1b08a346","family":"projects","method":"GET","status":200,"duration_ms":11,"query_count":13,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:07.272096+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-1b48-7227-926b-8514c91a702f","family":"projects","method":"GET","status":200,"duration_ms":10,"query_count":13,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:07.283591+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-1b54-7036-87de-c48f90694b65","family":"projects","method":"PATCH","status":200,"duration_ms":13,"query_count":17,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:07.297417+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-1b61-7389-b663-ce215a58c44b","family":"projects","method":"POST","status":201,"duration_ms":22,"query_count":27,"sql_duration_ms":3},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:07.320566+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec74-1b78-7364-a639-930684013975","family":"projects","method":"POST","status":201,"duration_ms":10,"query_count":14,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:17:07.331776+00:00","extra":{}}
+[41;37mF[0m
+
+Time: 00:07.239, Memory: 56.50 MB
+
+There was 1 failure:
+
+1) Tests\Feature\PublicServices\PortfolioTest::test_exact_publication_retry_is_stable_and_conflict_does_not_publish_twice
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+ Array &0 [
+     'data' => Array &1 [
+         'id' => '01a0ec74-1af6-7277-b3b1-7b21b5c3c56d',
+-        'public_id' => '01a0ec74-1af6-7277-b3b1-7b21b5c3c56d',
++        'etag' => '"01a0ec74-1af6-7277-b3b1-7b21b5c3c56d:6"',
+         'title' => 'Synthetic Portfolio',
+-        'summary' => 'A synthetic portfolio for acceptance testing.',
+-        'description' => 'A long synthetic description for isolated portfolio acceptance testing.',
+-        'category_id' => 'web',
+-        'cover_image_id' => '01a0ec74-1b13-715e-9beb-efc32f29f367',
+-        'featured_image_id' => '01a0ec74-1b13-715e-9beb-efc32f29f367',
+-        'publication_id' => '01a0ec74-1b6b-73c4-b0b1-a905bcb49bce',
+-        'status' => 'published',
+-        'etag' => '"01a0ec74-1af6-7277-b3b1-7b21b5c3c56d:6"',
+-        'created_at' => '2026-09-29T09:17:07.190720Z',
+-        'updated_at' => '2026-09-29T09:17:07.309546Z',
+         'images' => Array &2 [
+             0 => Array &3 [
+                 'id' => '01a0ec74-1b13-715e-9beb-efc32f29f367',
+-                'project_id' => '01a0ec74-1af6-7277-b3b1-7b21b5c3c56d',
++                'alt' => 'Synthetic image',
++                'etag' => '"01a0ec74-1b13-715e-9beb-efc32f29f367:3"',
+                 'state' => 'ready',
+-                'alt' => 'Synthetic image',
+-                'display_order' => 0,
++                'sha256' => '39631bb5e5dc9326b23f8c00bf43440a84ce711315c6b799de554c56aa04d133',
++                'byte_size' => 16,
++                'expires_at' => '2026-09-29T10:17:07.219252Z',
+                 'media_type' => 'image/png',
+-                'byte_size' => 16,
+-                'sha256' => '39631bb5e5dc9326b23f8c00bf43440a84ce711315c6b799de554c56aa04d133',
++                'project_id' => '01a0ec74-1af6-7277-b3b1-7b21b5c3c56d',
+                 'failure_code' => null,
+-                'expires_at' => '2026-09-29T10:17:07.219252Z',
+-                'etag' => '"01a0ec74-1b13-715e-9beb-efc32f29f367:3"',
++                'display_order' => 0,
+             ],
+         ],
++        'status' => 'published',
++        'summary' => 'A synthetic portfolio for acceptance testing.',
++        'public_id' => '01a0ec74-1af6-7277-b3b1-7b21b5c3c56d',
++        'created_at' => '2026-09-29T09:17:07.190720Z',
++        'updated_at' => '2026-09-29T09:17:07.309546Z',
++        'category_id' => 'web',
++        'description' => 'A long synthetic description for isolated portfolio acceptance testing.',
++        'cover_image_id' => '01a0ec74-1b13-715e-9beb-efc32f29f367',
++        'publication_id' => '01a0ec74-1b6b-73c4-b0b1-a905bcb49bce',
++        'featured_image_id' => '01a0ec74-1b13-715e-9beb-efc32f29f367',
+     ],
+ ]
+
+/var/www/html/tests/Feature/PublicServices/PortfolioTest.php:101
+
+[37;41mFAILURES![0m
+[37;41mTests: 2[0m[37;41m, Assertions: 77[0m[37;41m, Failures: 1[0m[37;41m.[0m

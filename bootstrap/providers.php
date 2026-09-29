@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Application\Documents\DocumentServiceProvider;
 use App\Application\Operations\ProviderTelemetryServiceProvider;
+use App\Application\PublicServices\PublicServicesProvider;
 use App\Infrastructure\Async\AsyncServiceProvider;
 use App\Infrastructure\Operations\OperationsServiceProvider;
 use App\Modules\AI\AIServiceProvider;
@@ -24,4 +25,5 @@ return [
     ReportingServiceProvider::class,
     OperationsServiceProvider::class,
     ProviderTelemetryServiceProvider::class,
+    PublicServicesProvider::class,
 ];

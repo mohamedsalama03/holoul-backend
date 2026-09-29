@@ -1,0 +1,3 @@
+[29-Sep-2026 10:21:12] NOTICE: configuration file /usr/local/etc/php-fpm.conf test is successful
+
+EXIT 0

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="CLI Arguments" tests="2" assertions="220" errors="0" failures="0" skipped="0" time="7.683413">
+    <testsuite name="Tests\Feature\Identity\StaffOnboardingUpgradeTest" file="/var/www/html/tests/Feature/Identity/StaffOnboardingUpgradeTest.php" tests="1" assertions="194" errors="0" failures="0" skipped="0" time="5.399145">
+      <testcase name="test_exact_accepted_g1_upgrade_preserves_values_and_is_repeatable" file="/var/www/html/tests/Feature/Identity/StaffOnboardingUpgradeTest.php" line="17" class="Tests\Feature\Identity\StaffOnboardingUpgradeTest" classname="Tests.Feature.Identity.StaffOnboardingUpgradeTest" assertions="194" time="5.399145"/>
+    </testsuite>
+    <testsuite name="Tests\Feature\PublicServices\UpgradePublicServicesTest" file="/var/www/html/tests/Feature/PublicServices/UpgradePublicServicesTest.php" tests="1" assertions="26" errors="0" failures="0" skipped="0" time="2.284267">
+      <testcase name="test_exact_upgrade_from_31_migrations_preserves_history_ownership_and_existing_grants" file="/var/www/html/tests/Feature/PublicServices/UpgradePublicServicesTest.php" line="17" class="Tests\Feature\PublicServices\UpgradePublicServicesTest" classname="Tests.Feature.PublicServices.UpgradePublicServicesTest" assertions="26" time="2.284267"/>
+    </testsuite>
+  </testsuite>
+</testsuites>

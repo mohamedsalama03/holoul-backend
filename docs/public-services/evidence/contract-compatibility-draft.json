@@ -1,0 +1,7 @@
+{
+  "old_sha256": "fafbc8b62976788dae0cc98492add8bed014228ad42844d2c7498ca57d1a7f4e",
+  "existing_differences": [],
+  "new_operations": 20,
+  "new_schemas": 29,
+  "status": "draft compatibility check; final freeze pending all tests"
+}

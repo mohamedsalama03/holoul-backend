@@ -1,0 +1,41 @@
+ ------ ----------------------------------------------------------------------- 
+  Line   app/Application/PublicServices/ImportLegacyPortfolioCommand.php        
+ ------ ----------------------------------------------------------------------- 
+  26     Call to function is_string() with string will always evaluate to       
+         true.                                                                  
+         🪪  function.alreadyNarrowedType                                       
+         💡  Because the type is coming from a PHPDoc, you can turn off this    
+         check by setting treatPhpDocTypesAsCertain: false in your phpstan.neo  
+         n.                                                                     
+ ------ ----------------------------------------------------------------------- 
+
+ ------ -------------------------------------------------------------------- 
+  Line   app/Application/PublicServices/LegacyPortfolioReader.php            
+ ------ -------------------------------------------------------------------- 
+  57     Parameter #1 $string of function mb_strlen expects string, mixed    
+         given.                                                              
+         🪪  argument.type                                                   
+  57     Parameter #1 $string of function mb_strlen expects string, mixed    
+         given.                                                              
+         🪪  argument.type                                                   
+  58     Parameter #2 $subject of function preg_match expects string, mixed  
+         given.                                                              
+         🪪  argument.type                                                   
+  59     Parameter #1 $string of function strip_tags expects string, mixed   
+         given.                                                              
+         🪪  argument.type                                                   
+ ------ -------------------------------------------------------------------- 
+
+ ------ ------------------------------------------------------------------- 
+  Line   app/Http/Requests/PortfolioRequest.php                             
+ ------ ------------------------------------------------------------------- 
+  65     Parameter #1 $string of function strip_tags expects string, mixed  
+         given.                                                             
+         🪪  argument.type                                                  
+ ------ ------------------------------------------------------------------- 
+
+ [ERROR] Found 6 errors                                                         
+
+Note: Using configuration file /var/www/html/phpstan.neon.
+
+EXIT 1

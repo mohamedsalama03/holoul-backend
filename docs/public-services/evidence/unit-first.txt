@@ -1,0 +1,29 @@
+PHPUnit 12.5.35 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.25
+Configuration: /var/www/html/phpunit.xml
+
+...............................................................  63 / 144 ( 43%)
+..........[41;37mF[0m.................................................... 126 / 144 ( 87%)
+..................                                              144 / 144 (100%)
+
+Time: 00:00.527, Memory: 48.50 MB
+
+There was 1 failure:
+
+1) Tests\Unit\ProductionConfigurationTest::test_explicit_local_profile_accepts_only_the_known_synthetic_topology_even_in_production_mode
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+-Array &0 []
++Array &0 [
++    0 => 'local_profile_scope_violation',
++]
+
+/var/www/html/tests/Unit/ProductionConfigurationTest.php:20
+
+[37;41mFAILURES![0m
+[37;41mTests: 144[0m[37;41m, Assertions: 357[0m[37;41m, Failures: 1[0m[37;41m.[0m
+
+EXIT 1

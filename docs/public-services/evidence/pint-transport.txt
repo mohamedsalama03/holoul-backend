@@ -1,0 +1,9 @@
+
+  .✓
+
+  ──────────────────────────────────────────────────────────────────── Laravel  
+    FIXED   ..................................... 2 files, 1 style issue fixed  
+  ✓ tests/Feature/PublicServices/PublicServicesTransportTest.php class_attrib…  
+
+
+EXIT 0

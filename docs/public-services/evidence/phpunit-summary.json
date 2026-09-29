@@ -1,0 +1,22 @@
+{
+  "full_run": {
+    "tests": 1018,
+    "assertions": 65110,
+    "passed": 1017,
+    "failures": [
+      {
+        "class": "Tests\\Feature\\Identity\\StaffOnboardingUpgradeTest",
+        "name": "test_exact_accepted_g1_upgrade_preserves_values_and_is_repeatable",
+        "assertions": "37"
+      }
+    ],
+    "seconds": 2208.908
+  },
+  "final_scoped_rerun": {
+    "tests": 2,
+    "assertions": 220,
+    "failures": 0
+  },
+  "unresolved_failures": 0,
+  "explanation": "Historical G1-to-Staff fixture now migrates explicitly to migration 31. All original count/value/hash/rollback checks remain. Public-services migration 31-to-34 is separately verified. Application source was unchanged after the full run; only this historical test scope was corrected. This is a completed full run plus scoped rerun, not a claim of a single green full invocation."
+}

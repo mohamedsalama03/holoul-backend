@@ -1,0 +1,151 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.25kB done
+#1 DONE 0.1s
+
+#2 resolve image config for docker-image://docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32
+#2 DONE 1.5s
+
+#3 docker-image://docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32
+#3 resolve docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32 0.0s done
+#3 DONE 0.0s
+
+#3 docker-image://docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32
+#3 CACHED
+
+#4 [internal] load metadata for docker.io/library/python:3.14.7-alpine3.24@sha256:c6ead215bfd31f1e433d968853b7a769989117115b728874824e6c0a27cb96fc
+#4 DONE 0.9s
+
+#5 [internal] load .dockerignore
+#5 transferring context:
+#5 transferring context: 288B done
+#5 DONE 0.1s
+
+#6 [base 1/2] FROM docker.io/library/python:3.14.7-alpine3.24@sha256:c6ead215bfd31f1e433d968853b7a769989117115b728874824e6c0a27cb96fc
+#6 resolve docker.io/library/python:3.14.7-alpine3.24@sha256:c6ead215bfd31f1e433d968853b7a769989117115b728874824e6c0a27cb96fc 0.0s done
+#6 CACHED
+
+#7 [internal] load build context
+#7 transferring context: 6.55kB done
+#7 DONE 0.1s
+
+#8 [base 2/2] RUN apk upgrade --no-cache && apk add --no-cache libjpeg-turbo libwebp zlib
+#8 3.965 Preupgrading:
+#8 3.965 (1/2) Upgrading libapk (3.0.6-r0 -> 3.0.8-r0)
+#8 4.153 (2/2) Upgrading apk-tools (3.0.6-r0 -> 3.0.8-r0)
+#8 4.243 Executing busybox-1.37.0-r31.trigger
+#8 4.275 Continuing with the main upgrade transaction:
+#8 9.068 (1/6) Upgrading xz-libs (5.8.3-r0 -> 5.8.4-r0)
+#8 9.508 (2/6) Upgrading libuuid (2.42.1-r0 -> 2.42.3-r1)
+#8 9.585 (3/6) Upgrading alpine-release (3.24.1-r0 -> 3.24.2-r0)
+#8 9.648 (4/6) Upgrading ca-certificates-bundle (20260611-r0 -> 20260909-r0)
+#8 9.970 (5/6) Upgrading ca-certificates (20260611-r0 -> 20260909-r0)
+#8 10.36 (6/6) Upgrading tzdata (2026c-r0 -> 2026d-r0)
+#8 11.02 Executing busybox-1.37.0-r31.trigger
+#8 11.03 Executing ca-certificates-20260909-r0.trigger
+#8 11.07 OK: 12.0 MiB in 30 packages
+#8 15.73 (1/3) Installing libjpeg-turbo (3.1.3-r0)
+#8 16.25 (2/3) Installing libsharpyuv (1.6.0-r0)
+#8 16.31 (3/3) Installing libwebp (1.6.0-r0)
+#8 17.18 OK: 13.2 MiB in 33 packages
+#8 DONE 17.2s
+
+#9 [build 1/3] RUN apk add --no-cache build-base zlib-dev jpeg-dev libwebp-dev
+#9 6.642 ( 1/30) Installing libgcc (15.2.0-r5)
+#9 6.998 ( 2/30) Installing jansson (2.15.0-r0)
+#9 7.205 ( 3/30) Installing libstdc++ (15.2.0-r5)
+#9 11.11 ( 4/30) Installing binutils (2.45.1-r1)
+#9 22.99 ( 5/30) Installing libmagic (5.47-r2)
+#9 24.61 ( 6/30) Installing file (5.47-r2)
+#9 24.70 ( 7/30) Installing libgcc-static (15.2.0-r5)
+#9 30.08 ( 8/30) Installing libgomp (15.2.0-r5)
+#9 30.40 ( 9/30) Installing libatomic (15.2.0-r5)
+#9 30.49 (10/30) Installing gmp (6.3.0-r4)
+#9 30.82 (11/30) Installing isl26 (0.26-r2)
+#9 32.68 (12/30) Installing mpfr4 (4.2.2-r0)
+#9 33.52 (13/30) Installing mpc1 (1.3.1-r1)
+#9 33.77 (14/30) Installing gcc (15.2.0-r5)
+#9 246.2 (15/30) Installing libstdc++-dev (15.2.0-r5)
+#9 266.7 (16/30) Installing musl-dev (1.2.6-r2)
+#9 296.3 (17/30) Installing g++ (15.2.0-r5)
+#9 447.5 (18/30) Installing make (4.4.1-r4)
+#9 450.1 (19/30) Installing fortify-headers (3.0.1-r2)
+#9 450.3 (20/30) Installing patch (2.8-r0)
+#9 450.9 (21/30) Installing build-base (0.5-r4)
+#9 450.9 (22/30) Installing libturbojpeg (3.1.3-r0)
+#9 452.7 (23/30) Installing pkgconf (2.5.1-r0)
+#9 453.1 (24/30) Installing libjpeg-turbo-dev (3.1.3-r0)
+#9 453.7 (25/30) Installing jpeg-dev (9f-r0)
+#9 453.7 (26/30) Installing libwebpdecoder (1.6.0-r0)
+#9 457.3 (27/30) Installing libwebpdemux (1.6.0-r0)
+#9 457.5 (28/30) Installing libwebpmux (1.6.0-r0)
+#9 457.8 (29/30) Installing libwebp-dev (1.6.0-r0)
+#9 458.2 (30/30) Installing zlib-dev (1.3.2-r0)
+#9 458.4 Executing busybox-1.37.0-r31.trigger
+#9 458.4 OK: 281.7 MiB in 63 packages
+#9 DONE 458.5s
+
+#10 [build 2/3] COPY docker/portfolio/requirements.txt /tmp/requirements.txt
+#10 DONE 0.1s
+
+#11 [build 3/3] RUN python3 -m pip install --no-cache-dir --no-binary=pillow --require-hashes --no-deps -r /tmp/requirements.txt --target /opt/pillow
+#11 10.46 Collecting pillow==12.3.0 (from -r /tmp/requirements.txt (line 1))
+#11 10.99   Downloading pillow-12.3.0.tar.gz (47.0 MB)
+#11 372.1      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 47.0/47.0 MB 133.6 kB/s  0:06:02
+#11 373.2   Installing build dependencies: started
+#11 376.9   Installing build dependencies: finished with status 'done'
+#11 376.9   Getting requirements to build wheel: started
+#11 377.6   Getting requirements to build wheel: finished with status 'done'
+#11 377.6   Preparing metadata (pyproject.toml): started
+#11 377.9   Preparing metadata (pyproject.toml): finished with status 'done'
+#11 377.9 Building wheels for collected packages: pillow
+#11 377.9   Building wheel for pillow (pyproject.toml): started
+#11 387.6   Building wheel for pillow (pyproject.toml): finished with status 'done'
+#11 387.6   Created wheel for pillow: filename=pillow-12.3.0-cp314-cp314-linux_x86_64.whl size=1454979 sha256=afc31ba9edf42721dbf368a39dd82d73d6feebfc2fa39d8e58dea1579d70e769
+#11 387.6   Stored in directory: /tmp/pip-ephem-wheel-cache-b99d_xk6/wheels/40/b3/b3/77bfc401aa4bf556d57131df9044579aa3d3284c3193d4b62c
+#11 387.6 Successfully built pillow
+#11 387.6 Installing collected packages: pillow
+#11 388.0 Successfully installed pillow-12.3.0
+#11 388.0 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#11 DONE 388.3s
+
+#12 [runtime 1/3] COPY --from=build /opt/pillow/ /usr/local/lib/python3.14/site-packages/
+#12 DONE 0.2s
+
+#13 [runtime 2/3] RUN python3 -m pip uninstall --yes pip && rm -rf /usr/local/lib/python3.14/ensurepip     && addgroup -g 1000 holoul && adduser -D -u 1000 -G holoul holoul     && mkdir -p /run/holoul-portfolio && chown holoul:holoul /run/holoul-portfolio     && python3 -I -c 'from PIL import Image, features; assert features.check("webp"); assert Image.__version__ == "12.3.0"'
+#13 1.889 Found existing installation: pip 26.2.1
+#13 1.929 Uninstalling pip-26.2.1:
+#13 2.118   Successfully uninstalled pip-26.2.1
+#13 2.128 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#13 2.309 /usr/local/lib/python3.14/site-packages/PIL/features.py:43: UserWarning: Error loading shared library libwebpmux.so.3: No such file or directory (needed by /usr/local/lib/python3.14/site-packages/PIL/_webp.cpython-314-x86_64-linux-musl.so)
+#13 2.309   warnings.warn(str(ex))
+#13 2.309 Traceback (most recent call last):
+#13 2.309   File "<string>", line 1, in <module>
+#13 2.309     from PIL import Image, features; assert features.check("webp"); assert Image.__version__ == "12.3.0"
+#13 2.309                                             ~~~~~~~~~~~~~~^^^^^^^^
+#13 2.309 AssertionError
+#13 ERROR: process "/bin/sh -c python3 -m pip uninstall --yes pip && rm -rf /usr/local/lib/python3.14/ensurepip     && addgroup -g 1000 holoul && adduser -D -u 1000 -G holoul holoul     && mkdir -p /run/holoul-portfolio && chown holoul:holoul /run/holoul-portfolio     && python3 -I -c 'from PIL import Image, features; assert features.check(\"webp\"); assert Image.__version__ == \"12.3.0\"'" did not complete successfully: exit code: 1
+------
+ > [runtime 2/3] RUN python3 -m pip uninstall --yes pip && rm -rf /usr/local/lib/python3.14/ensurepip     && addgroup -g 1000 holoul && adduser -D -u 1000 -G holoul holoul     && mkdir -p /run/holoul-portfolio && chown holoul:holoul /run/holoul-portfolio     && python3 -I -c 'from PIL import Image, features; assert features.check("webp"); assert Image.__version__ == "12.3.0"':
+1.929 Uninstalling pip-26.2.1:
+2.118   Successfully uninstalled pip-26.2.1
+2.128 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+2.309 /usr/local/lib/python3.14/site-packages/PIL/features.py:43: UserWarning: Error loading shared library libwebpmux.so.3: No such file or directory (needed by /usr/local/lib/python3.14/site-packages/PIL/_webp.cpython-314-x86_64-linux-musl.so)
+2.309   warnings.warn(str(ex))
+2.309 Traceback (most recent call last):
+2.309   File "<string>", line 1, in <module>
+2.309     from PIL import Image, features; assert features.check("webp"); assert Image.__version__ == "12.3.0"
+2.309                                             ~~~~~~~~~~~~~~^^^^^^^^
+2.309 AssertionError
+------
+Dockerfile:10
+--------------------
+   9 |     COPY --from=build /opt/pillow/ /usr/local/lib/python3.14/site-packages/
+  10 | >>> RUN python3 -m pip uninstall --yes pip && rm -rf /usr/local/lib/python3.14/ensurepip \
+  11 | >>>     && addgroup -g 1000 holoul && adduser -D -u 1000 -G holoul holoul \
+  12 | >>>     && mkdir -p /run/holoul-portfolio && chown holoul:holoul /run/holoul-portfolio \
+  13 | >>>     && python3 -I -c 'from PIL import Image, features; assert features.check("webp"); assert Image.__version__ == "12.3.0"'
+  14 |     COPY docker/portfolio/processor.py /opt/holoul/processor.py
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c python3 -m pip uninstall --yes pip && rm -rf /usr/local/lib/python3.14/ensurepip     && addgroup -g 1000 holoul && adduser -D -u 1000 -G holoul holoul     && mkdir -p /run/holoul-portfolio && chown holoul:holoul /run/holoul-portfolio     && python3 -I -c 'from PIL import Image, features; assert features.check(\"webp\"); assert Image.__version__ == \"12.3.0\"'" did not complete successfully: exit code: 1

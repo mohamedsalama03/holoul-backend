@@ -1,0 +1,20 @@
+PHPUnit 12.5.35 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.25
+Configuration: /var/www/html/phpunit.xml
+
+{"message":"telemetry.http","context":{"request_id":"01a0ec98-624b-70a1-8e8d-03edbd099970","family":"auth","method":"GET","status":204,"duration_ms":27,"query_count":3,"sql_duration_ms":3},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:56:44.774829+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec98-6339-72ea-8b37-5689d00bca4a","family":"auth","method":"POST","status":202,"duration_ms":574,"query_count":7,"sql_duration_ms":3},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:56:45.560481+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec98-6578-71da-a2d7-b4b71e373793","family":"auth","method":"POST","status":200,"duration_ms":464,"query_count":7,"sql_duration_ms":3},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:56:46.025691+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec98-674c-7264-b7f9-ee2580d5f52a","family":"auth","method":"POST","status":200,"duration_ms":473,"query_count":31,"sql_duration_ms":3},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:56:46.502433+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec98-6927-70ce-a099-7bc8a8e1b0e5","family":"projects","method":"POST","status":201,"duration_ms":22,"query_count":14,"sql_duration_ms":2},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:56:46.526520+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec98-693e-73bd-b50f-f299b50ba838","family":"projects","method":"GET","status":200,"duration_ms":12,"query_count":13,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:56:46.539928+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec98-694c-71d2-87de-e530ba5756b8","family":"projects","method":"POST","status":201,"duration_ms":15,"query_count":16,"sql_duration_ms":3},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:56:46.555998+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec98-695c-736c-a8d9-c17bce73b342","family":"projects","method":"PUT","status":202,"duration_ms":31,"query_count":29,"sql_duration_ms":3},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:56:46.588113+00:00","extra":{}}
+.                                                                   1 / 1 (100%)
+
+Time: 00:03.778, Memory: 54.50 MB
+
+[30;42mOK (1 test, 16 assertions)[0m
+
+EXIT 0

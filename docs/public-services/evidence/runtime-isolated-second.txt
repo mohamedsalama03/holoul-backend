@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/home/mohamed/projects/customers/holoul-api-reference/scripts/public-services/verify-http.py", line 117, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/mohamed/projects/customers/holoul-api-reference/scripts/public-services/verify-http.py", line 75, in main
+    assert call('POST','/api/v1/public/contact-messages',contact,{'Idempotency-Key':key},201)[0]==receipt
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mohamed/projects/customers/holoul-api-reference/scripts/public-services/verify-http.py", line 33, in call
+    assert status==expected,(method,path,status,expected)
+           ^^^^^^^^^^^^^^^^
+AssertionError: ('POST', '/api/v1/public/contact-messages', 429, 201)
+
+EXIT 1

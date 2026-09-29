@@ -1,0 +1,25 @@
+# Local integration candidate only. Existing holoul volumes and 8443 ingress are retained.
+# Apply migrations with holoul_migrator before switching all application processes.
+x-public-runtime: &public-runtime
+  image: holoul-app:public-services-runtime
+services:
+  app:
+    <<: *public-runtime
+    depends_on:
+      portfolio-processor: {condition: service_healthy}
+  queue:
+    <<: *public-runtime
+  scheduler:
+    <<: *public-runtime
+  document-queue:
+    <<: *public-runtime
+    depends_on:
+      portfolio-processor: {condition: service_healthy}
+  ai-queue:
+    <<: *public-runtime
+  notification-queue:
+    <<: *public-runtime
+  migrate:
+    <<: *public-runtime
+  verify:
+    image: holoul-app:public-services-development

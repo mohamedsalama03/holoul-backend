@@ -1,0 +1,23 @@
+ ------ ----------------------------------------------------------------------- 
+  Line   app/Modules/Contact/Actions/ReceiveContact.php                         
+ ------ ----------------------------------------------------------------------- 
+  36     Cannot access property $instant on mixed.                              
+         🪪  property.nonObject                                                 
+  39     Cannot access property $instant on mixed.                              
+         🪪  property.nonObject                                                 
+  49     Cannot access property $number on mixed.                               
+         🪪  property.nonObject                                                 
+  54     Cannot access property $number on mixed.                               
+         🪪  property.nonObject                                                 
+  72     Method App\Modules\Contact\Actions\ReceiveContact::receipt() should    
+         return array{id: string, reference: string, status: string,            
+         received_at: string} but returns array{id: string, reference: string,  
+         status: 'received', received_at: string|null}.                         
+         🪪  return.type                                                        
+         💡  Offset 'received_at' (string) does not accept type string|null.    
+ ------ ----------------------------------------------------------------------- 
+
+
+ [ERROR] Found 5 errors                                                         
+
+Note: Using configuration file /var/www/html/phpstan.neon.

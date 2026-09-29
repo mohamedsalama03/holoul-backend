@@ -1,0 +1,46 @@
+
+   INFO  Preparing database.  
+
+  Creating migration table ...................................... 18.56ms DONE
+
+   INFO  Running migrations.  
+
+  2026_09_16_000000_create_framework_infrastructure ............. 18.38ms DONE
+  2026_09_16_000100_create_audit_events_table ................... 23.68ms DONE
+  2026_09_16_000200_create_async_operations_table ............... 15.24ms DONE
+  2026_09_16_010000_create_identity_core ........................ 22.80ms DONE
+  2026_09_16_010100_create_customers_table ....................... 9.89ms DONE
+  2026_09_16_010200_create_identity_authorization_tables ........ 37.18ms DONE
+  2026_09_16_010300_create_identity_recovery .................... 23.21ms DONE
+  2026_09_16_010400_create_identity_mfa ......................... 17.32ms DONE
+  2026_09_16_020000_create_currencies ............................ 5.82ms DONE
+  2026_09_16_020100_create_categories ........................... 23.22ms DONE
+  2026_09_16_020200_add_intake_permissions ...................... 23.18ms DONE
+  2026_09_16_020300_create_project_intake ....................... 84.66ms DONE
+  2026_09_17_030000_create_document_tables ...................... 49.27ms DONE
+  2026_09_17_030100_create_intake_document_attachments .......... 17.05ms DONE
+  2026_09_17_030200_seed_document_permissions .................... 8.75ms DONE
+  2026_09_17_040000_extend_intake_for_commercial_workflow ........ 8.40ms DONE
+  2026_09_17_040100_create_discovery ............................ 40.35ms DONE
+  2026_09_17_040200_create_proposals ............................ 85.96ms DONE
+  2026_09_17_040300_seed_commercial_permissions ................. 36.94ms DONE
+  2026_09_20_050000_extend_intake_for_project_conversion ......... 6.79ms DONE
+  2026_09_20_050100_create_projects ............................. 97.19ms DONE
+  2026_09_20_050200_create_project_documents .................... 13.07ms DONE
+  2026_09_20_050300_create_project_command_keys .................. 8.28ms DONE
+  2026_09_20_050400_seed_project_permissions .................... 24.71ms DONE
+  2026_09_21_000001_create_ai_assistance ........................ 45.54ms DONE
+  2026_09_21_000002_create_notifications ........................ 42.20ms DONE
+  2026_09_21_000003_seed_assistance_permissions ................. 24.13ms DONE
+  2026_09_21_100000_add_reporting_permissions .................... 7.15ms DONE
+  2026_09_22_000000_add_customer_directory_permission ............ 8.30ms DONE
+  2026_09_26_000000_extend_intake_for_guests .................... 56.42ms DONE
+  2026_09_27_000000_add_staff_onboarding ........................ 32.59ms DONE
+  2026_09_29_000000_add_public_content_permissions .............. 21.24ms DONE
+  2026_09_29_000100_create_contact .............................. 27.43ms DONE
+  2026_09_29_000200_create_public_portfolio ..................... 62.14ms DONE
+
+ Container holoul-public-runtime-public-runtime-migrate-run-b2c49e2ec3f0 Creating 
+ Container holoul-public-runtime-public-runtime-migrate-run-b2c49e2ec3f0 Created 
+
+EXIT 0

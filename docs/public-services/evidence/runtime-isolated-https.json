@@ -1,0 +1,264 @@
+{
+  "passed": true,
+  "origin": "https://localhost:8443",
+  "connection_port": 8444,
+  "runtime_container": "holoul-public-runtime-app",
+  "checks": 36,
+  "origin_withdrawal_observed_ms": 71.09,
+  "mailpit_receipt_notifications": 1,
+  "full_website_60_second_cache_acceptance": "pending frontend integration; local edge has no shared cache",
+  "observations": [
+    {
+      "method": "GET",
+      "path": "/health/ready",
+      "status": 200,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/public/portfolio/categories",
+      "status": 200,
+      "set_cookie": false,
+      "cache_control": "public, max-age=0, s-maxage=60, must-revalidate"
+    },
+    {
+      "method": "GET",
+      "path": "/sanctum/csrf-cookie",
+      "status": 204,
+      "set_cookie": true,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/public/contact-messages",
+      "status": 201,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/public/contact-messages",
+      "status": 201,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 202,
+      "set_cookie": true,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/mfa/challenge",
+      "status": 200,
+      "set_cookie": true,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/identity/me",
+      "status": 200,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/public-content/capabilities",
+      "status": 200,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/contact-messages/01a0eca6-7c1c-726c-84e4-c652390886f5",
+      "status": 200,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/contact-messages?limit=1",
+      "status": 200,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/admin/contact-messages/01a0eca6-7c1c-726c-84e4-c652390886f5",
+      "status": 200,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v1/admin/contact-messages/01a0eca6-7c1c-726c-84e4-c652390886f5",
+      "status": 200,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/public/contact-messages",
+      "status": 201,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/portfolio/projects",
+      "status": 201,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/portfolio/projects/01a0eca6-a2ac-72cb-9c7d-b4d743345464/images",
+      "status": 201,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v1/admin/portfolio/projects/01a0eca6-a2ac-72cb-9c7d-b4d743345464/images/01a0eca6-a2df-702e-95b6-375a0bd7e3df/content",
+      "status": 202,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/portfolio/projects/01a0eca6-a2ac-72cb-9c7d-b4d743345464/images/01a0eca6-a2df-702e-95b6-375a0bd7e3df",
+      "status": 200,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/portfolio/projects/01a0eca6-a2ac-72cb-9c7d-b4d743345464",
+      "status": 200,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/admin/portfolio/projects/01a0eca6-a2ac-72cb-9c7d-b4d743345464",
+      "status": 200,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/portfolio/projects/01a0eca6-a2ac-72cb-9c7d-b4d743345464/publications",
+      "status": 201,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/portfolio/projects/01a0eca6-a2ac-72cb-9c7d-b4d743345464/publications",
+      "status": 201,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/portfolio/projects?limit=1",
+      "status": 200,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/public/portfolio/projects/01a0eca6-a2ac-72cb-9c7d-b4d743345464",
+      "status": 200,
+      "set_cookie": false,
+      "cache_control": "public, max-age=0, s-maxage=60, must-revalidate"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/public/portfolio/images/01a0eca6-c5f8-733a-8391-b12504811c12/card",
+      "status": 200,
+      "set_cookie": false,
+      "cache_control": "public, max-age=0, s-maxage=60, must-revalidate"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/public/portfolio/images/01a0eca6-c5f8-733a-8391-b12504811c12/gallery",
+      "status": 200,
+      "set_cookie": false,
+      "cache_control": "public, max-age=0, s-maxage=60, must-revalidate"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/public/portfolio/projects?category=web&limit=1",
+      "status": 200,
+      "set_cookie": false,
+      "cache_control": "public, max-age=0, s-maxage=60, must-revalidate"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/public/portfolio/categories",
+      "status": 200,
+      "set_cookie": false,
+      "cache_control": "public, max-age=0, s-maxage=60, must-revalidate"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/portfolio/projects/01a0eca6-a2ac-72cb-9c7d-b4d743345464/unpublications",
+      "status": 200,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/public/portfolio/projects/01a0eca6-a2ac-72cb-9c7d-b4d743345464",
+      "status": 404,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/public/portfolio/images/01a0eca6-c5f8-733a-8391-b12504811c12/card",
+      "status": 404,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/public/portfolio/images/01a0eca6-c5f8-733a-8391-b12504811c12/gallery",
+      "status": 404,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v1/admin/portfolio/projects/01a0eca6-a2ac-72cb-9c7d-b4d743345464/images/01a0eca6-a2df-702e-95b6-375a0bd7e3df",
+      "status": 200,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/logout",
+      "status": 200,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/public/portfolio/categories",
+      "status": 200,
+      "set_cookie": false,
+      "cache_control": "public, max-age=0, s-maxage=60, must-revalidate"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/identity/me",
+      "status": 401,
+      "set_cookie": false,
+      "cache_control": "no-store"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "format": 1,
+  "source_sha256": "ad31a1d8de23f4533d252e759dbed60851ba838db8605cc3073db13274f53fe3",
+  "images": [
+    {
+      "id": "f7342048-ff2a-4988-b403-28322d6ca797",
+      "byte_size": 67162,
+      "sha256": "f548b3705ed381ac9f7fc9ebb0652d44301f60794a820b853d4ddde0f935c59f"
+    },
+    {
+      "id": "fc123f24-6c74-4a75-9839-2b1b7074d4f1",
+      "byte_size": 92616,
+      "sha256": "2be372388407bf5a3dc4203e120109db1596c26a12f09901734ace8a9776ede1"
+    },
+    {
+      "id": "db07c4c8-1d30-468c-b8e1-d852158afe01",
+      "byte_size": 92616,
+      "sha256": "2be372388407bf5a3dc4203e120109db1596c26a12f09901734ace8a9776ede1"
+    },
+    {
+      "id": "e3418cad-46bb-4354-90ce-ae28b4253b17",
+      "byte_size": 92616,
+      "sha256": "2be372388407bf5a3dc4203e120109db1596c26a12f09901734ace8a9776ede1"
+    }
+  ],
+  "projects": [
+    {
+      "id": "a3d4b661-3dde-43e7-94e2-fdcf55f6bf9b",
+      "status": "published",
+      "image_ids": [
+        "f7342048-ff2a-4988-b403-28322d6ca797",
+        "fc123f24-6c74-4a75-9839-2b1b7074d4f1",
+        "db07c4c8-1d30-468c-b8e1-d852158afe01",
+        "e3418cad-46bb-4354-90ce-ae28b4253b17"
+      ]
+    }
+  ],
+  "published_count": 1,
+  "draft_count": 0,
+  "write_freeze_confirmed": false
+}

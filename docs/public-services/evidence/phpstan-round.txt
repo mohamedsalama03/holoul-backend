@@ -1,0 +1,23 @@
+ ------ ----------------------------------------------------------------------- 
+  Line   app/Modules/Categories/Actions/ImportLaunchTaxonomy.php                
+ ------ ----------------------------------------------------------------------- 
+  72     Strict comparison using !== between                                    
+         App\Modules\Categories\Data\TaxonomyActor and null will always         
+         evaluate to true.                                                      
+         🪪  notIdentical.alwaysTrue                                            
+         💡  Because the type is coming from a PHPDoc, you can turn off this    
+         check by setting treatPhpDocTypesAsCertain: false in your phpstan.neo  
+         n.                                                                     
+  85     Strict comparison using !== between                                    
+         App\Modules\Categories\Data\TaxonomyActor and null will always         
+         evaluate to true.                                                      
+         🪪  notIdentical.alwaysTrue                                            
+         💡  Because the type is coming from a PHPDoc, you can turn off this    
+         check by setting treatPhpDocTypesAsCertain: false in your phpstan.neo  
+         n.                                                                     
+ ------ ----------------------------------------------------------------------- 
+
+
+ [ERROR] Found 2 errors                                                         
+
+Note: Using configuration file /var/www/html/phpstan.neon.

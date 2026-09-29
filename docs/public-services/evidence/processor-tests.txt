@@ -1,0 +1,10 @@
+test_animation_disguise_truncation_trailing_and_oversize_are_rejected (__main__.ProcessorTest.test_animation_disguise_truncation_trailing_and_oversize_are_rejected) ... ok
+test_orientation_and_bounds (__main__.ProcessorTest.test_orientation_and_bounds) ... ok
+test_pixel_bomb_is_rejected_before_decode (__main__.ProcessorTest.test_pixel_bomb_is_rejected_before_decode) ... ok
+test_real_socket_uses_the_bounded_subprocess (__main__.ProcessorTest.test_real_socket_uses_the_bounded_subprocess) ... ok
+test_supported_static_formats_strip_metadata_and_never_upscale (__main__.ProcessorTest.test_supported_static_formats_strip_metadata_and_never_upscale) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.241s
+
+OK

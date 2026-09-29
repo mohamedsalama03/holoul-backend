@@ -1,0 +1,71 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.29kB done
+#1 DONE 0.0s
+
+#2 resolve image config for docker-image://docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32
+#2 DONE 0.0s
+
+#3 docker-image://docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32
+#3 resolve docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32 0.0s done
+#3 CACHED
+
+#4 [internal] load metadata for docker.io/library/python:3.14.7-alpine3.24@sha256:c6ead215bfd31f1e433d968853b7a769989117115b728874824e6c0a27cb96fc
+#4 DONE 0.0s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 288B done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 165B done
+#6 DONE 0.0s
+
+#7 [base 1/2] FROM docker.io/library/python:3.14.7-alpine3.24@sha256:c6ead215bfd31f1e433d968853b7a769989117115b728874824e6c0a27cb96fc
+#7 resolve docker.io/library/python:3.14.7-alpine3.24@sha256:c6ead215bfd31f1e433d968853b7a769989117115b728874824e6c0a27cb96fc 0.0s done
+#7 DONE 0.0s
+
+#8 [base 2/2] RUN apk upgrade --no-cache && apk add --no-cache libjpeg-turbo libwebp zlib
+#8 CACHED
+
+#9 [build 1/3] RUN apk add --no-cache build-base zlib-dev jpeg-dev libwebp-dev
+#9 CACHED
+
+#10 [build 2/3] COPY docker/portfolio/requirements.txt /tmp/requirements.txt
+#10 CACHED
+
+#11 [build 3/3] RUN python3 -m pip install --no-cache-dir --no-binary=pillow --require-hashes --no-deps -r /tmp/requirements.txt --target /opt/pillow
+#11 CACHED
+
+#12 [runtime 1/4] RUN apk add --no-cache libwebpdemux libwebpmux
+#12 65.61 (1/2) Installing libwebpdemux (1.6.0-r0)
+#12 65.76 (2/2) Installing libwebpmux (1.6.0-r0)
+#12 66.11 OK: 13.3 MiB in 35 packages
+#12 DONE 66.2s
+
+#13 [runtime 2/4] COPY --from=build /opt/pillow/ /usr/local/lib/python3.14/site-packages/
+#13 DONE 0.2s
+
+#14 [runtime 3/4] RUN python3 -m pip uninstall --yes pip && rm -rf /usr/local/lib/python3.14/ensurepip     && addgroup -g 1000 holoul && adduser -D -u 1000 -G holoul holoul     && mkdir -p /run/holoul-portfolio && chown holoul:holoul /run/holoul-portfolio     && python3 -I -c 'from PIL import Image, features; assert features.check("webp"); assert Image.__version__ == "12.3.0"'
+#14 1.820 Found existing installation: pip 26.2.1
+#14 1.845 Uninstalling pip-26.2.1:
+#14 2.022   Successfully uninstalled pip-26.2.1
+#14 2.032 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#14 DONE 2.3s
+
+#15 [runtime 4/4] COPY docker/portfolio/processor.py /opt/holoul/processor.py
+#15 DONE 0.1s
+
+#16 exporting to image
+#16 exporting layers
+#16 exporting layers 0.6s done
+#16 exporting manifest sha256:42b56c8c7489b96f1aa0cb7d1b879231746e611024581e781b18a21705abc5ec 0.0s done
+#16 exporting config sha256:10c64b3eb9ae752a1875488fb4aeff93ad10f44efe82debca1a3ab4ede9db3b3 0.0s done
+#16 exporting attestation manifest sha256:c5a988361ce2df9ada493b20308ada9a67fb7b22ae68f05bf8a3c2eaba163505 0.1s done
+#16 exporting manifest list sha256:2bfe69025432b3d87c0d5126bdb1eca0f99f9e2159da402bd3653169f1108abe
+#16 exporting manifest list sha256:2bfe69025432b3d87c0d5126bdb1eca0f99f9e2159da402bd3653169f1108abe 0.0s done
+#16 naming to docker.io/library/holoul-portfolio:public-services-candidate done
+#16 unpacking to docker.io/library/holoul-portfolio:public-services-candidate
+#16 unpacking to docker.io/library/holoul-portfolio:public-services-candidate 0.3s done
+#16 DONE 1.1s

@@ -16,6 +16,8 @@ final class StaffOnboardingUpgradeTest extends TestCase
 
     public function test_exact_accepted_g1_upgrade_preserves_values_and_is_repeatable(): void
     {
+        // Keep this historical gate on the exact G1 -> Staff transition. Later batches have their own upgrade gates.
+        $staffMigration = 'database/migrations/2026_09_27_000000_add_staff_onboarding.php';
         $manifest = json_decode(file_get_contents(base_path('tests/Fixtures/staff-baseline-migrations.json')), true, flags: JSON_THROW_ON_ERROR);
         self::assertCount(30, $manifest);
         foreach ($manifest as $path => $hash) {
@@ -32,13 +34,13 @@ final class StaffOnboardingUpgradeTest extends TestCase
                 $columns[$table] = Schema::getColumnListing($table);
                 $before[$table] = $this->rows($table, $columns[$table]);
             }
-            $this->artisan('migrate', ['--force' => true])->assertExitCode(0);
+            $this->artisan('migrate', ['--path' => [$staffMigration], '--force' => true])->assertExitCode(0);
             $this->assertDatabaseCount('migrations', 31);
             foreach (array_diff($tables, ['migrations']) as $table) {
                 self::assertSame($before[$table], $this->rows($table, $columns[$table]), $table);
             }
             self::assertSame(1, User::query()->sole()->authorization_revision);
-            $this->artisan('migrate', ['--force' => true])->assertExitCode(0);
+            $this->artisan('migrate', ['--path' => [$staffMigration], '--force' => true])->assertExitCode(0);
             $this->assertDatabaseCount('migrations', 31);
             $this->artisan('migrate:rollback', ['--step' => 1, '--force' => true])->assertExitCode(0);
             self::assertFalse(Schema::hasColumn('users', 'authorization_revision'));
@@ -46,7 +48,7 @@ final class StaffOnboardingUpgradeTest extends TestCase
             foreach (array_diff($tables, ['migrations']) as $table) {
                 self::assertSame($before[$table], $this->rows($table, $columns[$table]), $table);
             }
-            $this->artisan('migrate', ['--force' => true])->assertExitCode(0);
+            $this->artisan('migrate', ['--path' => [$staffMigration], '--force' => true])->assertExitCode(0);
         } finally {
             $this->artisan('migrate:fresh', ['--force' => true])->assertExitCode(0);
         }

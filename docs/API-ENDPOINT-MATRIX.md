@@ -12,6 +12,10 @@ Generated from the reviewed OpenAPI source. Permissions never override ownership
 | Update Category | `/api/v1/admin/categories/{category}` | PATCH | staff | taxonomy.manage |
 | List Subcategories | `/api/v1/admin/categories/{category}/subcategories` | GET | staff | taxonomy.manage |
 | Create Subcategory | `/api/v1/admin/categories/{category}/subcategories` | POST | staff | taxonomy.manage |
+| List contact inbox entries | `/api/v1/admin/contact-messages` | GET | staff | contact.read |
+| Read a contact message and delivery outcome | `/api/v1/admin/contact-messages/{message}` | GET | staff | contact.read |
+| Update contact handling status | `/api/v1/admin/contact-messages/{message}` | PATCH | staff | contact.manage |
+| Manually redact personal contact content | `/api/v1/admin/contact-messages/{message}` | DELETE | staff | contact.redact |
 | Customer directory | `/api/v1/admin/customers` | GET | staff | customers.directory.read |
 | Customer detail | `/api/v1/admin/customers/{customer}` | GET | staff | customers.directory.read |
 | Customer request summaries | `/api/v1/admin/customers/{customer}/project-requests` | GET | staff | customers.directory.read, intake.read |
@@ -19,6 +23,16 @@ Generated from the reviewed OpenAPI source. Permissions never override ownership
 | Inspect notification deliveries | `/api/v1/admin/notification-deliveries` | GET | staff | notifications.delivery.read |
 | Inspect delivery attempts | `/api/v1/admin/notification-deliveries/{delivery}` | GET | staff | notifications.delivery.read |
 | Replay failed notification delivery | `/api/v1/admin/notification-deliveries/{delivery}/replays` | POST | staff | notifications.delivery.replay |
+| List editorial portfolio projects | `/api/v1/admin/portfolio/projects` | GET | staff | portfolio.read |
+| Create an independent editorial draft | `/api/v1/admin/portfolio/projects` | POST | staff | portfolio.manage |
+| Read an editorial draft and image states | `/api/v1/admin/portfolio/projects/{project}` | GET | staff | portfolio.read |
+| Edit draft fields and select cover/featured assets | `/api/v1/admin/portfolio/projects/{project}` | PATCH | staff | portfolio.manage |
+| Reserve a private image upload | `/api/v1/admin/portfolio/projects/{project}/images` | POST | staff | portfolio.manage |
+| Read private image reservation and processing state | `/api/v1/admin/portfolio/projects/{project}/images/{image}` | GET | staff | portfolio.read |
+| Retire an editorial image | `/api/v1/admin/portfolio/projects/{project}/images/{image}` | DELETE | staff | portfolio.manage |
+| Upload exact reserved bytes for isolated processing | `/api/v1/admin/portfolio/projects/{project}/images/{image}/content` | PUT | staff | portfolio.manage |
+| Publish an immutable portfolio snapshot | `/api/v1/admin/portfolio/projects/{project}/publications` | POST | staff | portfolio.publish |
+| Withdraw a published portfolio project | `/api/v1/admin/portfolio/projects/{project}/unpublications` | POST | staff | portfolio.publish |
 | Staff List project request | `/api/v1/admin/project-requests` | GET | staff | intake.read |
 | Staff Reference project request | `/api/v1/admin/project-requests/by-reference/{reference}` | GET | staff | intake.read |
 | Staff Detail project request | `/api/v1/admin/project-requests/{projectRequest}` | GET | staff | intake.read |
@@ -85,6 +99,7 @@ Generated from the reviewed OpenAPI source. Permissions never override ownership
 | Remove project team member | `/api/v1/admin/projects/{project}/team-members/{member}` | DELETE | staff | projects.read, projects.team.manage |
 | Staff project updates | `/api/v1/admin/projects/{project}/updates` | GET | staff | projects.read |
 | Publish customer project update | `/api/v1/admin/projects/{project}/updates` | POST | staff | projects.read, projects.updates.publish |
+| Read own public-content permissions | `/api/v1/admin/public-content/capabilities` | GET | staff | — |
 | Read customers statistics | `/api/v1/admin/reports/customers` | GET | staff | reporting.read |
 | Read dashboard statistics | `/api/v1/admin/reports/dashboard` | GET | staff | reporting.read |
 | Read projects statistics | `/api/v1/admin/reports/projects` | GET | staff | reporting.read |
@@ -185,4 +200,9 @@ Generated from the reviewed OpenAPI source. Permissions never override ownership
 | Download project document | `/api/v1/projects/{project}/documents/{document}/download` | GET | customer | projects.self.read, projects.self.documents.read |
 | Customer milestones | `/api/v1/projects/{project}/milestones` | GET | customer | projects.self.read |
 | Customer project updates | `/api/v1/projects/{project}/updates` | GET | customer | projects.self.read |
+| Save a contact message and return its durable receipt | `/api/v1/public/contact-messages` | POST | guest, customer, staff | — |
+| List portfolio categories and published counts | `/api/v1/public/portfolio/categories` | GET | public | — |
+| Read immutable published WebP bytes | `/api/v1/public/portfolio/images/{image}/{variant}` | GET | public | — |
+| List published portfolio cards | `/api/v1/public/portfolio/projects` | GET | public | — |
+| Read a published portfolio project | `/api/v1/public/portfolio/projects/{project}` | GET | public | — |
 | Initialize the SPA session and CSRF cookie | `/sanctum/csrf-cookie` | GET | guest, customer, staff | — |

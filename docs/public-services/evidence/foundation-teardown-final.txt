@@ -1,0 +1,31 @@
+PHPUnit 12.5.35 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.25
+Configuration: /var/www/html/phpunit.xml
+
+{"message":"telemetry.http","context":{"request_id":"01a0ec91-9b17-7241-ad27-3a0bae15cd0e","family":"other","method":"GET","status":200,"duration_ms":24,"query_count":0,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:49:20.561100+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec91-9b37-7383-98c5-d249533bf1f2","family":"auth","method":"GET","status":204,"duration_ms":13,"query_count":3,"sql_duration_ms":3},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:49:20.580385+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec91-9b44-7049-98d8-96492802d593","family":"auth","method":"GET","status":403,"duration_ms":3,"query_count":0,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:49:20.584737+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec91-9b49-7389-9df1-8eb81b6738cf","family":"other","method":"GET","status":404,"duration_ms":3,"query_count":0,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:49:20.588845+00:00","extra":{}}
+.{"message":"telemetry.http","context":{"request_id":"01a0ec91-a7d3-7336-936a-642c813cc44c","family":"other","method":"GET","status":200,"duration_ms":2,"query_count":0,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:49:23.798830+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec91-a7d7-702f-bd31-880295012fcb","family":"other","method":"GET","status":404,"duration_ms":1,"query_count":0,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:49:23.801627+00:00","extra":{}}
+.{"message":"telemetry.http","context":{"request_id":"01a0ec91-b262-72bd-9037-15aff63bf285","family":"other","method":"GET","status":404,"duration_ms":11,"query_count":0,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:49:26.378599+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec91-b262-72bd-9037-15aff6cb5960","family":"other","method":"POST","status":405,"duration_ms":1,"query_count":0,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:49:26.381067+00:00","extra":{}}
+.{"message":"request.failed","context":{"request_id":"01a0ec91-ba6e-71f5-b88d-749acd470d01","exception_type":"RuntimeException","error_code":"INTERNAL_ERROR"},"level":400,"level_name":"ERROR","channel":"testing","datetime":"2026-09-29T09:49:28.561164+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec91-ba6e-71f5-b88d-749acd470d01","family":"other","method":"GET","status":500,"duration_ms":2,"query_count":0,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:49:28.562241+00:00","extra":{}}
+.{"message":"telemetry.http","context":{"request_id":"01a0ec91-c3d6-7362-8713-3e360adf4935","family":"other","method":"POST","status":422,"duration_ms":3,"query_count":0,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:49:30.970230+00:00","extra":{}}
+.{"message":"telemetry.http","context":{"request_id":"01a0ec91-cade-7271-af47-99931b75afe4","family":"other","method":"POST","status":403,"duration_ms":1,"query_count":0,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:49:32.768638+00:00","extra":{}}
+.{"message":"telemetry.http","context":{"request_id":"01a0ec91-d12e-704d-ae57-a32203cb422b","family":"other","method":"POST","status":400,"duration_ms":0,"query_count":0,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:49:34.383416+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec91-d12f-71dd-ae45-b5275b8552f1","family":"other","method":"POST","status":415,"duration_ms":0,"query_count":0,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:49:34.384381+00:00","extra":{}}
+.{"message":"telemetry.http","context":{"request_id":"01a0ec91-d768-71b8-839e-2e9c061e4479","family":"other","method":"POST","status":413,"duration_ms":0,"query_count":0,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:49:35.977179+00:00","extra":{}}
+.{"message":"telemetry.http","context":{"request_id":"01a0ec91-ddc3-7342-a1bf-cb98ee871950","family":"health","method":"GET","status":200,"duration_ms":1,"query_count":0,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:49:37.605256+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec91-ddc5-7371-9b1e-8dd2cca5b7a2","family":"health","method":"GET","status":200,"duration_ms":3,"query_count":5,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:49:37.609409+00:00","extra":{}}
+.{"message":"telemetry.http","context":{"request_id":"01a0ec91-e406-72dc-b2e9-cbf0fc96bb66","family":"health","method":"GET","status":200,"duration_ms":1,"query_count":0,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:49:39.208874+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ec91-e409-73c8-b3f3-9b294dd9299e","family":"health","method":"GET","status":503,"duration_ms":2,"query_count":0,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T09:49:39.212326+00:00","extra":{}}
+.                                                        10 / 10 (100%)
+
+Time: 00:21.739, Memory: 54.50 MB
+
+[30;42mOK (10 tests, 46 assertions)[0m
+
+EXIT 0
