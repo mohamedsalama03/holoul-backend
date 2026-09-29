@@ -1,0 +1,5 @@
+{
+  "isolated_verification_containers_stopped": true,
+  "volumes_preserved": true,
+  "shared_8443_stack_untouched": true
+}

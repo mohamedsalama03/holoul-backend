@@ -1,0 +1,8 @@
+{
+  "environment": "local",
+  "debug": false,
+  "database": "holoul",
+  "database_identity": "holoul_app",
+  "migrations": 34,
+  "ai_enabled": false
+}

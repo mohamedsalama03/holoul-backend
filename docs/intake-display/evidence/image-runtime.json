@@ -1,0 +1,10 @@
+{
+  "id": "sha256:7baed8a2772318a317ae876c76af1e2c1934b4947bf0af0d7aa6f663f4b576f7",
+  "labels": {
+    "org.holoul.classification": "local-integration-candidate",
+    "org.holoul.openapi-sha256": "e90a431d1c662e7fb2f2eb680694678d20c294ef3a53e17dec92fcaeba87c50f",
+    "org.holoul.source-manifest-sha256": "f914c8178e18b13bbb95200581925c764be982ec099d1fb7409ccf8ad7d72f53",
+    "org.opencontainers.image.revision": "1f3cf6eb6a2b532cc882769f59ee80096b49c926"
+  },
+  "tag": "holoul-app:intake-display-runtime"
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="/var/www/html/phpunit.xml" tests="1" assertions="25" errors="0" failures="0" skipped="0" time="4.115506">
+    <testsuite name="Feature" tests="1" assertions="25" errors="0" failures="0" skipped="0" time="4.115506">
+      <testsuite name="Tests\Feature\ProjectIntake\IntakeDisplayHttpTest" file="/var/www/html/tests/Feature/ProjectIntake/IntakeDisplayHttpTest.php" tests="1" assertions="25" errors="0" failures="0" skipped="0" time="4.115506">
+        <testcase name="test_closed_request_keeps_current_assignee_and_disabled_historical_staff_names" file="/var/www/html/tests/Feature/ProjectIntake/IntakeDisplayHttpTest.php" line="76" class="Tests\Feature\ProjectIntake\IntakeDisplayHttpTest" classname="Tests.Feature.ProjectIntake.IntakeDisplayHttpTest" assertions="25" time="4.115506"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

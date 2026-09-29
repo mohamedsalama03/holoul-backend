@@ -1,0 +1,12 @@
+
+  ✓✓✓..✓✓.✓
+
+  ──────────────────────────────────────────────────────────────────── Laravel  
+    FIXED   .................................... 9 files, 6 style issues fixed  
+  ✓ app/Modules/Identity/Queries/ReadIdentityDisplayNames.php     phpdoc_align  
+  ✓ app/Modules/ProjectIntake/Contracts/IntakeActorNames.php      phpdoc_align  
+  ✓ app/Modules/ProjectIntake/Queries/ReadIntake.php fully_qualified_strict_t…  
+  ✓ app/Modules/ProjectIntake/Queries/ReadIntakeDisplay.php unary_operator_sp…  
+  ✓ app/Providers/AppServiceProvider.php unary_operator_spaces, not_operator_…  
+  ✓ tests/Feature/ProjectIntake/IntakeDisplayHttpTest.php    no_unused_imports  
+

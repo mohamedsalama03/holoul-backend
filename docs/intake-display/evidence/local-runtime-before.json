@@ -1,0 +1,83 @@
+{
+  "captured_at": "2026-09-29T14:25:44.365243+00:00",
+  "services": {
+    "app": {
+      "image": "holoul-app:public-services-runtime",
+      "image_id": "sha256:576eac4e84397946f47004059d5a0512a08923cb757727fc8c97c94522909079",
+      "state": "running",
+      "health": "healthy",
+      "user": "1000:1000",
+      "labels": {
+        "org.holoul.classification": "local-integration-candidate",
+        "org.holoul.openapi-sha256": "7739bd957665b285c3baea8a4883aa987d6d11dee3fb43bcc5ef1ff9fb0c8051",
+        "org.holoul.source-manifest-sha256": "7e87f346970d55767257ef09adc2dcd8ae41e42a17435d8217f126fdb362231d",
+        "org.opencontainers.image.revision": "7c9de8d5eaaf30fc4838445132b5679f495979cb"
+      }
+    },
+    "queue": {
+      "image": "holoul-app:public-services-runtime",
+      "image_id": "sha256:576eac4e84397946f47004059d5a0512a08923cb757727fc8c97c94522909079",
+      "state": "running",
+      "health": "healthy",
+      "user": "1000:1000",
+      "labels": {
+        "org.holoul.classification": "local-integration-candidate",
+        "org.holoul.openapi-sha256": "7739bd957665b285c3baea8a4883aa987d6d11dee3fb43bcc5ef1ff9fb0c8051",
+        "org.holoul.source-manifest-sha256": "7e87f346970d55767257ef09adc2dcd8ae41e42a17435d8217f126fdb362231d",
+        "org.opencontainers.image.revision": "7c9de8d5eaaf30fc4838445132b5679f495979cb"
+      }
+    },
+    "document-queue": {
+      "image": "holoul-app:public-services-runtime",
+      "image_id": "sha256:576eac4e84397946f47004059d5a0512a08923cb757727fc8c97c94522909079",
+      "state": "running",
+      "health": "healthy",
+      "user": "1000:1000",
+      "labels": {
+        "org.holoul.classification": "local-integration-candidate",
+        "org.holoul.openapi-sha256": "7739bd957665b285c3baea8a4883aa987d6d11dee3fb43bcc5ef1ff9fb0c8051",
+        "org.holoul.source-manifest-sha256": "7e87f346970d55767257ef09adc2dcd8ae41e42a17435d8217f126fdb362231d",
+        "org.opencontainers.image.revision": "7c9de8d5eaaf30fc4838445132b5679f495979cb"
+      }
+    },
+    "ai-queue": {
+      "image": "holoul-app:public-services-runtime",
+      "image_id": "sha256:576eac4e84397946f47004059d5a0512a08923cb757727fc8c97c94522909079",
+      "state": "running",
+      "health": "healthy",
+      "user": "1000:1000",
+      "labels": {
+        "org.holoul.classification": "local-integration-candidate",
+        "org.holoul.openapi-sha256": "7739bd957665b285c3baea8a4883aa987d6d11dee3fb43bcc5ef1ff9fb0c8051",
+        "org.holoul.source-manifest-sha256": "7e87f346970d55767257ef09adc2dcd8ae41e42a17435d8217f126fdb362231d",
+        "org.opencontainers.image.revision": "7c9de8d5eaaf30fc4838445132b5679f495979cb"
+      }
+    },
+    "notification-queue": {
+      "image": "holoul-app:public-services-runtime",
+      "image_id": "sha256:576eac4e84397946f47004059d5a0512a08923cb757727fc8c97c94522909079",
+      "state": "running",
+      "health": "healthy",
+      "user": "1000:1000",
+      "labels": {
+        "org.holoul.classification": "local-integration-candidate",
+        "org.holoul.openapi-sha256": "7739bd957665b285c3baea8a4883aa987d6d11dee3fb43bcc5ef1ff9fb0c8051",
+        "org.holoul.source-manifest-sha256": "7e87f346970d55767257ef09adc2dcd8ae41e42a17435d8217f126fdb362231d",
+        "org.opencontainers.image.revision": "7c9de8d5eaaf30fc4838445132b5679f495979cb"
+      }
+    },
+    "scheduler": {
+      "image": "holoul-app:public-services-runtime",
+      "image_id": "sha256:576eac4e84397946f47004059d5a0512a08923cb757727fc8c97c94522909079",
+      "state": "running",
+      "health": "healthy",
+      "user": "1000:1000",
+      "labels": {
+        "org.holoul.classification": "local-integration-candidate",
+        "org.holoul.openapi-sha256": "7739bd957665b285c3baea8a4883aa987d6d11dee3fb43bcc5ef1ff9fb0c8051",
+        "org.holoul.source-manifest-sha256": "7e87f346970d55767257ef09adc2dcd8ae41e42a17435d8217f126fdb362231d",
+        "org.opencontainers.image.revision": "7c9de8d5eaaf30fc4838445132b5679f495979cb"
+      }
+    }
+  }
+}

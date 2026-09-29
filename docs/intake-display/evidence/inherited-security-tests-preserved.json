@@ -1,0 +1,28 @@
+{
+  "baseline": "3bc85401e96a1f8b843d1db0f13a4ae9b86572ee",
+  "byte_identical": true,
+  "files": [
+    "tests/Unit/WrappedConcurrencyErrorsTest.php",
+    "tests/Feature/Documents/DocumentConcurrencyTest.php",
+    "tests/Feature/PublicServices/PublicSessionRaceTest.php",
+    "tests/Feature/PublicServices/ContactConcurrencyTest.php",
+    "tests/Feature/Authorization/AuthorizationConcurrencyTest.php",
+    "tests/Feature/Notifications/NotificationConcurrencyTest.php",
+    "tests/Feature/Categories/TaxonomyConcurrencyTest.php",
+    "tests/Feature/Projects/ProjectConcurrencyTest.php",
+    "tests/Feature/AI/AIConcurrencyTest.php",
+    "tests/Feature/Commercial/CommercialConcurrencyTest.php",
+    "tests/Feature/Identity/SessionLifecycleTest.php",
+    "tests/Feature/Identity/StaffOnboardingConcurrencyTest.php",
+    "tests/Feature/Identity/MfaConcurrencyTest.php",
+    "tests/Feature/Identity/RegistrationConcurrencyTest.php",
+    "tests/Feature/Identity/SessionPruningTest.php",
+    "tests/Feature/ProjectIntake/ReadConcurrencyTest.php",
+    "tests/Feature/ProjectIntake/GuestIntakeUpgradeTest.php",
+    "tests/Feature/ProjectIntake/GuestSessionIsolationTest.php",
+    "tests/Feature/ProjectIntake/GuestIntakeConcurrencyTest.php",
+    "tests/Feature/ProjectIntake/GuestIntakeConstraintsTest.php",
+    "tests/Feature/ProjectIntake/IntakeConcurrencyTest.php",
+    "tests/Feature/ProjectIntake/GuestIntakeHttpTest.php"
+  ]
+}

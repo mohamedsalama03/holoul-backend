@@ -1,0 +1,50 @@
+{
+  "dashboard": {
+    "head_before": "2c916fa437b8214d922eb46230ef59f0b4773780",
+    "head_after": "2c916fa437b8214d922eb46230ef59f0b4773780",
+    "tracked_content_changed_since_snapshot": [],
+    "contract_sha256_before": "af3c96ac459717fb3ab4c86ac68513d4516e843e410de36820af2e188eded43d",
+    "contract_sha256_after": "af3c96ac459717fb3ab4c86ac68513d4516e843e410de36820af2e188eded43d",
+    "pre_existing_changed_paths": 5,
+    "status_after": [
+      " M e2e/support/sign-in-page.ts",
+      " M e2e/support/totp.ts",
+      " M src/components/auth/sign-in.test.tsx",
+      " M src/lib/api/identity.test.ts",
+      " M src/lib/api/identity.ts"
+    ]
+  },
+  "website": {
+    "head_before": "4062aa60859d06bfca25ff54ba285967ad55f5f3",
+    "head_after": "4062aa60859d06bfca25ff54ba285967ad55f5f3",
+    "tracked_content_changed_since_snapshot": [],
+    "contract_sha256_before": "7739bd957665b285c3baea8a4883aa987d6d11dee3fb43bcc5ef1ff9fb0c8051",
+    "contract_sha256_after": "7739bd957665b285c3baea8a4883aa987d6d11dee3fb43bcc5ef1ff9fb0c8051",
+    "pre_existing_changed_paths": 23,
+    "status_after": [
+      " M .env.example",
+      " M README.md",
+      " M docs/backend-integration.md",
+      " M package.json",
+      " M scripts/api-contract.mjs",
+      " M scripts/format-integration.mjs",
+      " M src/app/(marketing)/our-projects/[id]/page.tsx",
+      " M src/app/(marketing)/our-projects/page.tsx",
+      " M src/app/api/portfolio-images/[id]/route.ts",
+      " M src/components/holoul/contact-form.tsx",
+      " M src/components/holoul/project-gallery.tsx",
+      " M src/lib/api/endpoints.ts",
+      " M src/lib/portfolio.ts",
+      " M src/lib/server/portfolio.ts",
+      "?? docs/BACKEND-REQUIREMENTS-AR.md",
+      "?? docs/LAUNCH-DATA-AR.md",
+      "?? docs/PUBLIC-SERVICES-INTEGRATION-AR.md",
+      "?? docs/PUBLIC-SERVICES-REVIEW-AR.md",
+      "?? docs/public-services-http-20260929.json",
+      "?? src/components/holoul/portfolio-results.tsx",
+      "?? src/lib/api/contact.ts",
+      "?? tests/public-portfolio-server.test.ts",
+      "?? tests/public-services.test.tsx"
+    ]
+  }
+}

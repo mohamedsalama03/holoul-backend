@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "tests": 1026,
+  "assertions": 65785,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "seconds": 2203.143427,
+  "subsets": {
+    "display": {
+      "tests": 8,
+      "assertions": 217
+    },
+    "architecture": {
+      "tests": 9,
+      "assertions": 51544
+    },
+    "session_concurrency": {
+      "tests": 94,
+      "assertions": 1846
+    },
+    "intake": {
+      "tests": 157,
+      "assertions": 2313
+    },
+    "documents": {
+      "tests": 117,
+      "assertions": 1373
+    }
+  }
+}

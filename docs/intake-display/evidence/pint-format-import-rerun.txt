@@ -1,0 +1,7 @@
+
+  ✓.
+
+  ──────────────────────────────────────────────────────────────────── Laravel  
+    FIXED   ..................................... 2 files, 1 style issue fixed  
+  ✓ app/Application/PublicServices/ImportLegacyPortfolioCommand.php method_ar…  
+

@@ -1,0 +1,8 @@
+{
+  "environment": "local",
+  "debug": false,
+  "database_identity": "holoul_app",
+  "migrations": 34,
+  "display_binding": "App\\Application\\Intake\\ReadIntakeActorNames",
+  "session_middleware": "App\\Infrastructure\\Http\\StartSecureSession"
+}

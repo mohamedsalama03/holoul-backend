@@ -1,0 +1,426 @@
+{
+  "passed": true,
+  "origin": "https://localhost:8443",
+  "checks": 69,
+  "closed_synthetic_requests": [
+    "01a0ed92-3cae-7258-80c7-e8686e24773f",
+    "01a0ed92-437c-72a7-9699-b2919ba8a072"
+  ],
+  "ordinary_reads_and_guest_operations_reissued_cookies": false,
+  "observations": [
+    {
+      "method": "GET",
+      "path": "/sanctum/csrf-cookie",
+      "status": 204,
+      "set_cookie": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 200,
+      "set_cookie": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/identity/me",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/categories",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/categories/01a0c342-40c2-732a-aa56-bf66d4fea073/subcategories",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/project-requests",
+      "status": 201,
+      "set_cookie": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/project-requests/01a0ed92-3cae-7258-80c7-e8686e24773f/submissions",
+      "status": 201,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/sanctum/csrf-cookie",
+      "status": 204,
+      "set_cookie": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 202,
+      "set_cookie": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/mfa/challenge",
+      "status": 200,
+      "set_cookie": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/identity/me",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-3cae-7258-80c7-e8686e24773f",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-3cae-7258-80c7-e8686e24773f?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/by-reference/REQ-2026-11529?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests?view=dashboard&reference=REQ-2026-11529",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-3cae-7258-80c7-e8686e24773f/history",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-3cae-7258-80c7-e8686e24773f/history?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-3cae-7258-80c7-e8686e24773f/assignments",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-3cae-7258-80c7-e8686e24773f/assignments?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/customers/01a0eccb-0114-7126-8b1f-13124a45c1ea",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/customers/01a0eccb-00fb-73c4-b16f-b5017ecf0d80",
+      "status": 404,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/identity/staff",
+      "status": 403,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/sanctum/csrf-cookie",
+      "status": 204,
+      "set_cookie": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/guest/project-requests",
+      "status": 201,
+      "set_cookie": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/guest/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072/submissions",
+      "status": 201,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/by-reference/REQ-2026-11530?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests?view=dashboard&reference=REQ-2026-11530",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072/history",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072/history?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072/assignments",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072/assignments?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072/history?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/project-request-claims",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072/history?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-3cae-7258-80c7-e8686e24773f?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/project-requests/01a0ed92-3cae-7258-80c7-e8686e24773f/assignments",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-3cae-7258-80c7-e8686e24773f?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/project-requests/01a0ed92-3cae-7258-80c7-e8686e24773f/reviews",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-3cae-7258-80c7-e8686e24773f?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/project-requests/01a0ed92-3cae-7258-80c7-e8686e24773f/rejections",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-3cae-7258-80c7-e8686e24773f?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-3cae-7258-80c7-e8686e24773f",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-3cae-7258-80c7-e8686e24773f?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/by-reference/REQ-2026-11529?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests?view=dashboard&reference=REQ-2026-11529",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-3cae-7258-80c7-e8686e24773f/history",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-3cae-7258-80c7-e8686e24773f/history?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-3cae-7258-80c7-e8686e24773f/assignments",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-3cae-7258-80c7-e8686e24773f/assignments?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072/assignments",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072/reviews",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072/rejections",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/by-reference/REQ-2026-11530?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests?view=dashboard&reference=REQ-2026-11530",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072/history",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072/history?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072/assignments",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed92-437c-72a7-9699-b2919ba8a072/assignments?view=dashboard",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/logout",
+      "status": 200,
+      "set_cookie": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/logout",
+      "status": 200,
+      "set_cookie": false
+    }
+  ]
+}

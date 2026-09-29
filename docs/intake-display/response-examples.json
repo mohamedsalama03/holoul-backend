@@ -1,0 +1,699 @@
+{
+  "source": "Actual synthetic PostgreSQL HTTP tests; no authentication responses",
+  "examples": [
+    {
+      "scenario": "account detail display",
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/by-reference/REQ-2026-00001",
+      "status": 200,
+      "view": "dashboard",
+      "headers": {
+        "etag": [
+          "\"01a0ed85-964a-72bc-992b-fe22ebdd177e:2\""
+        ],
+        "cache-control": [
+          "no-store, private"
+        ],
+        "content-type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "data": {
+          "id": "01a0ed85-964a-72bc-992b-fe22ebdd177e",
+          "reference": "REQ-2026-00001",
+          "state": "submitted",
+          "version": 2,
+          "etag": "\"01a0ed85-964a-72bc-992b-fe22ebdd177e:2\"",
+          "latest_revision_number": 1,
+          "created_at": "2026-09-29T14:15:50.000000Z",
+          "submitted_at": "2026-09-29T14:15:50.000000Z",
+          "assigned_staff_id": null,
+          "customer_id": "01a0ed85-9606-7251-8142-b51b972f00da",
+          "project_name": "منصة تعليم Learning portal",
+          "customer_display_name": "Current customer name",
+          "provenance": "customer",
+          "claimed": false,
+          "assigned_staff": null,
+          "latest_revision": {
+            "id": "01a0ed85-965a-73f6-937a-a4560c30dcc5",
+            "revision_number": 1,
+            "document_id": null,
+            "full_name": "عميل Test",
+            "email": "01a0ed85-9564-73f9-8170-d9d7e73886f7@example.test",
+            "phone": "+218912345678",
+            "category_id": "01a0ed85-9641-7238-b1a7-0cd282c604c7",
+            "subcategory_id": "01a0ed85-9645-7334-a8f2-292b5de7d852",
+            "category_label": "Software برمجيات",
+            "subcategory_label": "Web تطبيقات",
+            "project_name": "منصة تعليم Learning portal",
+            "project_description": "Private description for a bilingual learning platform.",
+            "budget_unknown": false,
+            "estimated_budget": "1234.567",
+            "currency": "LYD",
+            "submitted_at": "2026-09-29T14:15:50.000000Z",
+            "submitted_by": "01a0ed85-9603-72db-81ad-2738a846079f",
+            "provenance": "customer_submission"
+          },
+          "information_request_id": null
+        }
+      }
+    },
+    {
+      "scenario": "guest unclaimed detail display",
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed85-c5d0-71e7-9ffa-e7985c23d5ea",
+      "status": 200,
+      "view": "dashboard",
+      "headers": {
+        "etag": [
+          "\"01a0ed85-c5d0-71e7-9ffa-e7985c23d5ea:2\""
+        ],
+        "cache-control": [
+          "no-store, private"
+        ],
+        "content-type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "data": {
+          "id": "01a0ed85-c5d0-71e7-9ffa-e7985c23d5ea",
+          "reference": "REQ-2026-00001",
+          "state": "submitted",
+          "version": 2,
+          "etag": "\"01a0ed85-c5d0-71e7-9ffa-e7985c23d5ea:2\"",
+          "latest_revision_number": 1,
+          "created_at": "2026-09-29T14:16:02.000000Z",
+          "submitted_at": "2026-09-29T14:16:02.000000Z",
+          "assigned_staff_id": null,
+          "customer_id": null,
+          "project_name": "منصة تعليم Learning portal",
+          "customer_display_name": "Original guest",
+          "provenance": "guest",
+          "claimed": false,
+          "assigned_staff": null,
+          "latest_revision": {
+            "id": "01a0ed85-c5ee-7235-9b4b-0b7994ac8e40",
+            "revision_number": 1,
+            "document_id": null,
+            "full_name": "Original guest",
+            "email": "01a0ed85-c51a-72e3-be1e-e4389faeb929@example.test",
+            "phone": "+218912345678",
+            "category_id": "01a0ed85-c5dd-71ff-9649-d08bf9325beb",
+            "subcategory_id": "01a0ed85-c5e1-7171-b6f0-0710953a939a",
+            "category_label": "Software برمجيات",
+            "subcategory_label": "Web تطبيقات",
+            "project_name": "منصة تعليم Learning portal",
+            "project_description": "Private description for a bilingual learning platform.",
+            "budget_unknown": false,
+            "estimated_budget": "1234.567",
+            "currency": "LYD",
+            "submitted_at": "2026-09-29T14:16:02.000000Z",
+            "submitted_by": null,
+            "provenance": "guest_submission"
+          },
+          "information_request_id": null
+        }
+      }
+    },
+    {
+      "scenario": "guest claimed amended detail display",
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed85-c5d0-71e7-9ffa-e7985c23d5ea",
+      "status": 200,
+      "view": "dashboard",
+      "headers": {
+        "etag": [
+          "\"01a0ed85-c5d0-71e7-9ffa-e7985c23d5ea:6\""
+        ],
+        "cache-control": [
+          "no-store, private"
+        ],
+        "content-type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "data": {
+          "id": "01a0ed85-c5d0-71e7-9ffa-e7985c23d5ea",
+          "reference": "REQ-2026-00001",
+          "state": "submitted",
+          "version": 6,
+          "etag": "\"01a0ed85-c5d0-71e7-9ffa-e7985c23d5ea:6\"",
+          "latest_revision_number": 2,
+          "created_at": "2026-09-29T14:16:02.000000Z",
+          "submitted_at": "2026-09-29T14:16:02.000000Z",
+          "assigned_staff_id": null,
+          "customer_id": "01a0ed85-c5b8-723e-b26f-31f1bbce03cf",
+          "project_name": "Amended customer project",
+          "customer_display_name": "عميل Test",
+          "provenance": "guest",
+          "claimed": true,
+          "assigned_staff": null,
+          "latest_revision": {
+            "id": "01a0ed85-cfb2-7240-87cd-2fde81db5ad8",
+            "revision_number": 2,
+            "document_id": null,
+            "full_name": "عميل Test",
+            "email": "01a0ed85-c51a-72e3-be1e-e4389faeb929@example.test",
+            "phone": "+218912345678",
+            "category_id": "01a0ed85-c5dd-71ff-9649-d08bf9325beb",
+            "subcategory_id": "01a0ed85-c5e1-7171-b6f0-0710953a939a",
+            "category_label": "Software برمجيات",
+            "subcategory_label": "Web تطبيقات",
+            "project_name": "Amended customer project",
+            "project_description": "Private description for a bilingual learning platform.",
+            "budget_unknown": false,
+            "estimated_budget": "1234.567",
+            "currency": "LYD",
+            "submitted_at": "2026-09-29T14:16:04.000000Z",
+            "submitted_by": "01a0ed85-c5b4-72ca-a046-dd3547e8e957",
+            "provenance": "customer_amendment"
+          },
+          "information_request_id": null
+        }
+      }
+    },
+    {
+      "scenario": "closed request assigned staff display",
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed85-a46b-7000-bde9-4aceef9d82cd",
+      "status": 200,
+      "view": "dashboard",
+      "headers": {
+        "etag": [
+          "\"01a0ed85-a46b-7000-bde9-4aceef9d82cd:6\""
+        ],
+        "cache-control": [
+          "no-store, private"
+        ],
+        "content-type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "data": {
+          "id": "01a0ed85-a46b-7000-bde9-4aceef9d82cd",
+          "reference": "REQ-2026-00001",
+          "state": "rejected",
+          "version": 6,
+          "etag": "\"01a0ed85-a46b-7000-bde9-4aceef9d82cd:6\"",
+          "latest_revision_number": 1,
+          "created_at": "2026-09-29T14:15:53.000000Z",
+          "submitted_at": "2026-09-29T14:15:53.000000Z",
+          "assigned_staff_id": "01a0ed85-a669-7053-978c-3123369730cb",
+          "customer_id": "01a0ed85-a428-73d5-beb3-511f87e59c0b",
+          "project_name": "منصة تعليم Learning portal",
+          "customer_display_name": "عميل Test",
+          "provenance": "customer",
+          "claimed": false,
+          "assigned_staff": {
+            "id": "01a0ed85-a669-7053-978c-3123369730cb",
+            "display_name": "Current reviewer"
+          },
+          "latest_revision": {
+            "id": "01a0ed85-a479-73e7-af44-c9fcb02137b4",
+            "revision_number": 1,
+            "document_id": null,
+            "full_name": "عميل Test",
+            "email": "01a0ed85-a37f-72d2-a11e-eb21a50cc676@example.test",
+            "phone": "+218912345678",
+            "category_id": "01a0ed85-a462-7074-a7f2-e6efcad6ce3f",
+            "subcategory_id": "01a0ed85-a466-7190-9afc-b9198966afed",
+            "category_label": "Software برمجيات",
+            "subcategory_label": "Web تطبيقات",
+            "project_name": "منصة تعليم Learning portal",
+            "project_description": "Private description for a bilingual learning platform.",
+            "budget_unknown": false,
+            "estimated_budget": "1234.567",
+            "currency": "LYD",
+            "submitted_at": "2026-09-29T14:15:53.000000Z",
+            "submitted_by": "01a0ed85-a425-73c9-82b1-f20afe47ba10",
+            "provenance": "customer_submission"
+          },
+          "information_request_id": null
+        }
+      }
+    },
+    {
+      "scenario": "by-reference detail display",
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/by-reference/REQ-2026-00001",
+      "status": 200,
+      "view": "dashboard",
+      "headers": {
+        "etag": [
+          "\"01a0ed85-964a-72bc-992b-fe22ebdd177e:2\""
+        ],
+        "cache-control": [
+          "no-store, private"
+        ],
+        "content-type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "data": {
+          "id": "01a0ed85-964a-72bc-992b-fe22ebdd177e",
+          "reference": "REQ-2026-00001",
+          "state": "submitted",
+          "version": 2,
+          "etag": "\"01a0ed85-964a-72bc-992b-fe22ebdd177e:2\"",
+          "latest_revision_number": 1,
+          "created_at": "2026-09-29T14:15:50.000000Z",
+          "submitted_at": "2026-09-29T14:15:50.000000Z",
+          "assigned_staff_id": null,
+          "customer_id": "01a0ed85-9606-7251-8142-b51b972f00da",
+          "project_name": "منصة تعليم Learning portal",
+          "customer_display_name": "Current customer name",
+          "provenance": "customer",
+          "claimed": false,
+          "assigned_staff": null,
+          "latest_revision": {
+            "id": "01a0ed85-965a-73f6-937a-a4560c30dcc5",
+            "revision_number": 1,
+            "document_id": null,
+            "full_name": "عميل Test",
+            "email": "01a0ed85-9564-73f9-8170-d9d7e73886f7@example.test",
+            "phone": "+218912345678",
+            "category_id": "01a0ed85-9641-7238-b1a7-0cd282c604c7",
+            "subcategory_id": "01a0ed85-9645-7334-a8f2-292b5de7d852",
+            "category_label": "Software برمجيات",
+            "subcategory_label": "Web تطبيقات",
+            "project_name": "منصة تعليم Learning portal",
+            "project_description": "Private description for a bilingual learning platform.",
+            "budget_unknown": false,
+            "estimated_budget": "1234.567",
+            "currency": "LYD",
+            "submitted_at": "2026-09-29T14:15:50.000000Z",
+            "submitted_by": "01a0ed85-9603-72db-81ad-2738a846079f",
+            "provenance": "customer_submission"
+          },
+          "information_request_id": null
+        }
+      }
+    },
+    {
+      "scenario": "request list display",
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests",
+      "status": 200,
+      "view": "dashboard",
+      "headers": {
+        "cache-control": [
+          "no-store, private"
+        ],
+        "content-type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "data": [
+          {
+            "id": "01a0ed86-0f41-732f-ab6c-78f70be58d62",
+            "reference": "REQ-2026-00005",
+            "state": "submitted",
+            "version": 2,
+            "etag": "\"01a0ed86-0f41-732f-ab6c-78f70be58d62:2\"",
+            "latest_revision_number": 1,
+            "created_at": "2026-09-29T14:16:21.000000Z",
+            "submitted_at": "2026-09-29T14:16:21.000000Z",
+            "assigned_staff_id": null,
+            "customer_id": "01a0ed86-0f02-72f6-9c23-edb072ee3a79",
+            "project_name": "منصة تعليم Learning portal",
+            "customer_display_name": "عميل Test",
+            "provenance": "customer",
+            "claimed": false,
+            "assigned_staff": null
+          },
+          {
+            "id": "01a0ed86-0e46-7254-81d3-887bcdf353b0",
+            "reference": "REQ-2026-00004",
+            "state": "submitted",
+            "version": 2,
+            "etag": "\"01a0ed86-0e46-7254-81d3-887bcdf353b0:2\"",
+            "latest_revision_number": 1,
+            "created_at": "2026-09-29T14:16:20.000000Z",
+            "submitted_at": "2026-09-29T14:16:20.000000Z",
+            "assigned_staff_id": null,
+            "customer_id": "01a0ed86-0df6-71dd-bcbb-78ba9b1dd2e6",
+            "project_name": "منصة تعليم Learning portal",
+            "customer_display_name": "عميل Test",
+            "provenance": "customer",
+            "claimed": false,
+            "assigned_staff": null
+          },
+          {
+            "id": "01a0ed86-0d3b-73c6-b786-59ba18dbdda8",
+            "reference": "REQ-2026-00003",
+            "state": "submitted",
+            "version": 2,
+            "etag": "\"01a0ed86-0d3b-73c6-b786-59ba18dbdda8:2\"",
+            "latest_revision_number": 1,
+            "created_at": "2026-09-29T14:16:20.000000Z",
+            "submitted_at": "2026-09-29T14:16:20.000000Z",
+            "assigned_staff_id": null,
+            "customer_id": "01a0ed86-0cf9-7317-93a2-0d561648ba7e",
+            "project_name": "منصة تعليم Learning portal",
+            "customer_display_name": "عميل Test",
+            "provenance": "customer",
+            "claimed": false,
+            "assigned_staff": null
+          },
+          {
+            "id": "01a0ed86-0c3a-71cf-b95f-af0b31d62c90",
+            "reference": "REQ-2026-00002",
+            "state": "submitted",
+            "version": 2,
+            "etag": "\"01a0ed86-0c3a-71cf-b95f-af0b31d62c90:2\"",
+            "latest_revision_number": 1,
+            "created_at": "2026-09-29T14:16:20.000000Z",
+            "submitted_at": "2026-09-29T14:16:20.000000Z",
+            "assigned_staff_id": null,
+            "customer_id": "01a0ed86-0c02-73b5-859e-78990b6ce97f",
+            "project_name": "منصة تعليم Learning portal",
+            "customer_display_name": "عميل Test",
+            "provenance": "customer",
+            "claimed": false,
+            "assigned_staff": null
+          },
+          {
+            "id": "01a0ed86-0b3c-71b9-bd6c-3b908c1cc54e",
+            "reference": "REQ-2026-00001",
+            "state": "submitted",
+            "version": 2,
+            "etag": "\"01a0ed86-0b3c-71b9-bd6c-3b908c1cc54e:2\"",
+            "latest_revision_number": 1,
+            "created_at": "2026-09-29T14:16:20.000000Z",
+            "submitted_at": "2026-09-29T14:16:20.000000Z",
+            "assigned_staff_id": null,
+            "customer_id": "01a0ed86-0afb-7048-9af7-21119330bebb",
+            "project_name": "منصة تعليم Learning portal",
+            "customer_display_name": "عميل Test",
+            "provenance": "customer",
+            "claimed": false,
+            "assigned_staff": null
+          }
+        ],
+        "meta": {
+          "next_cursor": null,
+          "per_page": 100
+        }
+      }
+    },
+    {
+      "scenario": "customer staff customer history actors",
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed85-b504-716e-bc11-dfbc6c1c9fc5/history",
+      "status": 200,
+      "view": "dashboard",
+      "headers": {
+        "cache-control": [
+          "no-store, private"
+        ],
+        "content-type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "data": [
+          {
+            "id": "01a0ed85-b517-71c1-8acf-8ede612e72d6",
+            "from_state": "draft",
+            "to_state": "submitted",
+            "reason": null,
+            "created_at": "2026-09-29T14:15:57.975530Z",
+            "actor_id": "01a0ed85-b4bc-72eb-865e-e3a28533ea35",
+            "actor": {
+              "id": "01a0ed85-b4bc-72eb-865e-e3a28533ea35",
+              "kind": "customer",
+              "display_name": "عميل Test"
+            }
+          },
+          {
+            "id": "01a0ed85-b647-7314-8324-3f89a876b1f9",
+            "from_state": "submitted",
+            "to_state": "under_review",
+            "reason": null,
+            "created_at": "2026-09-29T14:15:58.280083Z",
+            "actor_id": "01a0ed85-b5cf-71bd-851f-eb318b127e0c",
+            "actor": {
+              "id": "01a0ed85-b5cf-71bd-851f-eb318b127e0c",
+              "kind": "staff",
+              "display_name": "Intake Staff"
+            }
+          },
+          {
+            "id": "01a0ed85-b67f-7396-92a3-4a58dcfa51af",
+            "from_state": "under_review",
+            "to_state": "withdrawn",
+            "reason": null,
+            "created_at": "2026-09-29T14:15:58.336107Z",
+            "actor_id": "01a0ed85-b4bc-72eb-865e-e3a28533ea35",
+            "actor": {
+              "id": "01a0ed85-b4bc-72eb-865e-e3a28533ea35",
+              "kind": "customer",
+              "display_name": "عميل Test"
+            }
+          }
+        ],
+        "meta": {
+          "next_after": null
+        }
+      }
+    },
+    {
+      "scenario": "guest history actor after claim and amendment",
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed85-c5d0-71e7-9ffa-e7985c23d5ea/history",
+      "status": 200,
+      "view": "dashboard",
+      "headers": {
+        "cache-control": [
+          "no-store, private"
+        ],
+        "content-type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "data": [
+          {
+            "id": "01a0ed85-c5f1-71b7-a0ed-02301448867f",
+            "from_state": "draft",
+            "to_state": "submitted",
+            "reason": null,
+            "created_at": "2026-09-29T14:16:02.289808Z",
+            "actor_id": null,
+            "actor": {
+              "id": null,
+              "kind": "guest",
+              "display_name": "Original guest"
+            }
+          }
+        ],
+        "meta": {
+          "next_after": null
+        }
+      }
+    },
+    {
+      "scenario": "automated expiry system actor",
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed85-d858-73e5-9b53-6bda77d33cc6/history",
+      "status": 200,
+      "view": "dashboard",
+      "headers": {
+        "cache-control": [
+          "no-store, private"
+        ],
+        "content-type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "data": [
+          {
+            "id": "01a0ed85-d86a-7349-80aa-a286a6ffcf7f",
+            "from_state": "draft",
+            "to_state": "submitted",
+            "reason": null,
+            "created_at": "2026-09-29T14:16:07.018951Z",
+            "actor_id": "01a0ed85-d6c2-7291-ad87-f19faafc1591",
+            "actor": {
+              "id": "01a0ed85-d6c2-7291-ad87-f19faafc1591",
+              "kind": "customer",
+              "display_name": "عميل Test"
+            }
+          },
+          {
+            "id": "01a0ed85-d8c6-721c-a6ee-2b25cb6dfda7",
+            "from_state": "submitted",
+            "to_state": "under_review",
+            "reason": null,
+            "created_at": "2026-09-29T14:16:07.110585Z",
+            "actor_id": "01a0ed85-d774-70ea-a10b-b0cd33d4cc55",
+            "actor": {
+              "id": "01a0ed85-d774-70ea-a10b-b0cd33d4cc55",
+              "kind": "staff",
+              "display_name": "Intake Staff"
+            }
+          },
+          {
+            "id": "01a0ed85-d8cc-71d0-9dfc-800e05018a92",
+            "from_state": "under_review",
+            "to_state": "discovery",
+            "reason": null,
+            "created_at": "2026-09-29T14:16:07.116628Z",
+            "actor_id": "01a0ed85-d774-70ea-a10b-b0cd33d4cc55",
+            "actor": {
+              "id": "01a0ed85-d774-70ea-a10b-b0cd33d4cc55",
+              "kind": "staff",
+              "display_name": "Intake Staff"
+            }
+          },
+          {
+            "id": "01a0ed85-da7b-70fe-ab3c-f41a7a81b05d",
+            "from_state": "discovery",
+            "to_state": "proposal",
+            "reason": null,
+            "created_at": "2026-09-29T14:16:07.547645Z",
+            "actor_id": "01a0ed85-d774-70ea-a10b-b0cd33d4cc55",
+            "actor": {
+              "id": "01a0ed85-d774-70ea-a10b-b0cd33d4cc55",
+              "kind": "staff",
+              "display_name": "Intake Staff"
+            }
+          },
+          {
+            "id": "01a0ed85-e032-7116-acaa-841f61bd0514",
+            "from_state": "proposal",
+            "to_state": "discovery",
+            "reason": "Validity period ended.",
+            "created_at": "2026-09-29T14:16:09.011081Z",
+            "actor_id": null,
+            "actor": {
+              "id": null,
+              "kind": "system",
+              "display_name": null
+            }
+          }
+        ],
+        "meta": {
+          "next_after": null
+        }
+      }
+    },
+    {
+      "scenario": "disabled historical staff assignment display",
+      "method": "GET",
+      "path": "/api/v1/admin/project-requests/01a0ed85-a46b-7000-bde9-4aceef9d82cd/assignments",
+      "status": 200,
+      "view": "dashboard",
+      "headers": {
+        "cache-control": [
+          "no-store, private"
+        ],
+        "content-type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "data": [
+          {
+            "id": "01a0ed85-a6b1-72c5-95f1-0f75d79d41b6",
+            "previous_staff_id": null,
+            "assigned_staff_id": "01a0ed85-a5c2-70fd-a528-1b0ec58a5521",
+            "assigned_by": "01a0ed85-a524-73af-9570-00ab22758731",
+            "created_at": "2026-09-29T14:15:54.289810Z",
+            "previous_staff": null,
+            "assigned_staff": {
+              "id": "01a0ed85-a5c2-70fd-a528-1b0ec58a5521",
+              "display_name": "Previous reviewer"
+            },
+            "assigned_by_staff": {
+              "id": "01a0ed85-a524-73af-9570-00ab22758731",
+              "display_name": "Assigning person"
+            }
+          },
+          {
+            "id": "01a0ed85-a6ec-70f7-a517-7bbf31db03e8",
+            "previous_staff_id": "01a0ed85-a5c2-70fd-a528-1b0ec58a5521",
+            "assigned_staff_id": "01a0ed85-a669-7053-978c-3123369730cb",
+            "assigned_by": "01a0ed85-a524-73af-9570-00ab22758731",
+            "created_at": "2026-09-29T14:15:54.348943Z",
+            "previous_staff": {
+              "id": "01a0ed85-a5c2-70fd-a528-1b0ec58a5521",
+              "display_name": "Previous reviewer"
+            },
+            "assigned_staff": {
+              "id": "01a0ed85-a669-7053-978c-3123369730cb",
+              "display_name": "Current reviewer"
+            },
+            "assigned_by_staff": {
+              "id": "01a0ed85-a524-73af-9570-00ab22758731",
+              "display_name": "Assigning person"
+            }
+          }
+        ],
+        "meta": {
+          "next_after": null
+        }
+      }
+    },
+    {
+      "scenario": "unchanged command summary",
+      "method": "POST",
+      "path": "/api/v1/admin/project-requests/01a0ed85-964a-72bc-992b-fe22ebdd177e/assignments",
+      "status": 200,
+      "view": "default",
+      "headers": {
+        "etag": [
+          "\"01a0ed85-964a-72bc-992b-fe22ebdd177e:3\""
+        ],
+        "cache-control": [
+          "no-store, private"
+        ],
+        "content-type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "data": {
+          "id": "01a0ed85-964a-72bc-992b-fe22ebdd177e",
+          "reference": "REQ-2026-00001",
+          "state": "submitted",
+          "version": 3,
+          "etag": "\"01a0ed85-964a-72bc-992b-fe22ebdd177e:3\"",
+          "latest_revision_number": 1,
+          "created_at": "2026-09-29T14:15:50.000000Z",
+          "submitted_at": "2026-09-29T14:15:50.000000Z",
+          "assigned_staff_id": "01a0ed85-970f-733b-bc7f-8778050215b1"
+        }
+      }
+    },
+    {
+      "scenario": "stale command rejection",
+      "method": "POST",
+      "path": "/api/v1/admin/project-requests/01a0ed85-964a-72bc-992b-fe22ebdd177e/reviews",
+      "status": 412,
+      "view": "default",
+      "headers": {
+        "cache-control": [
+          "no-store, private"
+        ],
+        "content-type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "error": {
+          "code": "STALE_VERSION",
+          "message": "The request could not be completed."
+        },
+        "request_id": "01a0ed85-9d60-7056-a8d2-6c86c611f788"
+      }
+    }
+  ]
+}

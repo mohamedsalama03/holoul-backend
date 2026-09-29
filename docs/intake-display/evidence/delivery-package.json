@@ -1,0 +1,22 @@
+{
+  "version": "1.5.0-intake-display-candidate",
+  "openapi": "3.1.1",
+  "sha256": "e90a431d1c662e7fb2f2eb680694678d20c294ef3a53e17dec92fcaeba87c50f",
+  "operations": 202,
+  "schemas": 260,
+  "baseline": "3bc85401e96a1f8b843d1db0f13a4ae9b86572ee",
+  "implementation": "1f3cf6eb6a2b532cc882769f59ee80096b49c926",
+  "swagger_ui": "5.32.11",
+  "mode": "read-only-reference",
+  "directory": "/mnt/c/Users/Mohamed/Documents/HOLOUL/swagger-1.5.0-intake-display-candidate",
+  "archive": "/mnt/c/Users/Mohamed/Documents/HOLOUL/swagger-1.5.0-intake-display-candidate.zip",
+  "archive_sha256": "ba9019513619554536c19b040710e154f02a3652278d8e913f4b55cc850fdaff",
+  "all_files_nonempty": true,
+  "manifest_verified": true,
+  "embedded_json_matches": true,
+  "json_yaml_equal": true,
+  "local_asset_links_valid": true,
+  "prior_1_4_zip_preserved": true,
+  "prior_1_4_zip_sha256": "0dbd70925a8e4b7070c6cf1db91b790f40e5586f0f75d59a5cf3902c90c50385",
+  "visual_preview": "not performed; structural verification only"
+}

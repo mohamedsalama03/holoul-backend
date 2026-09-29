@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "baseline_commit": "3bc85401e96a1f8b843d1db0f13a4ae9b86572ee",
+  "previous_version": "1.4.0-public-services-candidate",
+  "new_version": "1.5.0-intake-display-candidate",
+  "previous_sha256": "7739bd957665b285c3baea8a4883aa987d6d11dee3fb43bcc5ef1ff9fb0c8051",
+  "new_sha256": "e90a431d1c662e7fb2f2eb680694678d20c294ef3a53e17dec92fcaeba87c50f",
+  "operations": 202,
+  "operations_added": [],
+  "operations_opt_in_expanded": [
+    "intakeStaffAssignments",
+    "intakeStaffDetail",
+    "intakeStaffHistory",
+    "intakeStaffList",
+    "intakeStaffReference"
+  ],
+  "unchanged_operations": 197,
+  "existing_schemas_unchanged": 250,
+  "schemas_added": [
+    "IntakeDisplayActor",
+    "IntakeDisplayAssignment",
+    "IntakeDisplayAssignmentsResponse",
+    "IntakeDisplayDetail",
+    "IntakeDisplayDetailResponse",
+    "IntakeDisplayHistory",
+    "IntakeDisplayHistoryResponse",
+    "IntakeDisplayPageResponse",
+    "IntakeDisplayStaff",
+    "IntakeDisplaySummary"
+  ],
+  "parameters_added": [
+    "IntakeDashboardView"
+  ],
+  "permissions_and_security_unchanged": true,
+  "routes": {
+    "matched": 202,
+    "missing": [],
+    "undocumented": []
+  }
+}

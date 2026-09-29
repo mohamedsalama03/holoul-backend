@@ -1,0 +1,44 @@
+
+  Dropping all tables .......................................... 557.50ms DONE
+
+   INFO  Preparing database.  
+
+  Creating migration table ....................................... 7.05ms DONE
+
+   INFO  Running migrations.  
+
+  2026_09_16_000000_create_framework_infrastructure ............. 10.69ms DONE
+  2026_09_16_000100_create_audit_events_table ................... 10.93ms DONE
+  2026_09_16_000200_create_async_operations_table ............... 10.36ms DONE
+  2026_09_16_010000_create_identity_core ........................ 19.28ms DONE
+  2026_09_16_010100_create_customers_table ....................... 9.16ms DONE
+  2026_09_16_010200_create_identity_authorization_tables ........ 36.31ms DONE
+  2026_09_16_010300_create_identity_recovery .................... 19.04ms DONE
+  2026_09_16_010400_create_identity_mfa ......................... 13.35ms DONE
+  2026_09_16_020000_create_currencies ............................ 6.06ms DONE
+  2026_09_16_020100_create_categories ........................... 19.59ms DONE
+  2026_09_16_020200_add_intake_permissions ...................... 16.61ms DONE
+  2026_09_16_020300_create_project_intake ....................... 79.31ms DONE
+  2026_09_17_030000_create_document_tables ...................... 32.13ms DONE
+  2026_09_17_030100_create_intake_document_attachments .......... 11.75ms DONE
+  2026_09_17_030200_seed_document_permissions .................... 7.00ms DONE
+  2026_09_17_040000_extend_intake_for_commercial_workflow ........ 5.22ms DONE
+  2026_09_17_040100_create_discovery ............................ 27.54ms DONE
+  2026_09_17_040200_create_proposals ............................ 59.49ms DONE
+  2026_09_17_040300_seed_commercial_permissions ................. 32.95ms DONE
+  2026_09_20_050000_extend_intake_for_project_conversion ......... 5.97ms DONE
+  2026_09_20_050100_create_projects ............................. 90.62ms DONE
+  2026_09_20_050200_create_project_documents .................... 12.67ms DONE
+  2026_09_20_050300_create_project_command_keys .................. 7.97ms DONE
+  2026_09_20_050400_seed_project_permissions .................... 30.78ms DONE
+  2026_09_21_000001_create_ai_assistance ........................ 42.20ms DONE
+  2026_09_21_000002_create_notifications ........................ 39.90ms DONE
+  2026_09_21_000003_seed_assistance_permissions ................. 21.81ms DONE
+  2026_09_21_100000_add_reporting_permissions .................... 4.46ms DONE
+  2026_09_22_000000_add_customer_directory_permission ............ 4.58ms DONE
+  2026_09_26_000000_extend_intake_for_guests .................... 43.80ms DONE
+  2026_09_27_000000_add_staff_onboarding ........................ 21.87ms DONE
+  2026_09_29_000000_add_public_content_permissions .............. 14.08ms DONE
+  2026_09_29_000100_create_contact .............................. 19.75ms DONE
+  2026_09_29_000200_create_public_portfolio ..................... 35.57ms DONE
+

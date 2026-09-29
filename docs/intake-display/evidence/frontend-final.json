@@ -1,0 +1,109 @@
+{
+  "passed": true,
+  "origin": "https://localhost:8443/admin",
+  "tests": 8,
+  "passed_tests": 8,
+  "failed": 0,
+  "skipped": 0,
+  "retries": 0,
+  "duration_ms": 131715.478,
+  "source": "Existing dashboard production build; no source or contract modifications",
+  "cases": [
+    {
+      "title": "staff: password → MFA → current user → /admin → sign out",
+      "project": "real-backend",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 3883,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "title": "invalid credentials are refused without revealing the account",
+      "project": "real-backend",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 3061,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "title": "staff enrollment: set up MFA → recovery codes → current user; a recovery code signs in",
+      "project": "real-backend",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 7278,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "title": "a customer is signed in by the API but denied the dashboard",
+      "project": "real-backend",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 2025,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "title": "a session revoked from another sign-in loses the dashboard",
+      "project": "real-backend",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 45912,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "title": "the API's CSP stays on the API; the dashboard gets its own",
+      "project": "real-backend",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 63,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "title": "staff: the Overview shows the real report, for each period chosen",
+      "project": "real-backend",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 34110,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "title": "staff: a customer's request, worked from submission to a decision",
+      "project": "real-backend",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 34096,
+          "retry": 0
+        }
+      ]
+    }
+  ]
+}

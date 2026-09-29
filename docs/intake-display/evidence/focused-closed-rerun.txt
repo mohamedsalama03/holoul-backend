@@ -1,0 +1,20 @@
+PHPUnit 12.5.35 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.25
+Configuration: /var/www/html/phpunit.xml
+
+{"message":"telemetry.http","context":{"request_id":"01a0ed6c-5d0e-7108-8277-f7f986083ef8","family":"auth","method":"GET","status":204,"duration_ms":23,"query_count":3,"sql_duration_ms":4},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T13:48:17.063159+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ed6c-612f-70c8-91b7-96ae9fff6e3d","family":"auth","method":"POST","status":202,"duration_ms":568,"query_count":7,"sql_duration_ms":4},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T13:48:18.663869+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ed6c-6368-727c-80e3-7d0f4afe3826","family":"auth","method":"POST","status":200,"duration_ms":458,"query_count":7,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T13:48:19.123592+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ed6c-6534-70df-a702-27814955dd9a","family":"auth","method":"POST","status":200,"duration_ms":467,"query_count":31,"sql_duration_ms":2},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T13:48:19.592616+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ed6c-6709-724f-be74-34497fca42b6","family":"other","method":"GET","status":403,"duration_ms":9,"query_count":8,"sql_duration_ms":0},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T13:48:19.602447+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ed6c-6712-73ad-a674-e56076c055e5","family":"intake","method":"GET","status":200,"duration_ms":23,"query_count":17,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T13:48:19.626386+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ed6c-672a-730f-83f6-b2de0467002e","family":"intake","method":"GET","status":200,"duration_ms":11,"query_count":15,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T13:48:19.638218+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ed6c-6736-71c7-8aad-ea45bced3df7","family":"intake","method":"GET","status":200,"duration_ms":14,"query_count":16,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T13:48:19.653468+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ed6c-6745-73ee-9f6e-9eedab14e2e4","family":"intake","method":"GET","status":200,"duration_ms":16,"query_count":16,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T13:48:19.670211+00:00","extra":{}}
+{"message":"telemetry.http","context":{"request_id":"01a0ed6c-6756-7367-96e4-482c970c1881","family":"intake","method":"GET","status":200,"duration_ms":11,"query_count":16,"sql_duration_ms":1},"level":200,"level_name":"INFO","channel":"testing","datetime":"2026-09-29T13:48:19.682878+00:00","extra":{}}
+.                                                                   1 / 1 (100%)
+
+Time: 00:04.134, Memory: 71.00 MB
+
+[30;42mOK (1 test, 25 assertions)[0m

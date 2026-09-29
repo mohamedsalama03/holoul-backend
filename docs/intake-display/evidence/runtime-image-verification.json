@@ -1,0 +1,18 @@
+{
+  "php": "8.4.25",
+  "extensions": [
+    "pdo_pgsql",
+    "redis",
+    "intl",
+    "mbstring",
+    "zip",
+    "pcntl",
+    "bcmath",
+    "Zend OPcache"
+  ],
+  "development_tools_absent": true,
+  "new_classes_autoload": true,
+  "source_files_matched": 514,
+  "source_manifest_sha256": "f914c8178e18b13bbb95200581925c764be982ec099d1fb7409ccf8ad7d72f53",
+  "runtime_image": "sha256:7baed8a2772318a317ae876c76af1e2c1934b4947bf0af0d7aa6f663f4b576f7"
+}

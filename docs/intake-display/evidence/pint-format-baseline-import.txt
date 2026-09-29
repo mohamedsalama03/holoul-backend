@@ -1,0 +1,7 @@
+
+In ConfigurationResolver.php line 409:
+                                                                               
+  The path "app/Application/PublicPortfolio/ImportLegacyPortfolioCommand.php"  
+   is not readable.                                                            
+                                                                               
+

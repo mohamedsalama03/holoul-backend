@@ -1,0 +1,1 @@
+{"passed": true, "checks": 69, "closed_synthetic_requests": 2}

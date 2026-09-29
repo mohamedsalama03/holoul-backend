@@ -1,0 +1,66 @@
+Note: Using configuration file /var/www/html/phpstan.neon.
+ ------ ----------------------------------------------------------------------- 
+  Line   app/Modules/ProjectIntake/Queries/ReadIntake.php                       
+ ------ ----------------------------------------------------------------------- 
+  79     Parameter #1 $records of method                                        
+         App\Modules\ProjectIntake\Queries\ReadIntakeDisplay::summaries()       
+         expects list<App\Modules\ProjectIntake\Models\ProjectRequest>, array<  
+         int, App\Modules\ProjectIntake\Models\ProjectRequest> given.           
+         🪪  argument.type                                                      
+         💡  array<int, App\Modules\ProjectIntake\Models\ProjectRequest> might   
+         not be a list.                                                         
+  183    Parameter #2 $rows of method                                           
+         App\Modules\ProjectIntake\Queries\ReadIntakeDisplay::history()         
+         expects list<object>, array<int, stdClass> given.                      
+         🪪  argument.type                                                      
+         💡  array<int, stdClass> might not be a list.                          
+  185    Possibly invalid array key type mixed.                                 
+         🪪  offsetAccess.invalidOffset                                         
+  217    Parameter #1 $rows of method                                           
+         App\Modules\ProjectIntake\Queries\ReadIntakeDisplay::assignments()     
+         expects list<object>, array<int, stdClass> given.                      
+         🪪  argument.type                                                      
+         💡  array<int, stdClass> might not be a list.                          
+  219    Possibly invalid array key type mixed.                                 
+         🪪  offsetAccess.invalidOffset                                         
+ ------ ----------------------------------------------------------------------- 
+
+ ------ ----------------------------------------------------------------------- 
+  Line   app/Modules/ProjectIntake/Queries/ReadIntakeDisplay.php                
+ ------ ----------------------------------------------------------------------- 
+  69     Access to an undefined property object::$id.                           
+         🪪  property.notFound                                                  
+         💡  Learn more: https://phpstan.org/blog/solving-phpstan-access-to-und  
+         efined-property                                                        
+  72     Access to an undefined property object::$actor_id.                     
+         🪪  property.notFound                                                  
+         💡  Learn more: https://phpstan.org/blog/solving-phpstan-access-to-und  
+         efined-property                                                        
+  74     Access to an undefined property object::$from_state.                   
+         🪪  property.notFound                                                  
+         💡  Learn more: https://phpstan.org/blog/solving-phpstan-access-to-und  
+         efined-property                                                        
+  74     Access to an undefined property object::$to_state.                     
+         🪪  property.notFound                                                  
+         💡  Learn more: https://phpstan.org/blog/solving-phpstan-access-to-und  
+         efined-property                                                        
+  93     Access to an undefined property object::$assigned_by.                  
+         🪪  property.notFound                                                  
+         💡  Learn more: https://phpstan.org/blog/solving-phpstan-access-to-und  
+         efined-property                                                        
+  93     Access to an undefined property object::$assigned_staff_id.            
+         🪪  property.notFound                                                  
+         💡  Learn more: https://phpstan.org/blog/solving-phpstan-access-to-und  
+         efined-property                                                        
+  93     Access to an undefined property object::$id.                           
+         🪪  property.notFound                                                  
+         💡  Learn more: https://phpstan.org/blog/solving-phpstan-access-to-und  
+         efined-property                                                        
+  94     Access to an undefined property object::$previous_staff_id.            
+         🪪  property.notFound                                                  
+         💡  Learn more: https://phpstan.org/blog/solving-phpstan-access-to-und  
+         efined-property                                                        
+ ------ ----------------------------------------------------------------------- 
+
+ [ERROR] Found 13 errors                                                        
+
