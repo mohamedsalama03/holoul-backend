@@ -81,6 +81,6 @@ final class ImportLegacyPortfolioCommand extends Command
             throw new RuntimeException('An enabled, verified portfolio manager is required.');
         }
 
-        return new PortfolioActor($id,$permissions,false);
+        return new PortfolioActor($id, $permissions, false);
     }
 }

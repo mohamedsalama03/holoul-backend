@@ -13,6 +13,7 @@ use App\Modules\ProjectIntake\Models\ProjectRequest;
 use App\Modules\ProjectIntake\Models\RequestDraft;
 use App\Modules\ProjectIntake\Models\RequestRevision;
 use Carbon\CarbonImmutable;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Facades\DB;
@@ -23,7 +24,7 @@ use Throwable;
 
 final readonly class ReadIntake
 {
-    public function __construct(private IntakeStore $store) {}
+    public function __construct(private IntakeStore $store, private ReadIntakeDisplay $display) {}
 
     /** Authorized read composition; selected fields exclude draft/revision content. */
     public function customerDirectoryScope(IntakeActor $actor): QueryBuilder
@@ -35,8 +36,11 @@ final readonly class ReadIntake
     /** @param array<string,mixed> $filters
      * @return array<string,mixed>
      */
-    public function listing(IntakeActor $actor, array $filters): array
+    public function listing(IntakeActor $actor, array $filters, bool $display = false): array
     {
+        if ($display && ! $actor->allows('intake.read')) {
+            throw new AuthorizationException;
+        }
         $limit = is_int($filters['limit'] ?? null) ? $filters['limit'] : 25;
         $ascending = ($filters['sort'] ?? '-created_at') === 'created_at';
         $query = $this->store->policy->scope(ProjectRequest::query(), $actor);
@@ -69,23 +73,27 @@ final readonly class ReadIntake
             });
         }
         $rows = $query->orderBy('created_at', $ascending ? 'asc' : 'desc')->orderBy('id', $ascending ? 'asc' : 'desc')->limit($limit + 1)
-            ->get(['id', 'state', 'reference', 'lock_version', 'created_at', 'submitted_at', 'assigned_staff_id', 'latest_revision_number']);
+            ->get(['id', 'state', 'reference', 'lock_version', 'created_at', 'submitted_at', 'assigned_staff_id', 'latest_revision_number', ...($display ? ['customer_id', 'customer_user_id', 'guest_origin', 'latest_revision_id'] : [])]);
         $hasMore = $rows->count() > $limit;
         $page = $rows->take($limit);
         $last = $page->last();
+        $views = $display ? $this->display->summaries(array_values($page->all())) : [];
 
-        return ['data' => $page->map(fn (ProjectRequest $row): array => $this->summary($row, $actor))->values()->all(),
+        return ['data' => $page->map(fn (ProjectRequest $row): array => [...$this->summary($row, $actor), ...($views[$row->id] ?? [])])->values()->all(),
             'meta' => ['next_cursor' => $hasMore && $last !== null ? $this->cursor($last) : null, 'per_page' => $limit]];
     }
 
     /** @return array<string,mixed> */
-    public function detail(IntakeActor $actor, string $id, string $requestId, ?string $parentCustomer = null): array
+    public function detail(IntakeActor $actor, string $id, string $requestId, ?string $parentCustomer = null, bool $display = false): array
     {
+        if ($display && ! $actor->allows('intake.read')) {
+            throw new AuthorizationException;
+        }
         $record = $this->store->find($actor, $id, false, $parentCustomer);
         if ($actor->customerId === null) {
             $this->store->event('staff_viewed', $record, $actor, $requestId);
         }
-        $view = $this->summary($record, $actor);
+        $view = [...$this->summary($record, $actor), ...($display ? $this->display->summaries([$record])[$record->id] : [])];
         if ($actor->customerId !== null) {
             $view['draft'] = $this->draft($this->store->draft($record));
         }
@@ -154,8 +162,11 @@ final readonly class ReadIntake
     }
 
     /** @return array<string,mixed> */
-    public function history(IntakeActor $actor, string $id, ?string $after = null, int $limit = 25): array
+    public function history(IntakeActor $actor, string $id, ?string $after = null, int $limit = 25, bool $display = false): array
     {
+        if ($display && ! $actor->allows('intake.read')) {
+            throw new AuthorizationException;
+        }
         $record = $this->store->find($actor, $id);
         $query = DB::table('request_state_changes')->where('request_id', $record->id);
         if ($after !== null) {
@@ -170,8 +181,9 @@ final readonly class ReadIntake
         }
         $rows = $query->orderBy('id')->limit($limit + 1)->get($columns);
         $page = $rows->take($limit);
+        $actors = $display ? $this->display->history($record, array_values($page->all())) : [];
 
-        return ['data' => $page->map(fn (object $row): array => $this->historyRow($row))->values()->all(),
+        return ['data' => $page->map(fn (object $row): array => [...$this->historyRow($row), ...($display ? ['actor' => $actors[$this->rowId($row)]] : [])])->values()->all(),
             'meta' => ['next_after' => $rows->count() > $limit ? $page->last()?->id : null]];
     }
 
@@ -190,7 +202,7 @@ final readonly class ReadIntake
     }
 
     /** @return array<string,mixed> */
-    public function assignments(IntakeActor $actor, string $id, ?string $after = null, int $limit = 25): array
+    public function assignments(IntakeActor $actor, string $id, ?string $after = null, int $limit = 25, bool $display = false): array
     {
         $record = $this->store->find($actor, $id);
         $this->store->policy->staff($actor, $record, 'intake.read', false);
@@ -203,8 +215,9 @@ final readonly class ReadIntake
         }
         $rows = $query->orderBy('id')->limit($limit + 1)->get(['id', 'previous_staff_id', 'assigned_staff_id', 'assigned_by', 'created_at']);
         $page = $rows->take($limit);
+        $views = $display ? $this->display->assignments(array_values($page->all())) : [];
 
-        return ['data' => $page->map(fn (object $row): array => $this->historyRow($row))->values()->all(),
+        return ['data' => $page->map(fn (object $row): array => [...$this->historyRow($row), ...($display ? $views[$this->rowId($row)] : [])])->values()->all(),
             'meta' => ['next_after' => $rows->count() > $limit ? $page->last()?->id : null]];
     }
 
@@ -246,6 +259,13 @@ final readonly class ReadIntake
         }
 
         return $values;
+    }
+
+    private function rowId(object $row): string
+    {
+        $values = get_object_vars($row);
+
+        return is_string($values['id'] ?? null) ? $values['id'] : throw new \LogicException('Invalid record identity.');
     }
 
     private function cursor(ProjectRequest $row): string

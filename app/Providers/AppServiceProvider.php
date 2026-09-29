@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\Application\AI\AINotifications;
 use App\Application\AI\CurrentAIContext;
+use App\Application\Intake\ReadIntakeActorNames;
 use App\Application\Notifications\BusinessNotifications;
 use App\Application\Projects\AuthorizedProjectStaff;
 use App\Infrastructure\Database\WrappedConcurrencyErrors;
@@ -23,6 +24,7 @@ use App\Modules\Identity\Contracts\NotificationRecipientReader;
 use App\Modules\Identity\Contracts\ProjectStaffIdentityReader;
 use App\Modules\Identity\Queries\ReadNotificationRecipient;
 use App\Modules\Identity\Security\DatabaseAuthorizedStaffReader;
+use App\Modules\ProjectIntake\Contracts\IntakeActorNames;
 use App\Modules\ProjectIntake\Contracts\IntakeDocumentReader;
 use App\Modules\ProjectIntake\Events\RequestChanged;
 use App\Modules\ProjectIntake\Queries\ReadIntakeDocuments;
@@ -54,6 +56,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->app->bind(AcceptedProposalReader::class, ReadAcceptedProposal::class);
         $this->app->bind(DiscoveryReader::class, DatabaseDiscoveryReader::class);
         $this->app->bind(IntakeDocumentReader::class, ReadIntakeDocuments::class);
+        $this->app->bind(IntakeActorNames::class, ReadIntakeActorNames::class);
         $this->app->bind(TaxonomyReader::class, DatabaseTaxonomyReader::class);
         $this->app->bind(CustomerContactReader::class, DatabaseCustomerContactReader::class);
         $this->app->bind(AuthorizedStaffReader::class, DatabaseAuthorizedStaffReader::class);

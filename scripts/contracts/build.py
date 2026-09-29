@@ -76,8 +76,8 @@ def build():
             responses[name]["headers"]["Retry-After"] = {"description": "Optional integer seconds or HTTP date; not guaranteed on every failure.", "schema": {"type": "string"}}
     spec = {
         "openapi": "3.1.1", "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
-        "info": {"title": "HOLOUL frontend API", "version": "1.4.0-public-services-candidate",
-                 "description": "Accepted G1, staff onboarding and optional customer-directory sort preserved exactly; adds the approved PublicPortfolio and Contact operations with independent self-capabilities. Historical B8/P1/P2/P3/F1-E1 evidence remains retained. This feature candidate is not production certification; performance certification remains pending the target VPS. Same-origin session API; the only non-/api/v1 frontend operation is Sanctum CSRF initialization."},
+        "info": {"title": "HOLOUL frontend API", "version": "1.5.0-intake-display-candidate",
+                 "description": "Preserves all default 1.4.0 responses, command schemas and permission grants; adds opt-in view=dashboard to five staff intake reads for directory links, request names, provenance, claim status and named actors. Historical B8/P1/P2/P3/F1-E1 evidence remains retained. This feature candidate is not production certification; performance certification remains pending the target VPS. Same-origin session API; the only non-/api/v1 frontend operation is Sanctum CSRF initialization."},
         "servers": [{"url": "/", "description": "Same HTTPS origin as the Next.js application"}],
         "paths": {"/api/v1": {"get": {
             "operationId": "apiVersion", "summary": "Read API identity", "tags": ["API"],

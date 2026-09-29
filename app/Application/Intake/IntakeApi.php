@@ -62,16 +62,17 @@ final readonly class IntakeApi
             $id = $this->parameter($request, 'projectRequest');
             $etag = $request->header('If-Match');
             $limit = is_int($input['limit'] ?? null) ? $input['limit'] : 25;
+            $display = $identity->kind === 'staff' && ($input['view'] ?? null) === 'dashboard';
             if (str_ends_with($operation, '.list')) {
-                return new JsonResponse($this->reads->listing($actor, $input));
+                return new JsonResponse($this->reads->listing($actor, $input, $display));
             }
             if (str_ends_with($operation, '.reference')) {
                 $id = $this->reads->byReference($actor, $this->parameter($request, 'reference'));
 
-                return $this->detail($actor, $id, $requestId);
+                return $this->detail($actor, $id, $requestId, display: $display);
             }
             if (in_array($operation, ['customer.detail', 'staff.detail', 'customer.nested'], true)) {
-                return $this->detail($actor, $id, $requestId, $operation === 'customer.nested' ? $this->parameter($request, 'customer') : null);
+                return $this->detail($actor, $id, $requestId, $operation === 'customer.nested' ? $this->parameter($request, 'customer') : null, $display);
             }
             if (str_ends_with($operation, '.revision')) {
                 if ($actor->customerId === null) {
@@ -93,7 +94,7 @@ final readonly class IntakeApi
                 }
                 $after = is_string($input['after'] ?? null) ? $input['after'] : null;
 
-                return new JsonResponse(str_ends_with($operation, '.history') ? $this->reads->history($actor, $id, $after, $limit) : $this->reads->information($actor, $id, $after, $limit));
+                return new JsonResponse(str_ends_with($operation, '.history') ? $this->reads->history($actor, $id, $after, $limit, $display) : $this->reads->information($actor, $id, $after, $limit));
             }
             if ($operation === 'customer.submit') {
                 $receipt = $this->submissions->handle($actor, $id, $etag, $request->header('Idempotency-Key'), $requestId);
@@ -106,7 +107,7 @@ final readonly class IntakeApi
             if ($operation === 'staff.assignments') {
                 $this->store->event('staff_viewed', $this->store->find($actor, $id), $actor, $requestId);
 
-                return new JsonResponse($this->reads->assignments($actor, $id, is_string($input['after'] ?? null) ? $input['after'] : null, $limit));
+                return new JsonResponse($this->reads->assignments($actor, $id, is_string($input['after'] ?? null) ? $input['after'] : null, $limit, $display));
             }
             if ($operation === 'staff.assign') {
                 $record = $this->store->mutable($actor, $id, $etag);
@@ -213,9 +214,9 @@ final readonly class IntakeApi
         return new JsonResponse(['data' => $this->reads->summary($record, $actor)], $status, $headers);
     }
 
-    private function detail(IntakeActor $actor, string $id, string $requestId, ?string $parent = null): JsonResponse
+    private function detail(IntakeActor $actor, string $id, string $requestId, ?string $parent = null, bool $display = false): JsonResponse
     {
-        $data = $this->reads->detail($actor, $id, $requestId, $parent);
+        $data = $this->reads->detail($actor, $id, $requestId, $parent, $display);
         $etag = is_string($data['etag']) ? $data['etag'] : '';
 
         return new JsonResponse(['data' => $data], 200, ['ETag' => $etag]);

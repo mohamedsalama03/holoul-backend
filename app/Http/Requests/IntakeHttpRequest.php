@@ -24,7 +24,7 @@ final class IntakeHttpRequest extends FormRequest
     /** @return array<string,list<string>> */
     public function rules(): array
     {
-        return match ($this->operation()) {
+        $rules = match ($this->operation()) {
             'customer.create', 'customer.update' => [
                 'category_id' => ['sometimes', 'nullable', 'string', 'uuid'],
                 'subcategory_id' => ['sometimes', 'nullable', 'string', 'uuid'],
@@ -67,6 +67,11 @@ final class IntakeHttpRequest extends FormRequest
             ],
             default => [],
         };
+        if (in_array($this->operation(), ['staff.list', 'staff.detail', 'staff.reference', 'staff.history', 'staff.assignments'], true)) {
+            $rules['view'] = ['sometimes', 'string', 'in:dashboard'];
+        }
+
+        return $rules;
     }
 
     protected function prepareForValidation(): void

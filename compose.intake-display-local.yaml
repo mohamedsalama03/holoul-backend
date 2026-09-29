@@ -1,0 +1,25 @@
+# Local F4 display candidate. Read-only application change; no migration is required.
+# Keep all shared holoul volumes and the existing HTTPS same-origin ingress.
+x-intake-display-runtime: &intake-display-runtime
+  image: holoul-app:intake-display-runtime
+services:
+  app:
+    <<: *intake-display-runtime
+    depends_on:
+      portfolio-processor: {condition: service_healthy}
+  queue:
+    <<: *intake-display-runtime
+  scheduler:
+    <<: *intake-display-runtime
+  document-queue:
+    <<: *intake-display-runtime
+    depends_on:
+      portfolio-processor: {condition: service_healthy}
+  ai-queue:
+    <<: *intake-display-runtime
+  notification-queue:
+    <<: *intake-display-runtime
+  migrate:
+    <<: *intake-display-runtime
+  verify:
+    image: holoul-app:intake-display-development

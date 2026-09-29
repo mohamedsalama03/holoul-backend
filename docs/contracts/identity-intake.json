@@ -5761,7 +5761,7 @@
           "Project intake"
         ],
         "summary": "Staff List project request",
-        "description": "Requires staff with intake.read; drafts are always excluded. Without intake.read_all, reads are limited to assigned requests, plus unassigned requests when intake.assign is present. Mutations additionally require the named action permission and assignment (or intake.read_all), except assignment itself. Returns summary fields only; no name/contact/project description. Fetch detail for latest_revision. Each page returns meta.next_cursor and meta.per_page; input size is limit. Unknown query fields are 422.",
+        "description": "Requires staff with intake.read; drafts are always excluded. Without intake.read_all, reads are limited to assigned requests, plus unassigned requests when intake.assign is present. Mutations additionally require the named action permission and assignment (or intake.read_all), except assignment itself. Returns summary fields only; no name/contact/project description. Fetch detail for latest_revision. Each page returns meta.next_cursor and meta.per_page; input size is limit. Unknown query fields are 422. Optional view=dashboard returns the display-enriched response; omission retains the exact legacy response. Commands still return legacy summaries: refresh the enriched detail after a successful command. Display names may change independently of the parent command ETag; do not use names as authorization or optimistic-lock keys.",
         "security": [
           {
             "SessionCookie": []
@@ -5784,7 +5784,10 @@
           "app/Modules/ProjectIntake/Actions/SubmitRequest.php",
           "app/Modules/ProjectIntake/Actions/ManageDraft.php",
           "app/Modules/ProjectIntake/Actions/InformationWorkflow.php",
-          "app/Modules/ProjectIntake/Actions/TransitionRequest.php"
+          "app/Modules/ProjectIntake/Actions/TransitionRequest.php",
+          "app/Modules/ProjectIntake/Queries/ReadIntakeDisplay.php",
+          "app/Modules/Identity/Queries/ReadIdentityDisplayNames.php",
+          "app/Application/Intake/ReadIntakeActorNames.php"
         ],
         "parameters": [
           {
@@ -5890,6 +5893,9 @@
               "maxLength": 200
             },
             "description": "PostgreSQL simple full-text search in latest submitted name/description, or an unsubmitted draft."
+          },
+          {
+            "$ref": "#/components/parameters/IntakeDashboardView"
           }
         ],
         "responses": {
@@ -5913,7 +5919,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/IntakeStaffPageResponse"
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/IntakeStaffPageResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/IntakeDisplayPageResponse"
+                    }
+                  ]
                 }
               }
             },
@@ -5935,7 +5948,15 @@
           }
         },
         "x-csrf-required": false,
-        "x-source-operation": "staff.list"
+        "x-source-operation": "staff.list",
+        "x-response-views": {
+          "default": {
+            "$ref": "#/components/schemas/IntakeStaffPageResponse"
+          },
+          "dashboard": {
+            "$ref": "#/components/schemas/IntakeDisplayPageResponse"
+          }
+        }
       }
     },
     "/api/v1/admin/project-requests/by-reference/{reference}": {
@@ -5945,7 +5966,7 @@
           "Project intake"
         ],
         "summary": "Staff Reference project request",
-        "description": "Requires staff with intake.read; drafts are always excluded. Without intake.read_all, reads are limited to assigned requests, plus unassigned requests when intake.assign is present. Mutations additionally require the named action permission and assignment (or intake.read_all), except assignment itself. Customer detail contains the editable/closed draft; staff detail deliberately excludes it. Both contain latest_revision and information_request_id. The state value is the same persisted enum for both personas.",
+        "description": "Requires staff with intake.read; drafts are always excluded. Without intake.read_all, reads are limited to assigned requests, plus unassigned requests when intake.assign is present. Mutations additionally require the named action permission and assignment (or intake.read_all), except assignment itself. Customer detail contains the editable/closed draft; staff detail deliberately excludes it. Both contain latest_revision and information_request_id. The state value is the same persisted enum for both personas. Optional view=dashboard returns the display-enriched response; omission retains the exact legacy response. Commands still return legacy summaries: refresh the enriched detail after a successful command. Display names may change independently of the parent command ETag; do not use names as authorization or optimistic-lock keys.",
         "security": [
           {
             "SessionCookie": []
@@ -5968,7 +5989,10 @@
           "app/Modules/ProjectIntake/Actions/SubmitRequest.php",
           "app/Modules/ProjectIntake/Actions/ManageDraft.php",
           "app/Modules/ProjectIntake/Actions/InformationWorkflow.php",
-          "app/Modules/ProjectIntake/Actions/TransitionRequest.php"
+          "app/Modules/ProjectIntake/Actions/TransitionRequest.php",
+          "app/Modules/ProjectIntake/Queries/ReadIntakeDisplay.php",
+          "app/Modules/Identity/Queries/ReadIdentityDisplayNames.php",
+          "app/Application/Intake/ReadIntakeActorNames.php"
         ],
         "parameters": [
           {
@@ -5986,6 +6010,9 @@
           },
           {
             "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/IntakeDashboardView"
           }
         ],
         "responses": {
@@ -6009,7 +6036,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/IntakeStaffDetailResponse"
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/IntakeStaffDetailResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/IntakeDisplayDetailResponse"
+                    }
+                  ]
                 }
               }
             },
@@ -6038,7 +6072,15 @@
           }
         },
         "x-csrf-required": false,
-        "x-source-operation": "staff.reference"
+        "x-source-operation": "staff.reference",
+        "x-response-views": {
+          "default": {
+            "$ref": "#/components/schemas/IntakeStaffDetailResponse"
+          },
+          "dashboard": {
+            "$ref": "#/components/schemas/IntakeDisplayDetailResponse"
+          }
+        }
       }
     },
     "/api/v1/admin/project-requests/{projectRequest}": {
@@ -6048,7 +6090,7 @@
           "Project intake"
         ],
         "summary": "Staff Detail project request",
-        "description": "Requires staff with intake.read; drafts are always excluded. Without intake.read_all, reads are limited to assigned requests, plus unassigned requests when intake.assign is present. Mutations additionally require the named action permission and assignment (or intake.read_all), except assignment itself. Customer detail contains the editable/closed draft; staff detail deliberately excludes it. Both contain latest_revision and information_request_id. The state value is the same persisted enum for both personas.",
+        "description": "Requires staff with intake.read; drafts are always excluded. Without intake.read_all, reads are limited to assigned requests, plus unassigned requests when intake.assign is present. Mutations additionally require the named action permission and assignment (or intake.read_all), except assignment itself. Customer detail contains the editable/closed draft; staff detail deliberately excludes it. Both contain latest_revision and information_request_id. The state value is the same persisted enum for both personas. Optional view=dashboard returns the display-enriched response; omission retains the exact legacy response. Commands still return legacy summaries: refresh the enriched detail after a successful command. Display names may change independently of the parent command ETag; do not use names as authorization or optimistic-lock keys.",
         "security": [
           {
             "SessionCookie": []
@@ -6071,7 +6113,10 @@
           "app/Modules/ProjectIntake/Actions/SubmitRequest.php",
           "app/Modules/ProjectIntake/Actions/ManageDraft.php",
           "app/Modules/ProjectIntake/Actions/InformationWorkflow.php",
-          "app/Modules/ProjectIntake/Actions/TransitionRequest.php"
+          "app/Modules/ProjectIntake/Actions/TransitionRequest.php",
+          "app/Modules/ProjectIntake/Queries/ReadIntakeDisplay.php",
+          "app/Modules/Identity/Queries/ReadIdentityDisplayNames.php",
+          "app/Application/Intake/ReadIntakeActorNames.php"
         ],
         "parameters": [
           {
@@ -6090,6 +6135,9 @@
           },
           {
             "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/IntakeDashboardView"
           }
         ],
         "responses": {
@@ -6113,7 +6161,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/IntakeStaffDetailResponse"
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/IntakeStaffDetailResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/IntakeDisplayDetailResponse"
+                    }
+                  ]
                 }
               }
             },
@@ -6142,7 +6197,15 @@
           }
         },
         "x-csrf-required": false,
-        "x-source-operation": "staff.detail"
+        "x-source-operation": "staff.detail",
+        "x-response-views": {
+          "default": {
+            "$ref": "#/components/schemas/IntakeStaffDetailResponse"
+          },
+          "dashboard": {
+            "$ref": "#/components/schemas/IntakeDisplayDetailResponse"
+          }
+        }
       }
     },
     "/api/v1/admin/project-requests/{projectRequest}/revisions": {
@@ -6642,7 +6705,7 @@
           "Project intake"
         ],
         "summary": "Staff History project request",
-        "description": "Requires staff with intake.read; drafts are always excluded. Without intake.read_all, reads are limited to assigned requests, plus unassigned requests when intake.assign is present. Mutations additionally require the named action permission and assignment (or intake.read_all), except assignment itself. Bounded ascending UUIDv 7 pagination using meta.next_after; no total count. Information status is derived from responded_at/resolved_at/resolution, not a status field. Customer history omits actor_id; staff history includes it.",
+        "description": "Requires staff with intake.read; drafts are always excluded. Without intake.read_all, reads are limited to assigned requests, plus unassigned requests when intake.assign is present. Mutations additionally require the named action permission and assignment (or intake.read_all), except assignment itself. Bounded ascending UUIDv 7 pagination using meta.next_after; no total count. Information status is derived from responded_at/resolved_at/resolution, not a status field. Customer history omits actor_id; staff history includes it. Optional view=dashboard returns the display-enriched response; omission retains the exact legacy response. Commands still return legacy summaries: refresh the enriched detail after a successful command. Display names may change independently of the parent command ETag; do not use names as authorization or optimistic-lock keys.",
         "security": [
           {
             "SessionCookie": []
@@ -6665,7 +6728,10 @@
           "app/Modules/ProjectIntake/Actions/SubmitRequest.php",
           "app/Modules/ProjectIntake/Actions/ManageDraft.php",
           "app/Modules/ProjectIntake/Actions/InformationWorkflow.php",
-          "app/Modules/ProjectIntake/Actions/TransitionRequest.php"
+          "app/Modules/ProjectIntake/Actions/TransitionRequest.php",
+          "app/Modules/ProjectIntake/Queries/ReadIntakeDisplay.php",
+          "app/Modules/Identity/Queries/ReadIdentityDisplayNames.php",
+          "app/Application/Intake/ReadIntakeActorNames.php"
         ],
         "parameters": [
           {
@@ -6707,6 +6773,9 @@
               "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
             },
             "description": "Continue after meta.next_after; ascending UUIDv7 order."
+          },
+          {
+            "$ref": "#/components/parameters/IntakeDashboardView"
           }
         ],
         "responses": {
@@ -6730,7 +6799,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/IntakeStaffHistoryResponse"
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/IntakeStaffHistoryResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/IntakeDisplayHistoryResponse"
+                    }
+                  ]
                 }
               }
             },
@@ -6752,7 +6828,15 @@
           }
         },
         "x-csrf-required": false,
-        "x-source-operation": "staff.history"
+        "x-source-operation": "staff.history",
+        "x-response-views": {
+          "default": {
+            "$ref": "#/components/schemas/IntakeStaffHistoryResponse"
+          },
+          "dashboard": {
+            "$ref": "#/components/schemas/IntakeDisplayHistoryResponse"
+          }
+        }
       }
     },
     "/api/v1/admin/project-requests/{projectRequest}/assignments": {
@@ -6903,7 +6987,7 @@
           "Project intake"
         ],
         "summary": "Staff Assignments project request",
-        "description": "Requires staff with intake.read; drafts are always excluded. Without intake.read_all, reads are limited to assigned requests, plus unassigned requests when intake.assign is present. Mutations additionally require the named action permission and assignment (or intake.read_all), except assignment itself. Bounded ascending UUIDv 7 pagination using meta.next_after; no total count. Information status is derived from responded_at/resolved_at/resolution, not a status field. Customer history omits actor_id; staff history includes it.",
+        "description": "Requires staff with intake.read; drafts are always excluded. Without intake.read_all, reads are limited to assigned requests, plus unassigned requests when intake.assign is present. Mutations additionally require the named action permission and assignment (or intake.read_all), except assignment itself. Bounded ascending UUIDv 7 pagination using meta.next_after; no total count. Information status is derived from responded_at/resolved_at/resolution, not a status field. Customer history omits actor_id; staff history includes it. Optional view=dashboard returns the display-enriched response; omission retains the exact legacy response. Commands still return legacy summaries: refresh the enriched detail after a successful command. Display names may change independently of the parent command ETag; do not use names as authorization or optimistic-lock keys.",
         "security": [
           {
             "SessionCookie": []
@@ -6926,7 +7010,10 @@
           "app/Modules/ProjectIntake/Actions/SubmitRequest.php",
           "app/Modules/ProjectIntake/Actions/ManageDraft.php",
           "app/Modules/ProjectIntake/Actions/InformationWorkflow.php",
-          "app/Modules/ProjectIntake/Actions/TransitionRequest.php"
+          "app/Modules/ProjectIntake/Actions/TransitionRequest.php",
+          "app/Modules/ProjectIntake/Queries/ReadIntakeDisplay.php",
+          "app/Modules/Identity/Queries/ReadIdentityDisplayNames.php",
+          "app/Application/Intake/ReadIntakeActorNames.php"
         ],
         "parameters": [
           {
@@ -6968,6 +7055,9 @@
               "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
             },
             "description": "Continue after meta.next_after; ascending UUIDv7 order."
+          },
+          {
+            "$ref": "#/components/parameters/IntakeDashboardView"
           }
         ],
         "responses": {
@@ -6991,7 +7081,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/IntakeAssignmentsResponse"
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/IntakeAssignmentsResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/IntakeDisplayAssignmentsResponse"
+                    }
+                  ]
                 }
               }
             },
@@ -7013,7 +7110,15 @@
           }
         },
         "x-csrf-required": false,
-        "x-source-operation": "staff.assignments"
+        "x-source-operation": "staff.assignments",
+        "x-response-views": {
+          "default": {
+            "$ref": "#/components/schemas/IntakeAssignmentsResponse"
+          },
+          "dashboard": {
+            "$ref": "#/components/schemas/IntakeDisplayAssignmentsResponse"
+          }
+        }
       }
     },
     "/api/v1/admin/project-requests/{projectRequest}/reviews": {
@@ -9892,6 +9997,624 @@
           "assignee_id"
         ],
         "additionalProperties": false
+      },
+      "IntakeDisplayStaff": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "display_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        },
+        "required": [
+          "id",
+          "display_name"
+        ],
+        "additionalProperties": false
+      },
+      "IntakeDisplayActor": {
+        "description": "Account kind, not current staff role. Guest submission remains guest after claim/amendment. Names are current account labels except the immutable original guest name; they are not historical name snapshots.",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "customer",
+                  "staff"
+                ]
+              },
+              "display_name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              }
+            },
+            "required": [
+              "id",
+              "kind",
+              "display_name"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "null"
+              },
+              "kind": {
+                "const": "guest"
+              },
+              "display_name": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "maxLength": 160
+              }
+            },
+            "required": [
+              "id",
+              "kind",
+              "display_name"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "null"
+              },
+              "kind": {
+                "const": "system"
+              },
+              "display_name": {
+                "type": "null"
+              }
+            },
+            "required": [
+              "id",
+              "kind",
+              "display_name"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      },
+      "IntakeDisplaySummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          },
+          "reference": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^REQ-[0-9]{4}-[0-9]{5,19}$"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "submitted",
+              "under_review",
+              "information_required",
+              "discovery",
+              "proposal",
+              "approved",
+              "converted",
+              "rejected",
+              "withdrawn"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "etag": {
+            "type": "string",
+            "pattern": "^\"[0-9a-fA-F-]{36}:[1-9][0-9]*\"$"
+          },
+          "latest_revision_number": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "submitted_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "assigned_staff_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "customer_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid",
+            "description": "Canonical customer directory ID, for adminCustomerDetail. Null only while a guest request is unclaimed. submitted_by retains its distinct account-ID meaning."
+          },
+          "project_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Latest submitted immutable revision title; never an unsubmitted draft."
+          },
+          "customer_display_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160,
+            "description": "Current customer account name when owned; submitted guest contact name while unclaimed. Existing revision contact snapshots remain unchanged."
+          },
+          "provenance": {
+            "type": "string",
+            "enum": [
+              "customer",
+              "guest"
+            ],
+            "description": "Origin of the canonical request; guest remains guest after claim."
+          },
+          "claimed": {
+            "type": "boolean",
+            "description": "True only for a guest-origin request claimed by a customer. False for both unclaimed guests and requests created by authenticated customers. Unclaimed guest workflow remains limited to assign, review and reject."
+          },
+          "assigned_staff": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/IntakeDisplayStaff"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "reference",
+          "state",
+          "version",
+          "etag",
+          "latest_revision_number",
+          "created_at",
+          "submitted_at",
+          "assigned_staff_id",
+          "customer_id",
+          "project_name",
+          "customer_display_name",
+          "provenance",
+          "claimed",
+          "assigned_staff"
+        ],
+        "additionalProperties": false
+      },
+      "IntakeDisplayDetail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          },
+          "reference": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^REQ-[0-9]{4}-[0-9]{5,19}$"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "submitted",
+              "under_review",
+              "information_required",
+              "discovery",
+              "proposal",
+              "approved",
+              "converted",
+              "rejected",
+              "withdrawn"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "etag": {
+            "type": "string",
+            "pattern": "^\"[0-9a-fA-F-]{36}:[1-9][0-9]*\"$"
+          },
+          "latest_revision_number": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "submitted_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "assigned_staff_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "latest_revision": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/IntakeRevision"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "information_request_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid",
+            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          },
+          "customer_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid",
+            "description": "Canonical customer directory ID, for adminCustomerDetail. Null only while a guest request is unclaimed. submitted_by retains its distinct account-ID meaning."
+          },
+          "project_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Latest submitted immutable revision title; never an unsubmitted draft."
+          },
+          "customer_display_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160,
+            "description": "Current customer account name when owned; submitted guest contact name while unclaimed. Existing revision contact snapshots remain unchanged."
+          },
+          "provenance": {
+            "type": "string",
+            "enum": [
+              "customer",
+              "guest"
+            ],
+            "description": "Origin of the canonical request; guest remains guest after claim."
+          },
+          "claimed": {
+            "type": "boolean",
+            "description": "True only for a guest-origin request claimed by a customer. False for both unclaimed guests and requests created by authenticated customers. Unclaimed guest workflow remains limited to assign, review and reject."
+          },
+          "assigned_staff": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/IntakeDisplayStaff"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "reference",
+          "state",
+          "version",
+          "etag",
+          "latest_revision_number",
+          "created_at",
+          "submitted_at",
+          "assigned_staff_id",
+          "latest_revision",
+          "information_request_id",
+          "customer_id",
+          "project_name",
+          "customer_display_name",
+          "provenance",
+          "claimed",
+          "assigned_staff"
+        ],
+        "additionalProperties": false
+      },
+      "IntakeDisplayHistory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          },
+          "from_state": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "submitted",
+              "under_review",
+              "information_required",
+              "discovery",
+              "proposal",
+              "approved",
+              "converted",
+              "rejected",
+              "withdrawn"
+            ]
+          },
+          "to_state": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "submitted",
+              "under_review",
+              "information_required",
+              "discovery",
+              "proposal",
+              "approved",
+              "converted",
+              "rejected",
+              "withdrawn"
+            ]
+          },
+          "reason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "actor_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid",
+            "description": "Null for an automated commercial transition such as proposal expiry."
+          },
+          "actor": {
+            "$ref": "#/components/schemas/IntakeDisplayActor"
+          }
+        },
+        "required": [
+          "id",
+          "from_state",
+          "to_state",
+          "reason",
+          "created_at",
+          "actor_id",
+          "actor"
+        ],
+        "additionalProperties": false
+      },
+      "IntakeDisplayAssignment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          },
+          "previous_staff_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "assigned_staff_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "assigned_by": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "previous_staff": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/IntakeDisplayStaff"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "assigned_staff": {
+            "$ref": "#/components/schemas/IntakeDisplayStaff"
+          },
+          "assigned_by_staff": {
+            "$ref": "#/components/schemas/IntakeDisplayStaff"
+          }
+        },
+        "required": [
+          "id",
+          "previous_staff_id",
+          "assigned_staff_id",
+          "assigned_by",
+          "created_at",
+          "previous_staff",
+          "assigned_staff",
+          "assigned_by_staff"
+        ],
+        "additionalProperties": false
+      },
+      "IntakeDisplayPageResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IntakeDisplaySummary"
+            },
+            "maxItems": 100
+          },
+          "meta": {
+            "type": "object",
+            "properties": {
+              "next_cursor": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "per_page": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 100
+              }
+            },
+            "required": [
+              "next_cursor",
+              "per_page"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ],
+        "additionalProperties": false
+      },
+      "IntakeDisplayDetailResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/IntakeDisplayDetail"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "IntakeDisplayHistoryResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IntakeDisplayHistory"
+            },
+            "maxItems": 100
+          },
+          "meta": {
+            "type": "object",
+            "properties": {
+              "next_after": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "uuid",
+                "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+              }
+            },
+            "required": [
+              "next_after"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ],
+        "additionalProperties": false
+      },
+      "IntakeDisplayAssignmentsResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IntakeDisplayAssignment"
+            },
+            "maxItems": 100
+          },
+          "meta": {
+            "type": "object",
+            "properties": {
+              "next_after": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "uuid",
+                "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+              }
+            },
+            "required": [
+              "next_after"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "parameters": {
+      "IntakeDashboardView": {
+        "name": "view",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "dashboard"
+          ]
+        },
+        "description": "Explicitly opt in to staff display enrichment. Omit for the unchanged legacy response. Available on staff list/detail/by-reference/history/assignments only; not on customer reads or commands. Requires the same MFA, intake.read and request visibility as the default read. No staff-directory permission is granted."
       }
     }
   }
