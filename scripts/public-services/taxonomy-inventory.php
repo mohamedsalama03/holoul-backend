@@ -2,11 +2,13 @@
 
 // Read-only inventory. It cannot disable, rename, move, or delete taxonomy.
 declare(strict_types=1);
+
+use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Support\Facades\DB;
+
 require __DIR__.'/../../vendor/autoload.php';
 $app = require __DIR__.'/../../bootstrap/app.php';
 $app->make(Kernel::class)->bootstrap();
-use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Support\Facades\DB;
 
 $result = DB::transaction(function (): array {
     DB::statement('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY');
