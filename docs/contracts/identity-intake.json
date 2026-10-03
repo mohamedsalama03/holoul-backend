@@ -66,7 +66,7 @@
           "Identity"
         ],
         "summary": "Request customer registration",
-        "description": "Generic account-existence-safe response, including duplicate registration. Does not sign in. Valid phone and password policy are mandatory; verification email is queued durably.",
+        "description": "Generic account-existence-safe response, including duplicate registration. Does not sign in. Valid phone and password policy are mandatory; no verification email is issued. Email ownership remains unverified until independently proven. New and existing customers can sign in and use their own intake without email verification.",
         "security": [],
         "x-personas": [
           "guest",
@@ -4117,7 +4117,7 @@
           "Project intake"
         ],
         "summary": "Customer Create project request",
-        "description": "Only the authenticated customer's own requests. Staff persona is rejected with 403; foreign or mismatched resources return 404. Creates an incomplete customer draft; verified email is not required until submission. Returns 201, ETag and Location.",
+        "description": "Only the authenticated customer's own requests. Staff persona is rejected with 403; foreign or mismatched resources return 404. Creates an incomplete customer draft; email verification is not required for draft creation or submission. Returns 201, ETag and Location.",
         "security": [
           {
             "SessionCookie": []
@@ -4852,7 +4852,7 @@
           "Project intake"
         ],
         "summary": "Customer Submit project request",
-        "description": "Only the authenticated customer's own requests. Staff persona is rejected with 403; foreign or mismatched resources return 404. Verified email required. Body empty. If-Match and Idempotency-Key required. Key is 16–128 characters from A–Z/a–z/0–9/_.:-, retained 72 hours and scoped to actor+intake.submit. Exact replay uses the original If-Match and returns the same 201 receipt/ETag/Location even after version changes; reusing key with different request or If-Match returns 409. Missing/invalid key is 422 error.fields.idempotency_key. Initial submit creates state submitted/reference; amendments preserve request state. A document is optional. An attached document must be finalized quarantined or available; uploading/rejected/deleting/deleted conflicts. Snapshotting a quarantined attachment does not authorize download: download requires available state.",
+        "description": "Only the authenticated customer's own requests. Staff persona is rejected with 403; foreign or mismatched resources return 404. Email verification is not required. Profile contact data and ownership are resolved server-side. Body empty. If-Match and Idempotency-Key required. Key is 16–128 characters from A–Z/a–z/0–9/_.:-, retained 72 hours and scoped to actor+intake.submit. Exact replay uses the original If-Match and returns the same 201 receipt/ETag/Location even after version changes; reusing key with different request or If-Match returns 409. Missing/invalid key is 422 error.fields.idempotency_key. Initial submit creates state submitted/reference; amendments preserve request state. A document is optional. An attached document must be finalized quarantined or available; uploading/rejected/deleting/deleted conflicts. Snapshotting a quarantined attachment does not authorize download: download requires available state.",
         "security": [
           {
             "SessionCookie": []
@@ -7922,11 +7922,12 @@
                 "business_analyst",
                 "sales",
                 "reviewer",
-                "support"
+                "support",
+                "portfolio_editor"
               ]
             },
             "minItems": 1,
-            "maxItems": 7,
+            "maxItems": 8,
             "uniqueItems": true
           },
           "enabled": {
@@ -7985,12 +7986,13 @@
             ]
           },
           "email_verified": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Actual proof of email ownership. May remain false while an active customer signs in, submits own intake, uploads own intake documents, or uses permitted AI. Guest-request claiming still requires verified ownership."
           },
           "roles": {
             "type": "array",
             "uniqueItems": true,
-            "maxItems": 7,
+            "maxItems": 8,
             "items": {
               "enum": [
                 "super_admin",
@@ -8000,7 +8002,8 @@
                 "sales",
                 "reviewer",
                 "support",
-                "customer"
+                "customer",
+                "portfolio_editor"
               ]
             }
           },
@@ -8156,10 +8159,11 @@
                 "business_analyst",
                 "sales",
                 "reviewer",
-                "support"
+                "support",
+                "portfolio_editor"
               ]
             },
-            "maxItems": 7,
+            "maxItems": 8,
             "uniqueItems": true
           }
         },
@@ -8371,7 +8375,7 @@
             "properties": {
               "message": {
                 "type": "string",
-                "const": "If registration is available, verification instructions will be sent."
+                "const": "Registration request received. You can sign in with your credentials."
               }
             },
             "required": [

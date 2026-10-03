@@ -42,7 +42,9 @@ final readonly class AIRuns
             DB::table('ai_budget_days')->insertOrIgnore(['day' => $day]);
             $budget = DB::table('ai_budget_days')->where('day', $day)->lockForUpdate()->first() ?? throw new HttpException(503);
             $reserve = Config::integer('ai.reserved_cost_microusd');
-            $failure = $this->limitation($source->actorId, $day, $reserve, $budget->reserved_microusd, $budget->spent_microusd);
+            $failure = AIAvailability::allows($purpose, $source->sourceType, $source->documentId)
+                ? $this->limitation($source->actorId, $day, $reserve, $budget->reserved_microusd, $budget->spent_microusd)
+                : 'provider_unavailable';
             $run = AIRun::query()->forceCreate(['actor_id' => $source->actorId, 'customer_id' => $source->customerId,
                 'parent_type' => $source->parentType, 'parent_id' => $source->parentId, 'source_type' => $source->sourceType,
                 'source_id' => $source->sourceId, 'source_version' => $source->sourceVersion, 'source_hash' => $source->sourceHash,

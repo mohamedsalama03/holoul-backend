@@ -1,5 +1,7 @@
 # HOLOUL Backend — B0 Architecture Gate
 
+**Approved policy amendment, 3 October 2026:** Customer registration and ordinary project intake no longer require email confirmation. See [the customer email prerequisite decision](CUSTOMER-EMAIL-PREREQUISITE-REMOVAL.md) for scope, retained guest-claim proof and verification evidence. The original architecture text below is preserved as historical evidence.
+
 **Status:** Proposed architecture; approval required before B1.  
 **Inspection date:** 16 September 2026.  
 **Scope:** Architecture only. No application code, Laravel initialization, migrations, Docker files, or dependency installation.

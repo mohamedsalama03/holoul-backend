@@ -12,6 +12,7 @@ use Illuminate\Support\Carbon;
  * @property string $id
  * @property string $full_name
  * @property string $email
+ * @property string|null $username
  * @property string $email_display
  * @property string $password
  * @property string $kind
@@ -26,7 +27,7 @@ final class User extends Authenticatable
 
     protected $table = 'users';
 
-    protected $fillable = ['full_name', 'email', 'email_display', 'password', 'kind', 'enabled', 'email_verified_at', 'auth_version'];
+    protected $fillable = ['full_name', 'username', 'email', 'email_display', 'password', 'kind', 'enabled', 'email_verified_at', 'auth_version'];
 
     protected $hidden = ['password', 'remember_token'];
 

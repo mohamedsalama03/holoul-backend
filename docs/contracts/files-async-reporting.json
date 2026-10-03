@@ -7,7 +7,7 @@
           "Documents"
         ],
         "summary": "Reserve request document",
-        "description": "Customer session and current customer membership; parent request must belong to the customer. Requires verified email and an open editable draft. Replaces its single draft attachment; historical references retain old bytes. Returns 201 for original request and identical idempotent replay. Reservation expires after 10 minutes.",
+        "description": "Customer session and current customer membership; parent request must belong to the customer. Requires an open editable draft; email verification is not required. Replaces its single draft attachment; historical references retain old bytes. Returns 201 for original request and identical idempotent replay. Reservation expires after 10 minutes.",
         "security": [
           {
             "SessionCookie": []
@@ -129,7 +129,7 @@
           "Documents"
         ],
         "summary": "Upload and finalize request document",
-        "description": "Customer session and current customer membership; parent request must belong to the customer. Requires verified email, editable draft and its current attachment. Send raw bytes with exactly application/octet-stream, never multipart. Size and SHA-256 must match reservation. PUT finalizes atomically after storage and authorization recheck; response normally quarantined. Same immutable bytes may be replayed before expiry. No separate finalize endpoint.",
+        "description": "Customer session and current customer membership; parent request must belong to the customer. Requires an editable draft and its current attachment; email verification is not required. Send raw bytes with exactly application/octet-stream, never multipart. Size and SHA-256 must match reservation. PUT finalizes atomically after storage and authorization recheck; response normally quarantined. Same immutable bytes may be replayed before expiry. No separate finalize endpoint.",
         "security": [
           {
             "SessionCookie": []
@@ -2647,7 +2647,7 @@
           "AI"
         ],
         "summary": "List own AI runs",
-        "description": "Verified customer with ai.self.use or verified staff with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Required parent_type and parent_id; id ascending keyset after/limit, no search/sort/state filter. This list is run summaries, without suggestion output.",
+        "description": "Authenticated customer with ai.self.use (no email-verification prerequisite) or staff satisfying the existing email-admission and MFA policy with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Required parent_type and parent_id; id ascending keyset after/limit, no search/sort/state filter. This list is run summaries, without suggestion output.",
         "security": [
           {
             "SessionCookie": []
@@ -2768,7 +2768,7 @@
           "AI"
         ],
         "summary": "Request optional AI assistance",
-        "description": "Verified customer with ai.self.use or verified staff with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Consent must be literal JSON true. If-Match is the PARENT ETag. Customers use an editable request draft; staff request sources are submitted revisions and disallow improve_description/suggest_category. Project parents require document_id and analyze_document/extract_requirements/missing_information. analyze_document always requires available document. Text purposes cannot use a document. HTTP202 also returns state unavailable for disabled provider, exhausted budget or run limits. Submission has no AI dependency; a disabled optional control must never block it.",
+        "description": "Authenticated customer with ai.self.use (no email-verification prerequisite) or staff satisfying the existing email-admission and MFA policy with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Consent must be literal JSON true. If-Match is the PARENT ETag. Customers use an editable request draft; staff request sources are submitted revisions and disallow improve_description/suggest_category. Project parents require document_id and analyze_document/extract_requirements/missing_information. analyze_document always requires available document. Text purposes cannot use a document. HTTP202 also returns state unavailable for disabled provider, exhausted budget or run limits. Submission has no AI dependency; a disabled optional control must never block it. The local Gemini pilot supports improve_description on customer intake drafts and, when separately enabled, analyze_document for the available attachment of that editable customer draft. Document analysis sends only extracted, minimized text (maximum 20000 characters), never original files or storage URLs. It returns summary/findings without altering the document or description. Image-only scans and image/layout interpretation are unsupported. Delivery documents, staff revision sources and other purposes remain unavailable for this provider. Free-tier users must use non-sensitive synthetic content and review the Google data-use disclosure before requesting analysis.",
         "security": [
           {
             "SessionCookie": []
@@ -2884,7 +2884,7 @@
           "AI"
         ],
         "summary": "Poll own AI run",
-        "description": "Verified customer with ai.self.use or verified staff with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Revalidates current parent and any document access. suggestion is null until a successful result exists. Run state stays succeeded after apply/dismiss; inspect suggestion.state. Staleness is checked when applying, not a persisted stale enum.",
+        "description": "Authenticated customer with ai.self.use (no email-verification prerequisite) or staff satisfying the existing email-admission and MFA policy with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Revalidates current parent and any document access. suggestion is null until a successful result exists. Run state stays succeeded after apply/dismiss; inspect suggestion.state. Staleness is checked when applying, not a persisted stale enum.",
         "security": [
           {
             "SessionCookie": []
@@ -2982,7 +2982,7 @@
           "AI"
         ],
         "summary": "Apply AI suggestion explicitly",
-        "description": "Verified customer with ai.self.use or verified staff with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Also ai.self.apply for customer or ai.apply AND discovery.manage for staff. Customer application only improves own request draft description/category. Staff application only appends extracted requirements to an editable discovery_revision_id for the same submitted source revision. Project document results and other purposes are advisory only (409 on apply). If source version/hash/document/authorization changed,409; stale run ETag412. No silent edits.",
+        "description": "Authenticated customer with ai.self.use (no email-verification prerequisite) or staff satisfying the existing email-admission and MFA policy with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Also ai.self.apply for customer or ai.apply AND discovery.manage for staff. Customer application only improves own request draft description/category. Staff application only appends extracted requirements to an editable discovery_revision_id for the same submitted source revision. Project document results and other purposes are advisory only (409 on apply). If source version/hash/document/authorization changed,409; stale run ETag412. No silent edits.",
         "security": [
           {
             "SessionCookie": []
@@ -3112,7 +3112,7 @@
           "AI"
         ],
         "summary": "Dismiss AI suggestion",
-        "description": "Verified customer with ai.self.use or verified staff with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Requires succeeded run and pending suggestion; marks suggestion dismissed, leaves run succeeded. Exact receipt replay preserves original result.",
+        "description": "Authenticated customer with ai.self.use (no email-verification prerequisite) or staff satisfying the existing email-admission and MFA policy with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Requires succeeded run and pending suggestion; marks suggestion dismissed, leaves run succeeded. Exact receipt replay preserves original result.",
         "security": [
           {
             "SessionCookie": []
@@ -3228,7 +3228,7 @@
           "AI"
         ],
         "summary": "Cancel pending AI assistance",
-        "description": "Verified customer with ai.self.use or verified staff with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Only pending/processing runs may cancel. Returns cancelled and nullable suggestion_state. Cancellation prevents applying later provider output; no automatic external retry on uncertain outcomes.",
+        "description": "Authenticated customer with ai.self.use (no email-verification prerequisite) or staff satisfying the existing email-admission and MFA policy with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Only pending/processing runs may cancel. Returns cancelled and nullable suggestion_state. Cancellation prevents applying later provider output; no automatic external retry on uncertain outcomes.",
         "security": [
           {
             "SessionCookie": []

@@ -133,6 +133,28 @@ class Drill:
         project = self.project(role)
         if plan.get("name") != project:
             raise RecoveryError("compose_project_mismatch")
+        # The local ingress deliberately trusts exact host/port pairs. Give each
+        # isolated drill its own equally strict mapping; never relax the live edge
+        # or route a restore test through another project's application.
+        http_port, https_port, _ = self.config["ports"][role]
+        edge = (ROOT / "docker/nginx/nginx.conf").read_text()
+        for old, new in (
+            ("http|localhost:8080", "http|localhost:" + str(http_port)),
+            ("http|127.0.0.1:8080", "http|127.0.0.1:" + str(http_port)),
+            ("https|localhost:8443", "https|localhost:" + str(https_port)),
+            ("https|127.0.0.1:8443", "https|127.0.0.1:" + str(https_port)),
+            ("https://localhost:8443", "https://localhost:" + str(https_port)),
+        ):
+            if old not in edge:
+                raise RecoveryError("unknown_local_ingress_template")
+            edge = edge.replace(old, new)
+        edge_path = self.private / (role + "-nginx.conf")
+        edge_path.write_text(edge)
+        edge_path.chmod(0o644)  # Non-secret file; nginx UID101 reads the bind mount.
+        matches = [v for v in plan["services"]["nginx"]["volumes"] if v.get("target") == "/etc/nginx/nginx.conf"]
+        if len(matches) != 1 or not matches[0].get("read_only"):
+            raise RecoveryError("readonly_drill_ingress_required")
+        matches[0]["source"] = str(edge_path)
         for kind in ("volumes", "networks"):
             for logical, definition in plan.get(kind, {}).items():
                 if definition.get("external") or definition.get("name") != project + "_" + logical:

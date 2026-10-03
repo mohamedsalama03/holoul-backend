@@ -3,8 +3,8 @@
   "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
   "info": {
     "title": "HOLOUL frontend API",
-    "version": "1.5.0-intake-display-candidate",
-    "description": "Preserves all default 1.4.0 responses, command schemas and permission grants; adds opt-in view=dashboard to five staff intake reads for directory links, request names, provenance, claim status and named actors. Historical B8/P1/P2/P3/F1-E1 evidence remains retained. This feature candidate is not production certification; performance certification remains pending the target VPS. Same-origin session API; the only non-/api/v1 frontend operation is Sanctum CSRF initialization."
+    "version": "1.8.1-gemini-documents-candidate",
+    "description": "Customer registration no longer issues verification mail. Active customers can submit their own intake, upload intake attachments and request permitted AI without email verification; email ownership remains truthful and guest-claim verification is retained. Registration stays generic HTTP 202 without automatically signing in. Adds the Portfolio Editor staff role for portfolio drafts, images, publication and unpublication, plus own profile and notifications. Existing role grants and operation security requirements are unchanged. Super Admin and Administrator may assign this role. Dashboard entry requires reporting.read OR portfolio.read; reports still require reporting.read. Admin-created staff use an immutable username and recovery email with mandatory MFA, without an email-verification login prerequisite. Historical B8/P1/P2/P3/F1-E1 evidence remains retained. This feature candidate is not production certification; performance certification remains pending the target VPS. Same-origin session API; the only non-/api/v1 frontend operation is Sanctum CSRF initialization."
   },
   "servers": [
     {
@@ -13796,7 +13796,7 @@
           "AI"
         ],
         "summary": "List own AI runs",
-        "description": "Verified customer with ai.self.use or verified staff with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Required parent_type and parent_id; id ascending keyset after/limit, no search/sort/state filter. This list is run summaries, without suggestion output.",
+        "description": "Authenticated customer with ai.self.use (no email-verification prerequisite) or staff satisfying the existing email-admission and MFA policy with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Required parent_type and parent_id; id ascending keyset after/limit, no search/sort/state filter. This list is run summaries, without suggestion output.",
         "security": [
           {
             "SessionCookie": []
@@ -13917,7 +13917,7 @@
           "AI"
         ],
         "summary": "Request optional AI assistance",
-        "description": "Verified customer with ai.self.use or verified staff with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Consent must be literal JSON true. If-Match is the PARENT ETag. Customers use an editable request draft; staff request sources are submitted revisions and disallow improve_description/suggest_category. Project parents require document_id and analyze_document/extract_requirements/missing_information. analyze_document always requires available document. Text purposes cannot use a document. HTTP202 also returns state unavailable for disabled provider, exhausted budget or run limits. Submission has no AI dependency; a disabled optional control must never block it.",
+        "description": "Authenticated customer with ai.self.use (no email-verification prerequisite) or staff satisfying the existing email-admission and MFA policy with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Consent must be literal JSON true. If-Match is the PARENT ETag. Customers use an editable request draft; staff request sources are submitted revisions and disallow improve_description/suggest_category. Project parents require document_id and analyze_document/extract_requirements/missing_information. analyze_document always requires available document. Text purposes cannot use a document. HTTP202 also returns state unavailable for disabled provider, exhausted budget or run limits. Submission has no AI dependency; a disabled optional control must never block it. The local Gemini pilot supports improve_description on customer intake drafts and, when separately enabled, analyze_document for the available attachment of that editable customer draft. Document analysis sends only extracted, minimized text (maximum 20000 characters), never original files or storage URLs. It returns summary/findings without altering the document or description. Image-only scans and image/layout interpretation are unsupported. Delivery documents, staff revision sources and other purposes remain unavailable for this provider. Free-tier users must use non-sensitive synthetic content and review the Google data-use disclosure before requesting analysis.",
         "security": [
           {
             "SessionCookie": []
@@ -14033,7 +14033,7 @@
           "AI"
         ],
         "summary": "Poll own AI run",
-        "description": "Verified customer with ai.self.use or verified staff with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Revalidates current parent and any document access. suggestion is null until a successful result exists. Run state stays succeeded after apply/dismiss; inspect suggestion.state. Staleness is checked when applying, not a persisted stale enum.",
+        "description": "Authenticated customer with ai.self.use (no email-verification prerequisite) or staff satisfying the existing email-admission and MFA policy with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Revalidates current parent and any document access. suggestion is null until a successful result exists. Run state stays succeeded after apply/dismiss; inspect suggestion.state. Staleness is checked when applying, not a persisted stale enum.",
         "security": [
           {
             "SessionCookie": []
@@ -14131,7 +14131,7 @@
           "AI"
         ],
         "summary": "Apply AI suggestion explicitly",
-        "description": "Verified customer with ai.self.use or verified staff with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Also ai.self.apply for customer or ai.apply AND discovery.manage for staff. Customer application only improves own request draft description/category. Staff application only appends extracted requirements to an editable discovery_revision_id for the same submitted source revision. Project document results and other purposes are advisory only (409 on apply). If source version/hash/document/authorization changed,409; stale run ETag412. No silent edits.",
+        "description": "Authenticated customer with ai.self.use (no email-verification prerequisite) or staff satisfying the existing email-admission and MFA policy with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Also ai.self.apply for customer or ai.apply AND discovery.manage for staff. Customer application only improves own request draft description/category. Staff application only appends extracted requirements to an editable discovery_revision_id for the same submitted source revision. Project document results and other purposes are advisory only (409 on apply). If source version/hash/document/authorization changed,409; stale run ETag412. No silent edits.",
         "security": [
           {
             "SessionCookie": []
@@ -14261,7 +14261,7 @@
           "AI"
         ],
         "summary": "Cancel pending AI assistance",
-        "description": "Verified customer with ai.self.use or verified staff with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Only pending/processing runs may cancel. Returns cancelled and nullable suggestion_state. Cancellation prevents applying later provider output; no automatic external retry on uncertain outcomes.",
+        "description": "Authenticated customer with ai.self.use (no email-verification prerequisite) or staff satisfying the existing email-admission and MFA policy with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Only pending/processing runs may cancel. Returns cancelled and nullable suggestion_state. Cancellation prevents applying later provider output; no automatic external retry on uncertain outcomes.",
         "security": [
           {
             "SessionCookie": []
@@ -14377,7 +14377,7 @@
           "AI"
         ],
         "summary": "Dismiss AI suggestion",
-        "description": "Verified customer with ai.self.use or verified staff with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Requires succeeded run and pending suggestion; marks suggestion dismissed, leaves run succeeded. Exact receipt replay preserves original result.",
+        "description": "Authenticated customer with ai.self.use (no email-verification prerequisite) or staff satisfying the existing email-admission and MFA policy with ai.use, plus current parent scope (request intake.read for staff; project projects.self.read or projects.read and document-read permission). All runs are private to their requesting actor. Requires succeeded run and pending suggestion; marks suggestion dismissed, leaves run succeeded. Exact receipt replay preserves original result.",
         "security": [
           {
             "SessionCookie": []
@@ -16021,7 +16021,7 @@
           "Identity"
         ],
         "summary": "Request customer registration",
-        "description": "Generic account-existence-safe response, including duplicate registration. Does not sign in. Valid phone and password policy are mandatory; verification email is queued durably.",
+        "description": "Generic account-existence-safe response, including duplicate registration. Does not sign in. Valid phone and password policy are mandatory; no verification email is issued. Email ownership remains unverified until independently proven. New and existing customers can sign in and use their own intake without email verification.",
         "security": [],
         "x-personas": [
           "guest",
@@ -16709,6 +16709,94 @@
             }
           }
         }
+      }
+    },
+    "/api/v1/auth/username-login": {
+      "post": {
+        "operationId": "identityLoginWithUsername",
+        "tags": [
+          "Identity"
+        ],
+        "summary": "Sign in staff using their username",
+        "description": "Same CSRF, session rotation and MFA behavior as email login. Case-insensitive, trimmed username. Both aliases share the email account throttle (5 attempts/minute) and IP limit. Missing, disabled or wrong credentials return generic 401. Email verification is not a prerequisite for admin-created staff using either username or email login. Both existing and newly created direct accounts proceed to mandatory MFA without falsifying email ownership. Successful first factor returns 202 mfa_enrollment or mfa_challenge. Legacy email login is preserved.",
+        "security": [],
+        "x-personas": [
+          "guest",
+          "customer",
+          "staff"
+        ],
+        "x-permissions": [],
+        "x-frontend-feature": "Direct staff sign-in",
+        "x-source": [
+          "routes/identity.php",
+          "app/Modules/Identity/Http/Controllers/AuthController.php",
+          "app/Modules/Identity/Actions/Authentication.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          }
+        ],
+        "responses": {
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          },
+          "202": {
+            "description": "First factor accepted; staff MFA is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdentityMfaRequiredResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-csrf-required": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsernameLoginInput"
+              }
+            }
+          }
+        },
+        "x-validation-fields": [
+          "username",
+          "password"
+        ]
       }
     },
     "/api/v1/categories": {
@@ -19062,7 +19150,8 @@
                 "business_analyst",
                 "sales",
                 "reviewer",
-                "support"
+                "support",
+                "portfolio_editor"
               ]
             },
             "description": ""
@@ -19332,6 +19421,306 @@
                   "type": "string",
                   "format": "uuid"
                 }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "identityCreateStaffAccount",
+        "summary": "Create a staff account with username and password",
+        "description": "Completed MFA and recent password confirmation (300 seconds), existing staff read/manage permissions and unchanged role grant policy. Super Admin may grant any staff role; Administrator may grant Support and Portfolio Editor. The current staff.invitations.manage capability and assignable_roles describe the same grant authority. Creates credentials, roles, audit and a keyed idempotency receipt atomically. No auto-login or acting-session rotation. Admin-created staff can sign in immediately without email verification, including existing direct accounts. No verification email or token is generated on creation. Email ownership remains truthfully unverified until independently proven; recovery email is retained for password reset. MFA enrollment and subsequent challenges remain mandatory. Administrator-provisioned staff satisfy staff email admission prerequisites across capabilities, reporting, audit, public-content management and AI work; email_verified remains factual and false until proven. This does not grant any extra role permissions, bypass MFA or relax customer and legacy unverified-account controls. No invitation is issued. Existing or pending-invitation emails are rejected; no implicit conversion or revocation. Same actor/key/input replays the same account ID without duplicate accounts or audit; changing input (including password) returns 409. New reasons: USERNAME_UNAVAILABLE and ACCOUNT_UNAVAILABLE. Rate limit: 20 attempts per actor/hour. Existing staff reads keep their exact response shape; onboarding_pending includes new accounts awaiting MFA. Creation replay returns account identity only; read authorization separately for current roles.",
+        "tags": [
+          "Staff onboarding"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "identity.staff.read",
+          "identity.staff.manage"
+        ],
+        "x-frontend-feature": "Direct staff accounts",
+        "x-source": [
+          "routes/identity.php",
+          "app/Modules/Identity/Staff/StaffController.php",
+          "app/Modules/Identity/Staff/CreateStaff.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          },
+          {
+            "$ref": "#/components/parameters/StaffIdempotencyKey"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Account created, or idempotent replay. Never returns credentials.",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP 400; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP 401; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP 403; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP 404; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP 409; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "HTTP 412; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "HTTP 413; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "HTTP 415; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "HTTP 422; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "428": {
+            "description": "HTTP 428; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "HTTP 429; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP 500; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP 503; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StaffAccountCreateInput"
               }
             }
           }
@@ -22671,7 +23060,7 @@
           "Project intake"
         ],
         "summary": "Customer Create project request",
-        "description": "Only the authenticated customer's own requests. Staff persona is rejected with 403; foreign or mismatched resources return 404. Creates an incomplete customer draft; verified email is not required until submission. Returns 201, ETag and Location.",
+        "description": "Only the authenticated customer's own requests. Staff persona is rejected with 403; foreign or mismatched resources return 404. Creates an incomplete customer draft; email verification is not required for draft creation or submission. Returns 201, ETag and Location.",
         "security": [
           {
             "SessionCookie": []
@@ -23188,7 +23577,7 @@
           "Documents"
         ],
         "summary": "Reserve request document",
-        "description": "Customer session and current customer membership; parent request must belong to the customer. Requires verified email and an open editable draft. Replaces its single draft attachment; historical references retain old bytes. Returns 201 for original request and identical idempotent replay. Reservation expires after 10 minutes.",
+        "description": "Customer session and current customer membership; parent request must belong to the customer. Requires an open editable draft; email verification is not required. Replaces its single draft attachment; historical references retain old bytes. Returns 201 for original request and identical idempotent replay. Reservation expires after 10 minutes.",
         "security": [
           {
             "SessionCookie": []
@@ -23531,7 +23920,7 @@
           "Documents"
         ],
         "summary": "Upload and finalize request document",
-        "description": "Customer session and current customer membership; parent request must belong to the customer. Requires verified email, editable draft and its current attachment. Send raw bytes with exactly application/octet-stream, never multipart. Size and SHA-256 must match reservation. PUT finalizes atomically after storage and authorization recheck; response normally quarantined. Same immutable bytes may be replayed before expiry. No separate finalize endpoint.",
+        "description": "Customer session and current customer membership; parent request must belong to the customer. Requires an editable draft and its current attachment; email verification is not required. Send raw bytes with exactly application/octet-stream, never multipart. Size and SHA-256 must match reservation. PUT finalizes atomically after storage and authorization recheck; response normally quarantined. Same immutable bytes may be replayed before expiry. No separate finalize endpoint.",
         "security": [
           {
             "SessionCookie": []
@@ -25702,7 +26091,7 @@
           "Project intake"
         ],
         "summary": "Customer Submit project request",
-        "description": "Only the authenticated customer's own requests. Staff persona is rejected with 403; foreign or mismatched resources return 404. Verified email required. Body empty. If-Match and Idempotency-Key required. Key is 16–128 characters from A–Z/a–z/0–9/_.:-, retained 72 hours and scoped to actor+intake.submit. Exact replay uses the original If-Match and returns the same 201 receipt/ETag/Location even after version changes; reusing key with different request or If-Match returns 409. Missing/invalid key is 422 error.fields.idempotency_key. Initial submit creates state submitted/reference; amendments preserve request state. A document is optional. An attached document must be finalized quarantined or available; uploading/rejected/deleting/deleted conflicts. Snapshotting a quarantined attachment does not authorize download: download requires available state.",
+        "description": "Only the authenticated customer's own requests. Staff persona is rejected with 403; foreign or mismatched resources return 404. Email verification is not required. Profile contact data and ownership are resolved server-side. Body empty. If-Match and Idempotency-Key required. Key is 16–128 characters from A–Z/a–z/0–9/_.:-, retained 72 hours and scoped to actor+intake.submit. Exact replay uses the original If-Match and returns the same 201 receipt/ETag/Location even after version changes; reusing key with different request or If-Match returns 409. Missing/invalid key is 422 error.fields.idempotency_key. Initial submit creates state submitted/reference; amendments preserve request state. A document is optional. An attached document must be finalized quarantined or available; uploading/rejected/deleting/deleted conflicts. Snapshotting a quarantined attachment does not authorize download: download requires available state.",
         "security": [
           {
             "SessionCookie": []
@@ -27868,11 +28257,12 @@
                 "business_analyst",
                 "sales",
                 "reviewer",
-                "support"
+                "support",
+                "portfolio_editor"
               ]
             },
             "minItems": 1,
-            "maxItems": 7,
+            "maxItems": 8,
             "uniqueItems": true
           },
           "enabled": {
@@ -27931,12 +28321,13 @@
             ]
           },
           "email_verified": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Actual proof of email ownership. May remain false while an active customer signs in, submits own intake, uploads own intake documents, or uses permitted AI. Guest-request claiming still requires verified ownership."
           },
           "roles": {
             "type": "array",
             "uniqueItems": true,
-            "maxItems": 7,
+            "maxItems": 8,
             "items": {
               "enum": [
                 "super_admin",
@@ -27946,7 +28337,8 @@
                 "sales",
                 "reviewer",
                 "support",
-                "customer"
+                "customer",
+                "portfolio_editor"
               ]
             }
           },
@@ -28102,10 +28494,11 @@
                 "business_analyst",
                 "sales",
                 "reviewer",
-                "support"
+                "support",
+                "portfolio_editor"
               ]
             },
-            "maxItems": 7,
+            "maxItems": 8,
             "uniqueItems": true
           }
         },
@@ -28317,7 +28710,7 @@
             "properties": {
               "message": {
                 "type": "string",
-                "const": "If registration is available, verification instructions will be sent."
+                "const": "Registration request received. You can sign in with your credentials."
               }
             },
             "required": [
@@ -35667,10 +36060,11 @@
                 "business_analyst",
                 "sales",
                 "reviewer",
-                "support"
+                "support",
+                "portfolio_editor"
               ]
             },
-            "maxItems": 7,
+            "maxItems": 8,
             "uniqueItems": true
           },
           "created_at": {
@@ -35852,10 +36246,11 @@
                     "business_analyst",
                     "sales",
                     "reviewer",
-                    "support"
+                    "support",
+                    "portfolio_editor"
                   ]
                 },
-                "maxItems": 7,
+                "maxItems": 8,
                 "uniqueItems": true,
                 "minItems": 0
               },
@@ -35918,10 +36313,11 @@
                 "business_analyst",
                 "sales",
                 "reviewer",
-                "support"
+                "support",
+                "portfolio_editor"
               ]
             },
-            "maxItems": 7,
+            "maxItems": 8,
             "uniqueItems": true,
             "minItems": 0
           }
@@ -35959,10 +36355,11 @@
                 "business_analyst",
                 "sales",
                 "reviewer",
-                "support"
+                "support",
+                "portfolio_editor"
               ]
             },
-            "maxItems": 7,
+            "maxItems": 8,
             "uniqueItems": true,
             "minItems": 1
           },
@@ -36030,10 +36427,11 @@
                 "business_analyst",
                 "sales",
                 "reviewer",
-                "support"
+                "support",
+                "portfolio_editor"
               ]
             },
-            "maxItems": 7,
+            "maxItems": 8,
             "uniqueItems": true,
             "minItems": 1
           },
@@ -36221,10 +36619,11 @@
                 "business_analyst",
                 "sales",
                 "reviewer",
-                "support"
+                "support",
+                "portfolio_editor"
               ]
             },
-            "maxItems": 7,
+            "maxItems": 8,
             "uniqueItems": true,
             "minItems": 1
           }
@@ -36301,10 +36700,11 @@
                     "business_analyst",
                     "sales",
                     "reviewer",
-                    "support"
+                    "support",
+                    "portfolio_editor"
                   ]
                 },
-                "maxItems": 7,
+                "maxItems": 8,
                 "uniqueItems": true,
                 "minItems": 1
               },
@@ -36323,7 +36723,8 @@
                         "business_analyst",
                         "sales",
                         "reviewer",
-                        "support"
+                        "support",
+                        "portfolio_editor"
                       ]
                     },
                     "name": {
@@ -36336,7 +36737,7 @@
                   ]
                 },
                 "minItems": 1,
-                "maxItems": 7
+                "maxItems": 8
               },
               "invited_by": {
                 "type": "object",
@@ -37710,6 +38111,224 @@
               "resolved",
               "spam"
             ]
+          }
+        }
+      },
+      "StaffAccountCreateInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 254
+          },
+          "full_name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 160
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "super_admin",
+                "administrator",
+                "project_manager",
+                "business_analyst",
+                "sales",
+                "reviewer",
+                "support",
+                "portfolio_editor"
+              ]
+            },
+            "maxItems": 8,
+            "uniqueItems": true,
+            "minItems": 1
+          },
+          "username": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 40,
+            "pattern": "^[a-zA-Z][a-zA-Z0-9._-]{2,39}$",
+            "description": "Trimmed and lowercase-normalized. Unique, immutable staff login name. No @."
+          },
+          "password": {
+            "type": "string",
+            "minLength": 12,
+            "maxLength": 128,
+            "writeOnly": true,
+            "description": "Must contain lowercase and uppercase letters and a number. Never returned, logged or emailed."
+          },
+          "password_confirmation": {
+            "type": "string",
+            "minLength": 12,
+            "maxLength": 128,
+            "writeOnly": true,
+            "description": "Must match password."
+          }
+        },
+        "required": [
+          "email",
+          "full_name",
+          "roles",
+          "username",
+          "password",
+          "password_confirmation"
+        ]
+      },
+      "StaffAccountRecord": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "username",
+          "full_name",
+          "email"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "username": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9._-]{2,39}$"
+          },
+          "full_name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 160
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        }
+      },
+      "StaffAccountResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/StaffAccountRecord"
+          }
+        }
+      },
+      "StaffAccountErrorEnvelope": {
+        "type": "object",
+        "required": [
+          "error",
+          "request_id"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "error": {
+            "type": "object",
+            "required": [
+              "code",
+              "message"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string",
+                "enum": [
+                  "MALFORMED_REQUEST",
+                  "UNAUTHENTICATED",
+                  "FORBIDDEN",
+                  "NOT_FOUND",
+                  "METHOD_NOT_ALLOWED",
+                  "CONFLICT",
+                  "STALE_VERSION",
+                  "REQUEST_TOO_LARGE",
+                  "UNSUPPORTED_MEDIA_TYPE",
+                  "VALIDATION_FAILED",
+                  "PRECONDITION_REQUIRED",
+                  "RATE_LIMITED",
+                  "INTERNAL_ERROR",
+                  "SERVICE_UNAVAILABLE"
+                ]
+              },
+              "message": {
+                "type": "string"
+              },
+              "fields": {
+                "description": "Only present for validation errors; safe field names and fixed messages.",
+                "type": "object",
+                "maxProperties": 100,
+                "propertyNames": {
+                  "pattern": "^[a-zA-Z_][a-zA-Z0-9_.]{0,127}$"
+                },
+                "additionalProperties": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 1,
+                  "items": {
+                    "const": "This field is invalid."
+                  }
+                }
+              },
+              "reason": {
+                "type": "string",
+                "enum": [
+                  "LAST_ENABLED_SUPER_ADMIN",
+                  "ROLE_AUTHORITY_EXCEEDED",
+                  "SECURITY_ROLE_RESTRICTED",
+                  "STAFF_CUSTOMER_ROLE_MIX",
+                  "PASSWORD_CONFIRMATION_REQUIRED",
+                  "EMAIL_ALREADY_STAFF",
+                  "EMAIL_ALREADY_CUSTOMER",
+                  "INVITATION_ALREADY_PENDING",
+                  "IDEMPOTENCY_KEY_REUSED",
+                  "INVITATION_ALREADY_ACCEPTED",
+                  "INVITATION_ALREADY_REVOKED",
+                  "INVITATION_EXPIRED",
+                  "INVITATION_RESEND_LIMIT",
+                  "INVITATION_UNAVAILABLE",
+                  "INVITATION_SIGN_OUT_REQUIRED",
+                  "NOT_FOUND",
+                  "STALE_VERSION",
+                  "PRECONDITION_REQUIRED",
+                  "USERNAME_UNAVAILABLE",
+                  "ACCOUNT_UNAVAILABLE"
+                ]
+              },
+              "resource_id": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          }
+        }
+      },
+      "UsernameLoginInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "username",
+          "password"
+        ],
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 40,
+            "pattern": "^[a-zA-Z][a-zA-Z0-9._-]{2,39}$",
+            "description": "Trimmed and lowercase-normalized. Unique, immutable staff login name. No @."
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 128,
+            "writeOnly": true
           }
         }
       }

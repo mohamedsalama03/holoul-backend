@@ -87,9 +87,6 @@ final readonly class DocumentApi
                 $view = $this->attachments->remove($record, $actor, $id, $request->header('If-Match'), $requestId);
             } elseif ($operation === 'retry') {
                 $this->intake->policy->owner($actor, $record);
-                if (! $actor->verifiedEmail) {
-                    throw new AuthorizationException;
-                }
                 VersionPrecondition::require($request->header('If-Match'), $record->id, $record->lock_version);
                 $this->attachments->readable($record, $actor, $id, false);
                 $this->charge($actor, 'retry');

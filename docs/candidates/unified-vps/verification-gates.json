@@ -1,0 +1,147 @@
+{
+  "results": [
+    {
+      "gate": "full-quality",
+      "exit_code": 1,
+      "elapsed_seconds": 3814.09,
+      "log_sha256": "38f023ff065c9c4531f8dd8614c73f248a7219a330083242227dd88163d7d088",
+      "private_log": "/home/mohamed/.local/share/holoul-freezes/unified-20261003T183220Z/full-quality.log"
+    },
+    {
+      "gate": "architecture",
+      "exit_code": 0,
+      "elapsed_seconds": 2.15,
+      "log_sha256": "d14e55fc14c9b224f002edec9349a4a457d4a7e955ebccd768227189fd426193",
+      "private_log": "/home/mohamed/.local/share/holoul-freezes/unified-20261003T183220Z/architecture.log"
+    },
+    {
+      "gate": "all-upgrades-final",
+      "exit_code": 0,
+      "elapsed_seconds": 202.01,
+      "log_sha256": "205d48113cc86000cea327ccfc2bfa3f1997478092c124c71ab1bf0b9b01ee9a",
+      "private_log": "/home/mohamed/.local/share/holoul-freezes/unified-20261003T183220Z/all-upgrades-final.log"
+    },
+    {
+      "gate": "final-focused",
+      "exit_code": 1,
+      "elapsed_seconds": 340.77,
+      "log_sha256": "1d653fcdc8295e1bab01c51b6d3fa0dd67d667531d2e517f592320f5936beeb0",
+      "private_log": "/home/mohamed/.local/share/holoul-freezes/unified-20261003T183220Z/final-focused.log"
+    },
+    {
+      "gate": "intake-authority-final",
+      "exit_code": 0,
+      "elapsed_seconds": 42.63,
+      "log_sha256": "dd7d7153dd91ac7e3d012799f10dc9615955d673a7dd13ac26c7628446f2cb85",
+      "private_log": "/home/mohamed/.local/share/holoul-freezes/unified-20261003T183220Z/intake-authority-final.log"
+    },
+    {
+      "gate": "contract-generator",
+      "exit_code": 0,
+      "elapsed_seconds": 1.34,
+      "log_sha256": "8d7754035d8d2bd554f2cb39c5762cbbed50c07daf0f11f39a3ef205ede6ce2a",
+      "private_log": "/home/mohamed/.local/share/holoul-freezes/unified-20261003T183220Z/contract-generator.log"
+    },
+    {
+      "gate": "contract-validation",
+      "exit_code": 0,
+      "elapsed_seconds": 8.26,
+      "log_sha256": "0b4ce04cc5468e00ff92e35fe4944ae787b403a95f41d4a67a6e64a7d38f32d0",
+      "private_log": "/home/mohamed/.local/share/holoul-freezes/unified-20261003T183220Z/contract-validation.log"
+    },
+    {
+      "gate": "contract-validation-final",
+      "exit_code": 0,
+      "elapsed_seconds": 6.08,
+      "log_sha256": "531baacb960e96b47a59b06d6ac90431a85d4f89a3cf11b5453af0167ddeae62",
+      "private_log": "/home/mohamed/.local/share/holoul-freezes/unified-20261003T183220Z/contract-validation-final.log"
+    },
+    {
+      "gate": "contract-validator-tests-final",
+      "exit_code": 0,
+      "elapsed_seconds": 63.01,
+      "log_sha256": "152999b7637aa45d8b5e236abdea82c6b8be44db98589e3ce5dc39c1312ecd5f",
+      "private_log": "/home/mohamed/.local/share/holoul-freezes/unified-20261003T183220Z/contract-validator-tests-final.log"
+    },
+    {
+      "gate": "final-pint",
+      "exit_code": 0,
+      "elapsed_seconds": 13.79,
+      "log_sha256": "ee4fadc252732c1a8af521cea7a384b93160f623c619731937a971d5c00690f1",
+      "private_log": "/home/mohamed/.local/share/holoul-freezes/unified-20261003T183220Z/final-pint.log"
+    },
+    {
+      "gate": "source-vulnerabilities",
+      "exit_code": 0,
+      "elapsed_seconds": 303.48,
+      "log_sha256": "88015a60f26fd3ba1f1ca5b5bd832c320f6389c1736a737f91b40b521e936fc0",
+      "private_log": "/home/mohamed/.local/share/holoul-freezes/unified-20261003T183220Z/source-vulnerabilities.log"
+    },
+    {
+      "gate": "image-vulnerabilities",
+      "exit_code": 0,
+      "elapsed_seconds": 6.62,
+      "log_sha256": "67419f0de9c2370133ac7cf9b3b84be3a2a7ba07909ca814078b9a5566065819",
+      "private_log": "/home/mohamed/.local/share/holoul-freezes/unified-20261003T183220Z/image-vulnerabilities.log"
+    },
+    {
+      "gate": "infrastructure-vulnerabilities",
+      "exit_code": 1,
+      "elapsed_seconds": 101.23,
+      "log_sha256": "8382d67e84a350851c2966fe26e171a503b15d7417ede9b178388553b81c8038",
+      "private_log": "/home/mohamed/.local/share/holoul-freezes/unified-20261003T183220Z/infrastructure-vulnerabilities.log"
+    },
+    {
+      "gate": "build-runtime-final",
+      "exit_code": 0,
+      "elapsed_seconds": 28.72,
+      "log_sha256": "e20a61a6d8f9ada4df1bb7e573b5028ed2e54d0ed3cad2781361c130698f9587",
+      "private_log": "/home/mohamed/.local/share/holoul-freezes/unified-20261003T183220Z/build-runtime-final.log"
+    },
+    {
+      "gate": "document-parser",
+      "exit_code": 0,
+      "elapsed_seconds": 4.36,
+      "log_sha256": "bfc18bf0a984470a59d6251d8d52f3ac6deb09f6c7a25cf47dce4c81bcf7489c",
+      "private_log": "/home/mohamed/.local/share/holoul-freezes/unified-20261003T183220Z/document-parser.log"
+    },
+    {
+      "gate": "portfolio-processor-final",
+      "exit_code": 0,
+      "elapsed_seconds": 2.66,
+      "log_sha256": "6b4ee481da8426e441979caedf041aa0bbb1150b267d8486ba3b956ccdd9e2f0",
+      "private_log": "/home/mohamed/.local/share/holoul-freezes/unified-20261003T183220Z/portfolio-processor-final.log"
+    },
+    {
+      "gate": "backup-restore",
+      "exit_code": 1,
+      "elapsed_seconds": 295.17,
+      "log_sha256": "d3cac8215c3fbcdce044a135e2911792951a20de845d494e61bde27942b815ed",
+      "private_log": "/home/mohamed/.local/share/holoul-freezes/unified-20261003T183220Z/backup-restore.log"
+    },
+    {
+      "gate": "runtime-ai-disabled",
+      "exit_code": 0,
+      "elapsed_seconds": 4.82,
+      "log_sha256": "8fbfb762cf8fd9c32c461359eeabdc650ec0a0d525bb442832bb703841ca6bb8",
+      "private_log": "/home/mohamed/.local/share/holoul-freezes/unified-20261003T183220Z/runtime-ai-disabled.log"
+    },
+    {
+      "gate": "isolated-storage",
+      "exit_code": 0,
+      "elapsed_seconds": 11.16,
+      "log_sha256": "b67fc0d0ecb87b1cbc94404e2ac04b13843052052fdb1ab6dc50db8f73a03c49",
+      "private_log": "/home/mohamed/.local/share/holoul-freezes/unified-20261003T183220Z/isolated-storage.log"
+    },
+    {
+      "gate": "final-secret-scan",
+      "exit_code": 0,
+      "elapsed_seconds": 2.01,
+      "log_sha256": "14ec3a4638a1ed8bb115ca128c33640906cef9434dcd814cac614d9bfc8d32a5",
+      "private_log": "/home/mohamed/.local/share/holoul-freezes/unified-20261003T183220Z/final-secret-scan.log"
+    }
+  ],
+  "note": "Exit codes are individual attempts, not overall readiness. Infrastructure scan collection exit 0 still found four HIGH items. The original full gate and intermediate corrective failure remain preserved. See phpunit-summary and security-scan-summary.",
+  "raw_logs_are_private_not_distributable": true,
+  "classification": "UNIFIED BACKEND VPS CANDIDATE BLOCKED"
+}

@@ -11,7 +11,7 @@ use RuntimeException;
 
 final class RecoveryMailTemplates
 {
-    public function render(string $mailId, RecoveryMailPayload $payload): RecoveryMessage
+    public function render(string $mailId, RecoveryMailPayload $payload, bool $staffAccount = false): RecoveryMessage
     {
         $origin = rtrim(Config::string('app.url'), '/');
         $host = parse_url($origin, PHP_URL_HOST);
@@ -26,6 +26,9 @@ final class RecoveryMailTemplates
         $verification = $payload->purpose === RecoveryPurpose::EmailVerification;
         $subject = $verification ? 'Verify your HOLOUL email address' : 'Reset your HOLOUL password';
         $path = $verification ? '/verify-email' : '/reset-password';
+        if ($staffAccount) {
+            $path = '/admin'.$path;
+        }
         // The SPA reads the fragment and POSTs the token. It never reaches the
         // HTTP request target, ingress access log, or an ordinary referrer.
         $link = $origin.$path.'#token='.$payload->token;

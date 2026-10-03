@@ -32,7 +32,7 @@ final class IdentityHttpTest extends TestCase
         $this->initializeBrowser();
     }
 
-    public function test_registration_normalizes_input_and_commits_profile_role_audit_and_encrypted_mail(): void
+    public function test_registration_commits_profile_role_and_audit_without_verification_mail_or_fabricated_ownership(): void
     {
         $input = $this->registration();
         $this->browser('POST', '/api/v1/auth/register', $input)->assertAccepted();
@@ -45,7 +45,8 @@ final class IdentityHttpTest extends TestCase
         self::assertSame('customer', $user->kind);
         $this->assertDatabaseHas('customers', ['user_id' => $user->id, 'phone_e164' => '+12025550123']);
         $this->assertDatabaseCount('user_roles', 1);
-        $this->assertDatabaseCount('identity_recovery_mail', 1);
+        $this->assertDatabaseCount('identity_recovery_mail', 0);
+        $this->assertDatabaseCount('identity_recovery_tokens', 0);
         $this->assertDatabaseHas('audit_events', ['event_type' => 'identity.registered', 'subject_id' => $user->id]);
         $this->browser('GET', '/api/v1/identity/me')->assertUnauthorized();
     }

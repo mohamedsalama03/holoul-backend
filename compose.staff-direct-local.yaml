@@ -1,0 +1,23 @@
+# Local staff/portfolio candidate; apply migration 36 with migrate before the switch.
+# Uses existing holoul volumes and ingress. No initialization or data reset.
+x-staff-direct-runtime: &staff-direct-runtime
+  image: holoul-app:portfolio-editor-runtime
+services:
+  app:
+    <<: *staff-direct-runtime
+    depends_on:
+      portfolio-processor: {condition: service_healthy}
+  queue:
+    <<: *staff-direct-runtime
+  scheduler:
+    <<: *staff-direct-runtime
+  document-queue:
+    <<: *staff-direct-runtime
+    depends_on:
+      portfolio-processor: {condition: service_healthy}
+  ai-queue:
+    <<: *staff-direct-runtime
+  notification-queue:
+    <<: *staff-direct-runtime
+  migrate:
+    <<: *staff-direct-runtime

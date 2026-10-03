@@ -71,7 +71,8 @@
                 "business_analyst",
                 "sales",
                 "reviewer",
-                "support"
+                "support",
+                "portfolio_editor"
               ]
             },
             "description": ""
@@ -3095,10 +3096,11 @@
                 "business_analyst",
                 "sales",
                 "reviewer",
-                "support"
+                "support",
+                "portfolio_editor"
               ]
             },
-            "maxItems": 7,
+            "maxItems": 8,
             "uniqueItems": true
           },
           "created_at": {
@@ -3280,10 +3282,11 @@
                     "business_analyst",
                     "sales",
                     "reviewer",
-                    "support"
+                    "support",
+                    "portfolio_editor"
                   ]
                 },
-                "maxItems": 7,
+                "maxItems": 8,
                 "uniqueItems": true,
                 "minItems": 0
               },
@@ -3346,10 +3349,11 @@
                 "business_analyst",
                 "sales",
                 "reviewer",
-                "support"
+                "support",
+                "portfolio_editor"
               ]
             },
-            "maxItems": 7,
+            "maxItems": 8,
             "uniqueItems": true,
             "minItems": 0
           }
@@ -3387,10 +3391,11 @@
                 "business_analyst",
                 "sales",
                 "reviewer",
-                "support"
+                "support",
+                "portfolio_editor"
               ]
             },
-            "maxItems": 7,
+            "maxItems": 8,
             "uniqueItems": true,
             "minItems": 1
           },
@@ -3458,10 +3463,11 @@
                 "business_analyst",
                 "sales",
                 "reviewer",
-                "support"
+                "support",
+                "portfolio_editor"
               ]
             },
-            "maxItems": 7,
+            "maxItems": 8,
             "uniqueItems": true,
             "minItems": 1
           },
@@ -3649,10 +3655,11 @@
                 "business_analyst",
                 "sales",
                 "reviewer",
-                "support"
+                "support",
+                "portfolio_editor"
               ]
             },
-            "maxItems": 7,
+            "maxItems": 8,
             "uniqueItems": true,
             "minItems": 1
           }
@@ -3729,10 +3736,11 @@
                     "business_analyst",
                     "sales",
                     "reviewer",
-                    "support"
+                    "support",
+                    "portfolio_editor"
                   ]
                 },
-                "maxItems": 7,
+                "maxItems": 8,
                 "uniqueItems": true,
                 "minItems": 1
               },
@@ -3751,7 +3759,8 @@
                         "business_analyst",
                         "sales",
                         "reviewer",
-                        "support"
+                        "support",
+                        "portfolio_editor"
                       ]
                     },
                     "name": {
@@ -3764,7 +3773,7 @@
                   ]
                 },
                 "minItems": 1,
-                "maxItems": 7
+                "maxItems": 8
               },
               "invited_by": {
                 "type": "object",

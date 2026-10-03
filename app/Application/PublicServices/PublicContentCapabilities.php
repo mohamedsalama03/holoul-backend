@@ -19,7 +19,7 @@ final readonly class PublicContentCapabilities
     public function read(Request $request): JsonResponse
     {
         return $this->identity->handle($request, function (AuthorizedIdentity $identity) use ($request): JsonResponse {
-            if ($identity->kind !== 'staff' || ! $identity->verifiedEmail || $request->session()->get('identity.mfa_verified') !== true) {
+            if ($identity->kind !== 'staff' || ! $identity->emailPrerequisiteSatisfied || $request->session()->get('identity.mfa_verified') !== true) {
                 throw new AuthorizationException;
             }
             if ($request->all() !== []) {

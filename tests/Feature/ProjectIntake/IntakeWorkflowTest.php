@@ -67,12 +67,13 @@ final class IntakeWorkflowTest extends TestCase
         self::assertStringNotContainsString($revision->project_description, $audit);
     }
 
-    public function test_unverified_account_cannot_submit_even_if_a_stale_actor_claims_verification(): void
+    public function test_disabled_account_cannot_submit_even_if_a_stale_actor_claims_verification(): void
     {
         $customer = $this->intakeCustomer(false);
         $actor = $this->intakeActor($customer);
         $record = app(ManageDraft::class)->create($actor, $this->intakeInput(), $this->requestId());
         $staleVerified = new IntakeActor($actor->id, $actor->customerId, true, $actor->permissions);
+        $customer->forceFill(['enabled' => false])->save();
         foreach ([$actor, $staleVerified] as $candidate) {
             $this->assertForbidden(fn () => app(SubmitRequest::class)->handle($candidate, $record->id, $this->etag($record), $this->key(), $this->requestId()));
         }

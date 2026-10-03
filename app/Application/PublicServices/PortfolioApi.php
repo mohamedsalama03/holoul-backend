@@ -114,7 +114,7 @@ final readonly class PortfolioApi
 
     private function actor(AuthorizedIdentity $identity, PortfolioRequest $request): PortfolioActor
     {
-        if ($identity->kind !== 'staff' || ! $identity->verifiedEmail || $request->session()->get('identity.mfa_verified') !== true) {
+        if ($identity->kind !== 'staff' || ! $identity->emailPrerequisiteSatisfied || $request->session()->get('identity.mfa_verified') !== true) {
             throw new AuthorizationException;
         }
 

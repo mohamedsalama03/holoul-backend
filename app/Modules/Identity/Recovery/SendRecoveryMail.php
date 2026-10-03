@@ -51,7 +51,8 @@ final readonly class SendRecoveryMail implements OperationHandler
         }
 
         try {
-            $this->transport->send($this->templates->render($mail->id, $payload));
+            $staffAccount = User::query()->whereKey($mail->user_id)->whereNotNull('username')->exists();
+            $this->transport->send($this->templates->render($mail->id, $payload, $staffAccount));
         } catch (Throwable) {
             DB::transaction(function () use ($operation, $mail): void {
                 $this->lockFence($operation);

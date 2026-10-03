@@ -55,7 +55,31 @@ final class PortfolioTest extends TestCase
         $this->operatorId = $this->publicContentOperator(Role::Administrator)->id;
     }
 
+    public function test_portfolio_editor_can_manage_images_and_publish_but_cannot_access_other_staff_domains(): void
+    {
+        $this->browser('POST', '/api/v1/auth/logout')->assertOk();
+        $this->initializeBrowser();
+        $this->operatorId = $this->publicContentOperator(Role::PortfolioEditor)->id;
+        $caps = $this->browser('GET', '/api/v1/identity/me')->assertOk()->json('data.capabilities');
+        self::assertContains('admin.dashboard.view', $caps);
+        foreach (['reports.view', 'audit.investigate', 'admin.customers.view', 'categories.manage', 'projects.view', 'project_requests.view'] as $cap) {
+            self::assertNotContains($cap, $caps);
+        }
+        foreach (['/api/v1/identity/staff', '/api/v1/admin/contact-messages', '/api/v1/admin/customers', '/api/v1/admin/reports/dashboard', '/api/v1/admin/audit-events'] as $url) {
+            $this->browser('GET', $url)->assertForbidden();
+        }
+        self::assertSame([], $this->browser('GET', '/api/v1/identity/capabilities')->assertOk()->json('data.assignable_roles'));
+        // Reuse the full immutable-publication workflow: create/edit, reserve/upload/process,
+        // publish, re-publish, unpublish and inspect exactly what visitors can see.
+        $this->publicationLifecycle();
+    }
+
     public function test_publications_are_immutable_and_republication_never_revives_withdrawn_image_ids(): void
+    {
+        $this->publicationLifecycle();
+    }
+
+    private function publicationLifecycle(): void
     {
         $project = $this->project();
         $id = $project['id'];

@@ -44,7 +44,7 @@ final readonly class AISources
 
     public function access(AuthorizedIdentity $identity, string $parentType, string $parentId): ProjectRequest|Project
     {
-        if (! $identity->verifiedEmail || ! $identity->allows($identity->kind === 'customer' ? 'ai.self.use' : 'ai.use')) {
+        if (! $identity->emailPrerequisiteSatisfied || ! $identity->allows($identity->kind === 'customer' ? 'ai.self.use' : 'ai.use')) {
             throw new AuthorizationException;
         }
         $actor = $this->intakeActor($identity);

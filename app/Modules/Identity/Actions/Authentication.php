@@ -22,10 +22,10 @@ final readonly class Authentication
     public function __construct(private SessionSecurity $sessions, private RecordAuditEvent $audit) {}
 
     /** @return array{next_step: string} */
-    public function login(Request $request, string $email, #[SensitiveParameter] string $password): array
+    public function login(Request $request, string $email, #[SensitiveParameter] string $password, bool $byUsername = false): array
     {
-        $user = DB::transaction(function () use ($email, $password, $request): ?User {
-            $user = User::query()->where('email', $email)->lockForUpdate()->first();
+        $user = DB::transaction(function () use ($email, $password, $request, $byUsername): ?User {
+            $user = User::query()->where($byUsername ? 'username' : 'email', $email)->lockForUpdate()->first();
             if ($user === null) {
                 // Same expensive password operation for a missing account.
                 Hash::make($password);

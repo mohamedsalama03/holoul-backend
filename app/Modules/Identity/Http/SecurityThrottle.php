@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Identity\Http;
 
+use App\Modules\Identity\Models\User;
 use App\Modules\Identity\Security\AuthLimiter;
 use App\Modules\Identity\Security\IdentityInput;
 use Closure;
@@ -19,6 +20,13 @@ final class SecurityThrottle
     {
         $email = $request->input('email');
         $account = is_string($email) ? IdentityInput::email($email) : 'invalid';
+        if ($purpose === 'login' && $request->is('api/v1/auth/username-login')) {
+            $username = $request->input('username');
+            $username = is_string($username) ? strtolower(trim($username)) : '';
+            // Both login aliases consume the existing email account bucket.
+            $user = strlen($username) <= 40 ? User::query()->where('username', $username)->first() : null;
+            $account = $user->email ?? 'username:'.$username;
+        }
         $pending = $request->session()->get('identity.pending_user_id');
         $principal = $request->user()?->getAuthIdentifier();
         $identity = is_string($principal) ? $principal : (is_string($pending) ? $pending : $account);

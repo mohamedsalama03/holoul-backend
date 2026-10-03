@@ -13,6 +13,7 @@ enum Role: string
     case Sales = 'sales';
     case Reviewer = 'reviewer';
     case Support = 'support';
+    case PortfolioEditor = 'portfolio_editor';
     case Customer = 'customer';
 
     public function isSecurityRole(): bool

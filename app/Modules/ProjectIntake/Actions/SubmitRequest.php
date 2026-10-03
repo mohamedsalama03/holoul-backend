@@ -30,9 +30,6 @@ final readonly class SubmitRequest
         return DB::transaction(function () use ($actor, $id, $etag, $key, $requestId): SubmissionKey {
             $record = $this->store->find($actor, $id, true);
             $this->store->policy->owner($actor, $record);
-            if (! $actor->verifiedEmail) {
-                throw new AuthorizationException;
-            }
             $hash = hash('sha256', json_encode(['operation' => 'intake.submit', 'request_id' => $id, 'if_match' => $etag, 'body' => (object) []], JSON_THROW_ON_ERROR));
             $keyHash = hash('sha256', $key);
             SubmissionKey::query()->where('actor_id', $actor->id)->where('operation', 'intake.submit')->where('key_hash', $keyHash)->where('expires_at', '<=', now())->delete();
@@ -57,7 +54,7 @@ final readonly class SubmitRequest
                 throw new HttpException(422);
             }
             $contact = $this->contacts->currentForIdentity($actor->id, true);
-            if ($contact === null || $contact->customerId !== $record->customer_id || ! $contact->verifiedEmail) {
+            if ($contact === null || $contact->customerId !== $record->customer_id) {
                 throw new AuthorizationException;
             }
             $initial = $record->latest_revision_number === 0;

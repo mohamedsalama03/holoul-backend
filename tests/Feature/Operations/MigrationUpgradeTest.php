@@ -11,6 +11,7 @@ use App\Modules\AI\Actions\AIDecisionReceipts;
 use App\Modules\AI\Actions\AIRuns;
 use App\Modules\Documents\Models\Document;
 use App\Modules\Identity\Actions\ReadActiveIdentity;
+use App\Modules\Identity\Contracts\IdentityReader;
 use App\Modules\Notifications\Actions\NotificationAccess;
 use App\Modules\Notifications\Contracts\EmailProvider;
 use App\Modules\Notifications\Models\NotificationDelivery;
@@ -24,6 +25,7 @@ use Illuminate\Support\Str;
 use PDOException;
 use Tests\Support\DocumentFixtures;
 use Tests\Support\NotificationProviderDouble;
+use Tests\Support\PreUsernameIdentityReader;
 use Tests\Support\ProjectFixtures;
 use Tests\TestCase;
 
@@ -41,6 +43,7 @@ final class MigrationUpgradeTest extends TestCase
             self::assertSame($hash, hash_file('sha256', base_path($file)), $file);
         }
         $this->artisan('migrate:fresh', ['--path' => array_keys($hashes), '--force' => true])->assertExitCode(0);
+        $this->app->instance(IdentityReader::class, new PreUsernameIdentityReader);
         try {
             self::assertTrue(Schema::hasTable('ai_runs'));
             self::assertTrue(Schema::hasTable('notifications'));
@@ -174,6 +177,7 @@ final class MigrationUpgradeTest extends TestCase
             $this->assertDatabaseHas('notifications', ['recipient_id' => $fixture['customer']->id,
                 'resource_id' => $fixture['project']->id, 'type' => 'project.update_published']);
         } finally {
+            $this->app->forgetInstance(IdentityReader::class);
             $this->artisan('migrate:fresh', ['--force' => true])->assertExitCode(0);
         }
     }

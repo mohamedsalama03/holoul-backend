@@ -21,6 +21,25 @@ final class StaffOnboardingConcurrencyTest extends TestCase
 {
     use CommercialDatabase;
 
+    public function test_direct_create_replay_is_deduplicated_under_postgresql_contention(): void
+    {
+        $actor = $this->staff(Role::SuperAdmin);
+        $input = ['mode' => 'create', 'actor' => $actor->id, 'email' => 'direct-race@example.test', 'key' => (string) Str::uuid7()];
+        self::assertSame([200, 200], $this->race([$input, $input]));
+        $this->assertDatabaseCount('identity_staff_creation_keys', 1);
+        $this->assertDatabaseCount('identity_recovery_mail', 0);
+        self::assertSame(1, User::query()->where('username', 'race.staff')->count());
+    }
+
+    public function test_competing_direct_creations_cannot_claim_the_same_username(): void
+    {
+        $actor = $this->staff(Role::SuperAdmin);
+        $input = ['mode' => 'create', 'actor' => $actor->id, 'email' => 'direct-race@example.test', 'key' => (string) Str::uuid7()];
+        self::assertSame([200, 409], $this->race([$input, [...$input, 'email' => 'another-race@example.test', 'key' => (string) Str::uuid7()]]));
+        $this->assertDatabaseCount('identity_staff_creation_keys', 1);
+        $this->assertDatabaseCount('identity_recovery_mail', 0);
+    }
+
     public function test_duplicate_issue_records_one_invitation_and_one_durable_mail_intent(): void
     {
         $actor = $this->staff(Role::SuperAdmin);

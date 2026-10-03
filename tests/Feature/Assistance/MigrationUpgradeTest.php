@@ -7,6 +7,7 @@ namespace Tests\Feature\Assistance;
 use App\Infrastructure\Async\OperationRunner;
 use App\Infrastructure\Http\VersionPrecondition;
 use App\Modules\Documents\Models\Document;
+use App\Modules\Identity\Contracts\IdentityReader;
 use App\Modules\ProjectIntake\Events\RequestChanged;
 use App\Modules\Projects\Actions\ProjectDocuments;
 use App\Modules\Projects\Actions\ProjectStore;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use PDOException;
 use Tests\Support\DocumentFixtures;
+use Tests\Support\PreUsernameIdentityReader;
 use Tests\Support\ProjectFixtures;
 use Tests\TestCase;
 
@@ -35,6 +37,10 @@ final class MigrationUpgradeTest extends TestCase
             self::assertSame($hash, hash_file('sha256', base_path($file)), $file);
         }
         $this->artisan('migrate:fresh', ['--path' => array_keys($hashes), '--force' => true])->assertExitCode(0);
+        // The current runtime's username projection is migration 35. This exact
+        // historical 24-to-29 gate keeps its original schema and real DB reads.
+        $reader = app(IdentityReader::class);
+        $this->app->instance(IdentityReader::class, new PreUsernameIdentityReader);
         try {
             self::assertFalse(Schema::hasTable('ai_runs'));
             self::assertFalse(Schema::hasTable('notifications'));
@@ -114,6 +120,7 @@ final class MigrationUpgradeTest extends TestCase
             $this->assertDatabaseHas('notifications', ['recipient_id' => $fixture['customer']->id,
                 'resource_id' => $fixture['project']->id, 'type' => 'project.update_published']);
         } finally {
+            $this->app->instance(IdentityReader::class, $reader);
             $this->artisan('migrate:fresh', ['--force' => true])->assertExitCode(0);
         }
     }

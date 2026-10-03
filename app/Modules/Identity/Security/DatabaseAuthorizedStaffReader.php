@@ -36,7 +36,7 @@ final readonly class DatabaseAuthorizedStaffReader implements AuthorizedStaffRea
         }
         sort($permissions);
 
-        return new AuthorizedIdentity($user->id, 'staff', $user->email_verified_at !== null, $permissions);
+        return new AuthorizedIdentity($user->id, 'staff', $user->email_verified_at !== null, $permissions, $user->username !== null);
     }
 
     public function forIntakeAssignment(string $id): ?AuthorizedIdentity
@@ -57,6 +57,6 @@ final readonly class DatabaseAuthorizedStaffReader implements AuthorizedStaffRea
         }
         sort($permissions);
 
-        return new AuthorizedIdentity($user->id, $user->kind, $user->email_verified_at !== null, $permissions);
+        return new AuthorizedIdentity($user->id, $user->kind, $user->email_verified_at !== null, $permissions, $user->username !== null);
     }
 }

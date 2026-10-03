@@ -2,6 +2,9 @@
 # No external volumes, shared service names or production credentials are accepted.
 services:
   app:
+    # Synthetic drill helpers are mounted read-only, not shipped in the image.
+    volumes:
+      - ./scripts:/var/www/html/scripts:ro
     environment:
       HOLOUL_RESTORE_DRILL: ${HOLOUL_RESTORE_DRILL:?isolated restore driver required}
   inspector:

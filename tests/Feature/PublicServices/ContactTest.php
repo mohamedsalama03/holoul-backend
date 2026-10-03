@@ -156,7 +156,10 @@ final class ContactTest extends TestCase
     {
         $this->publicContentOperator($role);
         $caps = $this->browser('GET', '/api/v1/admin/public-content/capabilities')->assertOk();
-        foreach (['portfolio_read', 'portfolio_manage', 'portfolio_publish', 'contact_read', 'contact_manage', 'contact_redact'] as $permission) {
+        foreach (['portfolio_read', 'portfolio_manage', 'portfolio_publish'] as $permission) {
+            $caps->assertJsonPath('data.'.$permission, $role === Role::PortfolioEditor);
+        }
+        foreach (['contact_read', 'contact_manage', 'contact_redact'] as $permission) {
             $caps->assertJsonPath('data.'.$permission, false);
         }
         $this->browser('GET', '/api/v1/admin/contact-messages')->assertForbidden();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\ProjectIntake;
 
+use App\Modules\Identity\Contracts\IdentityReader;
 use App\Modules\ProjectIntake\Actions\GuestDrafts;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -11,6 +12,7 @@ use Illuminate\Support\Str;
 use Tests\Support\CommercialDatabase;
 use Tests\Support\DocumentFixtures;
 use Tests\Support\IntakeFixtures;
+use Tests\Support\PreUsernameIdentityReader;
 use Tests\TestCase;
 
 final class GuestIntakeUpgradeTest extends TestCase
@@ -26,6 +28,7 @@ final class GuestIntakeUpgradeTest extends TestCase
             self::assertSame($hash, hash_file('sha256', base_path($file)), $file);
         }
         $this->artisan('migrate:fresh', ['--path' => array_keys($manifest), '--force' => true])->assertExitCode(0);
+        $this->app->instance(IdentityReader::class, new PreUsernameIdentityReader);
         try {
             $this->initializeDocuments();
             $this->quarantined();
@@ -62,6 +65,7 @@ final class GuestIntakeUpgradeTest extends TestCase
             }
             $this->artisan('migrate', ['--path' => [...array_keys($manifest), 'database/migrations/2026_09_26_000000_extend_intake_for_guests.php'], '--force' => true])->assertExitCode(0);
         } finally {
+            $this->app->forgetInstance(IdentityReader::class);
             $this->artisan('migrate:fresh', ['--force' => true])->assertExitCode(0);
         }
     }

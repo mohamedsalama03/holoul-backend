@@ -46,7 +46,8 @@ final readonly class GenerateAI implements OperationHandler
         if ($run->dispatch_fence !== null) {
             return $this->failure($operation, $run->id, 'provider_outcome_unknown', true);
         }
-        if (! Config::boolean('ai.enabled') || Config::string('ai.driver') !== $run->provider
+        if (! AIAvailability::allows($run->purpose, $run->source_type, $run->document_id)
+            || Config::string('ai.driver') !== $run->provider
             || ! in_array($run->provider, Config::array('ai.allowed_providers'), true)
             || ! in_array($run->model, Config::array('ai.allowed_models'), true)) {
             return $this->failure($operation, $run->id, 'provider_unavailable', false);

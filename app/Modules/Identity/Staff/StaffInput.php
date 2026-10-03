@@ -24,7 +24,7 @@ final class StaffInput
     /** @return list<Role> */
     public static function roles(Request $request): array
     {
-        Validator::make($request->all(), ['roles' => ['required', 'array', 'list', 'min:1', 'max:7'],
+        Validator::make($request->all(), ['roles' => ['required', 'array', 'list', 'min:1', 'max:8'],
             'roles.*' => ['required', 'string', 'distinct', Rule::enum(Role::class)]])->validate();
         $value = $request->input('roles');
         if (! is_array($value)) {

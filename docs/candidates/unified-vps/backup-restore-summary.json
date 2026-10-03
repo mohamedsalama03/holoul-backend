@@ -1,0 +1,30 @@
+{
+  "schema": "holoul-b8-restore-drill-v1",
+  "ok": false,
+  "synthetic_only": true,
+  "recorded_at": "2026-10-03T19:03:41.962200Z",
+  "application_image_reference": "holoul-app:unified-vps-candidate",
+  "application_image_id": "sha256:5ecf0a383ec5afb60abfd7c86fbbda33f9747c6cdab33d0a4da86ec78dc2072d",
+  "inspector_image_id": "sha256:004294317ce43fbb1726b72541c4c5c394fdc144e782c2d9e8aace828a452819",
+  "production_provider_restore_certified": false,
+  "pitr_certified": false,
+  "offsite_key_escrow_certified": false,
+  "private_artifact_directory": "artifacts/b8-restore-0c190434725b821275d1b756",
+  "encryption_checks": {
+    "round_trip_bytes": 131328,
+    "negative_cases_rejected": [
+      "changed_ciphertext",
+      "truncated_stream",
+      "trailing_bytes",
+      "bad_header",
+      "wrong_context",
+      "wrong_key"
+    ]
+  },
+  "failed_phase": "isolated_source_startup",
+  "resources_removed": true,
+  "total_duration_ms": 279213,
+  "status": "incomplete",
+  "interrupted_to_prevent_host_disk_exhaustion": true,
+  "complete_database_object_restore_verified": false
+}

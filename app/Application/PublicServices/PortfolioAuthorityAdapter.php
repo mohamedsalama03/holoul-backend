@@ -16,7 +16,7 @@ final readonly class PortfolioAuthorityAdapter implements PortfolioAuthority
     {
         $identity = $this->identities->contact($id, true);
 
-        return $identity !== null && $identity->enabled && $identity->kind === 'staff' && $identity->verifiedEmail
+        return $identity !== null && $identity->enabled && $identity->kind === 'staff' && $identity->emailPrerequisiteSatisfied
             && in_array('portfolio.manage', $this->roles->permissionsFor($this->roles->roles($id)), true);
     }
 }

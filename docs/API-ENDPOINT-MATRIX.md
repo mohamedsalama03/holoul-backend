@@ -129,6 +129,7 @@ Generated from the reviewed OpenAPI source. Permissions never override ownership
 | Request customer registration | `/api/v1/auth/register` | POST | guest, customer, staff | — |
 | Team and invitations | `/api/v1/auth/staff-invitations/accept` | POST | guest | — |
 | Team and invitations | `/api/v1/auth/staff-invitations/lookup` | POST | guest | — |
+| Direct staff sign-in | `/api/v1/auth/username-login` | POST | guest, customer, staff | — |
 | List Active Categories | `/api/v1/categories` | GET | customer, staff | — |
 | List Active Subcategories | `/api/v1/categories/{category}/subcategories` | GET | customer, staff | — |
 | Find the current customer profile | `/api/v1/customers` | GET | customer | — |
@@ -148,6 +149,7 @@ Generated from the reviewed OpenAPI source. Permissions never override ownership
 | List active sessions | `/api/v1/identity/sessions` | GET | customer, staff | — |
 | Revoke other sessions | `/api/v1/identity/sessions/revoke-others` | POST | customer, staff | — |
 | Team and invitations | `/api/v1/identity/staff` | GET | staff | identity.staff.read |
+| Direct staff accounts | `/api/v1/identity/staff` | POST | staff | identity.staff.read, identity.staff.manage |
 | Team and invitations | `/api/v1/identity/staff/invitations` | GET | staff | identity.staff.read |
 | Team and invitations | `/api/v1/identity/staff/invitations` | POST | staff | identity.staff.read, identity.staff.manage |
 | Team and invitations | `/api/v1/identity/staff/invitations/{invitation}/resends` | POST | staff | identity.staff.read, identity.staff.manage |

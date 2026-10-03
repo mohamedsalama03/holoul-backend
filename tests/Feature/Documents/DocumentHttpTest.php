@@ -58,7 +58,7 @@ final class DocumentHttpTest extends TestCase
         });
     }
 
-    public function test_cookie_csrf_verification_parent_preconditions_and_field_allowlist(): void
+    public function test_unverified_owner_can_upload_with_cookie_csrf_parent_preconditions_and_field_allowlist(): void
     {
         $this->browser('POST', '/api/v1/project-requests/'.Str::uuid7().'/documents', $this->input())->assertUnauthorized();
         $user = $this->intakeCustomer(false);
@@ -66,13 +66,12 @@ final class DocumentHttpTest extends TestCase
         $draft = $this->browser('POST', '/api/v1/project-requests', $this->intakeInput())->assertCreated();
         $path = '/api/v1/project-requests/'.$draft->json('data.id').'/documents';
         $headers = ['If-Match' => $draft->headers->get('ETag'), 'Idempotency-Key' => (string) Str::uuid7()];
-        $this->browser('POST', $path, $this->input(), $headers)->assertForbidden();
-        $user->forceFill(['email_verified_at' => now()])->save();
         $this->browser('POST', $path, $this->input(), $headers, false)->assertForbidden();
         $this->browser('POST', $path, [...$this->input(), 'customer_id' => (string) Str::uuid7()], $headers)->assertUnprocessable();
         $this->browser('POST', $path, $this->input(), ['Idempotency-Key' => $headers['Idempotency-Key']])->assertStatus(428);
         $this->assertDatabaseCount('documents', 0);
         $this->browser('POST', $path, $this->input(), $headers)->assertCreated();
+        self::assertNull($user->refresh()->email_verified_at);
     }
 
     public function test_quarantine_duplicate_upload_scan_and_streamed_safe_download(): void

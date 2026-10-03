@@ -1,0 +1,2304 @@
+{
+  "individual_runs": {
+    "holoul-unit-feature.xml": {
+      "totals": {
+        "tests": 1087,
+        "assertions": 14203,
+        "errors": 7,
+        "failures": 8,
+        "skipped": 0,
+        "time": 3492.346395
+      },
+      "suites": [
+        {
+          "class": "Tests\\Unit\\AIOutputSchemaTest",
+          "tests": 1,
+          "assertions": 3,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Unit\\Async\\OperationInputTest",
+          "tests": 7,
+          "assertions": 7,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Unit\\Audit\\SafeAuditMetadataTest",
+          "tests": 17,
+          "assertions": 17,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Unit\\Customers\\InternationalPhoneTest",
+          "tests": 9,
+          "assertions": 10,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Unit\\GeminiAIProviderTest",
+          "tests": 30,
+          "assertions": 152,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Unit\\Http\\ApiErrorTest",
+          "tests": 5,
+          "assertions": 15,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Unit\\MoneyTest",
+          "tests": 34,
+          "assertions": 64,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Unit\\ProductionConfigurationTest",
+          "tests": 48,
+          "assertions": 208,
+          "errors": 0,
+          "failures": 1,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Unit\\ProposalPricingTest",
+          "tests": 19,
+          "assertions": 22,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Unit\\SafeLogProcessorTest",
+          "tests": 3,
+          "assertions": 6,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Unit\\StaffEmailPrerequisiteTest",
+          "tests": 1,
+          "assertions": 42,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Unit\\WrappedConcurrencyErrorsTest",
+          "tests": 1,
+          "assertions": 5,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\AI\\AIConcurrencyTest",
+          "tests": 3,
+          "assertions": 30,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\AI\\AIDomainTest",
+          "tests": 20,
+          "assertions": 180,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\AI\\GeminiDocumentTest",
+          "tests": 6,
+          "assertions": 92,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\AI\\GeminiWorkflowTest",
+          "tests": 5,
+          "assertions": 45,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\AdminIntegrationTest",
+          "tests": 12,
+          "assertions": 323,
+          "errors": 0,
+          "failures": 1,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\ApiContractTest",
+          "tests": 2,
+          "assertions": 1504,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Assistance\\AIApiTest",
+          "tests": 11,
+          "assertions": 236,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Assistance\\AIOwnerBoundaryTest",
+          "tests": 8,
+          "assertions": 118,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Assistance\\BusinessNotificationsTest",
+          "tests": 3,
+          "assertions": 48,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Assistance\\MigrationUpgradeTest",
+          "tests": 1,
+          "assertions": 683,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Async\\DurableOperationsTest",
+          "tests": 17,
+          "assertions": 78,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Audit\\AuditFoundationTest",
+          "tests": 29,
+          "assertions": 50,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Authorization\\AuthorizationConcurrencyTest",
+          "tests": 2,
+          "assertions": 10,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Authorization\\IntakeAuthorityTest",
+          "tests": 20,
+          "assertions": 81,
+          "errors": 0,
+          "failures": 1,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Authorization\\RoleFoundationTest",
+          "tests": 23,
+          "assertions": 49,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Categories\\CurrencyCatalogTest",
+          "tests": 5,
+          "assertions": 10,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Categories\\TaxonomyConcurrencyTest",
+          "tests": 2,
+          "assertions": 14,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Categories\\TaxonomyHttpValidationTest",
+          "tests": 2,
+          "assertions": 93,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Categories\\TaxonomyTest",
+          "tests": 25,
+          "assertions": 71,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Commercial\\CommercialAtomicityTest",
+          "tests": 4,
+          "assertions": 33,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Commercial\\CommercialConcurrencyTest",
+          "tests": 8,
+          "assertions": 117,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Commercial\\CommercialConstraintsTest",
+          "tests": 14,
+          "assertions": 99,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Commercial\\CommercialHttpTest",
+          "tests": 18,
+          "assertions": 218,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Commercial\\CommercialWorkflowTest",
+          "tests": 11,
+          "assertions": 104,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Commercial\\MigrationUpgradeTest",
+          "tests": 1,
+          "assertions": 22,
+          "errors": 1,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Commercial\\ProposalDocumentsTest",
+          "tests": 3,
+          "assertions": 59,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\CommercialProjectContractTest",
+          "tests": 1,
+          "assertions": 111,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Console\\SafeExceptionHandlerTest",
+          "tests": 7,
+          "assertions": 13,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Customers\\CustomerContactReaderTest",
+          "tests": 4,
+          "assertions": 30,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Customers\\CustomerIsolationTest",
+          "tests": 26,
+          "assertions": 47,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Documents\\DocumentAdaptersTest",
+          "tests": 8,
+          "assertions": 55,
+          "errors": 1,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Documents\\DocumentBulkMetadataTest",
+          "tests": 4,
+          "assertions": 33,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Documents\\DocumentConcurrencyTest",
+          "tests": 3,
+          "assertions": 21,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Documents\\DocumentConstraintsTest",
+          "tests": 15,
+          "assertions": 35,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Documents\\DocumentHttpTest",
+          "tests": 24,
+          "assertions": 419,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Documents\\DocumentLifecycleTest",
+          "tests": 19,
+          "assertions": 94,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Documents\\DocumentQueueTransportTest",
+          "tests": 2,
+          "assertions": 23,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Documents\\DocumentReconciliationTest",
+          "tests": 8,
+          "assertions": 40,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Documents\\DocumentTextExtractionTest",
+          "tests": 16,
+          "assertions": 83,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Documents\\ExpireIntakeUploadsTest",
+          "tests": 5,
+          "assertions": 52,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Documents\\MigrationUpgradeTest",
+          "tests": 1,
+          "assertions": 246,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\HttpFoundationTest",
+          "tests": 10,
+          "assertions": 45,
+          "errors": 0,
+          "failures": 1,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Identity\\CustomerEmailPrerequisiteTest",
+          "tests": 2,
+          "assertions": 38,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Identity\\DirectStaffTest",
+          "tests": 19,
+          "assertions": 551,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Identity\\DirectStaffUpgradeTest",
+          "tests": 1,
+          "assertions": 137,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Identity\\IdentityAtomicityTest",
+          "tests": 3,
+          "assertions": 52,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Identity\\IdentityHttpTest",
+          "tests": 34,
+          "assertions": 305,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Identity\\MfaConcurrencyTest",
+          "tests": 2,
+          "assertions": 11,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Identity\\MfaTest",
+          "tests": 19,
+          "assertions": 105,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Identity\\MigrationUpgradeTest",
+          "tests": 1,
+          "assertions": 60,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Identity\\PortfolioEditorUpgradeTest",
+          "tests": 1,
+          "assertions": 140,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Identity\\RecoveryTest",
+          "tests": 15,
+          "assertions": 100,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Identity\\RecoveryTransportTest",
+          "tests": 9,
+          "assertions": 23,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Identity\\RegistrationConcurrencyTest",
+          "tests": 1,
+          "assertions": 20,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Identity\\SessionLifecycleTest",
+          "tests": 18,
+          "assertions": 830,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Identity\\SessionPruningTest",
+          "tests": 6,
+          "assertions": 33,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Identity\\StaffInvitationsTest",
+          "tests": 20,
+          "assertions": 389,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Identity\\StaffOnboardingConcurrencyTest",
+          "tests": 6,
+          "assertions": 47,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Identity\\StaffOnboardingUpgradeTest",
+          "tests": 1,
+          "assertions": 194,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\LocalE2EFixtureTest",
+          "tests": 5,
+          "assertions": 112,
+          "errors": 0,
+          "failures": 1,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Notifications\\NotificationConcurrencyTest",
+          "tests": 1,
+          "assertions": 13,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Notifications\\NotificationDeliveryTest",
+          "tests": 13,
+          "assertions": 99,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Notifications\\NotificationHttpTest",
+          "tests": 5,
+          "assertions": 96,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Notifications\\NotificationIdentityLockTest",
+          "tests": 8,
+          "assertions": 160,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Operations\\IndependentQueueTransportTest",
+          "tests": 3,
+          "assertions": 33,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Operations\\MigrationUpgradeTest",
+          "tests": 1,
+          "assertions": 33,
+          "errors": 1,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Operations\\OperationalTelemetryTest",
+          "tests": 7,
+          "assertions": 57,
+          "errors": 0,
+          "failures": 2,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\ProjectIntake\\GuestIntakeConcurrencyTest",
+          "tests": 8,
+          "assertions": 102,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\ProjectIntake\\GuestIntakeConstraintsTest",
+          "tests": 3,
+          "assertions": 25,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\ProjectIntake\\GuestIntakeHttpTest",
+          "tests": 39,
+          "assertions": 448,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\ProjectIntake\\GuestIntakeUpgradeTest",
+          "tests": 2,
+          "assertions": 40,
+          "errors": 1,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\ProjectIntake\\GuestSessionIsolationTest",
+          "tests": 9,
+          "assertions": 176,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\ProjectIntake\\IntakeConcurrencyTest",
+          "tests": 4,
+          "assertions": 103,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\ProjectIntake\\IntakeConstraintsTest",
+          "tests": 20,
+          "assertions": 211,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\ProjectIntake\\IntakeDisplayConcurrencyTest",
+          "tests": 1,
+          "assertions": 19,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\ProjectIntake\\IntakeDisplayHttpTest",
+          "tests": 7,
+          "assertions": 198,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\ProjectIntake\\IntakeHttpTest",
+          "tests": 45,
+          "assertions": 457,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\ProjectIntake\\IntakeWorkflowTest",
+          "tests": 17,
+          "assertions": 173,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\ProjectIntake\\MigrationUpgradeTest",
+          "tests": 1,
+          "assertions": 114,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\ProjectIntake\\ReadConcurrencyTest",
+          "tests": 1,
+          "assertions": 17,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Projects\\MigrationUpgradeTest",
+          "tests": 1,
+          "assertions": 25,
+          "errors": 1,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Projects\\ProjectConcurrencyTest",
+          "tests": 12,
+          "assertions": 190,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Projects\\ProjectConstraintsTest",
+          "tests": 15,
+          "assertions": 104,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Projects\\ProjectDocumentListingQueryTest",
+          "tests": 1,
+          "assertions": 49,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Projects\\ProjectDocumentsTest",
+          "tests": 9,
+          "assertions": 203,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Projects\\ProjectHttpTest",
+          "tests": 15,
+          "assertions": 236,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Projects\\ProjectLifecycleTest",
+          "tests": 6,
+          "assertions": 67,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Projects\\ProjectTeamMilestonesTest",
+          "tests": 5,
+          "assertions": 51,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\PublicServices\\ContactConcurrencyTest",
+          "tests": 4,
+          "assertions": 42,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\PublicServices\\ContactTest",
+          "tests": 19,
+          "assertions": 265,
+          "errors": 0,
+          "failures": 1,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\PublicServices\\LaunchTaxonomyTest",
+          "tests": 2,
+          "assertions": 29,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\PublicServices\\LegacyPortfolioImportTest",
+          "tests": 1,
+          "assertions": 23,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\PublicServices\\PortfolioInfrastructureTest",
+          "tests": 1,
+          "assertions": 1,
+          "errors": 1,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\PublicServices\\PortfolioTest",
+          "tests": 14,
+          "assertions": 403,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\PublicServices\\PublicServicesTransportTest",
+          "tests": 2,
+          "assertions": 20,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\PublicServices\\PublicSessionRaceTest",
+          "tests": 4,
+          "assertions": 60,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\PublicServices\\UpgradePublicServicesTest",
+          "tests": 1,
+          "assertions": 4,
+          "errors": 1,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Queue\\SafeFailedJobProviderTest",
+          "tests": 8,
+          "assertions": 50,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Reporting\\AuditInvestigationTest",
+          "tests": 2,
+          "assertions": 38,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Reporting\\ReportingHttpTest",
+          "tests": 24,
+          "assertions": 357,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        }
+      ],
+      "failures": [
+        {
+          "class": "Tests\\Unit\\ProductionConfigurationTest",
+          "test": "test_explicit_local_profile_accepts_only_the_known_synthetic_topology_even_in_production_mode",
+          "kind": "failure",
+          "type": "PHPUnit\\Framework\\ExpectationFailedException",
+          "private_details_retained": true
+        },
+        {
+          "class": "Tests\\Feature\\AdminIntegrationTest",
+          "test": "test_customer_capabilities_follow_verification_without_granting_staff_access",
+          "kind": "failure",
+          "type": "PHPUnit\\Framework\\ExpectationFailedException",
+          "private_details_retained": true
+        },
+        {
+          "class": "Tests\\Feature\\Authorization\\IntakeAuthorityTest",
+          "test": "test_authorized_context_revalidates_session_and_has_no_model_or_credentials",
+          "kind": "failure",
+          "type": "PHPUnit\\Framework\\ExpectationFailedException",
+          "private_details_retained": true
+        },
+        {
+          "class": "Tests\\Feature\\Commercial\\MigrationUpgradeTest",
+          "test": "test_exact_approved_b4_upgrades_without_rewriting_existing_rows_or_weakening_document_history",
+          "kind": "error",
+          "type": "Illuminate\\Database\\QueryException",
+          "private_details_retained": true
+        },
+        {
+          "class": "Tests\\Feature\\Documents\\DocumentAdaptersTest",
+          "test": "test_storage_keeps_an_exact_immutable_encrypted_version_and_retries_safely",
+          "kind": "error",
+          "type": "App\\Modules\\Documents\\Exceptions\\StorageUnavailable",
+          "private_details_retained": true
+        },
+        {
+          "class": "Tests\\Feature\\HttpFoundationTest",
+          "test": "test_liveness_and_readiness_do_not_depend_on_redis",
+          "kind": "failure",
+          "type": "PHPUnit\\Framework\\ExpectationFailedException",
+          "private_details_retained": true
+        },
+        {
+          "class": "Tests\\Feature\\LocalE2EFixtureTest",
+          "test": "test_fixture_admins_use_real_permissions_and_reset_restores_only_the_fixed_identities",
+          "kind": "failure",
+          "type": "PHPUnit\\Framework\\ExpectationFailedException",
+          "private_details_retained": true
+        },
+        {
+          "class": "Tests\\Feature\\Operations\\MigrationUpgradeTest",
+          "test": "test_exact_b7_upgrade_preserves_all_domain_ai_notification_history_and_runtime_guards",
+          "kind": "error",
+          "type": "Illuminate\\Database\\QueryException",
+          "private_details_retained": true
+        },
+        {
+          "class": "Tests\\Feature\\Operations\\OperationalTelemetryTest",
+          "test": "test_metrics_are_disposable_and_redis_failure_does_not_break_readiness_or_core_http",
+          "kind": "failure",
+          "type": "PHPUnit\\Framework\\ExpectationFailedException",
+          "private_details_retained": true
+        },
+        {
+          "class": "Tests\\Feature\\Operations\\OperationalTelemetryTest",
+          "test": "test_readiness_rejects_unsafe_security_configuration_but_ignores_optional_ai_and_storage_outages",
+          "kind": "failure",
+          "type": "PHPUnit\\Framework\\ExpectationFailedException",
+          "private_details_retained": true
+        },
+        {
+          "class": "Tests\\Feature\\ProjectIntake\\GuestIntakeUpgradeTest",
+          "test": "test_exact_pre_g1_candidate_upgrade_preserves_every_existing_value_and_repeats_without_change",
+          "kind": "error",
+          "type": "Illuminate\\Database\\QueryException",
+          "private_details_retained": true
+        },
+        {
+          "class": "Tests\\Feature\\Projects\\MigrationUpgradeTest",
+          "test": "test_exact_approved_b5_upgrades_without_rewriting_commercial_or_document_history",
+          "kind": "error",
+          "type": "Illuminate\\Database\\QueryException",
+          "private_details_retained": true
+        },
+        {
+          "class": "Tests\\Feature\\PublicServices\\ContactTest",
+          "test": "test_other_roles_cannot_read_manage_or_redact_contact with data set #5",
+          "kind": "failure",
+          "type": "PHPUnit\\Framework\\ExpectationFailedException",
+          "private_details_retained": true
+        },
+        {
+          "class": "Tests\\Feature\\PublicServices\\PortfolioInfrastructureTest",
+          "test": "test_real_private_versioned_storage_and_isolated_processor_round_trip",
+          "kind": "error",
+          "type": "Symfony\\Component\\HttpKernel\\Exception\\HttpException",
+          "private_details_retained": true
+        },
+        {
+          "class": "Tests\\Feature\\PublicServices\\UpgradePublicServicesTest",
+          "test": "test_exact_upgrade_from_31_migrations_preserves_history_ownership_and_existing_grants",
+          "kind": "error",
+          "type": "Illuminate\\Database\\QueryException",
+          "private_details_retained": true
+        }
+      ]
+    },
+    "holoul-architecture.xml": {
+      "totals": {
+        "tests": 9,
+        "assertions": 52363,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "time": 1.37064
+      },
+      "suites": [
+        {
+          "class": "Tests\\Architecture\\FoundationArchitectureTest",
+          "tests": 9,
+          "assertions": 52363,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        }
+      ],
+      "failures": []
+    },
+    "all-upgrades-final.xml": {
+      "totals": {
+        "tests": 14,
+        "assertions": 3225,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "time": 178.200738
+      },
+      "suites": [
+        {
+          "class": "Tests\\Feature\\Assistance\\MigrationUpgradeTest",
+          "tests": 1,
+          "assertions": 683,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Commercial\\MigrationUpgradeTest",
+          "tests": 1,
+          "assertions": 133,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Documents\\MigrationUpgradeTest",
+          "tests": 1,
+          "assertions": 246,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Identity\\DirectStaffUpgradeTest",
+          "tests": 1,
+          "assertions": 137,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Identity\\MigrationUpgradeTest",
+          "tests": 1,
+          "assertions": 60,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Identity\\PortfolioEditorUpgradeTest",
+          "tests": 1,
+          "assertions": 140,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Identity\\StaffOnboardingUpgradeTest",
+          "tests": 1,
+          "assertions": 194,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Operations\\MigrationUpgradeTest",
+          "tests": 1,
+          "assertions": 789,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Operations\\UnifiedCandidateUpgradeTest",
+          "tests": 1,
+          "assertions": 212,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\ProjectIntake\\GuestIntakeUpgradeTest",
+          "tests": 2,
+          "assertions": 271,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\ProjectIntake\\MigrationUpgradeTest",
+          "tests": 1,
+          "assertions": 114,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Projects\\MigrationUpgradeTest",
+          "tests": 1,
+          "assertions": 219,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\PublicServices\\UpgradePublicServicesTest",
+          "tests": 1,
+          "assertions": 27,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        }
+      ],
+      "failures": []
+    },
+    "final-focused.xml": {
+      "totals": {
+        "tests": 130,
+        "assertions": 1209,
+        "errors": 0,
+        "failures": 1,
+        "skipped": 0,
+        "time": 316.593328
+      },
+      "suites": [
+        {
+          "class": "Tests\\Unit\\ProductionConfigurationTest",
+          "tests": 48,
+          "assertions": 209,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\AdminIntegrationTest",
+          "tests": 12,
+          "assertions": 331,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Authorization\\IntakeAuthorityTest",
+          "tests": 20,
+          "assertions": 81,
+          "errors": 0,
+          "failures": 1,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Documents\\DocumentAdaptersTest",
+          "tests": 8,
+          "assertions": 65,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\HttpFoundationTest",
+          "tests": 10,
+          "assertions": 46,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\LocalE2EFixtureTest",
+          "tests": 5,
+          "assertions": 131,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\Operations\\OperationalTelemetryTest",
+          "tests": 7,
+          "assertions": 61,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\PublicServices\\ContactTest",
+          "tests": 19,
+          "assertions": 273,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        },
+        {
+          "class": "Tests\\Feature\\PublicServices\\PortfolioInfrastructureTest",
+          "tests": 1,
+          "assertions": 12,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        }
+      ],
+      "failures": [
+        {
+          "class": "Tests\\Feature\\Authorization\\IntakeAuthorityTest",
+          "test": "test_authorized_context_revalidates_session_and_has_no_model_or_credentials",
+          "kind": "failure",
+          "type": "PHPUnit\\Framework\\ExpectationFailedException",
+          "private_details_retained": true
+        }
+      ]
+    },
+    "intake-authority-final.xml": {
+      "totals": {
+        "tests": 20,
+        "assertions": 83,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "time": 39.258131
+      },
+      "suites": [
+        {
+          "class": "Tests\\Feature\\Authorization\\IntakeAuthorityTest",
+          "tests": 20,
+          "assertions": 83,
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0
+        }
+      ],
+      "failures": []
+    }
+  },
+  "latest_per_class_coverage": {
+    "not_a_single_full_suite_run": true,
+    "totals": {
+      "tests": 1088,
+      "assertions": 15794,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "suites": [
+      {
+        "class": "Tests\\Unit\\AIOutputSchemaTest",
+        "tests": 1,
+        "assertions": 3,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Unit\\Async\\OperationInputTest",
+        "tests": 7,
+        "assertions": 7,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Unit\\Audit\\SafeAuditMetadataTest",
+        "tests": 17,
+        "assertions": 17,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Unit\\Customers\\InternationalPhoneTest",
+        "tests": 9,
+        "assertions": 10,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Unit\\GeminiAIProviderTest",
+        "tests": 30,
+        "assertions": 152,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Unit\\Http\\ApiErrorTest",
+        "tests": 5,
+        "assertions": 15,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Unit\\MoneyTest",
+        "tests": 34,
+        "assertions": 64,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Unit\\ProductionConfigurationTest",
+        "tests": 48,
+        "assertions": 209,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "final-focused.xml"
+      },
+      {
+        "class": "Tests\\Unit\\ProposalPricingTest",
+        "tests": 19,
+        "assertions": 22,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Unit\\SafeLogProcessorTest",
+        "tests": 3,
+        "assertions": 6,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Unit\\StaffEmailPrerequisiteTest",
+        "tests": 1,
+        "assertions": 42,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Unit\\WrappedConcurrencyErrorsTest",
+        "tests": 1,
+        "assertions": 5,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\AI\\AIConcurrencyTest",
+        "tests": 3,
+        "assertions": 30,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\AI\\AIDomainTest",
+        "tests": 20,
+        "assertions": 180,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\AI\\GeminiDocumentTest",
+        "tests": 6,
+        "assertions": 92,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\AI\\GeminiWorkflowTest",
+        "tests": 5,
+        "assertions": 45,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\AdminIntegrationTest",
+        "tests": 12,
+        "assertions": 331,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "final-focused.xml"
+      },
+      {
+        "class": "Tests\\Feature\\ApiContractTest",
+        "tests": 2,
+        "assertions": 1504,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Assistance\\AIApiTest",
+        "tests": 11,
+        "assertions": 236,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Assistance\\AIOwnerBoundaryTest",
+        "tests": 8,
+        "assertions": 118,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Assistance\\BusinessNotificationsTest",
+        "tests": 3,
+        "assertions": 48,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Assistance\\MigrationUpgradeTest",
+        "tests": 1,
+        "assertions": 683,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "all-upgrades-final.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Async\\DurableOperationsTest",
+        "tests": 17,
+        "assertions": 78,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Audit\\AuditFoundationTest",
+        "tests": 29,
+        "assertions": 50,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Authorization\\AuthorizationConcurrencyTest",
+        "tests": 2,
+        "assertions": 10,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Authorization\\IntakeAuthorityTest",
+        "tests": 20,
+        "assertions": 83,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "intake-authority-final.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Authorization\\RoleFoundationTest",
+        "tests": 23,
+        "assertions": 49,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Categories\\CurrencyCatalogTest",
+        "tests": 5,
+        "assertions": 10,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Categories\\TaxonomyConcurrencyTest",
+        "tests": 2,
+        "assertions": 14,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Categories\\TaxonomyHttpValidationTest",
+        "tests": 2,
+        "assertions": 93,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Categories\\TaxonomyTest",
+        "tests": 25,
+        "assertions": 71,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Commercial\\CommercialAtomicityTest",
+        "tests": 4,
+        "assertions": 33,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Commercial\\CommercialConcurrencyTest",
+        "tests": 8,
+        "assertions": 117,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Commercial\\CommercialConstraintsTest",
+        "tests": 14,
+        "assertions": 99,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Commercial\\CommercialHttpTest",
+        "tests": 18,
+        "assertions": 218,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Commercial\\CommercialWorkflowTest",
+        "tests": 11,
+        "assertions": 104,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Commercial\\MigrationUpgradeTest",
+        "tests": 1,
+        "assertions": 133,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "all-upgrades-final.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Commercial\\ProposalDocumentsTest",
+        "tests": 3,
+        "assertions": 59,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\CommercialProjectContractTest",
+        "tests": 1,
+        "assertions": 111,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Console\\SafeExceptionHandlerTest",
+        "tests": 7,
+        "assertions": 13,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Customers\\CustomerContactReaderTest",
+        "tests": 4,
+        "assertions": 30,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Customers\\CustomerIsolationTest",
+        "tests": 26,
+        "assertions": 47,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Documents\\DocumentAdaptersTest",
+        "tests": 8,
+        "assertions": 65,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "final-focused.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Documents\\DocumentBulkMetadataTest",
+        "tests": 4,
+        "assertions": 33,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Documents\\DocumentConcurrencyTest",
+        "tests": 3,
+        "assertions": 21,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Documents\\DocumentConstraintsTest",
+        "tests": 15,
+        "assertions": 35,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Documents\\DocumentHttpTest",
+        "tests": 24,
+        "assertions": 419,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Documents\\DocumentLifecycleTest",
+        "tests": 19,
+        "assertions": 94,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Documents\\DocumentQueueTransportTest",
+        "tests": 2,
+        "assertions": 23,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Documents\\DocumentReconciliationTest",
+        "tests": 8,
+        "assertions": 40,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Documents\\DocumentTextExtractionTest",
+        "tests": 16,
+        "assertions": 83,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Documents\\ExpireIntakeUploadsTest",
+        "tests": 5,
+        "assertions": 52,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Documents\\MigrationUpgradeTest",
+        "tests": 1,
+        "assertions": 246,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "all-upgrades-final.xml"
+      },
+      {
+        "class": "Tests\\Feature\\HttpFoundationTest",
+        "tests": 10,
+        "assertions": 46,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "final-focused.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Identity\\CustomerEmailPrerequisiteTest",
+        "tests": 2,
+        "assertions": 38,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Identity\\DirectStaffTest",
+        "tests": 19,
+        "assertions": 551,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Identity\\DirectStaffUpgradeTest",
+        "tests": 1,
+        "assertions": 137,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "all-upgrades-final.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Identity\\IdentityAtomicityTest",
+        "tests": 3,
+        "assertions": 52,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Identity\\IdentityHttpTest",
+        "tests": 34,
+        "assertions": 305,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Identity\\MfaConcurrencyTest",
+        "tests": 2,
+        "assertions": 11,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Identity\\MfaTest",
+        "tests": 19,
+        "assertions": 105,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Identity\\MigrationUpgradeTest",
+        "tests": 1,
+        "assertions": 60,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "all-upgrades-final.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Identity\\PortfolioEditorUpgradeTest",
+        "tests": 1,
+        "assertions": 140,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "all-upgrades-final.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Identity\\RecoveryTest",
+        "tests": 15,
+        "assertions": 100,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Identity\\RecoveryTransportTest",
+        "tests": 9,
+        "assertions": 23,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Identity\\RegistrationConcurrencyTest",
+        "tests": 1,
+        "assertions": 20,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Identity\\SessionLifecycleTest",
+        "tests": 18,
+        "assertions": 830,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Identity\\SessionPruningTest",
+        "tests": 6,
+        "assertions": 33,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Identity\\StaffInvitationsTest",
+        "tests": 20,
+        "assertions": 389,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Identity\\StaffOnboardingConcurrencyTest",
+        "tests": 6,
+        "assertions": 47,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Identity\\StaffOnboardingUpgradeTest",
+        "tests": 1,
+        "assertions": 194,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "all-upgrades-final.xml"
+      },
+      {
+        "class": "Tests\\Feature\\LocalE2EFixtureTest",
+        "tests": 5,
+        "assertions": 131,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "final-focused.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Notifications\\NotificationConcurrencyTest",
+        "tests": 1,
+        "assertions": 13,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Notifications\\NotificationDeliveryTest",
+        "tests": 13,
+        "assertions": 99,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Notifications\\NotificationHttpTest",
+        "tests": 5,
+        "assertions": 96,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Notifications\\NotificationIdentityLockTest",
+        "tests": 8,
+        "assertions": 160,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Operations\\IndependentQueueTransportTest",
+        "tests": 3,
+        "assertions": 33,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Operations\\MigrationUpgradeTest",
+        "tests": 1,
+        "assertions": 789,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "all-upgrades-final.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Operations\\OperationalTelemetryTest",
+        "tests": 7,
+        "assertions": 61,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "final-focused.xml"
+      },
+      {
+        "class": "Tests\\Feature\\ProjectIntake\\GuestIntakeConcurrencyTest",
+        "tests": 8,
+        "assertions": 102,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\ProjectIntake\\GuestIntakeConstraintsTest",
+        "tests": 3,
+        "assertions": 25,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\ProjectIntake\\GuestIntakeHttpTest",
+        "tests": 39,
+        "assertions": 448,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\ProjectIntake\\GuestIntakeUpgradeTest",
+        "tests": 2,
+        "assertions": 271,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "all-upgrades-final.xml"
+      },
+      {
+        "class": "Tests\\Feature\\ProjectIntake\\GuestSessionIsolationTest",
+        "tests": 9,
+        "assertions": 176,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\ProjectIntake\\IntakeConcurrencyTest",
+        "tests": 4,
+        "assertions": 103,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\ProjectIntake\\IntakeConstraintsTest",
+        "tests": 20,
+        "assertions": 211,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\ProjectIntake\\IntakeDisplayConcurrencyTest",
+        "tests": 1,
+        "assertions": 19,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\ProjectIntake\\IntakeDisplayHttpTest",
+        "tests": 7,
+        "assertions": 198,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\ProjectIntake\\IntakeHttpTest",
+        "tests": 45,
+        "assertions": 457,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\ProjectIntake\\IntakeWorkflowTest",
+        "tests": 17,
+        "assertions": 173,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\ProjectIntake\\MigrationUpgradeTest",
+        "tests": 1,
+        "assertions": 114,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "all-upgrades-final.xml"
+      },
+      {
+        "class": "Tests\\Feature\\ProjectIntake\\ReadConcurrencyTest",
+        "tests": 1,
+        "assertions": 17,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Projects\\MigrationUpgradeTest",
+        "tests": 1,
+        "assertions": 219,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "all-upgrades-final.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Projects\\ProjectConcurrencyTest",
+        "tests": 12,
+        "assertions": 190,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Projects\\ProjectConstraintsTest",
+        "tests": 15,
+        "assertions": 104,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Projects\\ProjectDocumentListingQueryTest",
+        "tests": 1,
+        "assertions": 49,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Projects\\ProjectDocumentsTest",
+        "tests": 9,
+        "assertions": 203,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Projects\\ProjectHttpTest",
+        "tests": 15,
+        "assertions": 236,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Projects\\ProjectLifecycleTest",
+        "tests": 6,
+        "assertions": 67,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Projects\\ProjectTeamMilestonesTest",
+        "tests": 5,
+        "assertions": 51,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\PublicServices\\ContactConcurrencyTest",
+        "tests": 4,
+        "assertions": 42,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\PublicServices\\ContactTest",
+        "tests": 19,
+        "assertions": 273,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "final-focused.xml"
+      },
+      {
+        "class": "Tests\\Feature\\PublicServices\\LaunchTaxonomyTest",
+        "tests": 2,
+        "assertions": 29,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\PublicServices\\LegacyPortfolioImportTest",
+        "tests": 1,
+        "assertions": 23,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\PublicServices\\PortfolioInfrastructureTest",
+        "tests": 1,
+        "assertions": 12,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "final-focused.xml"
+      },
+      {
+        "class": "Tests\\Feature\\PublicServices\\PortfolioTest",
+        "tests": 14,
+        "assertions": 403,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\PublicServices\\PublicServicesTransportTest",
+        "tests": 2,
+        "assertions": 20,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\PublicServices\\PublicSessionRaceTest",
+        "tests": 4,
+        "assertions": 60,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\PublicServices\\UpgradePublicServicesTest",
+        "tests": 1,
+        "assertions": 27,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "all-upgrades-final.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Queue\\SafeFailedJobProviderTest",
+        "tests": 8,
+        "assertions": 50,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Reporting\\AuditInvestigationTest",
+        "tests": 2,
+        "assertions": 38,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Reporting\\ReportingHttpTest",
+        "tests": 24,
+        "assertions": 357,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "holoul-unit-feature.xml"
+      },
+      {
+        "class": "Tests\\Feature\\Operations\\UnifiedCandidateUpgradeTest",
+        "tests": 1,
+        "assertions": 212,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "evidence": "all-upgrades-final.xml"
+      }
+    ]
+  },
+  "original_failed_cases_covered_by_passing_class_reruns": 15,
+  "application_contract_and_inherited_race_guards_changed_during_freeze": false,
+  "full_gate_initial_failure_preserved": true,
+  "final_whole_suite_repeated": false
+}

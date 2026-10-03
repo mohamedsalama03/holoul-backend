@@ -1,0 +1,15 @@
+{
+  "snapshot": "/home/mohamed/.local/share/holoul-freezes/unified-20261003T183220Z",
+  "branch": "codex/staff-direct-create",
+  "head": "9119a094da23cc23c93475be79d076c4c1f2de21",
+  "tracked": 1111,
+  "modified": 60,
+  "untracked": 34,
+  "ignored": 172,
+  "staged": 0,
+  "source_fingerprint_sha256": "09461761bb216e70f4a1d2886534a96e6b80ae2bd4493be08d151268b2df57ca",
+  "complete_manifest_sha256": "ab94ebf7e95795a716ca84fd2eb34e7f2c38ba9b3d73c3367ebfc34e5fa09774",
+  "archive_sha256": "202f72f139b4f700090e751e7a9bfc2e0d0bd11070000636d87a91db38a82aed",
+  "archive_verified": true,
+  "history_bundle_verified": true
+}

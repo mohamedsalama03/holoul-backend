@@ -5,6 +5,7 @@ use App\Modules\Identity\Authorization\Actions\ChangeStaffAuthorization;
 use App\Modules\Identity\Authorization\Role;
 use App\Modules\Identity\Models\User;
 use App\Modules\Identity\Security\SessionSecurity;
+use App\Modules\Identity\Staff\CreateStaff;
 use App\Modules\Identity\Staff\InvitationActions;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Http\Request;
@@ -32,7 +33,9 @@ try {
         $request->session()->start();
         $request->attributes->set('request_id', (string) Str::uuid7());
         app(SessionSecurity::class)->completeLogin($request, $user, true);
-        if ($input['mode'] === 'issue') {
+        if ($input['mode'] === 'create') {
+            app(CreateStaff::class)->handle($request, 'race.staff', $input['email'], 'Race Staff', 'Concurrency-Password-72', [Role::Support], $input['key']);
+        } elseif ($input['mode'] === 'issue') {
             app(InvitationActions::class)->issue($request, $input['email'], 'Race Invite', [Role::Support], $input['key']);
         } else {
             app(ChangeStaffAuthorization::class)->handle($request, $input['target'], [Role::from($input['role'])], true, 1);

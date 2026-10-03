@@ -34,7 +34,7 @@ final readonly class StaffQueries
             $identity = app(OwnIdentity::class)->read($request);
             $roles = app(StaffGrantPolicy::class)->assignable($actor);
             $principal = new AuthorizedIdentity($actor->id, $actor->kind,
-                $actor->email_verified_at !== null, $this->authority->permissionsFor($this->authority->roles($actor->id)));
+                $actor->email_verified_at !== null, $this->authority->permissionsFor($this->authority->roles($actor->id)), $actor->username !== null);
             $capabilities = app(CurrentCapabilities::class);
             $recent = app(SessionSecurity::class)->hasRecentPassword($request);
             $current = $capabilities->forSession($principal, $recent);
@@ -89,7 +89,8 @@ final readonly class StaffQueries
             foreach ($rows as $row) {
                 $data[] = ['id' => $row->id, 'full_name' => $row->full_name, 'email' => $row->email, 'enabled' => $row->enabled,
                     'roles' => $roles[StaffData::text($row->id)] ?? [], 'created_at' => StaffData::date($row->created_at),
-                    'mfa_enrolled' => in_array($row->id, $enrolled, true), 'onboarding_pending' => in_array($row->id, $pending, true)];
+                    'mfa_enrolled' => in_array($row->id, $enrolled, true), 'onboarding_pending' => in_array($row->id, $pending, true)
+                        || ($row->username !== null && ! in_array($row->id, $enrolled, true))];
             }
 
             return ['data' => $data, 'meta' => $meta];

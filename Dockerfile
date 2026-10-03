@@ -42,8 +42,20 @@ RUN --mount=type=cache,id=holoul-composer-v2,target=/home/holoul/.cache/composer
     composer install --no-dev --prefer-dist --no-scripts --no-interaction --no-progress --no-autoloader
 
 FROM dependencies AS production-build
-COPY --chown=holoul:holoul . .
-RUN rm -rf tools/local-e2e \
+# Explicit runtime allowlist: verification, local overlays, fixtures and repository
+# metadata remain in the source/development image, never in a production layer.
+COPY --chown=holoul:holoul artisan ./
+COPY --chown=holoul:holoul app/ app/
+COPY --chown=holoul:holoul bootstrap/ bootstrap/
+COPY --chown=holoul:holoul config/ config/
+COPY --chown=holoul:holoul database/migrations/ database/migrations/
+COPY --chown=holoul:holoul database/catalogs/ database/catalogs/
+COPY --chown=holoul:holoul public/ public/
+COPY --chown=holoul:holoul routes/ routes/
+COPY --chown=holoul:holoul docker/app/ docker/app/
+COPY --chown=holoul:holoul docker/documents/storage/bootstrap.php docker/documents/storage/bootstrap.php
+COPY --chown=holoul:holoul scripts/backup-seal.php scripts/backup-seal.php
+RUN mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs \
     && composer dump-autoload --no-dev --classmap-authoritative --no-scripts \
     && php artisan package:discover --no-ansi
 
@@ -64,7 +76,10 @@ RUN php -r 'foreach (["pdo_pgsql", "redis", "intl", "mbstring", "zip", "pcntl", 
     && test ! -e /usr/bin/gcc \
     && test ! -e /usr/bin/make \
     && test ! -e /usr/local/include/php \
-    && test ! -e vendor/bin/phpunit
+    && test ! -e vendor/bin/phpunit \
+    && test ! -e tests && test ! -e tools && test ! -e artifacts \
+    && test ! -e docs && test ! -e .git && test ! -e .env \
+    && test ! -e compose.yaml && test ! -e scripts/set-gemini-key.py
 USER holoul
 ENTRYPOINT ["holoul-entrypoint"]
 CMD ["php-fpm", "-F"]

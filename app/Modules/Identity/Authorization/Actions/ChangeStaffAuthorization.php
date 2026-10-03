@@ -36,7 +36,7 @@ final readonly class ChangeStaffAuthorization
             throw new NotFoundHttpException;
         }
 
-        if ($roles === [] || count($roles) > 7 || count(array_unique(array_map(fn (Role $role): string => $role->value, $roles))) !== count($roles)) {
+        if ($roles === [] || count($roles) > 8 || count(array_unique(array_map(fn (Role $role): string => $role->value, $roles))) !== count($roles)) {
             throw ValidationException::withMessages(['roles' => 'A unique list of staff roles is required.']);
         }
 
@@ -60,6 +60,13 @@ final readonly class ChangeStaffAuthorization
                 && ! DB::table('users')->join('user_roles', 'user_roles.user_id', '=', 'users.id')
                     ->where('users.enabled', true)->where('users.kind', 'staff')->where('users.id', '<>', $subject->id)
                     ->where('user_roles.role_id', $this->authority->roleId(Role::SuperAdmin))
+                    ->where(function (Builder $usable): void {
+                        $usable->whereNull('users.username')->orWhere(function (Builder $direct): void {
+                            $direct->whereExists(function (Builder $mfa): void {
+                                $mfa->selectRaw('1')->from('identity_mfa')->whereColumn('identity_mfa.user_id', 'users.id')->whereNotNull('confirmed_at');
+                            });
+                        });
+                    })
                     ->whereNotExists(function (Builder $pending): void {
                         $pending->selectRaw('1')->from('identity_staff_invitations')
                             ->whereColumn('accepted_user_id', 'users.id')->whereNull('activated_at');

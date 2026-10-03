@@ -32,13 +32,13 @@ final class DatabaseIdentityReader implements IdentityReader
         if (! Str::isUuid($id)) {
             return null;
         }
-        $query = User::query()->whereKey($id)->select(['id', 'kind', 'enabled', 'full_name', 'email', 'email_verified_at']);
+        $query = User::query()->whereKey($id)->select(['id', 'kind', 'enabled', 'full_name', 'email', 'email_verified_at', 'username']);
         if ($lock) {
             $query->lockForUpdate();
         }
         $user = $query->first();
 
         return $user === null ? null : new IdentityContact($user->id, $user->kind, $user->enabled,
-            $user->full_name, $user->email, $user->email_verified_at !== null);
+            $user->full_name, $user->email, $user->email_verified_at !== null, $user->username !== null);
     }
 }

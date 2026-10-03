@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Feature\PublicServices;
 
+use App\Modules\Identity\Contracts\IdentityReader;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Queue;
 use Tests\Support\IntakeFixtures;
+use Tests\Support\PreUsernameIdentityReader;
 use Tests\TestCase;
 
 final class UpgradePublicServicesTest extends TestCase
@@ -22,8 +24,13 @@ final class UpgradePublicServicesTest extends TestCase
         self::assertCount(31, $baseline);
         $this->artisan('migrate:fresh', ['--force' => true, '--path' => $baseline, '--realpath' => true])->assertSuccessful();
         $this->assertDatabaseCount('migrations', 31);
-        $user = $this->intakeCustomer();
-        $request = $this->createSubmitted($user);
+        $this->app->instance(IdentityReader::class, new PreUsernameIdentityReader);
+        try {
+            $user = $this->intakeCustomer();
+            $request = $this->createSubmitted($user);
+        } finally {
+            $this->app->forgetInstance(IdentityReader::class);
+        }
         $tables = ['users', 'customers', 'roles', 'permissions', 'role_permissions', 'user_roles', 'project_requests', 'request_drafts', 'request_revisions', 'categories', 'subcategories', 'audit_events'];
         $before = [];
         foreach ($tables as $table) {
@@ -31,7 +38,10 @@ final class UpgradePublicServicesTest extends TestCase
             usort($rows, static fn (array $a, array $b): int => strcmp(json_encode($a), json_encode($b)));
             $before[$table] = $rows;
         }
-        $this->artisan('migrate', ['--force' => true])->assertSuccessful();
+        // Preserve this exact historical 31-to-34 gate as later batches add migrations.
+        $publicServices = array_values(array_filter(glob(database_path('migrations/*.php')), static fn (string $path): bool => basename($path) >= '2026_09_29' && basename($path) < '2026_10_02'));
+        self::assertCount(3, $publicServices);
+        $this->artisan('migrate', ['--force' => true, '--path' => $publicServices, '--realpath' => true])->assertSuccessful();
         $this->assertDatabaseCount('migrations', 34);
         foreach ($before as $table => $rows) {
             $query = DB::table($table);

@@ -37,7 +37,7 @@ final readonly class ReportingApi
     private function authorized(Request $request, string $report, array $input): JsonResponse
     {
         return $this->identities->handle($request, function (AuthorizedIdentity $actor) use ($request, $report, $input): JsonResponse {
-            if ($actor->kind !== 'staff' || ! $actor->verifiedEmail || ! $actor->allows($report === 'audit' ? 'audit.investigate' : 'reporting.read')) {
+            if ($actor->kind !== 'staff' || ! $actor->emailPrerequisiteSatisfied || ! $actor->allows($report === 'audit' ? 'audit.investigate' : 'reporting.read')) {
                 throw new AuthorizationException;
             }
             $this->limits->consume([['key' => 'reporting:'.$actor->id, 'maximum' => 60, 'seconds' => 60]]);

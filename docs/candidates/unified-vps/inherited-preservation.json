@@ -1,0 +1,295 @@
+{
+  "security_guards": [
+    {
+      "path": "app/Infrastructure/Http/StartSecureSession.php",
+      "sha256": "3171198fb17be0600065e8e7058b94508aa1e88e133356b236d79c7ffcdd9d1d",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "app/Infrastructure/Http/SessionResponse.php",
+      "sha256": "b36578fdf50a331a92122f7b14ea4774986d002d9de9c4125f6d80c6d65a5699",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "app/Infrastructure/Database/WrappedConcurrencyErrors.php",
+      "sha256": "925813385fd2e206eb650487c33ce82ec7ce070ab62f954cbffd26b22dc50991",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "app/Modules/Identity/Security/SessionSecurity.php",
+      "sha256": "8da872b0ef68ca28163482bbc68aadb8aa00788148de3d8e8e81a5586a8c6715",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "tests/Feature/Identity/SessionLifecycleTest.php",
+      "sha256": "996b4786d7bbe01a041ee40786b8b612938e755863d8b52e7dcdefe045c2aa7f",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "tests/Feature/Identity/MfaConcurrencyTest.php",
+      "sha256": "12759b27bca35cfd6e569daea018ff772af9e24f52c1a9837a056674f32f9b41",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "tests/Feature/ProjectIntake/GuestSessionIsolationTest.php",
+      "sha256": "29b7efa7e4f8ded292a62fdaa0024873c46743b0ada283fc60cc7639def61a71",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "tests/Feature/PublicServices/PublicSessionRaceTest.php",
+      "sha256": "c332e09ada52d2cf813efc6327cabfa1ba296ee414739742a9f01d97ea2d1d02",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "tests/Unit/WrappedConcurrencyErrorsTest.php",
+      "sha256": "e3b11723d46447786b9f4cd8cab11751584a823065ddfdebc4e4b6e85e9611f9",
+      "unchanged_from_9119a09": true
+    }
+  ],
+  "historical_evidence": [
+    {
+      "path": "docs/B1-FILES.txt",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B1-VERIFICATION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B1-VERSIONS.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B2-BASELINE.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B2-IMPLEMENTATION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B2-VERIFICATION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B2-VERSIONS.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B3-AUTHORIZATION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B3-BASELINE.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B3-IMPLEMENTATION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B3-VERIFICATION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B4-BASELINE.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B4-IMPLEMENTATION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B4-STORAGE-INSPECTION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B4-VERIFICATION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B5-BASELINE.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B5-IMPLEMENTATION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B5-VERIFICATION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B6-BASELINE.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B6-IMPLEMENTATION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B6-VERIFICATION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B7-BASELINE.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B7-IMPLEMENTATION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B7-VERIFICATION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B8-BACKUP-RESTORE.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B8-BASELINE.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B8-DEPLOYMENT-RECOVERY.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B8-DOCUMENT-READS.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B8-LAUNCH-CHECKLIST.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B8-OBSERVABILITY.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B8-P1-PERFORMANCE.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B8-P2-COMMERCIAL-PROJECTS.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B8-P2-ENDPOINT-MATRIX.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B8-P2-FILES-ASYNC-REPORTING.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B8-P2-FRONTEND-INTEGRATION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B8-P2-IDENTITY-INTAKE.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B8-P2-REVIEW.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B8-P2-VERIFICATION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B8-P3-ADMIN-INTEGRATION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B8-P3-VERIFICATION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B8-PERFORMANCE.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B8-REPORTING.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B8-SECURITY-REVIEW.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/B8-VERIFICATION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/F1-E1-LOCAL-INTEGRATION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/F1-E1-VERIFICATION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/IDENTITY-SESSION-ROTATION.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/candidates/APPROVED-IDENTITY-BROWSER-RACES.cjs",
+      "unchanged": true
+    },
+    {
+      "path": "docs/candidates/G1-FINAL-CANDIDATE-IDENTITY.JSON",
+      "unchanged": true
+    },
+    {
+      "path": "docs/candidates/G1-FINAL-HISTORICAL-PRESERVATION.JSON",
+      "unchanged": true
+    },
+    {
+      "path": "docs/candidates/HISTORICAL-EVIDENCE-SHA256.json",
+      "unchanged": true
+    },
+    {
+      "path": "docs/candidates/IDENTITY-CHECKPOINT.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/candidates/PRE-G1-EVIDENCE-SHA256.json",
+      "unchanged": true
+    },
+    {
+      "path": "docs/public-services/evidence/B8-TAXONOMY-AFTER-LOCAL.json",
+      "unchanged": true
+    },
+    {
+      "path": "docs/public-services/evidence/B8-TAXONOMY-INVENTORY-LOCAL.json",
+      "unchanged": true
+    },
+    {
+      "path": "docs/website-readiness/2026-09-28/B8-TAXONOMY-INVENTORY-LOCAL.json",
+      "unchanged": true
+    },
+    {
+      "path": "docs/website-readiness/2026-09-28/runbooks/B8-BACKUP-RESTORE.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/website-readiness/2026-09-28/runbooks/B8-DEPLOYMENT-RECOVERY.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/website-readiness/2026-09-28/runbooks/B8-LAUNCH-CHECKLIST.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/website-readiness/2026-09-28/runbooks/B8-OBSERVABILITY.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/website-readiness/2026-09-28/runbooks/B8-P1-PERFORMANCE.md",
+      "unchanged": true
+    }
+  ]
+}

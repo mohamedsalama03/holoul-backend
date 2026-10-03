@@ -1,0 +1,697 @@
+{
+  "baseline_sha256": "32fa258873794513849eb773a4c7bf41e4e2f8dd66ec7ef530877b775284386e",
+  "baseline_canonical_sha256": "81af0fef32a0b135d4230d2aba45ae5901f38da555908ee6feb3d488fdb58c02",
+  "changes": [
+    {
+      "path": [
+        "info",
+        "version"
+      ],
+      "before": "1.6.2-staff-accounts-candidate",
+      "after": "1.7.0-portfolio-editor-candidate"
+    },
+    {
+      "path": [
+        "info",
+        "description"
+      ],
+      "before": "Adds direct staff account creation and username login while preserving all 1.5.0 operations, response schemas, email login, role grants and session/MFA protections. New accounts use an independent immutable username and verified recovery email. Historical B8/P1/P2/P3/F1-E1 evidence remains retained. This feature candidate is not production certification; performance certification remains pending the target VPS. Same-origin session API; the only non-/api/v1 frontend operation is Sanctum CSRF initialization.",
+      "after": "Adds the Portfolio Editor staff role for portfolio drafts, images, publication and unpublication, plus own profile and notifications. Existing role grants and operation security requirements are unchanged. Super Admin and Administrator may assign this role. Dashboard entry requires reporting.read OR portfolio.read; reports still require reporting.read. Admin-created staff use an immutable username and recovery email with mandatory MFA, without an email-verification login prerequisite. Historical B8/P1/P2/P3/F1-E1 evidence remains retained. This feature candidate is not production certification; performance certification remains pending the target VPS. Same-origin session API; the only non-/api/v1 frontend operation is Sanctum CSRF initialization."
+    },
+    {
+      "path": [
+        "paths",
+        "/api/v1/identity/staff",
+        "get",
+        "parameters"
+      ],
+      "before": [
+        {
+          "name": "q",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "description": "Trimmed literal case-insensitive substring on name/email; %, _ and backslash are literals; controls rejected."
+        },
+        {
+          "name": "cursor",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "maxLength": 2048
+          },
+          "description": "Opaque filter-bound cursor; fixed id ASC order."
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 25
+          },
+          "description": ""
+        },
+        {
+          "name": "role",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "super_admin",
+              "administrator",
+              "project_manager",
+              "business_analyst",
+              "sales",
+              "reviewer",
+              "support"
+            ]
+          },
+          "description": ""
+        },
+        {
+          "name": "enabled",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "true",
+              "false",
+              "1",
+              "0"
+            ]
+          },
+          "description": ""
+        }
+      ],
+      "after": [
+        {
+          "name": "q",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "description": "Trimmed literal case-insensitive substring on name/email; %, _ and backslash are literals; controls rejected."
+        },
+        {
+          "name": "cursor",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "maxLength": 2048
+          },
+          "description": "Opaque filter-bound cursor; fixed id ASC order."
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 25
+          },
+          "description": ""
+        },
+        {
+          "name": "role",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "super_admin",
+              "administrator",
+              "project_manager",
+              "business_analyst",
+              "sales",
+              "reviewer",
+              "support",
+              "portfolio_editor"
+            ]
+          },
+          "description": ""
+        },
+        {
+          "name": "enabled",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "true",
+              "false",
+              "1",
+              "0"
+            ]
+          },
+          "description": ""
+        }
+      ]
+    },
+    {
+      "path": [
+        "paths",
+        "/api/v1/identity/staff",
+        "post",
+        "description"
+      ],
+      "before": "Completed MFA and recent password confirmation (300 seconds), existing staff read/manage permissions and unchanged role grant policy. Super Admin may grant any staff role; Administrator may grant Support only. The current staff.invitations.manage capability and assignable_roles describe the same grant authority. Creates credentials, roles, audit and a keyed idempotency receipt atomically. No auto-login or acting-session rotation. Admin-created staff can sign in immediately without email verification, including existing direct accounts. No verification email or token is generated on creation. Email ownership remains truthfully unverified until independently proven; recovery email is retained for password reset. MFA enrollment and subsequent challenges remain mandatory. Administrator-provisioned staff satisfy staff email admission prerequisites across capabilities, reporting, audit, public-content management and AI work; email_verified remains factual and false until proven. This does not grant any extra role permissions, bypass MFA or relax customer and legacy unverified-account controls. No invitation is issued. Existing or pending-invitation emails are rejected; no implicit conversion or revocation. Same actor/key/input replays the same account ID without duplicate accounts or audit; changing input (including password) returns 409. New reasons: USERNAME_UNAVAILABLE and ACCOUNT_UNAVAILABLE. Rate limit: 20 attempts per actor/hour. Existing staff reads keep their exact response shape; onboarding_pending includes new accounts awaiting MFA. Creation replay returns account identity only; read authorization separately for current roles.",
+      "after": "Completed MFA and recent password confirmation (300 seconds), existing staff read/manage permissions and unchanged role grant policy. Super Admin may grant any staff role; Administrator may grant Support and Portfolio Editor. The current staff.invitations.manage capability and assignable_roles describe the same grant authority. Creates credentials, roles, audit and a keyed idempotency receipt atomically. No auto-login or acting-session rotation. Admin-created staff can sign in immediately without email verification, including existing direct accounts. No verification email or token is generated on creation. Email ownership remains truthfully unverified until independently proven; recovery email is retained for password reset. MFA enrollment and subsequent challenges remain mandatory. Administrator-provisioned staff satisfy staff email admission prerequisites across capabilities, reporting, audit, public-content management and AI work; email_verified remains factual and false until proven. This does not grant any extra role permissions, bypass MFA or relax customer and legacy unverified-account controls. No invitation is issued. Existing or pending-invitation emails are rejected; no implicit conversion or revocation. Same actor/key/input replays the same account ID without duplicate accounts or audit; changing input (including password) returns 409. New reasons: USERNAME_UNAVAILABLE and ACCOUNT_UNAVAILABLE. Rate limit: 20 attempts per actor/hour. Existing staff reads keep their exact response shape; onboarding_pending includes new accounts awaiting MFA. Creation replay returns account identity only; read authorization separately for current roles."
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "IdentityStaffAuthorizationInput",
+        "properties",
+        "roles",
+        "items",
+        "enum"
+      ],
+      "before": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support"
+      ],
+      "after": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support",
+        "portfolio_editor"
+      ]
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "IdentityStaffAuthorizationInput",
+        "properties",
+        "roles",
+        "maxItems"
+      ],
+      "before": 7,
+      "after": 8
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "IdentityCurrentUser",
+        "properties",
+        "roles",
+        "maxItems"
+      ],
+      "before": 7,
+      "after": 8
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "IdentityCurrentUser",
+        "properties",
+        "roles",
+        "items",
+        "enum"
+      ],
+      "before": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support",
+        "customer"
+      ],
+      "after": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support",
+        "customer",
+        "portfolio_editor"
+      ]
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "IdentityStaffRecord",
+        "properties",
+        "roles",
+        "items",
+        "enum"
+      ],
+      "before": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support"
+      ],
+      "after": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support",
+        "portfolio_editor"
+      ]
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "IdentityStaffRecord",
+        "properties",
+        "roles",
+        "maxItems"
+      ],
+      "before": 7,
+      "after": 8
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "StaffDirectoryRecord",
+        "properties",
+        "roles",
+        "items",
+        "enum"
+      ],
+      "before": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support"
+      ],
+      "after": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support",
+        "portfolio_editor"
+      ]
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "StaffDirectoryRecord",
+        "properties",
+        "roles",
+        "maxItems"
+      ],
+      "before": 7,
+      "after": 8
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "StaffCapabilitiesResponse",
+        "properties",
+        "data",
+        "properties",
+        "assignable_roles",
+        "items",
+        "enum"
+      ],
+      "before": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support"
+      ],
+      "after": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support",
+        "portfolio_editor"
+      ]
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "StaffCapabilitiesResponse",
+        "properties",
+        "data",
+        "properties",
+        "assignable_roles",
+        "maxItems"
+      ],
+      "before": 7,
+      "after": 8
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "StaffAuthorizationSnapshot",
+        "properties",
+        "roles",
+        "items",
+        "enum"
+      ],
+      "before": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support"
+      ],
+      "after": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support",
+        "portfolio_editor"
+      ]
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "StaffAuthorizationSnapshot",
+        "properties",
+        "roles",
+        "maxItems"
+      ],
+      "before": 7,
+      "after": 8
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "StaffAuthorizationReplaceInput",
+        "properties",
+        "roles",
+        "items",
+        "enum"
+      ],
+      "before": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support"
+      ],
+      "after": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support",
+        "portfolio_editor"
+      ]
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "StaffAuthorizationReplaceInput",
+        "properties",
+        "roles",
+        "maxItems"
+      ],
+      "before": 7,
+      "after": 8
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "StaffInvitationRecord",
+        "properties",
+        "roles",
+        "items",
+        "enum"
+      ],
+      "before": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support"
+      ],
+      "after": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support",
+        "portfolio_editor"
+      ]
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "StaffInvitationRecord",
+        "properties",
+        "roles",
+        "maxItems"
+      ],
+      "before": 7,
+      "after": 8
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "StaffInvitationInput",
+        "properties",
+        "roles",
+        "items",
+        "enum"
+      ],
+      "before": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support"
+      ],
+      "after": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support",
+        "portfolio_editor"
+      ]
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "StaffInvitationInput",
+        "properties",
+        "roles",
+        "maxItems"
+      ],
+      "before": 7,
+      "after": 8
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "StaffInvitationLookupResponse",
+        "properties",
+        "data",
+        "properties",
+        "roles",
+        "items",
+        "enum"
+      ],
+      "before": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support"
+      ],
+      "after": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support",
+        "portfolio_editor"
+      ]
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "StaffInvitationLookupResponse",
+        "properties",
+        "data",
+        "properties",
+        "roles",
+        "maxItems"
+      ],
+      "before": 7,
+      "after": 8
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "StaffInvitationLookupResponse",
+        "properties",
+        "data",
+        "properties",
+        "role_labels",
+        "items",
+        "properties",
+        "code",
+        "enum"
+      ],
+      "before": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support"
+      ],
+      "after": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support",
+        "portfolio_editor"
+      ]
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "StaffInvitationLookupResponse",
+        "properties",
+        "data",
+        "properties",
+        "role_labels",
+        "maxItems"
+      ],
+      "before": 7,
+      "after": 8
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "StaffAccountCreateInput",
+        "properties",
+        "roles",
+        "items",
+        "enum"
+      ],
+      "before": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support"
+      ],
+      "after": [
+        "super_admin",
+        "administrator",
+        "project_manager",
+        "business_analyst",
+        "sales",
+        "reviewer",
+        "support",
+        "portfolio_editor"
+      ]
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "StaffAccountCreateInput",
+        "properties",
+        "roles",
+        "maxItems"
+      ],
+      "before": 7,
+      "after": 8
+    }
+  ]
+}

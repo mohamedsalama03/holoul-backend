@@ -56,7 +56,7 @@ final readonly class WithAuthorizedIdentity
             $permissions = $this->authority->permissionsFor($this->authority->roles($user->id));
             sort($permissions);
 
-            return $action(new AuthorizedIdentity($user->id, $user->kind, $user->email_verified_at !== null, $permissions));
+            return $action(new AuthorizedIdentity($user->id, $user->kind, $user->email_verified_at !== null, $permissions, $user->username !== null));
         }, 2);
     }
 }

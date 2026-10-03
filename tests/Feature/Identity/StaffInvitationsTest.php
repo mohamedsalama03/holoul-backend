@@ -39,7 +39,7 @@ final class StaffInvitationsTest extends TestCase
         self::assertSame([], $response->headers->getCookies());
         $caps = $this->browser('GET', '/api/v1/identity/capabilities')->assertOk();
         self::assertContains('staff.view', $caps->json('data.capabilities'));
-        self::assertSame(['support'], $caps->json('data.assignable_roles'));
+        self::assertSame(['portfolio_editor', 'support'], $caps->json('data.assignable_roles'));
         $me = $this->browser('GET', '/api/v1/identity/me')->assertOk();
         self::assertArrayNotHasKey('assignable_roles', $me->json('data'));
         self::assertNotContains('staff.view', $me->json('data.capabilities'));
@@ -424,6 +424,16 @@ final class StaffInvitationsTest extends TestCase
     }
 
     /** @return array<string,mixed> */
+    public function test_super_admin_can_offer_all_eight_staff_roles_without_losing_invitation_sealing(): void
+    {
+        $this->operator();
+        $roles = array_values(array_filter(array_column(Role::cases(), 'value'), fn (string $role): bool => $role !== 'customer'));
+        self::assertCount(8, $roles);
+        $invitation = $this->issue($roles);
+        self::assertSame(8, DB::table('identity_staff_invitation_roles')->where('invitation_id', $invitation->id)->count());
+        self::assertTrue($invitation->roles_sealed);
+    }
+
     private function input(): array
     {
         return ['email' => Str::uuid7().'@example.test', 'full_name' => 'New Staff', 'roles' => ['support']];

@@ -1,0 +1,98 @@
+{
+  "source_high_critical_findings": 0,
+  "application_image_high_critical_findings": 0,
+  "infrastructure": [
+    {
+      "image": "axllent/mailpit:v1.31.1@sha256:98b916bd3c8d61f7633a52d3ea2f58d00620cb01ca57ab59edde68c347a95365",
+      "image_id": "sha256:98b916bd3c8d61f7633a52d3ea2f58d00620cb01ca57ab59edde68c347a95365",
+      "exit_code": 0,
+      "report": "infrastructure-scan-0.json",
+      "findings": []
+    },
+    {
+      "image": "holoul-inspector:b8-runtime",
+      "image_id": "sha256:004294317ce43fbb1726b72541c4c5c394fdc144e782c2d9e8aace828a452819",
+      "exit_code": 1,
+      "report": "infrastructure-scan-1.json",
+      "findings": [
+        {
+          "VulnerabilityID": "CVE-2026-93990",
+          "PkgName": "libexpat",
+          "InstalledVersion": "2.8.4-r0",
+          "FixedVersion": "2.8.5-r0",
+          "Severity": "HIGH",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-93990"
+        }
+      ]
+    },
+    {
+      "image": "holoul-portfolio:public-services-candidate",
+      "image_id": "sha256:2bfe69025432b3d87c0d5126bdb1eca0f99f9e2159da402bd3653169f1108abe",
+      "exit_code": 0,
+      "report": "infrastructure-scan-2.json",
+      "findings": []
+    },
+    {
+      "image": "holoul-postgres:b1-runtime",
+      "image_id": "sha256:9d3c94996cdef82a3b22fe62099ec173893ab2ae48d0a6aa40624a74c3a2fdcf",
+      "exit_code": 0,
+      "report": "infrastructure-scan-3.json",
+      "findings": []
+    },
+    {
+      "image": "holoul-redis:b1-runtime",
+      "image_id": "sha256:db87e0459a6fcd6368f28396005d4b96f9983b05dff742e0d5e01209f536fb30",
+      "exit_code": 0,
+      "report": "infrastructure-scan-4.json",
+      "findings": []
+    },
+    {
+      "image": "holoul-scanner:b4-runtime",
+      "image_id": "sha256:d9281dad1a7b89112cba9036b74620f110aceb7513cb787f2964f00c3185a606",
+      "exit_code": 1,
+      "report": "infrastructure-scan-5.json",
+      "findings": [
+        {
+          "VulnerabilityID": "CVE-2026-103111",
+          "PkgName": "pcre2",
+          "InstalledVersion": "10.48-r0",
+          "FixedVersion": "10.49-r0",
+          "Severity": "HIGH",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-103111"
+        }
+      ]
+    },
+    {
+      "image": "holoul-storage:b4-runtime",
+      "image_id": "sha256:d83a6b2fb64881f3a0377260bf484ec16c50891fab9da988e0e68c0a10874b8b",
+      "exit_code": 0,
+      "report": "infrastructure-scan-6.json",
+      "findings": []
+    },
+    {
+      "image": "nginx:1.30.5-alpine@sha256:73c75df4075c918f91017fdda46ad81e55e5af77ba3a64ca3d5014bd9244fe7f",
+      "image_id": "sha256:73c75df4075c918f91017fdda46ad81e55e5af77ba3a64ca3d5014bd9244fe7f",
+      "exit_code": 1,
+      "report": "infrastructure-scan-7.json",
+      "findings": [
+        {
+          "VulnerabilityID": "CVE-2026-93990",
+          "PkgName": "libexpat",
+          "InstalledVersion": "2.8.4-r0",
+          "FixedVersion": "2.8.5-r0",
+          "Severity": "HIGH",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-93990"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-103111",
+          "PkgName": "pcre2",
+          "InstalledVersion": "10.48-r0",
+          "FixedVersion": "10.49-r0",
+          "Severity": "HIGH",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-103111"
+        }
+      ]
+    }
+  ],
+  "suppressed_findings": 0
+}

@@ -19,7 +19,7 @@ final class StaffAuthorizationInput
         }
 
         $validated = $request->validate([
-            'roles' => ['required', 'array', 'list', 'min:1', 'max:7'],
+            'roles' => ['required', 'array', 'list', 'min:1', 'max:8'],
             'roles.*' => ['required', 'string', 'distinct:strict', Rule::enum(Role::class)],
             'enabled' => ['required', 'boolean'],
         ]);

@@ -1,0 +1,36 @@
+# Reviewed LOCAL pilot only. Not applied automatically by the normal launcher.
+# Layer after compose.staff-direct-local.yaml. Requires explicit provider/data/
+# budget approval and scripts/set-gemini-key.py. No migrations or fixture resets.
+x-gemini-runtime: &gemini-runtime
+  image: holoul-app:gemini-documents-local
+  environment:
+    HOLOUL_AI_ENABLED: "true"
+    HOLOUL_AI_DRIVER: gemini
+    HOLOUL_GEMINI_APPROVED: "${HOLOUL_GEMINI_APPROVED:?Approve the documented local Gemini pilot before activation}"
+    HOLOUL_GEMINI_DOCUMENTS_APPROVED: "${HOLOUL_GEMINI_DOCUMENTS_APPROVED:-false}"
+    GEMINI_API_KEY_FILE: /run/holoul-gemini/api_key
+  volumes:
+    - type: bind
+      source: /home/mohamed/.config/holoul/secrets/gemini_api_key
+      target: /run/holoul-gemini/api_key
+      read_only: true
+      bind:
+        create_host_path: false
+services:
+  app:
+    <<: *gemini-runtime
+  queue:
+    <<: *gemini-runtime
+  scheduler:
+    <<: *gemini-runtime
+  document-queue:
+    <<: *gemini-runtime
+  ai-queue:
+    <<: *gemini-runtime
+    # Only the AI worker needs outbound access to the fixed Google HTTPS API.
+    # The application, database, storage and other workers retain private networking.
+    networks: [internal, gemini_egress]
+  notification-queue:
+    <<: *gemini-runtime
+networks:
+  gemini_egress: {}

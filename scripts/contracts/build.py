@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-FRAGMENTS = ("identity-intake", "commercial-projects", "files-async-reporting", "admin-integration", "guest-intake", "staff-onboarding", "public-services")
+FRAGMENTS = ("identity-intake", "commercial-projects", "files-async-reporting", "admin-integration", "guest-intake", "staff-onboarding", "public-services", "staff-accounts")
 METHODS = {"get", "post", "put", "patch", "delete", "head", "options"}
 ERRORS = {
     400: ("BadRequest", "MALFORMED_REQUEST", "The request could not be completed."),
@@ -76,8 +76,8 @@ def build():
             responses[name]["headers"]["Retry-After"] = {"description": "Optional integer seconds or HTTP date; not guaranteed on every failure.", "schema": {"type": "string"}}
     spec = {
         "openapi": "3.1.1", "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
-        "info": {"title": "HOLOUL frontend API", "version": "1.5.0-intake-display-candidate",
-                 "description": "Preserves all default 1.4.0 responses, command schemas and permission grants; adds opt-in view=dashboard to five staff intake reads for directory links, request names, provenance, claim status and named actors. Historical B8/P1/P2/P3/F1-E1 evidence remains retained. This feature candidate is not production certification; performance certification remains pending the target VPS. Same-origin session API; the only non-/api/v1 frontend operation is Sanctum CSRF initialization."},
+        "info": {"title": "HOLOUL frontend API", "version": "1.8.1-gemini-documents-candidate",
+                 "description": "Customer registration no longer issues verification mail. Active customers can submit their own intake, upload intake attachments and request permitted AI without email verification; email ownership remains truthful and guest-claim verification is retained. Registration stays generic HTTP 202 without automatically signing in. Adds the Portfolio Editor staff role for portfolio drafts, images, publication and unpublication, plus own profile and notifications. Existing role grants and operation security requirements are unchanged. Super Admin and Administrator may assign this role. Dashboard entry requires reporting.read OR portfolio.read; reports still require reporting.read. Admin-created staff use an immutable username and recovery email with mandatory MFA, without an email-verification login prerequisite. Historical B8/P1/P2/P3/F1-E1 evidence remains retained. This feature candidate is not production certification; performance certification remains pending the target VPS. Same-origin session API; the only non-/api/v1 frontend operation is Sanctum CSRF initialization."},
         "servers": [{"url": "/", "description": "Same HTTPS origin as the Next.js application"}],
         "paths": {"/api/v1": {"get": {
             "operationId": "apiVersion", "summary": "Read API identity", "tags": ["API"],

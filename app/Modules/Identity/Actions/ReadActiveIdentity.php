@@ -28,6 +28,6 @@ final readonly class ReadActiveIdentity
         }
 
         return new AuthorizedIdentity($id, $user->kind, $user->email_verified_at !== null,
-            $this->authority->permissionsFor($this->authority->roles($id)));
+            $this->authority->permissionsFor($this->authority->roles($id)), $user->username !== null);
     }
 }

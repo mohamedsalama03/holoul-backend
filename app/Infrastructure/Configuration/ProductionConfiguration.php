@@ -83,8 +83,7 @@ final class ProductionConfiguration
             && Config::string('documents.s3.access_key') !== '', 'private_storage_configuration_required');
         $this->require($issues, Config::string('logging.default') === 'stdout'
             && in_array(SafeLogProcessor::class, Config::array('logging.channels.stdout.processors'), true), 'safe_logging_required');
-        $this->require($issues, Config::string('ai.driver') === 'sandbox' && Config::string('ai.model') === 'sandbox-v1'
-            && Config::array('ai.allowed_providers') === ['sandbox'] && Config::array('ai.allowed_models') === ['sandbox-v1'], 'external_ai_not_approved');
+        $this->require($issues, AIConfiguration::approved(), 'external_ai_not_approved');
         $this->require($issues, in_array(Config::string('operations.process_role'), ['app', 'default', 'documents', 'ai', 'notifications', 'scheduler', 'migration'], true)
             && Config::integer('operations.worker_slot') >= 1 && Config::integer('operations.worker_slots') <= 64
             && Config::integer('operations.worker_slot') <= Config::integer('operations.worker_slots'), 'bounded_process_identity_required');

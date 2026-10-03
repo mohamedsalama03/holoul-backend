@@ -1,0 +1,15 @@
+{
+  "image_id": "sha256:5ecf0a383ec5afb60abfd7c86fbbda33f9747c6cdab33d0a4da86ec78dc2072d",
+  "image_reference": "holoul-app:unified-vps-candidate",
+  "image_size": 75402689,
+  "configured_user": "holoul",
+  "source_files_compared": 542,
+  "source_mismatches": [],
+  "unexpected_application_files": [],
+  "provider_key_matches": [],
+  "scanned_regular_files": 12020,
+  "dev_dependencies_installed": false,
+  "package_count": 82,
+  "sensitive_env_names": [],
+  "passed": true
+}

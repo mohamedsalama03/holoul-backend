@@ -77,20 +77,16 @@ final class RegistrationConcurrencyTest extends TestCase
             self::assertSame(1, DB::table('user_roles')->join('roles', 'roles.id', '=', 'user_roles.role_id')
                 ->where('user_roles.user_id', $user->id)->where('user_roles.user_kind', 'customer')
                 ->where('roles.code', 'customer')->count());
-            $this->assertDatabaseCount('identity_recovery_mail', 1);
-            $this->assertDatabaseCount('identity_recovery_tokens', 1);
-            $this->assertDatabaseCount('async_operations', 1);
-            $this->assertDatabaseHas('identity_recovery_tokens', ['user_id' => $user->id, 'purpose' => 'verify_email', 'consumed_at' => null, 'revoked_at' => null]);
-            $mail = DB::table('identity_recovery_mail')->where('user_id', $user->id)->sole();
-            self::assertSame('pending', $mail->state);
-            self::assertNotNull($mail->encrypted_payload);
-            $this->assertDatabaseHas('async_operations', ['id' => $mail->operation_id, 'kind' => 'identity.recovery_mail', 'state' => 'pending']);
+            $this->assertDatabaseCount('identity_recovery_mail', 0);
+            $this->assertDatabaseCount('identity_recovery_tokens', 0);
+            $this->assertDatabaseCount('async_operations', 0);
+            self::assertNull($user->email_verified_at);
             self::assertSame(1, DB::table('audit_events')->where('event_type', 'identity.registered')->where('subject_id', $user->id)->count());
             self::assertSame(1, DB::table('audit_events')->where('event_type', 'identity.role.customer.granted')->where('subject_id', $user->id)->count());
-            self::assertSame(1, DB::table('audit_events')->where('event_type', 'identity.verification.issued')->where('subject_id', $user->id)->count());
-            self::assertSame(1, $queue->size($queueName));
-            // No worker consumes this unique queue. The test proves durable
-            // registration intent while leaving every SMTP payload unsent.
+            self::assertSame(0, DB::table('audit_events')->where('event_type', 'identity.verification.issued')->where('subject_id', $user->id)->count());
+            self::assertSame(0, $queue->size($queueName));
+            // Concurrent registration commits one identity/profile/role/audit,
+            // with no verification token, mail intent or queue dispatch.
         } finally {
             foreach ($peers as $peer) {
                 if ($peer->isRunning()) {

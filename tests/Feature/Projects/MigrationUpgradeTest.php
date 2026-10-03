@@ -8,6 +8,7 @@ use App\Infrastructure\Async\OperationRunner;
 use App\Modules\Documents\Contracts\DocumentService;
 use App\Modules\Documents\Data\DocumentOwner;
 use App\Modules\Documents\Models\Document;
+use App\Modules\Identity\Contracts\IdentityReader;
 use App\Modules\ProjectIntake\Actions\AssignRequest;
 use App\Modules\ProjectIntake\Actions\IntakeDocuments;
 use App\Modules\ProjectIntake\Actions\IntakeStore;
@@ -24,6 +25,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Tests\Support\CommercialFixtures;
 use Tests\Support\DocumentFixtures;
+use Tests\Support\PreUsernameIdentityReader;
 use Tests\TestCase;
 
 final class MigrationUpgradeTest extends TestCase
@@ -40,6 +42,7 @@ final class MigrationUpgradeTest extends TestCase
             self::assertSame($hash, hash_file('sha256', base_path($file)), $file);
         }
         $this->artisan('migrate:fresh', ['--path' => array_keys($hashes), '--force' => true])->assertExitCode(0);
+        $this->app->instance(IdentityReader::class, new PreUsernameIdentityReader);
         try {
             self::assertFalse(Schema::hasTable('projects'));
             $this->initializeDocuments();
@@ -111,6 +114,7 @@ final class MigrationUpgradeTest extends TestCase
             self::assertTrue(Schema::hasTable('projects'));
             $this->assertDatabaseCount('projects', 0);
         } finally {
+            $this->app->forgetInstance(IdentityReader::class);
             $this->artisan('migrate:fresh', ['--force' => true])->assertExitCode(0);
         }
     }

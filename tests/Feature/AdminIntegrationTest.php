@@ -294,13 +294,15 @@ final class AdminIntegrationTest extends TestCase
         $this->travelBack();
     }
 
-    public function test_customer_capabilities_follow_verification_without_granting_staff_access(): void
+    public function test_customer_capabilities_allow_intake_without_email_verification_or_staff_access(): void
     {
         $customer = $this->intakeCustomer(false);
         $this->signIn($customer)->assertOk();
         $view = $this->browser('GET', '/api/v1/identity/me')->assertOk()->assertJsonPath('data.roles', ['customer'])
             ->assertJsonPath('data.mfa_required', false)->assertJsonPath('data.mfa_satisfied', true);
-        self::assertNotContains('project_requests.submit', $view->json('data.capabilities'));
+        $view->assertJsonPath('data.email_verified', false);
+        self::assertContains('project_requests.submit', $view->json('data.capabilities'));
+        self::assertNotContains('admin.customers.view', $view->json('data.capabilities'));
         self::assertContains('project_requests.create', $view->json('data.capabilities'));
         $customer->update(['email_verified_at' => now()]);
         $view = $this->browser('GET', '/api/v1/identity/me')->assertOk();

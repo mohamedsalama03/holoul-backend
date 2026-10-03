@@ -85,7 +85,8 @@ final class IntakeAuthorityTest extends TestCase
         self::assertTrue($context->allows('intake.review'));
         self::assertFalse($context->allows('intake.reject'));
         self::assertFalse($context->allows('intake.read_all'));
-        self::assertSame(['id', 'kind', 'verifiedEmail', 'permissions'], array_keys(get_object_vars($context)));
+        self::assertFalse($context->emailPrerequisiteSatisfied);
+        self::assertSame(['emailPrerequisiteSatisfied', 'id', 'kind', 'verifiedEmail', 'permissions'], array_keys(get_object_vars($context)));
         self::assertSame(0, DB::transactionLevel());
     }
 

@@ -16,6 +16,7 @@ Route::middleware('identity.spa')->group(function (): void {
     Route::post('auth/staff-invitations/accept', [StaffController::class, 'accept']);
     Route::post('auth/register', [AuthController::class, 'register'])->middleware('identity.throttle:register');
     Route::post('auth/login', [AuthController::class, 'login'])->middleware('identity.throttle:login');
+    Route::post('auth/username-login', [AuthController::class, 'usernameLogin'])->middleware('identity.throttle:login');
     Route::post('auth/email/verify', [RecoveryController::class, 'verify'])->middleware('identity.throttle:verify');
     Route::post('auth/email/resend', [RecoveryController::class, 'resend'])->middleware('identity.throttle:resend');
     Route::post('auth/password/forgot', [RecoveryController::class, 'forgot'])->middleware('identity.throttle:forgot');
@@ -42,6 +43,7 @@ Route::middleware('identity.spa')->group(function (): void {
         Route::patch('identities/{identity}/customers/{customer}', [CustomerController::class, 'nestedUpdate']);
         Route::get('identity/capabilities', [StaffController::class, 'capabilities']);
         Route::get('identity/staff', [StaffController::class, 'directory']);
+        Route::post('identity/staff', [StaffController::class, 'create']);
         Route::get('identity/staff/invitations', [StaffController::class, 'invitations']);
         Route::post('identity/staff/invitations', [StaffController::class, 'issue']);
         Route::post('identity/staff/invitations/{invitation}/resends', [StaffController::class, 'resend']);

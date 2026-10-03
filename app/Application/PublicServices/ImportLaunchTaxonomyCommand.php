@@ -34,7 +34,7 @@ final class ImportLaunchTaxonomyCommand extends Command
                     return null;
                 }
                 $identity = $identities->contact($id, true);
-                if ($identity === null || ! $identity->enabled || ! $identity->verifiedEmail || $identity->kind !== 'staff'
+                if ($identity === null || ! $identity->enabled || ! $identity->emailPrerequisiteSatisfied || $identity->kind !== 'staff'
                     || ! in_array('taxonomy.manage', $roles->permissionsFor($roles->roles($id)), true)) {
                     return null;
                 }

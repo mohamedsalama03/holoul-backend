@@ -1,0 +1,616 @@
+{
+  "paths": {
+    "/api/v1/identity/staff": {
+      "post": {
+        "operationId": "identityCreateStaffAccount",
+        "summary": "Create a staff account with username and password",
+        "description": "Completed MFA and recent password confirmation (300 seconds), existing staff read/manage permissions and unchanged role grant policy. Super Admin may grant any staff role; Administrator may grant Support and Portfolio Editor. The current staff.invitations.manage capability and assignable_roles describe the same grant authority. Creates credentials, roles, audit and a keyed idempotency receipt atomically. No auto-login or acting-session rotation. Admin-created staff can sign in immediately without email verification, including existing direct accounts. No verification email or token is generated on creation. Email ownership remains truthfully unverified until independently proven; recovery email is retained for password reset. MFA enrollment and subsequent challenges remain mandatory. Administrator-provisioned staff satisfy staff email admission prerequisites across capabilities, reporting, audit, public-content management and AI work; email_verified remains factual and false until proven. This does not grant any extra role permissions, bypass MFA or relax customer and legacy unverified-account controls. No invitation is issued. Existing or pending-invitation emails are rejected; no implicit conversion or revocation. Same actor/key/input replays the same account ID without duplicate accounts or audit; changing input (including password) returns 409. New reasons: USERNAME_UNAVAILABLE and ACCOUNT_UNAVAILABLE. Rate limit: 20 attempts per actor/hour. Existing staff reads keep their exact response shape; onboarding_pending includes new accounts awaiting MFA. Creation replay returns account identity only; read authorization separately for current roles.",
+        "tags": [
+          "Staff onboarding"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "x-personas": [
+          "staff"
+        ],
+        "x-permissions": [
+          "identity.staff.read",
+          "identity.staff.manage"
+        ],
+        "x-frontend-feature": "Direct staff accounts",
+        "x-source": [
+          "routes/identity.php",
+          "app/Modules/Identity/Staff/StaffController.php",
+          "app/Modules/Identity/Staff/CreateStaff.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          },
+          {
+            "$ref": "#/components/parameters/StaffIdempotencyKey"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Account created, or idempotent replay. Never returns credentials.",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP 400; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP 401; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP 403; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP 404; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP 409; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "HTTP 412; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "HTTP 413; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "HTTP 415; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "HTTP 422; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "428": {
+            "description": "HTTP 428; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "HTTP 429; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP 500; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP 503; fixed reason when applicable; generic middleware errors may omit reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffAccountErrorEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StaffAccountCreateInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/username-login": {
+      "post": {
+        "operationId": "identityLoginWithUsername",
+        "tags": [
+          "Identity"
+        ],
+        "summary": "Sign in staff using their username",
+        "description": "Same CSRF, session rotation and MFA behavior as email login. Case-insensitive, trimmed username. Both aliases share the email account throttle (5 attempts/minute) and IP limit. Missing, disabled or wrong credentials return generic 401. Email verification is not a prerequisite for admin-created staff using either username or email login. Both existing and newly created direct accounts proceed to mandatory MFA without falsifying email ownership. Successful first factor returns 202 mfa_enrollment or mfa_challenge. Legacy email login is preserved.",
+        "security": [],
+        "x-personas": [
+          "guest",
+          "customer",
+          "staff"
+        ],
+        "x-permissions": [],
+        "x-frontend-feature": "Direct staff sign-in",
+        "x-source": [
+          "routes/identity.php",
+          "app/Modules/Identity/Http/Controllers/AuthController.php",
+          "app/Modules/Identity/Actions/Authentication.php"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestId"
+          },
+          {
+            "$ref": "#/components/parameters/Origin"
+          },
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          }
+        ],
+        "responses": {
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "413": {
+            "$ref": "#/components/responses/PayloadTooLarge"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          },
+          "202": {
+            "description": "First factor accepted; staff MFA is required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdentityMfaRequiredResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-csrf-required": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsernameLoginInput"
+              }
+            }
+          }
+        },
+        "x-validation-fields": [
+          "username",
+          "password"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StaffAccountCreateInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 254
+          },
+          "full_name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 160
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "super_admin",
+                "administrator",
+                "project_manager",
+                "business_analyst",
+                "sales",
+                "reviewer",
+                "support",
+                "portfolio_editor"
+              ]
+            },
+            "maxItems": 8,
+            "uniqueItems": true,
+            "minItems": 1
+          },
+          "username": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 40,
+            "pattern": "^[a-zA-Z][a-zA-Z0-9._-]{2,39}$",
+            "description": "Trimmed and lowercase-normalized. Unique, immutable staff login name. No @."
+          },
+          "password": {
+            "type": "string",
+            "minLength": 12,
+            "maxLength": 128,
+            "writeOnly": true,
+            "description": "Must contain lowercase and uppercase letters and a number. Never returned, logged or emailed."
+          },
+          "password_confirmation": {
+            "type": "string",
+            "minLength": 12,
+            "maxLength": 128,
+            "writeOnly": true,
+            "description": "Must match password."
+          }
+        },
+        "required": [
+          "email",
+          "full_name",
+          "roles",
+          "username",
+          "password",
+          "password_confirmation"
+        ]
+      },
+      "StaffAccountRecord": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "username",
+          "full_name",
+          "email"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "username": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9._-]{2,39}$"
+          },
+          "full_name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 160
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        }
+      },
+      "StaffAccountResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/StaffAccountRecord"
+          }
+        }
+      },
+      "StaffAccountErrorEnvelope": {
+        "type": "object",
+        "required": [
+          "error",
+          "request_id"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "error": {
+            "type": "object",
+            "required": [
+              "code",
+              "message"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string",
+                "enum": [
+                  "MALFORMED_REQUEST",
+                  "UNAUTHENTICATED",
+                  "FORBIDDEN",
+                  "NOT_FOUND",
+                  "METHOD_NOT_ALLOWED",
+                  "CONFLICT",
+                  "STALE_VERSION",
+                  "REQUEST_TOO_LARGE",
+                  "UNSUPPORTED_MEDIA_TYPE",
+                  "VALIDATION_FAILED",
+                  "PRECONDITION_REQUIRED",
+                  "RATE_LIMITED",
+                  "INTERNAL_ERROR",
+                  "SERVICE_UNAVAILABLE"
+                ]
+              },
+              "message": {
+                "type": "string"
+              },
+              "fields": {
+                "description": "Only present for validation errors; safe field names and fixed messages.",
+                "type": "object",
+                "maxProperties": 100,
+                "propertyNames": {
+                  "pattern": "^[a-zA-Z_][a-zA-Z0-9_.]{0,127}$"
+                },
+                "additionalProperties": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 1,
+                  "items": {
+                    "const": "This field is invalid."
+                  }
+                }
+              },
+              "reason": {
+                "type": "string",
+                "enum": [
+                  "LAST_ENABLED_SUPER_ADMIN",
+                  "ROLE_AUTHORITY_EXCEEDED",
+                  "SECURITY_ROLE_RESTRICTED",
+                  "STAFF_CUSTOMER_ROLE_MIX",
+                  "PASSWORD_CONFIRMATION_REQUIRED",
+                  "EMAIL_ALREADY_STAFF",
+                  "EMAIL_ALREADY_CUSTOMER",
+                  "INVITATION_ALREADY_PENDING",
+                  "IDEMPOTENCY_KEY_REUSED",
+                  "INVITATION_ALREADY_ACCEPTED",
+                  "INVITATION_ALREADY_REVOKED",
+                  "INVITATION_EXPIRED",
+                  "INVITATION_RESEND_LIMIT",
+                  "INVITATION_UNAVAILABLE",
+                  "INVITATION_SIGN_OUT_REQUIRED",
+                  "NOT_FOUND",
+                  "STALE_VERSION",
+                  "PRECONDITION_REQUIRED",
+                  "USERNAME_UNAVAILABLE",
+                  "ACCOUNT_UNAVAILABLE"
+                ]
+              },
+              "resource_id": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          }
+        }
+      },
+      "UsernameLoginInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "username",
+          "password"
+        ],
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 40,
+            "pattern": "^[a-zA-Z][a-zA-Z0-9._-]{2,39}$",
+            "description": "Trimmed and lowercase-normalized. Unique, immutable staff login name. No @."
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 128,
+            "writeOnly": true
+          }
+        }
+      }
+    }
+  }
+}

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Commercial;
 
 use App\Modules\Documents\Contracts\DocumentService;
+use App\Modules\Identity\Contracts\IdentityReader;
 use App\Modules\Identity\Models\User;
 use App\Modules\ProjectIntake\Actions\ManageDraft;
 use App\Modules\ProjectIntake\Actions\SubmitRequest;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Tests\Support\CommercialFixtures;
 use Tests\Support\DocumentFixtures;
+use Tests\Support\PreUsernameIdentityReader;
 use Tests\TestCase;
 
 final class MigrationUpgradeTest extends TestCase
@@ -35,6 +37,7 @@ final class MigrationUpgradeTest extends TestCase
             self::assertSame($hash, hash_file('sha256', base_path($file)), $file);
         }
         $this->artisan('migrate:fresh', ['--path' => array_keys($hashes), '--force' => true])->assertExitCode(0);
+        $this->app->instance(IdentityReader::class, new PreUsernameIdentityReader);
         try {
             self::assertFalse(Schema::hasTable('proposals'));
             self::assertFalse(Schema::hasTable('discovery_records'));
@@ -99,6 +102,7 @@ final class MigrationUpgradeTest extends TestCase
             self::assertTrue(Schema::hasTable('discovery_revisions'));
             self::assertTrue(Schema::hasTable('proposal_documents'));
         } finally {
+            $this->app->forgetInstance(IdentityReader::class);
             $this->artisan('migrate:fresh', ['--force' => true])->assertExitCode(0);
         }
     }

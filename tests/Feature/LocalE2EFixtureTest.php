@@ -150,7 +150,7 @@ final class LocalE2EFixtureTest extends TestCase
             ->assertConflict()->assertJsonPath('error.reason', 'LAST_ENABLED_SUPER_ADMIN');
 
         $this->fixtureMfa($values, 'ADMIN');
-        self::assertSame(['support'], $this->browser('GET', '/api/v1/identity/capabilities')->assertOk()->json('data.assignable_roles'));
+        self::assertSame(['portfolio_editor', 'support'], $this->browser('GET', '/api/v1/identity/capabilities')->assertOk()->json('data.assignable_roles'));
         $this->browser('GET', '/api/v1/identity/staff')->assertOk();
         $this->browser('POST', '/api/v1/identity/staff/invitations',
             ['email' => 'e2e-invitee-'.Str::uuid7().'@example.test', 'full_name' => 'Synthetic Support', 'roles' => ['support']],

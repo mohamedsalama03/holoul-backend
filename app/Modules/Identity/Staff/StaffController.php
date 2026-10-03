@@ -20,6 +20,33 @@ use Illuminate\Support\Facades\Validator;
 
 final readonly class StaffController
 {
+    public function create(Request $request, CreateStaff $action): JsonResponse
+    {
+        $this->start($request);
+        $actor = app(StaffAccess::class)->requirePermission($request, Permission::ManageStaff);
+        StaffInput::recent($request);
+        app(AuthLimiter::class)->consume([['key' => 'staff.create:'.$actor->id, 'maximum' => 20, 'seconds' => 3600]]);
+        StaffInput::only($request, ['full_name', 'username', 'email', 'password', 'password_confirmation', 'roles']);
+        foreach (['full_name', 'email', 'username'] as $field) {
+            if (is_string($request->input($field))) {
+                $value = $request->string($field)->toString();
+                $request->merge([$field => $field === 'full_name' ? IdentityInput::name($value) : strtolower(trim($value))]);
+            }
+        }
+        Validator::make($request->all(), [
+            'full_name' => ['required', 'string', 'min:2', 'max:160', 'not_regex:/[\p{C}]/u'],
+            'username' => ['required', 'string', 'regex:/\A[a-z][a-z0-9._-]{2,39}\z/D'],
+            'email' => ['required', 'string', 'email:rfc', 'max:254', 'regex:/\A[\x21-\x7e]+\z/D'],
+            'password' => [...IdentityInput::passwordRules(), 'confirmed'],
+            'password_confirmation' => ['required', 'string', 'max:128'],
+        ])->validate();
+        $user = $action->handle($request, $request->string('username')->toString(), $request->string('email')->toString(),
+            $request->string('full_name')->toString(), $request->string('password')->toString(), StaffInput::roles($request), $request->header('Idempotency-Key', ''));
+
+        return $this->json(['data' => ['id' => $user->id, 'username' => $user->username, 'full_name' => $user->full_name,
+            'email' => $user->email]], 201);
+    }
+
     public function directory(Request $request, StaffQueries $queries): JsonResponse
     {
         $this->start($request);

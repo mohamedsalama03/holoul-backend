@@ -16,7 +16,6 @@ use App\Modules\ProjectIntake\Data\RequestState;
 use App\Modules\ProjectIntake\Models\ProjectRequest;
 use App\Modules\ProjectIntake\Models\RequestDraft;
 use App\Modules\ProjectIntake\Models\RequestRevision;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -33,9 +32,6 @@ final readonly class IntakeDocuments
     public function editable(ProjectRequest $record, IntakeActor $actor): RequestDraft
     {
         $this->store->policy->owner($actor, $record);
-        if (! $actor->verifiedEmail) {
-            throw new AuthorizationException;
-        }
         $draft = $this->store->draft($record);
         if (! $draft->is_open || ($record->state !== RequestState::Draft && ! $record->state->amendable())) {
             throw new HttpException(409);

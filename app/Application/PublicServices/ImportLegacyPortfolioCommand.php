@@ -77,7 +77,7 @@ final class ImportLegacyPortfolioCommand extends Command
         $identity = app(IdentityReader::class)->contact($id, true);
         $roles = app(RoleAuthority::class);
         $permissions = $roles->permissionsFor($roles->roles($id));
-        if ($identity === null || ! $identity->enabled || ! $identity->verifiedEmail || $identity->kind !== 'staff' || ! in_array('portfolio.manage', $permissions, true)) {
+        if ($identity === null || ! $identity->enabled || ! $identity->emailPrerequisiteSatisfied || $identity->kind !== 'staff' || ! in_array('portfolio.manage', $permissions, true)) {
             throw new RuntimeException('An enabled, verified portfolio manager is required.');
         }
 

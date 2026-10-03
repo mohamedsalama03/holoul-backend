@@ -21,7 +21,6 @@ final class CurrentCapabilities
         $map = ['notifications.view' => ['notifications.self.read'], 'notifications.manage' => ['notifications.self.manage']];
         if ($actor->kind === 'staff') {
             $map += [
-                'admin.dashboard.view' => ['reporting.read'],
                 'admin.customers.view' => ['customers.directory.read'],
                 'project_requests.view' => ['intake.read'],
                 'project_requests.assign' => ['intake.read', 'intake.assign'],
@@ -44,21 +43,20 @@ final class CurrentCapabilities
                 $map['staff.authorization.manage'] = ['identity.staff.manage'];
             }
         } else {
-            $result = [...$result, 'categories.view', 'customer_profile.view', 'customer_profile.update', 'project_requests.view', 'project_requests.create'];
+            $result = [...$result, 'categories.view', 'customer_profile.view', 'customer_profile.update', 'project_requests.view', 'project_requests.create', 'project_requests.submit', 'project_requests.documents.upload'];
             $map += ['projects.view' => ['projects.self.read'], 'proposals.view' => ['proposals.self.read']];
             if ($actor->verifiedEmail) {
-                $result = [...$result, 'project_requests.submit', 'project_requests.documents.upload'];
                 if ($recent) {
                     $map['proposals.accept'] = ['proposals.self.accept'];
                     $map['projects.completion.confirm'] = ['projects.self.read', 'projects.self.confirm'];
                 }
             }
         }
-        if (Config::boolean('ai.enabled') && $actor->verifiedEmail) {
+        if (Config::boolean('ai.enabled') && $actor->emailPrerequisiteSatisfied) {
             $map['ai.request'] = [$actor->kind === 'staff' ? 'ai.use' : 'ai.self.use'];
         }
         foreach ($map as $capability => $required) {
-            if (! $actor->verifiedEmail && in_array($capability, ['admin.dashboard.view', 'reports.view', 'audit.investigate'], true)) {
+            if (! $actor->emailPrerequisiteSatisfied && in_array($capability, ['admin.dashboard.view', 'reports.view', 'audit.investigate'], true)) {
                 continue;
             }
             if ($capability === 'admin.customers.view' && ! $actor->allows('intake.read') && ! $actor->allows('projects.read')) {
@@ -67,6 +65,10 @@ final class CurrentCapabilities
             if (array_diff($required, $actor->permissions) === []) {
                 $result[] = $capability;
             }
+        }
+        if ($actor->kind === 'staff' && $actor->emailPrerequisiteSatisfied
+            && ($actor->allows('reporting.read') || $actor->allows('portfolio.read'))) {
+            $result[] = 'admin.dashboard.view';
         }
         sort($result);
 

@@ -1,0 +1,1958 @@
+{
+  "categories": {
+    "A": 41,
+    "B": 3,
+    "C": 2,
+    "D": 13,
+    "E": 1,
+    "F": 34,
+    "G": 21,
+    "H": 5,
+    "I": 0,
+    "J": 0
+  },
+  "changed_file_count": 120,
+  "files": [
+    {
+      "path": ".env.example",
+      "category": "B",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Configuration template / pinned dependencies; no runtime credentials"
+    },
+    {
+      "path": "Dockerfile",
+      "category": "E",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Pinned build with explicit production runtime allowlist"
+    },
+    {
+      "path": "app/Application/AI/AISources.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Application/Documents/DocumentApi.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Application/Identity/RegisterCustomer.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Application/PublicServices/ContactApi.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Application/PublicServices/ImportLaunchTaxonomyCommand.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Application/PublicServices/ImportLegacyPortfolioCommand.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Application/PublicServices/PortfolioApi.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Application/PublicServices/PortfolioAuthorityAdapter.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Application/PublicServices/PublicContentCapabilities.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Application/Reporting/ReportingApi.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Infrastructure/Configuration/AIConfiguration.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Infrastructure/Configuration/ProductionConfiguration.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/AI/AIServiceProvider.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/AI/Actions/AIAvailability.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/AI/Actions/AIRuns.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/AI/Actions/GenerateAI.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/AI/Adapters/GeminiAIProvider.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/Identity/Actions/Authentication.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/Identity/Actions/CurrentCapabilities.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/Identity/Actions/ReadActiveIdentity.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/Identity/Actions/WithAuthorizedIdentity.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/Identity/Authorization/Actions/ChangeStaffAuthorization.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/Identity/Authorization/Http/StaffAuthorizationInput.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/Identity/Authorization/Role.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/Identity/Contracts/AuthorizedIdentity.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/Identity/Contracts/IdentityContact.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/Identity/Http/Controllers/AuthController.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/Identity/Http/Requests/UsernameLoginRequest.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/Identity/Http/SecurityThrottle.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/Identity/Models/User.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/Identity/Recovery/RecoveryMailTemplates.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/Identity/Recovery/SendRecoveryMail.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/Identity/Security/DatabaseAuthorizedStaffReader.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/Identity/Security/DatabaseIdentityReader.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/Identity/Staff/CreateStaff.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/Identity/Staff/StaffController.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/Identity/Staff/StaffInput.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/Identity/Staff/StaffQueries.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/ProjectIntake/Actions/IntakeDocuments.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "app/Modules/ProjectIntake/Actions/SubmitRequest.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "compose.gemini-local.yaml",
+      "category": "H",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Local-only source / synthetic recovery drill; no production topology or provider key"
+    },
+    {
+      "path": "compose.restore.yaml",
+      "category": "H",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Local-only source / synthetic recovery drill; no production topology or provider key"
+    },
+    {
+      "path": "compose.staff-direct-local.yaml",
+      "category": "H",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Local-only source / synthetic recovery drill; no production topology or provider key"
+    },
+    {
+      "path": "composer.lock",
+      "category": "B",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Configuration template / pinned dependencies; no runtime credentials"
+    },
+    {
+      "path": "config/ai.php",
+      "category": "B",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Configuration template / pinned dependencies; no runtime credentials"
+    },
+    {
+      "path": "database/migrations/2026_10_02_000000_add_staff_usernames.php",
+      "category": "C",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Forward migration; inherited migrations unchanged"
+    },
+    {
+      "path": "database/migrations/2026_10_03_000000_add_portfolio_editor_role.php",
+      "category": "C",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Forward migration; inherited migrations unchanged"
+    },
+    {
+      "path": "docs/API-ENDPOINT-MATRIX.md",
+      "category": "D",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Authoritative contract/source/evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/B0-ARCHITECTURE.md",
+      "category": "G",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Reviewable documentation / sanitized evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/CUSTOMER-EMAIL-PREREQUISITE-REMOVAL.md",
+      "category": "G",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Reviewable documentation / sanitized evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/GEMINI-DOCUMENT-ANALYSIS.md",
+      "category": "G",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Reviewable documentation / sanitized evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/GEMINI-IDEA-ASSISTANT.md",
+      "category": "G",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Reviewable documentation / sanitized evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/PORTFOLIO-EDITOR.md",
+      "category": "G",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Reviewable documentation / sanitized evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/STAFF-DIRECT-ACCOUNTS.md",
+      "category": "G",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Reviewable documentation / sanitized evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/STAFF-EMAIL-CAPABILITIES-FIX.md",
+      "category": "G",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Reviewable documentation / sanitized evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/STAFF-EMAIL-PREREQUISITE-REMOVAL.md",
+      "category": "G",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Reviewable documentation / sanitized evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/candidates/UNIFIED-VPS-FREEZE.md",
+      "category": "G",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Reviewable documentation / sanitized evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/candidates/unified-vps/backup-restore-summary.json",
+      "category": "G",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Reviewable documentation / sanitized evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/candidates/unified-vps/change-classification.json",
+      "category": "G",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Reviewable documentation / sanitized evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/candidates/unified-vps/contract-validation.json",
+      "category": "G",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Reviewable documentation / sanitized evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/candidates/unified-vps/frontend-compatibility.json",
+      "category": "G",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Reviewable documentation / sanitized evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/candidates/unified-vps/inherited-preservation.json",
+      "category": "G",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Reviewable documentation / sanitized evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/candidates/unified-vps/phpunit-summary.json",
+      "category": "G",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Reviewable documentation / sanitized evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/candidates/unified-vps/preservation-summary.json",
+      "category": "G",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Reviewable documentation / sanitized evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/candidates/unified-vps/production-image-inspection.json",
+      "category": "G",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Reviewable documentation / sanitized evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/candidates/unified-vps/remote-candidate-check.json",
+      "category": "G",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Reviewable documentation / sanitized evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/candidates/unified-vps/secret-scan-summary.json",
+      "category": "G",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Reviewable documentation / sanitized evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/candidates/unified-vps/security-scan-summary.json",
+      "category": "G",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Reviewable documentation / sanitized evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/candidates/unified-vps/verification-gates.json",
+      "category": "G",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Reviewable documentation / sanitized evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/contracts/files-async-reporting.json",
+      "category": "D",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Authoritative contract/source/evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/contracts/identity-intake.json",
+      "category": "D",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Authoritative contract/source/evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/contracts/portfolio-editor-delta.json",
+      "category": "D",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Authoritative contract/source/evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/contracts/required-response-coverage.json",
+      "category": "D",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Authoritative contract/source/evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/contracts/source-manifest.json",
+      "category": "D",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Authoritative contract/source/evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/contracts/staff-accounts.json",
+      "category": "D",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Authoritative contract/source/evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/contracts/staff-onboarding.json",
+      "category": "D",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Authoritative contract/source/evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "docs/openapi.json",
+      "category": "D",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Authoritative contract/source/evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "routes/identity.php",
+      "category": "A",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Application implementation retained"
+    },
+    {
+      "path": "scripts/backup_restore.py",
+      "category": "H",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Local-only source / synthetic recovery drill; no production topology or provider key"
+    },
+    {
+      "path": "scripts/contracts/build.py",
+      "category": "D",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Authoritative contract/source/evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "scripts/contracts/staff-accounts.py",
+      "category": "D",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Authoritative contract/source/evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "scripts/contracts/verify-portfolio-editor.py",
+      "category": "D",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Authoritative contract/source/evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "scripts/contracts/verify-staff-accounts.py",
+      "category": "D",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Authoritative contract/source/evidence; no runtime-image inclusion"
+    },
+    {
+      "path": "scripts/set-gemini-key.py",
+      "category": "H",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Local-only source / synthetic recovery drill; no production topology or provider key"
+    },
+    {
+      "path": "tests/Architecture/FoundationArchitectureTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/AI/GeminiDocumentTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/AI/GeminiWorkflowTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/AdminIntegrationTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/Assistance/MigrationUpgradeTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/Authorization/IntakeAuthorityTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/Commercial/MigrationUpgradeTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/Documents/DocumentHttpTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/Identity/CustomerEmailPrerequisiteTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/Identity/DirectStaffTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/Identity/DirectStaffUpgradeTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/Identity/IdentityHttpTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/Identity/PortfolioEditorUpgradeTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/Identity/RegistrationConcurrencyTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/Identity/StaffInvitationsTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/Identity/StaffOnboardingConcurrencyTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/LocalE2EFixtureTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/Operations/MigrationUpgradeTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/Operations/UnifiedCandidateUpgradeTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/ProjectIntake/GuestIntakeUpgradeTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/ProjectIntake/IntakeHttpTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/ProjectIntake/IntakeWorkflowTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/Projects/MigrationUpgradeTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/PublicServices/ContactTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/PublicServices/PortfolioTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Feature/PublicServices/UpgradePublicServicesTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Fixtures/direct-staff-baseline-migrations.json",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Fixtures/portfolio-editor-baseline-migrations.json",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Fixtures/staff-onboarding-worker.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Fixtures/unified-g1-baseline-migrations.json",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "freeze_preparation",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Support/GeminiFixture.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Support/PreUsernameIdentityReader.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Unit/GeminiAIProviderTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    },
+    {
+      "path": "tests/Unit/StaffEmailPrerequisiteTest.php",
+      "category": "F",
+      "disposition": "retain_git",
+      "origin": "accumulated_work",
+      "reason": "Synthetic regression source / fixtures; no runtime-image inclusion"
+    }
+  ],
+  "excluded_file_count": 182,
+  "excluded_files": [
+    {
+      "path": "artifacts/b8-document-list-optimized.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/b8-restore-0c190434725b821275d1b756/commands.log",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/b8-restore-0c190434725b821275d1b756/context.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/b8-restore-0c190434725b821275d1b756/owned-images.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/b8-restore-0c190434725b821275d1b756/owned-projects.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/b8-restore-0c190434725b821275d1b756/recovery.key",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/b8-restore-0c190434725b821275d1b756/source-compose.json",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/b8-restore-0c190434725b821275d1b756/source-nginx.conf",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/b8-restore-0c190434725b821275d1b756/target-compose.json",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/b8-restore-0c190434725b821275d1b756/target-nginx.conf",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/customer-no-email/baseline-openapi.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/customer-no-email/contract-delta.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/customer-no-email/live-database-proof.json",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/customer-no-email/live-inspect.php",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/customer-no-email/live-website-result.json",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/customer-no-email/nginx-before.conf",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/customer-no-email/security-regression.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/customer-no-email/update-contract.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/customer-no-email/verify-delta.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini-documents/baseline-openapi.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini-documents/brief.docx",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini-documents/brief.pdf",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini-documents/build.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini-documents/contract-delta.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini-documents/contract-update.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini-documents/create-fixtures.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini-documents/focused.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini-documents/live-proof.php",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini-documents/live-result-1791045893532.json",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini-documents/live-result-1791045958843.json",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini-documents/live-runtime.json",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini-documents/nginx-before.conf",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini-documents/phpstan.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini-documents/regression.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini-documents/verify-contract.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/Dockerfile.retained-runtime",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/build-retained-final.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/build-retained-runtime.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/build.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/check-model-access.php",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/compose.probe-image.yaml",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/compose.runtime.json",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/default-runtime.json",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/final-focused.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/focused.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/fpm.log",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/live-activation-state.json",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/live-activation-state.php",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/live-provider-verification.json",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/live-synthetic-probe.php",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/phpstan-final.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/phpstan-initial.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/phpstan.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/pint-final-test.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/pint-final.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/pint-workflow.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/pint.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/regression.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/runtime-adapter.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/runtime-adapter.php",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/runtime-configuration.json",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/runtime-inspect.php",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/gemini/runtime.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/baseline-diff.patch",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/baseline-status.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/build.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/checkpoint.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/combined-responses.jsonl",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/composer-audit.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/composer-validate.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/contract-final.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/contract-historical-replay.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/contract-report.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/contract-validation.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/contract.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/delta.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/docker-recovery.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/edit.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/final-gates.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/fixture.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/focused.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/fpm.log",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/gemini-initial-pint.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/isolated-nginx.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/isolated.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/isolated.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/live-fpm.log",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/live-inspect.php",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/live-migration.log",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/live-state.json",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/live-switch.log",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/phpstan.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/pint-fix.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/pint-source-final.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/pint-source.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/pre-gemini-candidate.tar.gz",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/pre-gemini-manifest.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/previous-openapi.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/regression.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/response-samples.jsonl",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/role-contract-tests.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/portfolio-editor/tests.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/runtime-restore.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/compose.fixture.json",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/compose.runtime.json",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/composer-audit-final.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/composer-audit.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/composer-install-final.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/composer-remediation.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/composer-validate-final.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/composer-validate.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/configuration-isolated-hostnames.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/contract-check.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/contract-compatibility.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/contract-negative-tests.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/contract-report.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/contract-snapshot.jsonl",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/contract-validation-final.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/contract-validation.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/focused-initial.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/focused-second.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/focused-third.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/fpm-check.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/image-identities.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/local-after.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/local-before.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/local-migration.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/local-runtime-identities.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/local-switch.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/mfa-csrf-session-regression.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/nginx-check.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/nginx-isolated.conf",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/phpstan-final.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/phpstan.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/phpunit-final-regressions.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/phpunit.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/pint-final.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/pint-fix.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/pint-verified.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/prepare-fixture.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/prepare-runtime.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/private/frontend.env",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/private/manifest.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/responses.jsonl",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/runtime-build-final.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/runtime-build.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/runtime-counts.php",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/runtime-migrations.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-direct/update-architecture.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-email-capabilities/account.php.txt",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-email-capabilities/ai-api.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-email-capabilities/build.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-email-capabilities/contract-delta.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-email-capabilities/contract-delta.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-email-capabilities/counts-after.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-email-capabilities/counts-before.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-email-capabilities/edit.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-email-capabilities/focused.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-email-capabilities/inspect.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-email-capabilities/live-counts-after.json",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-email-capabilities/live-counts-before.json",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-email-capabilities/phpstan.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-email-capabilities/pint-source-final.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-email-capabilities/pint-source.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-email-capabilities/previous-openapi.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-email-capabilities/regression.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-no-email-gate/contract-delta.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-no-email-gate/contract-delta.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-no-email-gate/counts-after.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-no-email-gate/counts-before.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-no-email-gate/docker-build.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-no-email-gate/edit.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-no-email-gate/inherited-regression.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-no-email-gate/live-counts-after.json",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-no-email-gate/live-counts-before.json",
+      "category": "I",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Private runtime / synthetic token-bearing capture; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-no-email-gate/pint-source-final.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-no-email-gate/pint-source.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-no-email-gate/pint-source.py",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-no-email-gate/pint.log",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "artifacts/staff-no-email-gate/previous-openapi.json",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "scripts/__pycache__/local-e2e.cpython-312.pyc",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    },
+    {
+      "path": "scripts/__pycache__/set-gemini-key.cpython-312.pyc",
+      "category": "J",
+      "disposition": "exclude_git_and_runtime_image",
+      "reason": "Generated artifact/cache/scratch/historical local evidence; preserved privately"
+    }
+  ],
+  "excluded_external_private_material": [
+    "/home/mohamed/.config/holoul/secrets/gemini_api_key",
+    "/home/mohamed/.local/share/holoul-freezes/unified-20261003T183220Z"
+  ],
+  "runtime_policy": "Dockerfile production allowlist; local overlays/fixtures/tests/docs excluded",
+  "classification_digest_note": "Final file hashes recorded separately in final preservation manifest; no self-referential hashes here."
+}

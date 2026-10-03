@@ -42,7 +42,7 @@ final readonly class ContactApi
         }
 
         return $this->identity->handle($request, function (AuthorizedIdentity $identity) use ($request, $requestId): JsonResponse {
-            if ($identity->kind !== 'staff' || ! $identity->verifiedEmail || $request->session()->get('identity.mfa_verified') !== true) {
+            if ($identity->kind !== 'staff' || ! $identity->emailPrerequisiteSatisfied || $request->session()->get('identity.mfa_verified') !== true) {
                 throw new AuthorizationException;
             }
             $actor = new ContactActor($identity->id, $identity->permissions, $this->sessions->hasRecentPassword($request));

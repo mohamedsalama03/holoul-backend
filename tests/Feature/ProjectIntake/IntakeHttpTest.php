@@ -40,7 +40,7 @@ final class IntakeHttpTest extends TestCase
         $this->assertDatabaseCount('project_requests', 0);
     }
 
-    public function test_draft_api_uses_versioned_ownership_and_only_verified_accounts_submit(): void
+    public function test_unverified_customer_submits_own_draft_with_versioned_ownership(): void
     {
         $user = $this->intakeCustomer(false);
         $this->signIn($user)->assertOk();
@@ -51,8 +51,9 @@ final class IntakeHttpTest extends TestCase
         $this->browser('PATCH', '/api/v1/project-requests/'.$id.'/draft', ['project_name' => 'Draft'])->assertStatus(428)->assertJsonPath('error.code', 'PRECONDITION_REQUIRED');
         $updated = $this->browser('PATCH', '/api/v1/project-requests/'.$id.'/draft', $this->intakeInput(), ['If-Match' => $etag])->assertOk()->assertHeaderMissing('Location');
         $this->browser('PATCH', '/api/v1/project-requests/'.$id.'/draft', ['project_name' => 'Stale'], ['If-Match' => $etag])->assertStatus(412);
-        $this->browser('POST', '/api/v1/project-requests/'.$id.'/submissions', [], ['If-Match' => $updated->headers->get('ETag'), 'Idempotency-Key' => (string) Str::uuid7()])->assertForbidden();
-        $this->assertDatabaseCount('request_revisions', 0);
+        $this->browser('POST', '/api/v1/project-requests/'.$id.'/submissions', [], ['If-Match' => $updated->headers->get('ETag'), 'Idempotency-Key' => (string) Str::uuid7()])->assertCreated();
+        $this->assertDatabaseCount('request_revisions', 1);
+        self::assertNull($user->refresh()->email_verified_at);
     }
 
     public function test_exact_lyd_submission_replay_and_revision_snapshot_are_exposed_safely(): void

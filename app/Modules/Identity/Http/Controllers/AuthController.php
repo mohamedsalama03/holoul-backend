@@ -11,6 +11,7 @@ use App\Modules\Identity\Http\Requests\EmptyRequest;
 use App\Modules\Identity\Http\Requests\LoginRequest;
 use App\Modules\Identity\Http\Requests\PasswordRequest;
 use App\Modules\Identity\Http\Requests\RegisterRequest;
+use App\Modules\Identity\Http\Requests\UsernameLoginRequest;
 use App\Modules\Identity\Security\IdentityInput;
 use Illuminate\Http\JsonResponse;
 
@@ -23,7 +24,7 @@ final class AuthController
             is_string($display) ? $display : $request->string('email')->toString(),
             $request->string('password')->toString(), $request->string('phone')->toString(), IdentityInput::requestId($request));
 
-        return response()->json(['data' => ['message' => 'If registration is available, verification instructions will be sent.']], 202);
+        return response()->json(['data' => ['message' => 'Registration request received. You can sign in with your credentials.']], 202);
     }
 
     public function login(LoginRequest $request, Authentication $action): JsonResponse
@@ -38,6 +39,14 @@ final class AuthController
         $action->logout($request);
 
         return response()->json(['data' => ['message' => 'Signed out.']]);
+    }
+
+    public function usernameLogin(UsernameLoginRequest $request, Authentication $action): JsonResponse
+    {
+        $result = $action->login($request, strtolower(trim($request->string('username')->toString())),
+            $request->string('password')->toString(), byUsername: true);
+
+        return response()->json(['data' => $result], 202);
     }
 
     public function confirmPassword(PasswordRequest $request, Authentication $action): JsonResponse
