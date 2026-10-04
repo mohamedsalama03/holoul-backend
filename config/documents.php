@@ -6,6 +6,7 @@ use App\Infrastructure\Configuration\Environment;
 use App\Modules\Documents\DocumentPolicy;
 
 return [
+    'uploads_enabled' => Environment::boolean('HOLOUL_DOCUMENT_UPLOADS_ENABLED', true),
     'max_bytes' => DocumentPolicy::MAX_BYTES,
     's3' => [
         'endpoint' => Environment::string('DOCUMENTS_S3_ENDPOINT', 'https://storage:8333'),

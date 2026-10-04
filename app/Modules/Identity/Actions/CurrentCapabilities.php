@@ -43,7 +43,10 @@ final class CurrentCapabilities
                 $map['staff.authorization.manage'] = ['identity.staff.manage'];
             }
         } else {
-            $result = [...$result, 'categories.view', 'customer_profile.view', 'customer_profile.update', 'project_requests.view', 'project_requests.create', 'project_requests.submit', 'project_requests.documents.upload'];
+            $result = [...$result, 'categories.view', 'customer_profile.view', 'customer_profile.update', 'project_requests.view', 'project_requests.create', 'project_requests.submit'];
+            if (Config::boolean('documents.uploads_enabled')) {
+                $result[] = 'project_requests.documents.upload';
+            }
             $map += ['projects.view' => ['projects.self.read'], 'proposals.view' => ['proposals.self.read']];
             if ($actor->verifiedEmail) {
                 if ($recent) {

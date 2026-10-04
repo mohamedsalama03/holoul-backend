@@ -12,8 +12,12 @@ final class DocumentInspectorDouble implements DocumentInspector
 {
     public ?string $rejection = null;
 
+    public int $calls = 0;
+
     public function inspect(mixed $stream, int $size, DocumentFormat $format): InspectionVerdict
     {
+        $this->calls++;
+
         return new InspectionVerdict($this->rejection === null, $this->rejection);
     }
 }

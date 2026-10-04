@@ -12,6 +12,20 @@ use Tests\TestCase;
 
 final class ProductionConfigurationTest extends TestCase
 {
+    public function test_disabled_document_upload_policy_is_valid_production_with_ai_disabled_without_a_key(): void
+    {
+        $this->production();
+        Config::set(['documents.uploads_enabled' => false, 'ai.enabled' => false, 'ai.driver' => 'sandbox',
+            'ai.gemini.approved' => false, 'ai.gemini.documents_approved' => false, 'ai.gemini.api_key' => '']);
+        self::assertSame([], app(ProductionConfiguration::class)->violations());
+        Config::set('documents.uploads_enabled', true);
+        self::assertSame([], app(ProductionConfiguration::class)->violations());
+        foreach ([null, 'false', 0, 'enabled', []] as $invalid) {
+            Config::set('documents.uploads_enabled', $invalid);
+            self::assertContains('document_upload_policy_invalid', app(ProductionConfiguration::class)->violations());
+        }
+    }
+
     public function test_explicit_local_profile_accepts_only_the_known_synthetic_topology_even_in_production_mode(): void
     {
         $this->local();

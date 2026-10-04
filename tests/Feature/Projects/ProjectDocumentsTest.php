@@ -21,6 +21,7 @@ use App\Modules\Projects\Models\Project;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Testing\TestResponse;
@@ -44,6 +45,26 @@ final class ProjectDocumentsTest extends TestCase
         parent::setUp();
         $this->initializeBrowser();
         $this->initializeDocuments();
+    }
+
+    public function test_upload_policy_blocks_staff_reservation_and_old_content_without_affecting_staff_capabilities(): void
+    {
+        $fixture = $this->projectFixture();
+        $this->documentStaffSignIn($fixture['author']);
+        [$path, $etag, $id] = $this->reserveProjectDocument($fixture['project']);
+        $before = $this->browser('GET', '/api/v1/identity/me')->assertOk()->json('data.capabilities');
+        Config::set('documents.uploads_enabled', false);
+        self::assertSame($before, $this->browser('GET', '/api/v1/identity/me')->assertOk()->json('data.capabilities'));
+        self::assertNotContains('project_requests.documents.upload', $before);
+        $this->browser('POST', $path, $this->documentInput(),
+            ['If-Match' => $etag, 'Idempotency-Key' => (string) Str::uuid7()])->assertServiceUnavailable()
+            ->assertJsonPath('error.code', 'SERVICE_UNAVAILABLE');
+        $this->rawDocument($path.'/'.$id.'/content', self::DOCUMENT_PDF, $etag)->assertServiceUnavailable();
+        $this->assertDatabaseHas('documents', ['id' => $id, 'state' => 'uploading', 'storage_version' => null]);
+        self::assertSame([], $this->objects->objects);
+        self::assertSame(0, DB::table('async_operations')->where('kind', 'documents.scan')->count());
+        Config::set('documents.uploads_enabled', true);
+        $this->rawDocument($path.'/'.$id.'/content', self::DOCUMENT_PDF, $etag)->assertOk()->assertJsonPath('data.state', 'quarantined');
     }
 
     public function test_staff_uploads_use_b4_quarantine_and_only_cleared_customer_visible_bytes_reach_the_owner(): void

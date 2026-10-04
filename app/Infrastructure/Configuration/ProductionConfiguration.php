@@ -73,6 +73,7 @@ final class ProductionConfiguration
                 && Config::boolean('queue.connections.'.$connection.'.after_commit'), 'queue_isolation_required');
         }
         $this->require($issues, Config::integer('async.lease_seconds') === 60 && Config::integer('async.max_attempts') === 5, 'durable_timing_required');
+        $this->require($issues, is_bool(Config::get('documents.uploads_enabled')), 'document_upload_policy_invalid');
         $this->require($issues, Config::integer('documents.max_bytes') > 0 && Config::integer('documents.max_bytes') <= 10485760, 'bounded_uploads_required');
         $endpoint = parse_url(Config::string('documents.s3.endpoint'));
         $this->require($issues, is_array($endpoint) && ($endpoint['scheme'] ?? null) === 'https'

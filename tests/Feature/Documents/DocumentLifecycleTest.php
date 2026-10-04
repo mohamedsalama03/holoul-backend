@@ -6,13 +6,16 @@ namespace Tests\Feature\Documents;
 
 use App\Infrastructure\Async\LostOperationLease;
 use App\Infrastructure\Async\OperationRunner;
+use App\Modules\Documents\Adapters\ClamAvScanner;
 use App\Modules\Documents\Contracts\DocumentService;
+use App\Modules\Documents\Contracts\MalwareScanner;
 use App\Modules\Documents\Data\DocumentDownload;
 use App\Modules\Documents\Data\DocumentOwner;
 use App\Modules\Documents\Data\MalwareVerdict;
 use App\Modules\Documents\Exceptions\StorageUnavailable;
 use App\Modules\Documents\Processing\ScanDocument;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use LogicException;
@@ -31,6 +34,46 @@ final class DocumentLifecycleTest extends TestCase
     {
         parent::setUp();
         $this->initializeDocuments();
+    }
+
+    public function test_upload_policy_does_not_turn_missing_real_scanner_into_a_clean_verdict(): void
+    {
+        [$owner, $document] = $this->quarantined();
+        Config::set('documents.uploads_enabled', false);
+        app()->instance(MalwareScanner::class,
+            new ClamAvScanner('/tmp/holoul-absent-scanner-'.bin2hex(random_bytes(16))));
+        app(OperationRunner::class)->run($document->scan_operation_id);
+        $this->assertDatabaseHas('documents', ['id' => $document->id, 'state' => 'quarantined', 'available_at' => null]);
+        self::assertSame(0, $this->inspector->calls);
+        self::assertSame(0, DB::table('audit_events')->where('event_type', 'documents.scan_passed')->count());
+        $this->expectException(HttpException::class);
+        DB::transaction(fn () => app(DocumentService::class)->authorizeDownload($owner, $document->id));
+    }
+
+    public function test_upload_policy_blocks_storage_even_for_a_previously_authorized_reservation(): void
+    {
+        $owner = $this->documentOwner();
+        $reservation = $this->reservation($owner);
+        Config::set('documents.uploads_enabled', false);
+        try {
+            $this->uploadFixture($reservation);
+            self::fail('Disabled policy accepted document bytes.');
+        } catch (HttpException $failure) {
+            self::assertSame(503, $failure->getStatusCode());
+        }
+        self::assertSame([], $this->objects->objects);
+        $this->assertDatabaseHas('documents', ['id' => $reservation->documentId, 'state' => 'uploading', 'storage_version' => null]);
+    }
+
+    public function test_upload_policy_does_not_stop_reconciliation_of_already_stored_quarantine(): void
+    {
+        [$owner, $document] = $this->quarantined();
+        Config::set('documents.uploads_enabled', false);
+        app(OperationRunner::class)->run($document->scan_operation_id);
+        self::assertSame(1, $this->scanner->calls);
+        self::assertSame(1, $this->inspector->calls);
+        $this->assertDatabaseHas('documents', ['id' => $document->id, 'state' => 'available']);
+        DB::transaction(fn () => app(DocumentService::class)->authorizeDownload($owner, $document->id));
     }
 
     public function test_reservation_replay_is_exact_and_sanitizes_display_name_only(): void

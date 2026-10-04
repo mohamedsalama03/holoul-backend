@@ -58,6 +58,65 @@ final class DocumentHttpTest extends TestCase
         });
     }
 
+    public function test_upload_policy_blocks_customer_reservation_and_earlier_content_then_can_be_reenabled(): void
+    {
+        [$path, $etag, $id] = $this->reserve();
+        Config::set('documents.uploads_enabled', false);
+        $before = DB::table('documents')->where('id', $id)->first();
+        $this->browser('POST', $path, $this->input(), ['If-Match' => $etag, 'Idempotency-Key' => (string) Str::uuid7()])
+            ->assertServiceUnavailable()->assertJsonPath('error.code', 'SERVICE_UNAVAILABLE');
+        $this->raw($path.'/'.$id.'/content', self::PDF, $etag)->assertServiceUnavailable()
+            ->assertJsonPath('error.code', 'SERVICE_UNAVAILABLE');
+        self::assertEquals($before, DB::table('documents')->where('id', $id)->first());
+        $this->assertDatabaseCount('documents', 1);
+        self::assertSame([], $this->objects->objects);
+        self::assertSame(0, DB::table('async_operations')->where('kind', 'documents.scan')->count());
+        $this->browser('GET', $path.'/'.$id)->assertOk()->assertJsonPath('data.state', 'uploading');
+        $this->browser('GET', $path.'/'.$id.'/download')->assertConflict();
+        Config::set('documents.uploads_enabled', true);
+        $this->raw($path.'/'.$id.'/content', self::PDF, $etag)->assertOk()->assertJsonPath('data.state', 'quarantined');
+        $this->scan($id);
+        self::assertSame(self::PDF, $this->browser('GET', $path.'/'.$id.'/download')->assertOk()->streamedContent());
+    }
+
+    public function test_upload_policy_preserves_available_download_authorization_and_exact_stored_version(): void
+    {
+        [$path, $etag, $id] = $this->reserve();
+        $this->raw($path.'/'.$id.'/content', self::PDF, $etag)->assertOk();
+        $this->scan($id);
+        $before = DB::table('documents')->where('id', $id)->first();
+        Config::set('documents.uploads_enabled', false);
+        $this->browser('GET', $path.'/'.$id)->assertOk()->assertJsonPath('data.state', 'available');
+        self::assertSame(self::PDF, $this->browser('GET', $path.'/'.$id.'/download')->assertOk()->streamedContent());
+        self::assertEquals($before, DB::table('documents')->where('id', $id)->first());
+        $this->initializeBrowser();
+        $this->signIn($this->intakeCustomer())->assertOk();
+        $this->browser('GET', $path.'/'.$id)->assertNotFound();
+        $this->browser('GET', $path.'/'.$id.'/download')->assertNotFound();
+    }
+
+    public function test_upload_policy_customer_can_submit_without_document_and_both_capability_views_agree(): void
+    {
+        Config::set(['documents.uploads_enabled' => false, 'ai.enabled' => false]);
+        $this->signIn($this->intakeCustomer(false))->assertOk();
+        foreach (['/api/v1/identity/me', '/api/v1/identity/capabilities'] as $path) {
+            $capabilities = $this->browser('GET', $path)->assertOk()->json('data.capabilities');
+            self::assertNotContains('project_requests.documents.upload', $capabilities);
+            self::assertNotContains('ai.request', $capabilities);
+            self::assertContains('project_requests.create', $capabilities);
+            self::assertContains('project_requests.submit', $capabilities);
+        }
+        $draft = $this->browser('POST', '/api/v1/project-requests', $this->intakeInput())->assertCreated();
+        $this->browser('POST', '/api/v1/project-requests/'.$draft->json('data.id').'/submissions', [],
+            ['If-Match' => $draft->headers->get('ETag'), 'Idempotency-Key' => (string) Str::uuid7()])->assertCreated();
+        $this->assertDatabaseCount('documents', 0);
+        $this->assertDatabaseCount('request_revisions', 1);
+        Config::set('documents.uploads_enabled', true);
+        foreach (['/api/v1/identity/me', '/api/v1/identity/capabilities'] as $path) {
+            self::assertContains('project_requests.documents.upload', $this->browser('GET', $path)->assertOk()->json('data.capabilities'));
+        }
+    }
+
     public function test_unverified_owner_can_upload_with_cookie_csrf_parent_preconditions_and_field_allowlist(): void
     {
         $this->browser('POST', '/api/v1/project-requests/'.Str::uuid7().'/documents', $this->input())->assertUnauthorized();

@@ -63,6 +63,56 @@ final class GuestIntakeHttpTest extends TestCase
         });
     }
 
+    public function test_upload_policy_guest_reservation_is_unavailable_without_creating_documents(): void
+    {
+        Config::set('documents.uploads_enabled', false);
+        [$id, $headers] = $this->draft();
+        $bytes = "%PDF-1.4\n%%EOF\n";
+        $this->browser('POST', '/api/v1/guest/project-requests/'.$id.'/documents',
+            ['filename' => 'brief.pdf', 'bytes' => strlen($bytes), 'sha256' => hash('sha256', $bytes)], $headers)
+            ->assertServiceUnavailable()->assertJsonPath('error.code', 'SERVICE_UNAVAILABLE');
+        $this->assertDatabaseCount('documents', 0);
+        self::assertSame([], $this->objects->objects);
+    }
+
+    public function test_upload_policy_guest_earlier_reservation_cannot_store_content_until_reenabled(): void
+    {
+        [$id, $headers] = $this->draft();
+        $bytes = "%PDF-1.4\n%%EOF\n";
+        $path = '/api/v1/guest/project-requests/'.$id.'/documents';
+        $reserved = $this->browser('POST', $path,
+            ['filename' => 'brief.pdf', 'bytes' => strlen($bytes), 'sha256' => hash('sha256', $bytes)], $headers)->assertCreated();
+        $headers['If-Match'] = $reserved->headers->get('ETag');
+        $document = $reserved->json('data.id');
+        Config::set('documents.uploads_enabled', false);
+        $this->raw($path.'/'.$document.'/content', $bytes, $headers)->assertServiceUnavailable()
+            ->assertJsonPath('error.code', 'SERVICE_UNAVAILABLE');
+        $this->assertDatabaseHas('documents', ['id' => $document, 'state' => 'uploading', 'storage_version' => null]);
+        self::assertSame([], $this->objects->objects);
+        self::assertSame(0, DB::table('async_operations')->where('kind', 'documents.scan')->count());
+        $this->browser('GET', $path.'/'.$document, [], $headers)->assertOk()->assertJsonPath('data.state', 'uploading');
+        Config::set('documents.uploads_enabled', true);
+        $this->raw($path.'/'.$document.'/content', $bytes, $headers)->assertOk()->assertJsonPath('data.state', 'quarantined');
+    }
+
+    public function test_upload_policy_guest_can_submit_and_claim_without_document(): void
+    {
+        Config::set(['documents.uploads_enabled' => false, 'ai.enabled' => false]);
+        $user = $this->intakeCustomer();
+        [$id, $headers] = $this->draft();
+        $receipt = $this->submit($id, $headers, [...$this->input(), 'email' => $user->email])->assertCreated();
+        self::assertIsString($receipt->json('data.reference'));
+        $this->assertDatabaseCount('documents', 0);
+        $this->assertDatabaseCount('request_revisions', 1);
+        $revision = DB::table('request_revisions')->where('request_id', $id)->value('id');
+        $this->signIn($user)->assertOk();
+        $this->browser('POST', '/api/v1/project-request-claims', ['token' => $receipt->json('data.claim_token')],
+            ['Idempotency-Key' => (string) Str::uuid7()])->assertOk();
+        $this->browser('GET', '/api/v1/project-requests/'.$id)->assertOk();
+        self::assertSame($revision, DB::table('request_revisions')->where('request_id', $id)->value('id'));
+        $this->assertDatabaseCount('request_revisions', 1);
+    }
+
     public function test_guest_submission_has_canonical_snapshot_no_account_and_exact_replay(): void
     {
         Config::set('ai.enabled', false);

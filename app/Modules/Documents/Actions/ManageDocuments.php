@@ -18,6 +18,7 @@ use App\Modules\Documents\Data\StoredObject;
 use App\Modules\Documents\Data\UploadReservation;
 use App\Modules\Documents\DocumentPolicy;
 use App\Modules\Documents\Models\Document;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -32,6 +33,9 @@ final readonly class ManageDocuments implements DocumentService
     public function reserve(DocumentOwner $owner, string $filename, int $bytes, string $sha256, string $idempotencyKey): UploadReservation
     {
         self::requireTransaction();
+        if (! Config::boolean('documents.uploads_enabled')) {
+            throw new HttpException(503);
+        }
         if ($bytes < 1 || $bytes > DocumentPolicy::MAX_BYTES) {
             throw ValidationException::withMessages(['bytes' => 'The document must be between 1 byte and 10 MiB.']);
         }
@@ -88,6 +92,9 @@ final readonly class ManageDocuments implements DocumentService
     public function uploadReservation(DocumentOwner $owner, string $documentId): UploadReservation
     {
         $document = $this->find($owner, $documentId, true);
+        if (! Config::boolean('documents.uploads_enabled')) {
+            throw new HttpException(503);
+        }
         if (in_array($document->state, [DocumentState::Deleting, DocumentState::Deleted, DocumentState::Rejected], true)) {
             throw new HttpException(409);
         }

@@ -12,6 +12,7 @@ use App\Modules\Documents\DocumentPolicy;
 use App\Modules\Documents\Exceptions\StorageUnavailable;
 use App\Modules\Documents\Models\Document;
 use finfo;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use LogicException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -25,6 +26,9 @@ final readonly class StoreUpload
     {
         if (DB::transactionLevel() !== 0) {
             throw new LogicException('Object upload cannot run inside a database transaction.');
+        }
+        if (! Config::boolean('documents.uploads_enabled')) {
+            throw new HttpException(503);
         }
         if (! is_resource($stream)) {
             throw new HttpException(422);
