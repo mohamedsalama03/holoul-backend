@@ -1,0 +1,49 @@
+{
+  "test_environment": {
+    "project": "holoul-final-gate-8c8bb1f90226516e",
+    "removed": true,
+    "remaining": {
+      "container": [],
+      "volume": [],
+      "network": []
+    }
+  },
+  "restore_environments": {
+    "independent_post_cleanup_read": true,
+    "all_owned_resources_absent": true,
+    "projects": [
+      {
+        "project": "holoul-b8-restore-e1a00a7c581bae0430076807-source",
+        "remaining": {
+          "container": [],
+          "volume": [],
+          "network": []
+        }
+      },
+      {
+        "project": "holoul-b8-restore-e1a00a7c581bae0430076807-target",
+        "remaining": {
+          "container": [],
+          "volume": [],
+          "network": []
+        }
+      },
+      {
+        "project": "holoul-b8-restore-efb9bae6840713257c7d3af9-source",
+        "remaining": {
+          "container": [],
+          "volume": [],
+          "network": []
+        }
+      },
+      {
+        "project": "holoul-b8-restore-efb9bae6840713257c7d3af9-target",
+        "remaining": {
+          "container": [],
+          "volume": [],
+          "network": []
+        }
+      }
+    ]
+  }
+}

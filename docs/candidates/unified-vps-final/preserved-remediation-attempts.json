@@ -1,0 +1,41 @@
+{
+  "failed_restore_before_local_bootstrap_mount_fix": {
+    "schema": "holoul-b8-restore-drill-v1",
+    "ok": false,
+    "synthetic_only": true,
+    "recorded_at": "2026-10-04T10:57:50.533715Z",
+    "application_image_reference": "holoul-app:unified-final-candidate",
+    "application_image_id": "sha256:22910c524e6d46b56709987a12b50afad9d62910b925bb856bce41b53b825fde",
+    "inspector_image_id": "sha256:da438de7fd2fac4e75f0bf944559cbd0c20b25366150dbd1a62cc160b8b90af4",
+    "production_provider_restore_certified": false,
+    "pitr_certified": false,
+    "offsite_key_escrow_certified": false,
+    "encryption_checks": {
+      "round_trip_bytes": 131328,
+      "negative_cases_rejected": [
+        "changed_ciphertext",
+        "truncated_stream",
+        "trailing_bytes",
+        "bad_header",
+        "wrong_context",
+        "wrong_key"
+      ]
+    },
+    "failed_phase": "isolated_source_startup",
+    "resources_removed": true,
+    "total_duration_ms": 147031
+  },
+  "failed_isolated_gate_setup": [
+    {
+      "gate": "full-gate-start",
+      "exit_code": 1,
+      "elapsed_seconds": 176.902
+    },
+    {
+      "gate": "full-gate-cleanup",
+      "exit_code": 0,
+      "elapsed_seconds": 21.658
+    }
+  ],
+  "explanation": "The first restore could not initialize local document keys because the production allowlist excludes the development document initializer. The read-only restore overlay now mounts it. The first complete-gate setup incorrectly waited for a completed storage-bootstrap service; the isolated test plan now makes verify depend on that completed service. No PHPUnit invocation occurred in the failed setup. Earlier failed freeze, scans and performance evidence remain in the unchanged prior report."
+}

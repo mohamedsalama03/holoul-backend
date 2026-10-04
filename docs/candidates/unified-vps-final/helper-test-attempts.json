@@ -1,0 +1,28 @@
+{
+  "initial": [
+    {
+      "gate": "openapi-build",
+      "exit_code": 0,
+      "elapsed_seconds": 0.628
+    },
+    {
+      "gate": "document-parser",
+      "exit_code": 0,
+      "elapsed_seconds": 4.021
+    },
+    {
+      "gate": "portfolio-processor",
+      "exit_code": 2,
+      "elapsed_seconds": 0.545
+    }
+  ],
+  "corrected_portfolio_invocation": {
+    "command": [
+      "python3",
+      "/home/mohamed/.local/share/holoul-freezes/remediate-processor-test.py"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 6.809
+  },
+  "note": "Initial portfolio helper targeted a nonexistent test path (exit 2; no tests ran). The corrected command exercised the existing five processor tests successfully."
+}

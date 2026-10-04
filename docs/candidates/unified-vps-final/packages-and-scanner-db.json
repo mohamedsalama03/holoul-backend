@@ -1,0 +1,30 @@
+{
+  "fixed_packages": [
+    {
+      "image": "holoul-nginx:unified-vps-candidate",
+      "installed_packages": {
+        "libexpat": "2.8.5-r0",
+        "pcre2": "10.49-r0"
+      }
+    },
+    {
+      "image": "holoul-inspector:unified-vps-candidate",
+      "installed_packages": {
+        "libexpat": "2.8.5-r0"
+      }
+    },
+    {
+      "image": "holoul-scanner:unified-vps-candidate",
+      "installed_packages": {
+        "pcre2": "10.49-r0"
+      }
+    }
+  ],
+  "trivy_database_sha256": "43bf9c31bd79ea3a98f7b467c1d4cfe87cdbc4f7939654fedc76a9350dcfceb4",
+  "trivy_database_metadata": {
+    "Version": 2,
+    "NextUpdate": "2026-10-04T14:28:08.788288198Z",
+    "UpdatedAt": "2026-10-03T14:28:08.788288516Z",
+    "DownloadedAt": "2026-10-03T18:58:03.466176425Z"
+  }
+}

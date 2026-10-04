@@ -1,0 +1,366 @@
+{
+  "baseline_head": "41199408a4eea79e8e84430666728671e0b2c3c5",
+  "original_parent": "9119a094da23cc23c93475be79d076c4c1f2de21",
+  "security_guard_files": 9,
+  "historical_evidence_files": 61,
+  "preserved": [
+    {
+      "path": "app/Infrastructure/Http/StartSecureSession.php",
+      "sha256": "3171198fb17be0600065e8e7058b94508aa1e88e133356b236d79c7ffcdd9d1d",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "app/Infrastructure/Http/SessionResponse.php",
+      "sha256": "b36578fdf50a331a92122f7b14ea4774986d002d9de9c4125f6d80c6d65a5699",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "app/Infrastructure/Database/WrappedConcurrencyErrors.php",
+      "sha256": "925813385fd2e206eb650487c33ce82ec7ce070ab62f954cbffd26b22dc50991",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "app/Modules/Identity/Security/SessionSecurity.php",
+      "sha256": "8da872b0ef68ca28163482bbc68aadb8aa00788148de3d8e8e81a5586a8c6715",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "tests/Feature/Identity/SessionLifecycleTest.php",
+      "sha256": "996b4786d7bbe01a041ee40786b8b612938e755863d8b52e7dcdefe045c2aa7f",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "tests/Feature/Identity/MfaConcurrencyTest.php",
+      "sha256": "12759b27bca35cfd6e569daea018ff772af9e24f52c1a9837a056674f32f9b41",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "tests/Feature/ProjectIntake/GuestSessionIsolationTest.php",
+      "sha256": "29b7efa7e4f8ded292a62fdaa0024873c46743b0ada283fc60cc7639def61a71",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "tests/Feature/PublicServices/PublicSessionRaceTest.php",
+      "sha256": "c332e09ada52d2cf813efc6327cabfa1ba296ee414739742a9f01d97ea2d1d02",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "tests/Unit/WrappedConcurrencyErrorsTest.php",
+      "sha256": "e3b11723d46447786b9f4cd8cab11751584a823065ddfdebc4e4b6e85e9611f9",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B1-FILES.txt",
+      "sha256": "c0887979c8e97003943c802ab21faf2988d2a38499fad08997f8381af20bd882",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B1-VERIFICATION.md",
+      "sha256": "f68be390e673e8c65da5e17e01145da89c8354da1ba0adc60ec1ea7feefa8a2c",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B1-VERSIONS.md",
+      "sha256": "a1b7498076c248f0c89010d47773c4c9d43d330f3d7f1d71688687119a360daa",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B2-BASELINE.md",
+      "sha256": "c5975ebe72c4a228de37e3629ee891e7abdbcf85d042e40f79d74af3f76b1e88",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B2-IMPLEMENTATION.md",
+      "sha256": "5414c98ce4888b1d2aafbc68e8ac79897ee78ec88f9358027ab71045a71d1824",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B2-VERIFICATION.md",
+      "sha256": "aca0df05f21dc48aa64426b91b34a4c0240ab175283b3fa369973539cccbebf4",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B2-VERSIONS.md",
+      "sha256": "e8bba48f75acdff32dabaf53254275a7b0ac9f10c41302bd67a0a6670440ac60",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B3-AUTHORIZATION.md",
+      "sha256": "005066d9ecd5b9b337bbc8213c2e7ce4f966348f72e78f47642af96e7ce9971f",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B3-BASELINE.md",
+      "sha256": "f4f83d3076902da294b0da4d7f16dea670c7ee562fb10fca381305d71e55add9",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B3-IMPLEMENTATION.md",
+      "sha256": "09d6a8eb7eefb4ce8f617e464252fee761d0f9f831a034388e8b4c89e47a0253",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B3-VERIFICATION.md",
+      "sha256": "e1e69aece67ce5e741380f8be3fef8eb87ecb3a6021f363ac6f72cef0fc51d9a",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B4-BASELINE.md",
+      "sha256": "d7e520cab4a56faba2dcd9017da05e4c00cde754abf3a81bad98088e5d9c6aa5",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B4-IMPLEMENTATION.md",
+      "sha256": "443a92e03e6d62bf60f6eb6802e9a1332a3e38015843d8760f76c1d23333c6b7",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B4-STORAGE-INSPECTION.md",
+      "sha256": "5ca12d9344be566830f8d3ec652ae34a3690899e5dfcc75b3d44a43ac3907772",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B4-VERIFICATION.md",
+      "sha256": "e29476d5cbf07a6f4e87387e98a4096a31ee16d0602c9ae4c9dffe535e5f2cc9",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B5-BASELINE.md",
+      "sha256": "a3ca35266eb9aab8e3c9a4f48c1dced4fececce49fb76e9a595dfaecb402b5df",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B5-IMPLEMENTATION.md",
+      "sha256": "010da919b079588aea5483c84c608294b2484d314de8ff13af87eac2f83a24bd",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B5-VERIFICATION.md",
+      "sha256": "8516841a1f9b20f339276e7282b324bf60684fa59a75b0e5253ead839ac3446a",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B6-BASELINE.md",
+      "sha256": "af5f94c6d7a2d3c536d4bdcc15f1ffdf1515693959d737b5c332529a8b630d86",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B6-IMPLEMENTATION.md",
+      "sha256": "ddc35814fedd2b1ddbd354ae424b89e1527db97f64ae60fa84f562d0fb312b97",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B6-VERIFICATION.md",
+      "sha256": "be2f858ed982485577672809c155103cc8b25ee2be15341d58a10cc496c38f89",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B7-BASELINE.md",
+      "sha256": "482ee0a33925b0670a609dfe0baab46ec0e414ec723d7533bb8ed358d65234cb",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B7-IMPLEMENTATION.md",
+      "sha256": "9c15ec9f613d5ae8d1b2dc394e0d3aae2f898bb49272f5329dfec9104c042411",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B7-VERIFICATION.md",
+      "sha256": "e0274e1c1d9c315428b14a227e03e461f7bce218998a003d8e53d49bb08fdd85",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B8-BACKUP-RESTORE.md",
+      "sha256": "4a418bc196c75d3efe1d2660ed76cada9d4e2dfe202f110b0d9caaace83dfa2a",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B8-BASELINE.md",
+      "sha256": "105395f53b61cde02347797a6cf5bd418eda4e2c3a7856ec7800656356d808d9",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B8-DEPLOYMENT-RECOVERY.md",
+      "sha256": "1d027c75fe4907d817a88492a5119481817345bc1d0ea3f38c1e51dfb312f4b4",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B8-DOCUMENT-READS.md",
+      "sha256": "69ab84cb2615e552cb3b890fd09eda86bcecd19794e0723dc4586abc73de05cd",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B8-LAUNCH-CHECKLIST.md",
+      "sha256": "53b2f763ec84f3990aebdde8cb869a6b8bd0e1010be26425603a965784da14ee",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B8-OBSERVABILITY.md",
+      "sha256": "e348f805dc000ef41d1620e81d0a2ebb1381d87f12f3863dbe647a136de5b9ea",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B8-P1-PERFORMANCE.md",
+      "sha256": "f9cd14eae8c93e9031503afee5b9a97a0f0ed7a2a32ddb4cacbfd3cc38cbdefa",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B8-P2-COMMERCIAL-PROJECTS.md",
+      "sha256": "8bb4d5776632a5a2f48c515a3d87a119b1f46a39d4571b90710ea4018879cd87",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B8-P2-ENDPOINT-MATRIX.md",
+      "sha256": "a317f76621efc257c93d70d7796bd04e7e0c459dad3303146cd4250cab4c5b97",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B8-P2-FILES-ASYNC-REPORTING.md",
+      "sha256": "e6cdab103ce30eddbc041ee50b53289ab400155bfe53344869234d9e436cd42c",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B8-P2-FRONTEND-INTEGRATION.md",
+      "sha256": "00426a4118b73186fcaa28300fe41fcb11d2158b56e625ec60f522559d1f4129",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B8-P2-IDENTITY-INTAKE.md",
+      "sha256": "ede3d551a1bc3c228f25198674b380a0c174890e3734a941c3b9aef2902861f9",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B8-P2-REVIEW.md",
+      "sha256": "bc5efed6523b1b3ebe934ea056bda2e021b5c89916b26b47d891e42c6f026ac2",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B8-P2-VERIFICATION.md",
+      "sha256": "af5603033b3c3986d46ed34ced3a47cc6e248edc7a17ec7543ef9af31b5ea53d",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B8-P3-ADMIN-INTEGRATION.md",
+      "sha256": "702d2a59d36b16e8d7568aa866bca84fb5834a0bc2996310e07484d761fe1d0f",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B8-P3-VERIFICATION.md",
+      "sha256": "d8a6eeca2c427947aa97e321e2b0644b0e58310c901b65e63d7a333d2fb00da1",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B8-PERFORMANCE.md",
+      "sha256": "098b587033881586e6e737c3f2c34c6ccccf5fa1917bdaad19019d3a4d221bb5",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B8-REPORTING.md",
+      "sha256": "cb3de8e91d8dbb10d652c3ef3579bffe04d454d570860258038deda6926cafa3",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B8-SECURITY-REVIEW.md",
+      "sha256": "40127b753f898c8ebfe3fcde40255192c3ba76ca4d16f0ea768e19ed9830a6ea",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/B8-VERIFICATION.md",
+      "sha256": "8fa6bf21b6edd44356760dd4858939971a329acf8e87a8de25d3175ecd63c0ea",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/F1-E1-LOCAL-INTEGRATION.md",
+      "sha256": "d151e3a163ab6c8f00dd120d02fbe2e2fa6d7d8f243042f6567b0c2a1ec623b6",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/F1-E1-VERIFICATION.md",
+      "sha256": "2af10aa6fb269581a81fdf05befc34723293ee7985cdd8cc62ebb0c7352d059a",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/IDENTITY-SESSION-ROTATION.md",
+      "sha256": "c2f1b30988087f35a3f24ef1cd23393117bd5573da98d28036628da3c8f5fcd8",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/candidates/APPROVED-IDENTITY-BROWSER-RACES.cjs",
+      "sha256": "0d4990782098563ae57a0bb51c2a592d9d4219bd8163e2d89c98334930a47233",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/candidates/G1-FINAL-CANDIDATE-IDENTITY.JSON",
+      "sha256": "cdafc7d8aee06c796a075f679f9027fc053e29b6451d4b5f3a1333cfb3dacda0",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/candidates/G1-FINAL-HISTORICAL-PRESERVATION.JSON",
+      "sha256": "5ce937c5e6c4eb647de03169863e606ea14c393cb7427e0ea3ebd2b57a4fc036",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/candidates/HISTORICAL-EVIDENCE-SHA256.json",
+      "sha256": "fa35e81daa7a52578b03cee3ac4cc9ac8fe5ef32b6ee846e9054398dcb432dc5",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/candidates/IDENTITY-CHECKPOINT.md",
+      "sha256": "68a5e417db08912104346f680da1820812cf4bd87f4b460738ee117192c1b8e6",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/candidates/PRE-G1-EVIDENCE-SHA256.json",
+      "sha256": "e4622e7b7dfca80d9bd58578c420fed6264d82ba3836a1cb9f0a9ca25f67a0ad",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/public-services/evidence/B8-TAXONOMY-AFTER-LOCAL.json",
+      "sha256": "6f5737bff7bbbcbcace150c0c185821b43e5315fb830de309675f97b1e54bd06",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/public-services/evidence/B8-TAXONOMY-INVENTORY-LOCAL.json",
+      "sha256": "88bebba13d9034a7cd2bd704fbbe1214abd86e6388ffed49744b7653e5a72206",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/website-readiness/2026-09-28/B8-TAXONOMY-INVENTORY-LOCAL.json",
+      "sha256": "42bfac229a4f91ac116c4e96fec1280ba42ad65cba3a3065e3c2d4fe1453a474",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/website-readiness/2026-09-28/runbooks/B8-BACKUP-RESTORE.md",
+      "sha256": "4a418bc196c75d3efe1d2660ed76cada9d4e2dfe202f110b0d9caaace83dfa2a",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/website-readiness/2026-09-28/runbooks/B8-DEPLOYMENT-RECOVERY.md",
+      "sha256": "1d027c75fe4907d817a88492a5119481817345bc1d0ea3f38c1e51dfb312f4b4",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/website-readiness/2026-09-28/runbooks/B8-LAUNCH-CHECKLIST.md",
+      "sha256": "53b2f763ec84f3990aebdde8cb869a6b8bd0e1010be26425603a965784da14ee",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/website-readiness/2026-09-28/runbooks/B8-OBSERVABILITY.md",
+      "sha256": "e348f805dc000ef41d1620e81d0a2ebb1381d87f12f3863dbe647a136de5b9ea",
+      "unchanged_from_9119a09": true
+    },
+    {
+      "path": "docs/website-readiness/2026-09-28/runbooks/B8-P1-PERFORMANCE.md",
+      "sha256": "f9cd14eae8c93e9031503afee5b9a97a0f0ed7a2a32ddb4cacbfd3cc38cbdefa",
+      "unchanged_from_9119a09": true
+    }
+  ],
+  "application_config_routes_tests_migrations_unchanged": true,
+  "contract": {
+    "openapi": "3.1.1",
+    "version": "1.8.1-gemini-documents-candidate",
+    "operations": 204,
+    "schemas": 265,
+    "sha256": "3c93a09f08ce199cc1c2867ad846a1ca554fd03b6d934070178c5101646df410"
+  }
+}

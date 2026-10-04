@@ -1,0 +1,22 @@
+{
+  "source_integrity_matches_previous_freeze": true,
+  "previous_head": "41199408a4eea79e8e84430666728671e0b2c3c5",
+  "source_fingerprint_sha256": "6fd5dc1f8046d7b0ed1d49d56e24bff760c1947e1bb57aa129b1ff0cbd52c96a",
+  "windows_c_initial_free_bytes": 9633075200,
+  "windows_c_current_free_bytes": 9614585856,
+  "docker_filesystem_available_bytes": 963786764288,
+  "windows_backing_volume_is_limiting_resource": true,
+  "measured_existing_storage_volume_bytes_approx": 7769000,
+  "measured_clamav_signatures_bytes_approx": 175800000,
+  "restore_temporary_budget_bytes": 4294967296,
+  "build_and_scan_growth_budget_bytes": 1073741824,
+  "windows_protected_reserve_bytes": 2147483648,
+  "minimum_before_start_bytes": 7516192768,
+  "minimum_before_restore_bytes": 6442450944,
+  "assumptions": [
+    "Synthetic workflow only, no real dataset copy.",
+    "Restore budget includes two fresh databases, two small object stores, encrypted archives plus one temporary decrypted archive, fresh signatures and logs.",
+    "Cached pinned build inputs reused; reviewed package patch layers only.",
+    "Planning allowance, not a production storage sizing claim. Check actual space before each major phase; no broad prune."
+  ]
+}

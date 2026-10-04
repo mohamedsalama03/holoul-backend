@@ -1,0 +1,169 @@
+[
+  {
+    "gate": "build-inspector",
+    "command": [
+      "docker",
+      "build",
+      "--progress",
+      "plain",
+      "-f",
+      "docker/documents/inspector/Dockerfile",
+      "--target",
+      "runtime",
+      "-t",
+      "holoul-inspector:unified-vps-candidate",
+      "."
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 686.499,
+    "log_sha256": "b491aab5206264b260713be57d993944c4ca9626d20b1f3d94a1bcc775463ad0"
+  },
+  {
+    "gate": "build-scanner",
+    "command": [
+      "docker",
+      "build",
+      "--progress",
+      "plain",
+      "-f",
+      "docker/documents/clamav/Dockerfile",
+      "-t",
+      "holoul-scanner:unified-vps-candidate",
+      "."
+    ],
+    "exit_code": 1,
+    "elapsed_seconds": 23.175,
+    "log_sha256": "6488509bd3be4fe9ba95a3c6910c346866bddb74361987f1a61374b1e48b3156"
+  },
+  {
+    "gate": "build-scanner-retry",
+    "command": [
+      "docker",
+      "build",
+      "--progress",
+      "plain",
+      "-f",
+      "docker/documents/clamav/Dockerfile",
+      "-t",
+      "holoul-scanner:unified-vps-candidate",
+      "."
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 63.637,
+    "log_sha256": "ff6d629411ac3b3c1e7477c8dc16dbc3ce2da3c038dcc5c12cc74ae437cabd2b"
+  },
+  {
+    "gate": "build-nginx",
+    "command": [
+      "docker",
+      "build",
+      "--progress",
+      "plain",
+      "-f",
+      "docker/nginx/Dockerfile",
+      "-t",
+      "holoul-nginx:unified-vps-candidate",
+      "."
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 43.251,
+    "log_sha256": "774aed62f5a8d16079611ff8bba338c9a76bfe875ce24c432b88da0c35d43f8a"
+  },
+  {
+    "gate": "build-application-final",
+    "command": [
+      "docker",
+      "build",
+      "--target",
+      "runtime",
+      "-t",
+      "holoul-app:unified-final-candidate",
+      "."
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 6.342,
+    "log_sha256": "5ac1cfe63ee1b013ce135777c7cf70495114b58ac1974ffe5732c4f4fae620cb"
+  },
+  {
+    "gate": "build-development-final",
+    "command": [
+      "docker",
+      "build",
+      "--target",
+      "development",
+      "-t",
+      "holoul-app:unified-final-development",
+      "."
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 33.887,
+    "log_sha256": "c977d59cf5e403c3ae4525aa0e997e57ca3b57697030b38d36d8140fabad2f10"
+  },
+  {
+    "gate": "restore-attempt-1",
+    "command": [
+      "python3",
+      "scripts/verify-restore.py",
+      "--app-image",
+      "holoul-app:unified-final-candidate",
+      "--inspector-image",
+      "holoul-inspector:unified-vps-candidate"
+    ],
+    "exit_code": 1,
+    "elapsed_seconds": 147.247,
+    "log_sha256": "98ef502d469003f179ea6945db3e6af6b8069e99a83cdb1f123e15531d25bcb8"
+  },
+  {
+    "gate": "restore-attempt-2",
+    "command": [
+      "python3",
+      "scripts/verify-restore.py",
+      "--app-image",
+      "holoul-app:unified-final-candidate",
+      "--inspector-image",
+      "holoul-inspector:unified-vps-candidate"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 433.837,
+    "log_sha256": "05f3ccdf54f52bb103a4c5e3fecd5a442699705a23c3bba7347ffc80600fc5a5"
+  },
+  {
+    "gate": "portfolio-processor-corrected",
+    "command": [
+      "python3",
+      "/home/mohamed/.local/share/holoul-freezes/remediate-processor-test.py"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 6.809,
+    "log_sha256": "2c11637535ca3e3a838cce993def16515faecca7ff2b62e0751cfeb790ab0de8"
+  },
+  {
+    "gate": "application-secrets-all-severities",
+    "command": [
+      "docker",
+      "run",
+      "--rm",
+      "-v",
+      "/var/run/docker.sock:/var/run/docker.sock",
+      "-v",
+      "/home/mohamed/.local/share/holoul-freezes/unified-20261004T104020Z:/evidence",
+      "-v",
+      "/home/mohamed/.cache/trivy:/root/.cache/trivy",
+      "aquasec/trivy@sha256:62b1e65e8869bc4b4c6aa4fa2b21595256c7c2f6018a9d9ad61caf87187c1969",
+      "image",
+      "--scanners",
+      "secret",
+      "--exit-code",
+      "1",
+      "--no-progress",
+      "--format",
+      "json",
+      "--output",
+      "/evidence/application-all-secret-scan.json",
+      "holoul-app:unified-final-candidate"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.363,
+    "log_sha256": "263e76f7c2d29ef370574197a7f4cf463a41e7cccb874862b0eedcf64feb3928"
+  }
+]

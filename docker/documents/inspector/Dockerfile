@@ -15,7 +15,8 @@ RUN curl --fail --location --retry 3 https://github.com/qpdf/qpdf/releases/downl
 
 FROM base AS runtime
 # Offline PDF text extraction remains inside the constrained, networkless worker.
-RUN apk add --no-cache poppler-utils=25.12.0-r1
+# Pin the reviewed CVE-2026-93990 runtime fix; keep the qpdf builder unchanged.
+RUN apk add --no-cache poppler-utils=25.12.0-r1 libexpat=2.8.5-r0
 COPY --from=builder /opt/qpdf/bin/qpdf /usr/local/bin/qpdf
 COPY --from=builder /opt/qpdf/lib/ /usr/local/lib/
 # Inspection uses only the standard library. Remove pip's vendored dependencies

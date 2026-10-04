@@ -1,0 +1,40 @@
+{
+  "inspection": {
+    "image_id": "sha256:b7a293375e2d18b82f99e91dcaf7092288bf99421a599371b5f1401c8cfde662",
+    "image_reference": "holoul-app:unified-final-candidate",
+    "image_size": 75402689,
+    "configured_user": "holoul",
+    "source_files_compared": 542,
+    "source_mismatches": [],
+    "unexpected_application_files": [],
+    "provider_key_matches": [],
+    "scanned_regular_files": 12020,
+    "dev_dependencies_installed": false,
+    "package_count": 82,
+    "sensitive_env_names": [],
+    "passed": true
+  },
+  "rebuild_equivalence": {
+    "restore_verified_index": "sha256:22910c524e6d46b56709987a12b50afad9d62910b925bb856bce41b53b825fde",
+    "final_image_index": "sha256:b7a293375e2d18b82f99e91dcaf7092288bf99421a599371b5f1401c8cfde662",
+    "platform_manifest_sha256": [
+      "sha256:c170660652e784d6ffb1d50f4bb0eb39061f21c11e8f2de3ccbfd2f40199d1b0",
+      "sha256:c170660652e784d6ffb1d50f4bb0eb39061f21c11e8f2de3ccbfd2f40199d1b0"
+    ],
+    "config_sha256": [
+      "sha256:d19af5d6faaebd19e043ca3d2dd5b2209645879180096751d6a9dfec725e83d2",
+      "sha256:d19af5d6faaebd19e043ca3d2dd5b2209645879180096751d6a9dfec725e83d2"
+    ],
+    "identical_rootfs": true,
+    "only_build_attestation_index_changed": true
+  },
+  "disabled_ai_boot": {
+    "ai_disabled_without_key": true,
+    "uid": 1000,
+    "app_env": "production",
+    "profile": "local-verification",
+    "image_id": "sha256:b7a293375e2d18b82f99e91dcaf7092288bf99421a599371b5f1401c8cfde662",
+    "network": "none"
+  },
+  "all_severities_secret_scan_exit_code": 0
+}

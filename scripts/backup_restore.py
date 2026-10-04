@@ -155,6 +155,16 @@ class Drill:
         if len(matches) != 1 or not matches[0].get("read_only"):
             raise RecoveryError("readonly_drill_ingress_required")
         matches[0]["source"] = str(edge_path)
+        # The TCP listener stays on 8080 inside the container, while ingress
+        # trusts the drill's external port. Health probes must use that same
+        # exact Host header instead of silently failing the strict host guard.
+        health = plan["services"]["nginx"]["healthcheck"]
+        baseline_health = ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:8080/health/live"]
+        drill_health = ["CMD", "wget", "-q", "-O", "/dev/null",
+                        "--header=Host: localhost:" + str(http_port), "http://127.0.0.1:8080/health/live"]
+        if health.get("test") not in (baseline_health, drill_health):
+            raise RecoveryError("unknown_local_ingress_healthcheck")
+        health["test"] = drill_health
         for kind in ("volumes", "networks"):
             for logical, definition in plan.get(kind, {}).items():
                 if definition.get("external") or definition.get("name") != project + "_" + logical:

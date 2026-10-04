@@ -265,7 +265,10 @@ services:
       start_period: 30s
 
   nginx:
-    image: nginx:1.30.5-alpine@sha256:73c75df4075c918f91017fdda46ad81e55e5af77ba3a64ca3d5014bd9244fe7f
+    image: holoul-nginx:unified-vps-candidate
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
     user: "101:101"
     entrypoint: [nginx, -g, "daemon off;"]
     read_only: true
@@ -353,7 +356,7 @@ services:
       storage: {condition: service_healthy}
 
   scanner-signatures:
-    image: holoul-scanner:b4-runtime
+    image: holoul-scanner:unified-vps-candidate
     build:
       context: .
       dockerfile: docker/documents/clamav/Dockerfile
@@ -371,7 +374,7 @@ services:
     healthcheck: {disable: true}
 
   signature-updater:
-    image: holoul-scanner:b4-runtime
+    image: holoul-scanner:unified-vps-candidate
     entrypoint: [freshclam, --daemon, --foreground=true, --config-file=/etc/clamav/freshclam.conf]
     user: "1000:1000"
     read_only: true
@@ -388,7 +391,7 @@ services:
     healthcheck: {disable: true}
 
   scanner:
-    image: holoul-scanner:b4-runtime
+    image: holoul-scanner:unified-vps-candidate
     init: true
     user: "1000:1000"
     read_only: true
@@ -413,7 +416,7 @@ services:
     pids_limit: 32
 
   inspector:
-    image: holoul-inspector:b8-runtime
+    image: holoul-inspector:unified-vps-candidate
     build:
       context: .
       dockerfile: docker/documents/inspector/Dockerfile

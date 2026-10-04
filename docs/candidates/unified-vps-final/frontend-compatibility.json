@@ -1,0 +1,3000 @@
+{
+  "backend": {
+    "sha256": "3c93a09f08ce199cc1c2867ad846a1ca554fd03b6d934070178c5101646df410",
+    "openapi": "3.1.1",
+    "version": "1.8.1-gemini-documents-candidate",
+    "operations": 204,
+    "schemas": 265
+  },
+  "frontends": {
+    "website": {
+      "sha256": "3c93a09f08ce199cc1c2867ad846a1ca554fd03b6d934070178c5101646df410",
+      "version": "1.8.1-gemini-documents-candidate",
+      "consumed_count": 36,
+      "expected_count": 36,
+      "consumption_evidence": [
+        {
+          "id": "identityInitializeCsrf",
+          "files": [
+            "src/components/holoul/customer-auth.tsx",
+            "src/lib/api/client.ts",
+            "src/lib/api/contact.ts",
+            "src/lib/api/intake-flow.ts",
+            "src/lib/api/session.ts"
+          ]
+        },
+        {
+          "id": "identityRegister",
+          "files": [
+            "src/components/holoul/customer-auth.tsx"
+          ]
+        },
+        {
+          "id": "identityLogin",
+          "files": [
+            "src/lib/api/session.ts"
+          ]
+        },
+        {
+          "id": "identityLogout",
+          "files": [
+            "src/lib/api/session.ts"
+          ]
+        },
+        {
+          "id": "identityVerifyEmail",
+          "files": [
+            "src/components/holoul/customer-auth.tsx"
+          ]
+        },
+        {
+          "id": "identityResendVerification",
+          "files": [
+            "src/components/holoul/customer-auth.tsx"
+          ]
+        },
+        {
+          "id": "identityForgotPassword",
+          "files": [
+            "src/components/holoul/customer-auth.tsx"
+          ]
+        },
+        {
+          "id": "identityResetPassword",
+          "files": [
+            "src/components/holoul/customer-auth.tsx"
+          ]
+        },
+        {
+          "id": "identityGetCurrentUser",
+          "files": [
+            "src/lib/api/session.ts"
+          ]
+        },
+        {
+          "id": "customerListOwnProfiles",
+          "files": [
+            "src/lib/api/session.ts"
+          ]
+        },
+        {
+          "id": "customerUpdateProfile",
+          "files": [
+            "src/components/holoul/customer-requests.tsx"
+          ]
+        },
+        {
+          "id": "guestIntakeCategories",
+          "files": [
+            "src/lib/api/intake-flow.ts"
+          ]
+        },
+        {
+          "id": "guestIntakeSubcategories",
+          "files": [
+            "src/lib/api/intake-flow.ts"
+          ]
+        },
+        {
+          "id": "guestIntakeCreate",
+          "files": [
+            "src/lib/api/intake-flow.ts"
+          ]
+        },
+        {
+          "id": "guestIntakeReserveDocument",
+          "files": [
+            "src/lib/api/intake-flow.ts"
+          ]
+        },
+        {
+          "id": "guestIntakeUploadDocument",
+          "files": [
+            "src/lib/api/intake-flow.ts"
+          ]
+        },
+        {
+          "id": "guestIntakeDocumentStatus",
+          "files": [
+            "src/lib/api/intake-flow.ts"
+          ]
+        },
+        {
+          "id": "guestIntakeSubmit",
+          "files": [
+            "src/lib/api/intake-flow.ts"
+          ]
+        },
+        {
+          "id": "guestIntakeClaim",
+          "files": [
+            "src/lib/api/intake-flow.ts"
+          ]
+        },
+        {
+          "id": "intakeCustomerCreate",
+          "files": [
+            "src/lib/api/intake-flow.ts"
+          ]
+        },
+        {
+          "id": "intakeCustomerUpdate",
+          "files": [
+            "src/lib/api/intake-flow.ts"
+          ]
+        },
+        {
+          "id": "intakeCustomerSubmit",
+          "files": [
+            "src/lib/api/intake-flow.ts"
+          ]
+        },
+        {
+          "id": "intakeCustomerDetail",
+          "files": [
+            "src/components/holoul/customer-requests.tsx",
+            "src/lib/api/intake-flow.ts"
+          ]
+        },
+        {
+          "id": "intakeCustomerList",
+          "files": [
+            "src/components/holoul/customer-requests.tsx"
+          ]
+        },
+        {
+          "id": "documentReserve",
+          "files": [
+            "src/lib/api/intake-flow.ts"
+          ]
+        },
+        {
+          "id": "documentUpload",
+          "files": [
+            "src/lib/api/intake-flow.ts"
+          ]
+        },
+        {
+          "id": "requestDocument",
+          "files": [
+            "src/lib/api/intake-flow.ts"
+          ]
+        },
+        {
+          "id": "aiRunCreate",
+          "files": [
+            "src/lib/api/intake-flow.ts"
+          ]
+        },
+        {
+          "id": "aiRun",
+          "files": [
+            "src/components/holoul/intake-assistant.tsx"
+          ]
+        },
+        {
+          "id": "aiRunApply",
+          "files": [
+            "src/lib/api/intake-flow.ts"
+          ]
+        },
+        {
+          "id": "aiRunDismiss",
+          "files": [
+            "src/lib/api/intake-flow.ts"
+          ]
+        },
+        {
+          "id": "publicPortfolioList",
+          "files": [
+            "src/components/holoul/portfolio-results.tsx",
+            "src/lib/server/portfolio.ts"
+          ]
+        },
+        {
+          "id": "publicPortfolioDetail",
+          "files": [
+            "src/lib/server/portfolio.ts"
+          ]
+        },
+        {
+          "id": "publicPortfolioCategories",
+          "files": [
+            "src/lib/server/portfolio.ts"
+          ]
+        },
+        {
+          "id": "publicPortfolioImage",
+          "files": [
+            "src/components/holoul/portfolio-results.tsx",
+            "src/components/holoul/project-gallery.tsx",
+            "src/lib/portfolio.ts"
+          ]
+        },
+        {
+          "id": "publicContactCreate",
+          "files": [
+            "src/lib/api/contact.ts"
+          ]
+        }
+      ],
+      "unresolved_source_calls": [],
+      "comparisons": [
+        {
+          "id": "identityInitializeCsrf",
+          "method": "get",
+          "path": "/sanctum/csrf-cookie",
+          "compatible": true,
+          "structural_sha256_frontend": "b1456183e24360ad9e94e61c7fd77e95fb012d1e71255478f0f2e298b2320ec7",
+          "structural_sha256_backend": "b1456183e24360ad9e94e61c7fd77e95fb012d1e71255478f0f2e298b2320ec7",
+          "annotation_changes": false,
+          "references_compared": 10,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityRegister",
+          "method": "post",
+          "path": "/api/v1/auth/register",
+          "compatible": true,
+          "structural_sha256_frontend": "540e93a202a823b172f2557a3ff5c6e918d504ded1765b9158e24468f31d96d5",
+          "structural_sha256_backend": "540e93a202a823b172f2557a3ff5c6e918d504ded1765b9158e24468f31d96d5",
+          "annotation_changes": false,
+          "references_compared": 14,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityLogin",
+          "method": "post",
+          "path": "/api/v1/auth/login",
+          "compatible": true,
+          "structural_sha256_frontend": "d4b635081cfb6e1bee23189a99ea6fa028e3c8fa7a63c5daac365f80feaeab5f",
+          "structural_sha256_backend": "d4b635081cfb6e1bee23189a99ea6fa028e3c8fa7a63c5daac365f80feaeab5f",
+          "annotation_changes": false,
+          "references_compared": 16,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityLogout",
+          "method": "post",
+          "path": "/api/v1/auth/logout",
+          "compatible": true,
+          "structural_sha256_frontend": "20665996125aca43718fa4b52467ce52cb1c55f92c99ca05c1b4163bc9219275",
+          "structural_sha256_backend": "20665996125aca43718fa4b52467ce52cb1c55f92c99ca05c1b4163bc9219275",
+          "annotation_changes": false,
+          "references_compared": 15,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityVerifyEmail",
+          "method": "post",
+          "path": "/api/v1/auth/email/verify",
+          "compatible": true,
+          "structural_sha256_frontend": "3d11b40c021a32979eb3442ec04d21ae747e77540061606bbf7f5b0f7696e68b",
+          "structural_sha256_backend": "3d11b40c021a32979eb3442ec04d21ae747e77540061606bbf7f5b0f7696e68b",
+          "annotation_changes": false,
+          "references_compared": 14,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityResendVerification",
+          "method": "post",
+          "path": "/api/v1/auth/email/resend",
+          "compatible": true,
+          "structural_sha256_frontend": "3937f6c80367081bb757c13834d3af37b3ee30093d1be9166b49bd01d258939b",
+          "structural_sha256_backend": "3937f6c80367081bb757c13834d3af37b3ee30093d1be9166b49bd01d258939b",
+          "annotation_changes": false,
+          "references_compared": 14,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityForgotPassword",
+          "method": "post",
+          "path": "/api/v1/auth/password/forgot",
+          "compatible": true,
+          "structural_sha256_frontend": "30880daaa9730d61e1a202ebe606a9617a02a5c53bb7faa67191d31efaefb01c",
+          "structural_sha256_backend": "30880daaa9730d61e1a202ebe606a9617a02a5c53bb7faa67191d31efaefb01c",
+          "annotation_changes": false,
+          "references_compared": 14,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityResetPassword",
+          "method": "post",
+          "path": "/api/v1/auth/password/reset",
+          "compatible": true,
+          "structural_sha256_frontend": "dc2931a56c7ac23243c42de12b3270b722436ffb168c8589601b52c1700b38f5",
+          "structural_sha256_backend": "dc2931a56c7ac23243c42de12b3270b722436ffb168c8589601b52c1700b38f5",
+          "annotation_changes": false,
+          "references_compared": 14,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityGetCurrentUser",
+          "method": "get",
+          "path": "/api/v1/identity/me",
+          "compatible": true,
+          "structural_sha256_frontend": "9404d314261ef7ad3e102725b40bb5ad9bb459dda4b77df3de7efa100cd3f0d4",
+          "structural_sha256_backend": "9404d314261ef7ad3e102725b40bb5ad9bb459dda4b77df3de7efa100cd3f0d4",
+          "annotation_changes": false,
+          "references_compared": 13,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "customerListOwnProfiles",
+          "method": "get",
+          "path": "/api/v1/customers",
+          "compatible": true,
+          "structural_sha256_frontend": "6df2ec18e62f77c232b4527192f96ae2c5a0808f03bdfd137487ec13054d2110",
+          "structural_sha256_backend": "6df2ec18e62f77c232b4527192f96ae2c5a0808f03bdfd137487ec13054d2110",
+          "annotation_changes": false,
+          "references_compared": 15,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "customerUpdateProfile",
+          "method": "patch",
+          "path": "/api/v1/customers/{customer}",
+          "compatible": true,
+          "structural_sha256_frontend": "a51a6ed0cfe64485a0db72e3dc622130e9d361da96f33b8ed0dede270a204e99",
+          "structural_sha256_backend": "a51a6ed0cfe64485a0db72e3dc622130e9d361da96f33b8ed0dede270a204e99",
+          "annotation_changes": false,
+          "references_compared": 17,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "guestIntakeCategories",
+          "method": "get",
+          "path": "/api/v1/intake/categories",
+          "compatible": true,
+          "structural_sha256_frontend": "4adad30c1b329bebe350ff4e184a33ec6bdfd6e3d2ecaaef7eb7d37cd6ddec89",
+          "structural_sha256_backend": "4adad30c1b329bebe350ff4e184a33ec6bdfd6e3d2ecaaef7eb7d37cd6ddec89",
+          "annotation_changes": false,
+          "references_compared": 14,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "guestIntakeSubcategories",
+          "method": "get",
+          "path": "/api/v1/intake/categories/{category}/subcategories",
+          "compatible": true,
+          "structural_sha256_frontend": "d9d0f9f2a859b5961c98feaf639bb93c2162f75c6e1600c5cfdd2813c183ebf5",
+          "structural_sha256_backend": "d9d0f9f2a859b5961c98feaf639bb93c2162f75c6e1600c5cfdd2813c183ebf5",
+          "annotation_changes": false,
+          "references_compared": 15,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "guestIntakeCreate",
+          "method": "post",
+          "path": "/api/v1/guest/project-requests",
+          "compatible": true,
+          "structural_sha256_frontend": "c034e9886ee99642bfde2466c2d664674d9ee89f3663e2c68305e7d1ecacdd82",
+          "structural_sha256_backend": "c034e9886ee99642bfde2466c2d664674d9ee89f3663e2c68305e7d1ecacdd82",
+          "annotation_changes": false,
+          "references_compared": 18,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "guestIntakeReserveDocument",
+          "method": "post",
+          "path": "/api/v1/guest/project-requests/{projectRequest}/documents",
+          "compatible": true,
+          "structural_sha256_frontend": "34b926e017b1fd7706cf47bcffc69bffe53b6e264c21e917b54fc8ab3fe1eddf",
+          "structural_sha256_backend": "34b926e017b1fd7706cf47bcffc69bffe53b6e264c21e917b54fc8ab3fe1eddf",
+          "annotation_changes": false,
+          "references_compared": 22,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "guestIntakeUploadDocument",
+          "method": "put",
+          "path": "/api/v1/guest/project-requests/{projectRequest}/documents/{document}/content",
+          "compatible": true,
+          "structural_sha256_frontend": "528988e19e1d653758929a8d014c219664faa600234da1d45a80194613be4840",
+          "structural_sha256_backend": "528988e19e1d653758929a8d014c219664faa600234da1d45a80194613be4840",
+          "annotation_changes": false,
+          "references_compared": 20,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "guestIntakeDocumentStatus",
+          "method": "get",
+          "path": "/api/v1/guest/project-requests/{projectRequest}/documents/{document}",
+          "compatible": true,
+          "structural_sha256_frontend": "d1e17ec5729366bda0f300285c2a03be2213e1df6a264fd90b6357e4fd761221",
+          "structural_sha256_backend": "d1e17ec5729366bda0f300285c2a03be2213e1df6a264fd90b6357e4fd761221",
+          "annotation_changes": false,
+          "references_compared": 18,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "guestIntakeSubmit",
+          "method": "post",
+          "path": "/api/v1/guest/project-requests/{projectRequest}/submissions",
+          "compatible": true,
+          "structural_sha256_frontend": "5560ef7b64ec41a4d206667c26825b78046bfe1d7d023368bbd3eed20262ea7c",
+          "structural_sha256_backend": "5560ef7b64ec41a4d206667c26825b78046bfe1d7d023368bbd3eed20262ea7c",
+          "annotation_changes": false,
+          "references_compared": 21,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "guestIntakeClaim",
+          "method": "post",
+          "path": "/api/v1/project-request-claims",
+          "compatible": true,
+          "structural_sha256_frontend": "49aa6ea1f330400e0ac86b70cd182a1365342e2674d19144adcf8c72376a044a",
+          "structural_sha256_backend": "49aa6ea1f330400e0ac86b70cd182a1365342e2674d19144adcf8c72376a044a",
+          "annotation_changes": false,
+          "references_compared": 20,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "intakeCustomerCreate",
+          "method": "post",
+          "path": "/api/v1/project-requests",
+          "compatible": true,
+          "structural_sha256_frontend": "706ae5c332174b091887ff40793362d16739707c074744f9b42c0647c61b9d58",
+          "structural_sha256_backend": "706ae5c332174b091887ff40793362d16739707c074744f9b42c0647c61b9d58",
+          "annotation_changes": false,
+          "references_compared": 18,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "intakeCustomerUpdate",
+          "method": "patch",
+          "path": "/api/v1/project-requests/{projectRequest}/draft",
+          "compatible": true,
+          "structural_sha256_frontend": "954b323fbe118a53885048b468115bf9afd0c7badbb49b5543156c8225a963d6",
+          "structural_sha256_backend": "954b323fbe118a53885048b468115bf9afd0c7badbb49b5543156c8225a963d6",
+          "annotation_changes": false,
+          "references_compared": 21,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "intakeCustomerSubmit",
+          "method": "post",
+          "path": "/api/v1/project-requests/{projectRequest}/submissions",
+          "compatible": true,
+          "structural_sha256_frontend": "1cfb45ac95864914ba44ac2ab36a4c2519715efbe2914af3dd0f5104f336a06f",
+          "structural_sha256_backend": "1cfb45ac95864914ba44ac2ab36a4c2519715efbe2914af3dd0f5104f336a06f",
+          "annotation_changes": false,
+          "references_compared": 22,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "intakeCustomerDetail",
+          "method": "get",
+          "path": "/api/v1/project-requests/{projectRequest}",
+          "compatible": true,
+          "structural_sha256_frontend": "7d0a8ecfb1c265f30e4e3c0081f54b45dbfdb48acd3467d065ae34b8f5e967d1",
+          "structural_sha256_backend": "7d0a8ecfb1c265f30e4e3c0081f54b45dbfdb48acd3467d065ae34b8f5e967d1",
+          "annotation_changes": false,
+          "references_compared": 17,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "intakeCustomerList",
+          "method": "get",
+          "path": "/api/v1/project-requests",
+          "compatible": true,
+          "structural_sha256_frontend": "4bdde53eb4103cd0e35f28d74e127e31bd7b092cc6cf62a05531263d4ae90788",
+          "structural_sha256_backend": "4bdde53eb4103cd0e35f28d74e127e31bd7b092cc6cf62a05531263d4ae90788",
+          "annotation_changes": false,
+          "references_compared": 15,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "documentReserve",
+          "method": "post",
+          "path": "/api/v1/project-requests/{projectRequest}/documents",
+          "compatible": true,
+          "structural_sha256_frontend": "a8db1e487f69bba4c611b7d3c1e112a58abe819bdc600270df928360efae0c39",
+          "structural_sha256_backend": "a8db1e487f69bba4c611b7d3c1e112a58abe819bdc600270df928360efae0c39",
+          "annotation_changes": false,
+          "references_compared": 22,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "documentUpload",
+          "method": "put",
+          "path": "/api/v1/project-requests/{projectRequest}/documents/{document}/content",
+          "compatible": true,
+          "structural_sha256_frontend": "0c56b20a2c0ebdd3f685e695aa90e550749ea3fab3c2f1910770ec4f42e8c9af",
+          "structural_sha256_backend": "0c56b20a2c0ebdd3f685e695aa90e550749ea3fab3c2f1910770ec4f42e8c9af",
+          "annotation_changes": false,
+          "references_compared": 20,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "requestDocument",
+          "method": "get",
+          "path": "/api/v1/project-requests/{projectRequest}/documents/{document}",
+          "compatible": true,
+          "structural_sha256_frontend": "4ab0990b7410c6f4fcaf2b1464bfe4b4f59d3f1a7ef0c4f4372180e214bb95e0",
+          "structural_sha256_backend": "4ab0990b7410c6f4fcaf2b1464bfe4b4f59d3f1a7ef0c4f4372180e214bb95e0",
+          "annotation_changes": false,
+          "references_compared": 15,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "aiRunCreate",
+          "method": "post",
+          "path": "/api/v1/ai-runs",
+          "compatible": true,
+          "structural_sha256_frontend": "4c04d23bbfa58e43e5aeb5b682fa9aa16ee5bb069b13cb0b49aa0f6827382209",
+          "structural_sha256_backend": "4c04d23bbfa58e43e5aeb5b682fa9aa16ee5bb069b13cb0b49aa0f6827382209",
+          "annotation_changes": false,
+          "references_compared": 29,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "aiRun",
+          "method": "get",
+          "path": "/api/v1/ai-runs/{aiRun}",
+          "compatible": true,
+          "structural_sha256_frontend": "310bd037ace60852e1e86af682787295cbbbceac8d7ebc6795560a7caf7630df",
+          "structural_sha256_backend": "310bd037ace60852e1e86af682787295cbbbceac8d7ebc6795560a7caf7630df",
+          "annotation_changes": false,
+          "references_compared": 22,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "aiRunApply",
+          "method": "post",
+          "path": "/api/v1/ai-runs/{aiRun}/applications",
+          "compatible": true,
+          "structural_sha256_frontend": "66ae59e73a27068a311364c6b88925be8c9e0040bfecc78beab3a2124c781c05",
+          "structural_sha256_backend": "66ae59e73a27068a311364c6b88925be8c9e0040bfecc78beab3a2124c781c05",
+          "annotation_changes": false,
+          "references_compared": 22,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "aiRunDismiss",
+          "method": "post",
+          "path": "/api/v1/ai-runs/{aiRun}/dismissals",
+          "compatible": true,
+          "structural_sha256_frontend": "c9cf72220210d6642ea4cbc8c7f446af9e8bbc6971c6e5509fe540b4f17a829c",
+          "structural_sha256_backend": "c9cf72220210d6642ea4cbc8c7f446af9e8bbc6971c6e5509fe540b4f17a829c",
+          "annotation_changes": false,
+          "references_compared": 21,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "publicPortfolioList",
+          "method": "get",
+          "path": "/api/v1/public/portfolio/projects",
+          "compatible": true,
+          "structural_sha256_frontend": "10c98015a7f15ef5364fe99bd230a1f2a18c3d74fb2dfc1be804b3ae3ddfc69b",
+          "structural_sha256_backend": "10c98015a7f15ef5364fe99bd230a1f2a18c3d74fb2dfc1be804b3ae3ddfc69b",
+          "annotation_changes": false,
+          "references_compared": 15,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "publicPortfolioDetail",
+          "method": "get",
+          "path": "/api/v1/public/portfolio/projects/{project}",
+          "compatible": true,
+          "structural_sha256_frontend": "d53166455cb6ce6a657008f3476be62f7554140bc30f20edd36055bf9bf68b09",
+          "structural_sha256_backend": "d53166455cb6ce6a657008f3476be62f7554140bc30f20edd36055bf9bf68b09",
+          "annotation_changes": false,
+          "references_compared": 16,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "publicPortfolioCategories",
+          "method": "get",
+          "path": "/api/v1/public/portfolio/categories",
+          "compatible": true,
+          "structural_sha256_frontend": "0c63490a9dae32a558bb6e5c1c7ec3114493b848c34de73848792e54f0d0e1bd",
+          "structural_sha256_backend": "0c63490a9dae32a558bb6e5c1c7ec3114493b848c34de73848792e54f0d0e1bd",
+          "annotation_changes": false,
+          "references_compared": 13,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "publicPortfolioImage",
+          "method": "get",
+          "path": "/api/v1/public/portfolio/images/{image}/{variant}",
+          "compatible": true,
+          "structural_sha256_frontend": "ed8fe14ef857a230231b41bcef4df808648b65653fc1ce63ec0e8705126f63c7",
+          "structural_sha256_backend": "ed8fe14ef857a230231b41bcef4df808648b65653fc1ce63ec0e8705126f63c7",
+          "annotation_changes": false,
+          "references_compared": 12,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "publicContactCreate",
+          "method": "post",
+          "path": "/api/v1/public/contact-messages",
+          "compatible": true,
+          "structural_sha256_frontend": "72d3fee9eea26b88107635ca059fa182875d2fd815dc48fdf62746fa4b2627af",
+          "structural_sha256_backend": "72d3fee9eea26b88107635ca059fa182875d2fd815dc48fdf62746fa4b2627af",
+          "annotation_changes": false,
+          "references_compared": 17,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        }
+      ],
+      "compatible": true
+    },
+    "dashboard": {
+      "sha256": "ef0a849656234b937a1d76e7258835de5438bcb7bbd57a87f38b4ce011275761",
+      "version": "1.7.0-portfolio-editor-candidate",
+      "consumed_count": 67,
+      "expected_count": 67,
+      "consumption_evidence": [
+        {
+          "id": "identityResendVerification",
+          "file": "src/lib/api/account-recovery.ts",
+          "line": 10,
+          "method": "post",
+          "path": "/api/v1/auth/email/resend"
+        },
+        {
+          "id": "identityForgotPassword",
+          "file": "src/lib/api/account-recovery.ts",
+          "line": 15,
+          "method": "post",
+          "path": "/api/v1/auth/password/forgot"
+        },
+        {
+          "id": "identityVerifyEmail",
+          "file": "src/lib/api/account-recovery.ts",
+          "line": 23,
+          "method": "post",
+          "path": "/api/v1/auth/email/verify"
+        },
+        {
+          "id": "identityResetPassword",
+          "file": "src/lib/api/account-recovery.ts",
+          "line": 35,
+          "method": "post",
+          "path": "/api/v1/auth/password/reset"
+        },
+        {
+          "id": "adminCustomerList",
+          "file": "src/lib/api/customers.ts",
+          "line": 51,
+          "method": "get",
+          "path": "/api/v1/admin/customers"
+        },
+        {
+          "id": "adminCustomerDetail",
+          "file": "src/lib/api/customers.ts",
+          "line": 77,
+          "method": "get",
+          "path": "/api/v1/admin/customers/{customer}"
+        },
+        {
+          "id": "adminCustomerRequests",
+          "file": "src/lib/api/customers.ts",
+          "line": 93,
+          "method": "get",
+          "path": "/api/v1/admin/customers/{customer}/project-requests"
+        },
+        {
+          "id": "adminCustomerProjects",
+          "file": "src/lib/api/customers.ts",
+          "line": 118,
+          "method": "get",
+          "path": "/api/v1/admin/customers/{customer}/projects"
+        },
+        {
+          "id": "identityLoginWithUsername",
+          "file": "src/lib/api/identity.ts",
+          "line": 42,
+          "method": "post",
+          "path": "/api/v1/auth/username-login"
+        },
+        {
+          "id": "identityLogin",
+          "file": "src/lib/api/identity.ts",
+          "line": 46,
+          "method": "post",
+          "path": "/api/v1/auth/login"
+        },
+        {
+          "id": "identityChallengeMfa",
+          "file": "src/lib/api/identity.ts",
+          "line": 59,
+          "method": "post",
+          "path": "/api/v1/auth/mfa/challenge"
+        },
+        {
+          "id": "identityRecoverMfa",
+          "file": "src/lib/api/identity.ts",
+          "line": 69,
+          "method": "post",
+          "path": "/api/v1/auth/mfa/recovery"
+        },
+        {
+          "id": "identityBeginMfaEnrollment",
+          "file": "src/lib/api/identity.ts",
+          "line": 79,
+          "method": "post",
+          "path": "/api/v1/auth/mfa/enrollment"
+        },
+        {
+          "id": "identityConfirmMfaEnrollment",
+          "file": "src/lib/api/identity.ts",
+          "line": 93,
+          "method": "post",
+          "path": "/api/v1/auth/mfa/enrollment/confirm"
+        },
+        {
+          "id": "identityGetCurrentUser",
+          "file": "src/lib/api/identity.ts",
+          "line": 112,
+          "method": "get",
+          "path": "/api/v1/identity/me"
+        },
+        {
+          "id": "identityLogout",
+          "file": "src/lib/api/identity.ts",
+          "line": 121,
+          "method": "post",
+          "path": "/api/v1/auth/logout"
+        },
+        {
+          "id": "identityConfirmPassword",
+          "file": "src/lib/api/identity.ts",
+          "line": 135,
+          "method": "post",
+          "path": "/api/v1/auth/password/confirm"
+        },
+        {
+          "id": "adminPortfolioList",
+          "file": "src/lib/api/portfolio.ts",
+          "line": 52,
+          "method": "get",
+          "path": "/api/v1/admin/portfolio/projects"
+        },
+        {
+          "id": "adminPortfolioDetail",
+          "file": "src/lib/api/portfolio.ts",
+          "line": 69,
+          "method": "get",
+          "path": "/api/v1/admin/portfolio/projects/{project}"
+        },
+        {
+          "id": "adminPortfolioCreate",
+          "file": "src/lib/api/portfolio.ts",
+          "line": 81,
+          "method": "post",
+          "path": "/api/v1/admin/portfolio/projects"
+        },
+        {
+          "id": "adminPortfolioUpdate",
+          "file": "src/lib/api/portfolio.ts",
+          "line": 96,
+          "method": "patch",
+          "path": "/api/v1/admin/portfolio/projects/{project}"
+        },
+        {
+          "id": "adminPortfolioReserveImage",
+          "file": "src/lib/api/portfolio.ts",
+          "line": 115,
+          "method": "post",
+          "path": "/api/v1/admin/portfolio/projects/{project}/images"
+        },
+        {
+          "id": "adminPortfolioImageStatus",
+          "file": "src/lib/api/portfolio.ts",
+          "line": 159,
+          "method": "get",
+          "path": "/api/v1/admin/portfolio/projects/{project}/images/{image}"
+        },
+        {
+          "id": "adminPortfolioRemoveImage",
+          "file": "src/lib/api/portfolio.ts",
+          "line": 177,
+          "method": "delete",
+          "path": "/api/v1/admin/portfolio/projects/{project}/images/{image}"
+        },
+        {
+          "id": "adminPortfolioPublish",
+          "file": "src/lib/api/portfolio.ts",
+          "line": 199,
+          "method": "post",
+          "path": "/api/v1/admin/portfolio/projects/{project}/publications"
+        },
+        {
+          "id": "adminPortfolioUnpublish",
+          "file": "src/lib/api/portfolio.ts",
+          "line": 220,
+          "method": "post",
+          "path": "/api/v1/admin/portfolio/projects/{project}/unpublications"
+        },
+        {
+          "id": "publicPortfolioCategories",
+          "file": "src/lib/api/portfolio.ts",
+          "line": 236,
+          "method": "get",
+          "path": "/api/v1/public/portfolio/categories"
+        },
+        {
+          "id": "adminPublicContentCapabilities",
+          "file": "src/lib/api/portfolio.ts",
+          "line": 254,
+          "method": "get",
+          "path": "/api/v1/admin/public-content/capabilities"
+        },
+        {
+          "id": "reportDashboard",
+          "file": "src/lib/api/reporting.ts",
+          "line": 26,
+          "method": "get",
+          "path": "/api/v1/admin/reports/dashboard"
+        },
+        {
+          "id": "taxonomyListActiveCategories",
+          "file": "src/lib/api/reporting.ts",
+          "line": 47,
+          "method": "get",
+          "path": "/api/v1/categories"
+        },
+        {
+          "id": "taxonomyListActiveSubcategories",
+          "file": "src/lib/api/reporting.ts",
+          "line": 59,
+          "method": "get",
+          "path": "/api/v1/categories/{category}/subcategories"
+        },
+        {
+          "id": "intakeStaffList",
+          "file": "src/lib/api/requests.ts",
+          "line": 80,
+          "method": "get",
+          "path": "/api/v1/admin/project-requests"
+        },
+        {
+          "id": "intakeStaffDetail",
+          "file": "src/lib/api/requests.ts",
+          "line": 124,
+          "method": "get",
+          "path": "/api/v1/admin/project-requests/{projectRequest}"
+        },
+        {
+          "id": "intakeStaffReference",
+          "file": "src/lib/api/requests.ts",
+          "line": 137,
+          "method": "get",
+          "path": "/api/v1/admin/project-requests/by-reference/{reference}"
+        },
+        {
+          "id": "intakeStaffRevisions",
+          "file": "src/lib/api/requests.ts",
+          "line": 151,
+          "method": "get",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/revisions"
+        },
+        {
+          "id": "intakeStaffHistory",
+          "file": "src/lib/api/requests.ts",
+          "line": 174,
+          "method": "get",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/history"
+        },
+        {
+          "id": "intakeStaffInformation",
+          "file": "src/lib/api/requests.ts",
+          "line": 200,
+          "method": "get",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/information-requests"
+        },
+        {
+          "id": "intakeStaffAssignments",
+          "file": "src/lib/api/requests.ts",
+          "line": 222,
+          "method": "get",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/assignments"
+        },
+        {
+          "id": "intakeEligibleAssignees",
+          "file": "src/lib/api/requests.ts",
+          "line": 251,
+          "method": "get",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/eligible-assignees"
+        },
+        {
+          "id": "adminRequestDocument",
+          "file": "src/lib/api/requests.ts",
+          "line": 277,
+          "method": "get",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/documents/{document}"
+        },
+        {
+          "id": "intakeStaffReview",
+          "file": "src/lib/api/requests.ts",
+          "line": 314,
+          "method": "post",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/reviews"
+        },
+        {
+          "id": "intakeStaffAsk",
+          "file": "src/lib/api/requests.ts",
+          "line": 329,
+          "method": "post",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/information-requests"
+        },
+        {
+          "id": "intakeStaffAcknowledge",
+          "file": "src/lib/api/requests.ts",
+          "line": 347,
+          "method": "post",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/information-requests/{information}/acknowledgements"
+        },
+        {
+          "id": "intakeStaffDiscovery",
+          "file": "src/lib/api/requests.ts",
+          "line": 362,
+          "method": "post",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/discovery-handoffs"
+        },
+        {
+          "id": "intakeStaffReject",
+          "file": "src/lib/api/requests.ts",
+          "line": 377,
+          "method": "post",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/rejections"
+        },
+        {
+          "id": "intakeStaffAssign",
+          "file": "src/lib/api/requests.ts",
+          "line": 392,
+          "method": "post",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/assignments"
+        },
+        {
+          "id": "identityCreateStaffAccount",
+          "file": "src/lib/api/staff.ts",
+          "line": 40,
+          "method": "post",
+          "path": "/api/v1/identity/staff"
+        },
+        {
+          "id": "identityGetCapabilities",
+          "file": "src/lib/api/staff.ts",
+          "line": 69,
+          "method": "get",
+          "path": "/api/v1/identity/capabilities"
+        },
+        {
+          "id": "identityListStaff",
+          "file": "src/lib/api/staff.ts",
+          "line": 88,
+          "method": "get",
+          "path": "/api/v1/identity/staff"
+        },
+        {
+          "id": "identityGetStaff",
+          "file": "src/lib/api/staff.ts",
+          "line": 112,
+          "method": "get",
+          "path": "/api/v1/identity/staff/{user}"
+        },
+        {
+          "id": "identityGetStaffAuthorization",
+          "file": "src/lib/api/staff.ts",
+          "line": 124,
+          "method": "get",
+          "path": "/api/v1/identity/staff/{user}/authorization"
+        },
+        {
+          "id": "identityReplaceStaffAuthorization",
+          "file": "src/lib/api/staff.ts",
+          "line": 147,
+          "method": "put",
+          "path": "/api/v1/identity/staff/{user}/authorization"
+        },
+        {
+          "id": "identityListStaffInvitations",
+          "file": "src/lib/api/staff.ts",
+          "line": 171,
+          "method": "get",
+          "path": "/api/v1/identity/staff/invitations"
+        },
+        {
+          "id": "identityIssueStaffInvitation",
+          "file": "src/lib/api/staff.ts",
+          "line": 197,
+          "method": "post",
+          "path": "/api/v1/identity/staff/invitations"
+        },
+        {
+          "id": "identityResendStaffInvitation",
+          "file": "src/lib/api/staff.ts",
+          "line": 209,
+          "method": "post",
+          "path": "/api/v1/identity/staff/invitations/{invitation}/resends"
+        },
+        {
+          "id": "identityRevokeStaffInvitation",
+          "file": "src/lib/api/staff.ts",
+          "line": 221,
+          "method": "post",
+          "path": "/api/v1/identity/staff/invitations/{invitation}/revocations"
+        },
+        {
+          "id": "identityLookupStaffInvitation",
+          "file": "src/lib/api/staff.ts",
+          "line": 239,
+          "method": "post",
+          "path": "/api/v1/auth/staff-invitations/lookup"
+        },
+        {
+          "id": "identityAcceptStaffInvitation",
+          "file": "src/lib/api/staff.ts",
+          "line": 257,
+          "method": "post",
+          "path": "/api/v1/auth/staff-invitations/accept"
+        },
+        {
+          "id": "taxonomyListActiveCategories",
+          "file": "src/lib/api/taxonomy.ts",
+          "line": 53,
+          "method": "get",
+          "path": "/api/v1/categories"
+        },
+        {
+          "id": "taxonomyListCategories",
+          "file": "src/lib/api/taxonomy.ts",
+          "line": 64,
+          "method": "get",
+          "path": "/api/v1/admin/categories"
+        },
+        {
+          "id": "taxonomyListSubcategories",
+          "file": "src/lib/api/taxonomy.ts",
+          "line": 78,
+          "method": "get",
+          "path": "/api/v1/admin/categories/{category}/subcategories"
+        },
+        {
+          "id": "taxonomyGetCategory",
+          "file": "src/lib/api/taxonomy.ts",
+          "line": 95,
+          "method": "get",
+          "path": "/api/v1/admin/categories/{category}"
+        },
+        {
+          "id": "taxonomyGetSubcategory",
+          "file": "src/lib/api/taxonomy.ts",
+          "line": 111,
+          "method": "get",
+          "path": "/api/v1/admin/subcategories/{subcategory}"
+        },
+        {
+          "id": "taxonomyCreateCategory",
+          "file": "src/lib/api/taxonomy.ts",
+          "line": 123,
+          "method": "post",
+          "path": "/api/v1/admin/categories"
+        },
+        {
+          "id": "taxonomyCreateSubcategory",
+          "file": "src/lib/api/taxonomy.ts",
+          "line": 134,
+          "method": "post",
+          "path": "/api/v1/admin/categories/{category}/subcategories"
+        },
+        {
+          "id": "taxonomyUpdateCategory",
+          "file": "src/lib/api/taxonomy.ts",
+          "line": 158,
+          "method": "patch",
+          "path": "/api/v1/admin/categories/{category}"
+        },
+        {
+          "id": "taxonomyUpdateSubcategory",
+          "file": "src/lib/api/taxonomy.ts",
+          "line": 176,
+          "method": "patch",
+          "path": "/api/v1/admin/subcategories/{subcategory}"
+        },
+        {
+          "id": "identityInitializeCsrf",
+          "file": "src/lib/api/csrf.ts",
+          "method": "get",
+          "path": "/sanctum/csrf-cookie"
+        }
+      ],
+      "unresolved_source_calls": [],
+      "comparisons": [
+        {
+          "id": "adminCustomerDetail",
+          "method": "get",
+          "path": "/api/v1/admin/customers/{customer}",
+          "compatible": true,
+          "structural_sha256_frontend": "8b21325fb8c99526533378ac18814d0506c618932fa1df6572ec2d57de3b18ec",
+          "structural_sha256_backend": "8b21325fb8c99526533378ac18814d0506c618932fa1df6572ec2d57de3b18ec",
+          "annotation_changes": false,
+          "references_compared": 16,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "adminCustomerList",
+          "method": "get",
+          "path": "/api/v1/admin/customers",
+          "compatible": true,
+          "structural_sha256_frontend": "bab2dc1ad8652fb74df3373e66aa6e11c3f694da68c8726fc04babfd91af99f1",
+          "structural_sha256_backend": "bab2dc1ad8652fb74df3373e66aa6e11c3f694da68c8726fc04babfd91af99f1",
+          "annotation_changes": false,
+          "references_compared": 17,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "adminCustomerProjects",
+          "method": "get",
+          "path": "/api/v1/admin/customers/{customer}/projects",
+          "compatible": true,
+          "structural_sha256_frontend": "1e9c76833ea9fcefd417799fdce5d55328332c28c9f1d70d2e0f3fafdf4a8a2d",
+          "structural_sha256_backend": "1e9c76833ea9fcefd417799fdce5d55328332c28c9f1d70d2e0f3fafdf4a8a2d",
+          "annotation_changes": false,
+          "references_compared": 17,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "adminCustomerRequests",
+          "method": "get",
+          "path": "/api/v1/admin/customers/{customer}/project-requests",
+          "compatible": true,
+          "structural_sha256_frontend": "bd438c12163518b25201793730256f79b4adc0dca8a155b2b9f61ee8a2a94f27",
+          "structural_sha256_backend": "bd438c12163518b25201793730256f79b4adc0dca8a155b2b9f61ee8a2a94f27",
+          "annotation_changes": false,
+          "references_compared": 17,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "adminPortfolioCreate",
+          "method": "post",
+          "path": "/api/v1/admin/portfolio/projects",
+          "compatible": true,
+          "structural_sha256_frontend": "53ee46d6009234fd95a7dd0f01c798352e2f1fc7f0652b6544743f841da961a9",
+          "structural_sha256_backend": "53ee46d6009234fd95a7dd0f01c798352e2f1fc7f0652b6544743f841da961a9",
+          "annotation_changes": false,
+          "references_compared": 18,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "adminPortfolioDetail",
+          "method": "get",
+          "path": "/api/v1/admin/portfolio/projects/{project}",
+          "compatible": true,
+          "structural_sha256_frontend": "59681a076f324240776530f50a81cb3456a9ea0353388fbba867aa2ab3cfb855",
+          "structural_sha256_backend": "59681a076f324240776530f50a81cb3456a9ea0353388fbba867aa2ab3cfb855",
+          "annotation_changes": false,
+          "references_compared": 16,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "adminPortfolioImageStatus",
+          "method": "get",
+          "path": "/api/v1/admin/portfolio/projects/{project}/images/{image}",
+          "compatible": true,
+          "structural_sha256_frontend": "4646f7a5a4458353b31e4289f40e0c71817635bf9a85ca57aad6e6f6d5253387",
+          "structural_sha256_backend": "4646f7a5a4458353b31e4289f40e0c71817635bf9a85ca57aad6e6f6d5253387",
+          "annotation_changes": false,
+          "references_compared": 15,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "adminPortfolioList",
+          "method": "get",
+          "path": "/api/v1/admin/portfolio/projects",
+          "compatible": true,
+          "structural_sha256_frontend": "9934368a7fbf8c304e3ad667a5e666e36d4de860f9fb499a46d7e45d38a47956",
+          "structural_sha256_backend": "9934368a7fbf8c304e3ad667a5e666e36d4de860f9fb499a46d7e45d38a47956",
+          "annotation_changes": false,
+          "references_compared": 14,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "adminPortfolioPublish",
+          "method": "post",
+          "path": "/api/v1/admin/portfolio/projects/{project}/publications",
+          "compatible": true,
+          "structural_sha256_frontend": "426f8fef8d8742a7758e4bd9d0f239661188cdd042c759f45c7fffcbfc33ecd2",
+          "structural_sha256_backend": "426f8fef8d8742a7758e4bd9d0f239661188cdd042c759f45c7fffcbfc33ecd2",
+          "annotation_changes": false,
+          "references_compared": 23,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "adminPortfolioRemoveImage",
+          "method": "delete",
+          "path": "/api/v1/admin/portfolio/projects/{project}/images/{image}",
+          "compatible": true,
+          "structural_sha256_frontend": "fe43cd1273d29cd93341834f9e6b050df35c41f7b5157d7049373114169b08a3",
+          "structural_sha256_backend": "fe43cd1273d29cd93341834f9e6b050df35c41f7b5157d7049373114169b08a3",
+          "annotation_changes": false,
+          "references_compared": 21,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "adminPortfolioReserveImage",
+          "method": "post",
+          "path": "/api/v1/admin/portfolio/projects/{project}/images",
+          "compatible": true,
+          "structural_sha256_frontend": "93bd4e7166e93f714dca07797513816a343592df010622f342a925ed7d791450",
+          "structural_sha256_backend": "93bd4e7166e93f714dca07797513816a343592df010622f342a925ed7d791450",
+          "annotation_changes": false,
+          "references_compared": 21,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "adminPortfolioUnpublish",
+          "method": "post",
+          "path": "/api/v1/admin/portfolio/projects/{project}/unpublications",
+          "compatible": true,
+          "structural_sha256_frontend": "9fe55912a6100e326973e4bbbae5d9107edbe8fe3c63d8422a1673db7098a642",
+          "structural_sha256_backend": "9fe55912a6100e326973e4bbbae5d9107edbe8fe3c63d8422a1673db7098a642",
+          "annotation_changes": false,
+          "references_compared": 23,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "adminPortfolioUpdate",
+          "method": "patch",
+          "path": "/api/v1/admin/portfolio/projects/{project}",
+          "compatible": true,
+          "structural_sha256_frontend": "be5931e94cd6492f809284915a5b134401fe41c391995251d68b8f377a85ab02",
+          "structural_sha256_backend": "be5931e94cd6492f809284915a5b134401fe41c391995251d68b8f377a85ab02",
+          "annotation_changes": false,
+          "references_compared": 22,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "adminPublicContentCapabilities",
+          "method": "get",
+          "path": "/api/v1/admin/public-content/capabilities",
+          "compatible": true,
+          "structural_sha256_frontend": "7a0fc256c10d3af6d92db6e6e3e97fd826a9ea4588dd27e86356f3f8dff4ec2b",
+          "structural_sha256_backend": "7a0fc256c10d3af6d92db6e6e3e97fd826a9ea4588dd27e86356f3f8dff4ec2b",
+          "annotation_changes": false,
+          "references_compared": 14,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "adminRequestDocument",
+          "method": "get",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/documents/{document}",
+          "compatible": true,
+          "structural_sha256_frontend": "21bc441295aba64c3f5a4a2652f1988d1ffe997ca325988232a45ffe238d384c",
+          "structural_sha256_backend": "21bc441295aba64c3f5a4a2652f1988d1ffe997ca325988232a45ffe238d384c",
+          "annotation_changes": false,
+          "references_compared": 15,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityAcceptStaffInvitation",
+          "method": "post",
+          "path": "/api/v1/auth/staff-invitations/accept",
+          "compatible": true,
+          "structural_sha256_frontend": "ab95b94e3f22deeb5a5eed0fad1886c06fa0a049e6e9e40b78217f0cffe95c13",
+          "structural_sha256_backend": "ab95b94e3f22deeb5a5eed0fad1886c06fa0a049e6e9e40b78217f0cffe95c13",
+          "annotation_changes": false,
+          "references_compared": 5,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityBeginMfaEnrollment",
+          "method": "post",
+          "path": "/api/v1/auth/mfa/enrollment",
+          "compatible": true,
+          "structural_sha256_frontend": "94c852778e4b69b5c3b6507ceb7192f194e89b504446694166b6d52a80b36004",
+          "structural_sha256_backend": "94c852778e4b69b5c3b6507ceb7192f194e89b504446694166b6d52a80b36004",
+          "annotation_changes": false,
+          "references_compared": 16,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityChallengeMfa",
+          "method": "post",
+          "path": "/api/v1/auth/mfa/challenge",
+          "compatible": true,
+          "structural_sha256_frontend": "83b6ff9bd1ea9be2e7d428148d9e6bc535ff0139ed8c9875a1dd274ff2a0c134",
+          "structural_sha256_backend": "83b6ff9bd1ea9be2e7d428148d9e6bc535ff0139ed8c9875a1dd274ff2a0c134",
+          "annotation_changes": false,
+          "references_compared": 16,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityConfirmMfaEnrollment",
+          "method": "post",
+          "path": "/api/v1/auth/mfa/enrollment/confirm",
+          "compatible": true,
+          "structural_sha256_frontend": "dbd8ccf462490299baa934709201b40c76b52289d64dfd5fa33b88cfc4600ebd",
+          "structural_sha256_backend": "dbd8ccf462490299baa934709201b40c76b52289d64dfd5fa33b88cfc4600ebd",
+          "annotation_changes": false,
+          "references_compared": 16,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityConfirmPassword",
+          "method": "post",
+          "path": "/api/v1/auth/password/confirm",
+          "compatible": true,
+          "structural_sha256_frontend": "64ce3b079700f6fb4f28b6230a3463cbd9ed1112e1a94e4e895770e7345cb479",
+          "structural_sha256_backend": "64ce3b079700f6fb4f28b6230a3463cbd9ed1112e1a94e4e895770e7345cb479",
+          "annotation_changes": false,
+          "references_compared": 15,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityCreateStaffAccount",
+          "method": "post",
+          "path": "/api/v1/identity/staff",
+          "compatible": true,
+          "structural_sha256_frontend": "232965b9c54e81655ec47784086b10a33a26202e86d757cf8872c93506a0c001",
+          "structural_sha256_backend": "232965b9c54e81655ec47784086b10a33a26202e86d757cf8872c93506a0c001",
+          "annotation_changes": false,
+          "references_compared": 7,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityForgotPassword",
+          "method": "post",
+          "path": "/api/v1/auth/password/forgot",
+          "compatible": true,
+          "structural_sha256_frontend": "30880daaa9730d61e1a202ebe606a9617a02a5c53bb7faa67191d31efaefb01c",
+          "structural_sha256_backend": "30880daaa9730d61e1a202ebe606a9617a02a5c53bb7faa67191d31efaefb01c",
+          "annotation_changes": false,
+          "references_compared": 14,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityGetCapabilities",
+          "method": "get",
+          "path": "/api/v1/identity/capabilities",
+          "compatible": true,
+          "structural_sha256_frontend": "c63bdd1432b3a19be689e5b43649f21e5d60e9b66f525902566b46d48bc2b4b0",
+          "structural_sha256_backend": "c63bdd1432b3a19be689e5b43649f21e5d60e9b66f525902566b46d48bc2b4b0",
+          "annotation_changes": false,
+          "references_compared": 2,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityGetCurrentUser",
+          "method": "get",
+          "path": "/api/v1/identity/me",
+          "compatible": true,
+          "structural_sha256_frontend": "9404d314261ef7ad3e102725b40bb5ad9bb459dda4b77df3de7efa100cd3f0d4",
+          "structural_sha256_backend": "9404d314261ef7ad3e102725b40bb5ad9bb459dda4b77df3de7efa100cd3f0d4",
+          "annotation_changes": true,
+          "references_compared": 13,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityGetStaff",
+          "method": "get",
+          "path": "/api/v1/identity/staff/{user}",
+          "compatible": true,
+          "structural_sha256_frontend": "cb19cbf7ac2fd100208465be907b54ec1a49123165cedec07cfec4c9cf75c7ca",
+          "structural_sha256_backend": "cb19cbf7ac2fd100208465be907b54ec1a49123165cedec07cfec4c9cf75c7ca",
+          "annotation_changes": false,
+          "references_compared": 14,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityGetStaffAuthorization",
+          "method": "get",
+          "path": "/api/v1/identity/staff/{user}/authorization",
+          "compatible": true,
+          "structural_sha256_frontend": "55e0f2430861d9565c533ec8c378e6db5176f229d62671417ebcaeae010b48fa",
+          "structural_sha256_backend": "55e0f2430861d9565c533ec8c378e6db5176f229d62671417ebcaeae010b48fa",
+          "annotation_changes": false,
+          "references_compared": 3,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityInitializeCsrf",
+          "method": "get",
+          "path": "/sanctum/csrf-cookie",
+          "compatible": true,
+          "structural_sha256_frontend": "b1456183e24360ad9e94e61c7fd77e95fb012d1e71255478f0f2e298b2320ec7",
+          "structural_sha256_backend": "b1456183e24360ad9e94e61c7fd77e95fb012d1e71255478f0f2e298b2320ec7",
+          "annotation_changes": false,
+          "references_compared": 10,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityIssueStaffInvitation",
+          "method": "post",
+          "path": "/api/v1/identity/staff/invitations",
+          "compatible": true,
+          "structural_sha256_frontend": "49d8b493814db4b7c033ebff01470b944a8af234c5fa5f2b2db0a1c5c40871c2",
+          "structural_sha256_backend": "49d8b493814db4b7c033ebff01470b944a8af234c5fa5f2b2db0a1c5c40871c2",
+          "annotation_changes": false,
+          "references_compared": 7,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityListStaff",
+          "method": "get",
+          "path": "/api/v1/identity/staff",
+          "compatible": true,
+          "structural_sha256_frontend": "cc1f6f1b3051be61a48752f76335780eb4616f2f30645950313218ea81f6fae1",
+          "structural_sha256_backend": "cc1f6f1b3051be61a48752f76335780eb4616f2f30645950313218ea81f6fae1",
+          "annotation_changes": false,
+          "references_compared": 4,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityListStaffInvitations",
+          "method": "get",
+          "path": "/api/v1/identity/staff/invitations",
+          "compatible": true,
+          "structural_sha256_frontend": "7a752ad8687a45739b778d5a99c1da85462e86a43531ec7bc6e357f859082c09",
+          "structural_sha256_backend": "7a752ad8687a45739b778d5a99c1da85462e86a43531ec7bc6e357f859082c09",
+          "annotation_changes": false,
+          "references_compared": 4,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityLogin",
+          "method": "post",
+          "path": "/api/v1/auth/login",
+          "compatible": true,
+          "structural_sha256_frontend": "d4b635081cfb6e1bee23189a99ea6fa028e3c8fa7a63c5daac365f80feaeab5f",
+          "structural_sha256_backend": "d4b635081cfb6e1bee23189a99ea6fa028e3c8fa7a63c5daac365f80feaeab5f",
+          "annotation_changes": false,
+          "references_compared": 16,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityLoginWithUsername",
+          "method": "post",
+          "path": "/api/v1/auth/username-login",
+          "compatible": true,
+          "structural_sha256_frontend": "3310f66fa65ab331deec45a3cff8c079675b460c6ffc406b7b8eb2e38333679f",
+          "structural_sha256_backend": "3310f66fa65ab331deec45a3cff8c079675b460c6ffc406b7b8eb2e38333679f",
+          "annotation_changes": false,
+          "references_compared": 15,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityLogout",
+          "method": "post",
+          "path": "/api/v1/auth/logout",
+          "compatible": true,
+          "structural_sha256_frontend": "20665996125aca43718fa4b52467ce52cb1c55f92c99ca05c1b4163bc9219275",
+          "structural_sha256_backend": "20665996125aca43718fa4b52467ce52cb1c55f92c99ca05c1b4163bc9219275",
+          "annotation_changes": false,
+          "references_compared": 15,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityLookupStaffInvitation",
+          "method": "post",
+          "path": "/api/v1/auth/staff-invitations/lookup",
+          "compatible": true,
+          "structural_sha256_frontend": "7847e066419588fef1cd975ac5ad074c388473f7cb7950c83604e78453122615",
+          "structural_sha256_backend": "7847e066419588fef1cd975ac5ad074c388473f7cb7950c83604e78453122615",
+          "annotation_changes": false,
+          "references_compared": 5,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityRecoverMfa",
+          "method": "post",
+          "path": "/api/v1/auth/mfa/recovery",
+          "compatible": true,
+          "structural_sha256_frontend": "512e19a26e16d570a8cc82ca63da721074e51b602ab05c8e409129997dc8ad78",
+          "structural_sha256_backend": "512e19a26e16d570a8cc82ca63da721074e51b602ab05c8e409129997dc8ad78",
+          "annotation_changes": false,
+          "references_compared": 16,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityReplaceStaffAuthorization",
+          "method": "put",
+          "path": "/api/v1/identity/staff/{user}/authorization",
+          "compatible": true,
+          "structural_sha256_frontend": "01f0303c719ac04865329498b5722524986192aaa34743ffffb54c312b823869",
+          "structural_sha256_backend": "01f0303c719ac04865329498b5722524986192aaa34743ffffb54c312b823869",
+          "annotation_changes": false,
+          "references_compared": 7,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityResendStaffInvitation",
+          "method": "post",
+          "path": "/api/v1/identity/staff/invitations/{invitation}/resends",
+          "compatible": true,
+          "structural_sha256_frontend": "fd965b1013405f43bb857d262d91fe22045f45d9139d62e45c180e92b0a467a1",
+          "structural_sha256_backend": "fd965b1013405f43bb857d262d91fe22045f45d9139d62e45c180e92b0a467a1",
+          "annotation_changes": false,
+          "references_compared": 6,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityResendVerification",
+          "method": "post",
+          "path": "/api/v1/auth/email/resend",
+          "compatible": true,
+          "structural_sha256_frontend": "3937f6c80367081bb757c13834d3af37b3ee30093d1be9166b49bd01d258939b",
+          "structural_sha256_backend": "3937f6c80367081bb757c13834d3af37b3ee30093d1be9166b49bd01d258939b",
+          "annotation_changes": false,
+          "references_compared": 14,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityResetPassword",
+          "method": "post",
+          "path": "/api/v1/auth/password/reset",
+          "compatible": true,
+          "structural_sha256_frontend": "dc2931a56c7ac23243c42de12b3270b722436ffb168c8589601b52c1700b38f5",
+          "structural_sha256_backend": "dc2931a56c7ac23243c42de12b3270b722436ffb168c8589601b52c1700b38f5",
+          "annotation_changes": false,
+          "references_compared": 14,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityRevokeStaffInvitation",
+          "method": "post",
+          "path": "/api/v1/identity/staff/invitations/{invitation}/revocations",
+          "compatible": true,
+          "structural_sha256_frontend": "0cd4d524883b493b3fbb8e2bf94fb3b3581942a20f9de0e85f9f7fab9432fab0",
+          "structural_sha256_backend": "0cd4d524883b493b3fbb8e2bf94fb3b3581942a20f9de0e85f9f7fab9432fab0",
+          "annotation_changes": false,
+          "references_compared": 6,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "identityVerifyEmail",
+          "method": "post",
+          "path": "/api/v1/auth/email/verify",
+          "compatible": true,
+          "structural_sha256_frontend": "3d11b40c021a32979eb3442ec04d21ae747e77540061606bbf7f5b0f7696e68b",
+          "structural_sha256_backend": "3d11b40c021a32979eb3442ec04d21ae747e77540061606bbf7f5b0f7696e68b",
+          "annotation_changes": false,
+          "references_compared": 14,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "intakeEligibleAssignees",
+          "method": "get",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/eligible-assignees",
+          "compatible": true,
+          "structural_sha256_frontend": "74da28798ba2bfc327b08f46fa2ca657c5458987f30b1aac50ba4ce0a40f9a5c",
+          "structural_sha256_backend": "74da28798ba2bfc327b08f46fa2ca657c5458987f30b1aac50ba4ce0a40f9a5c",
+          "annotation_changes": false,
+          "references_compared": 17,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "intakeStaffAcknowledge",
+          "method": "post",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/information-requests/{information}/acknowledgements",
+          "compatible": true,
+          "structural_sha256_frontend": "0f92f60623c22e15d9fa6892a6ac8062bf5f22ab7a3f6cbbef04da99c31b4060",
+          "structural_sha256_backend": "0f92f60623c22e15d9fa6892a6ac8062bf5f22ab7a3f6cbbef04da99c31b4060",
+          "annotation_changes": false,
+          "references_compared": 21,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "intakeStaffAsk",
+          "method": "post",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/information-requests",
+          "compatible": true,
+          "structural_sha256_frontend": "9b980f6a9bb7ace2c0dbd028408f75788057f034d060740fae09c1380f1fc7db",
+          "structural_sha256_backend": "9b980f6a9bb7ace2c0dbd028408f75788057f034d060740fae09c1380f1fc7db",
+          "annotation_changes": false,
+          "references_compared": 21,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "intakeStaffAssign",
+          "method": "post",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/assignments",
+          "compatible": true,
+          "structural_sha256_frontend": "3a3ed0014863b3a5ee422f4f1d5d2ab9b659b94a9f081c7a9d969d0176d91695",
+          "structural_sha256_backend": "3a3ed0014863b3a5ee422f4f1d5d2ab9b659b94a9f081c7a9d969d0176d91695",
+          "annotation_changes": false,
+          "references_compared": 21,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "intakeStaffAssignments",
+          "method": "get",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/assignments",
+          "compatible": true,
+          "structural_sha256_frontend": "813de343ec36d8e942758dfda1950d64193297c5a19eac0f5d5bab0596fdfa9e",
+          "structural_sha256_backend": "813de343ec36d8e942758dfda1950d64193297c5a19eac0f5d5bab0596fdfa9e",
+          "annotation_changes": false,
+          "references_compared": 19,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "intakeStaffDetail",
+          "method": "get",
+          "path": "/api/v1/admin/project-requests/{projectRequest}",
+          "compatible": true,
+          "structural_sha256_frontend": "77b799912aac6cc0446d9321ee8fa4cc6f5ba9bb90f263423f2a01f4d3851351",
+          "structural_sha256_backend": "77b799912aac6cc0446d9321ee8fa4cc6f5ba9bb90f263423f2a01f4d3851351",
+          "annotation_changes": false,
+          "references_compared": 20,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "intakeStaffDiscovery",
+          "method": "post",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/discovery-handoffs",
+          "compatible": true,
+          "structural_sha256_frontend": "e0ab9ed17e66425a890a65322f021651c4876b458fd3680a8a2199e2ef677352",
+          "structural_sha256_backend": "e0ab9ed17e66425a890a65322f021651c4876b458fd3680a8a2199e2ef677352",
+          "annotation_changes": false,
+          "references_compared": 21,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "intakeStaffHistory",
+          "method": "get",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/history",
+          "compatible": true,
+          "structural_sha256_frontend": "0f812e277858e786c6d01f5190c36a95f82fcf16b00f937dcd7e00b2555675e2",
+          "structural_sha256_backend": "0f812e277858e786c6d01f5190c36a95f82fcf16b00f937dcd7e00b2555675e2",
+          "annotation_changes": false,
+          "references_compared": 19,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "intakeStaffInformation",
+          "method": "get",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/information-requests",
+          "compatible": true,
+          "structural_sha256_frontend": "90a8675b3f89aa036eceda02b5284c59b7e0081b4298b8fa4179183cf24f09b5",
+          "structural_sha256_backend": "90a8675b3f89aa036eceda02b5284c59b7e0081b4298b8fa4179183cf24f09b5",
+          "annotation_changes": false,
+          "references_compared": 15,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "intakeStaffList",
+          "method": "get",
+          "path": "/api/v1/admin/project-requests",
+          "compatible": true,
+          "structural_sha256_frontend": "ca153f20d0bb572a807cac6252ccf8c543424fd2a84f04e97893d6c842ce2781",
+          "structural_sha256_backend": "ca153f20d0bb572a807cac6252ccf8c543424fd2a84f04e97893d6c842ce2781",
+          "annotation_changes": false,
+          "references_compared": 19,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "intakeStaffReference",
+          "method": "get",
+          "path": "/api/v1/admin/project-requests/by-reference/{reference}",
+          "compatible": true,
+          "structural_sha256_frontend": "2389c58a0cf9e12f6fcace119cfeb07dad06e4a2c7500936dccb4882e7da17bd",
+          "structural_sha256_backend": "2389c58a0cf9e12f6fcace119cfeb07dad06e4a2c7500936dccb4882e7da17bd",
+          "annotation_changes": false,
+          "references_compared": 20,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "intakeStaffReject",
+          "method": "post",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/rejections",
+          "compatible": true,
+          "structural_sha256_frontend": "94a70188a8cfae6fc070beef56005c719a3bdf77da3c0452a9c12d54cf7bcf4e",
+          "structural_sha256_backend": "94a70188a8cfae6fc070beef56005c719a3bdf77da3c0452a9c12d54cf7bcf4e",
+          "annotation_changes": false,
+          "references_compared": 21,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "intakeStaffReview",
+          "method": "post",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/reviews",
+          "compatible": true,
+          "structural_sha256_frontend": "a70748154a78dc0d3b361fef01d932c15a6d2b42deb41c6fb75aa713bc800f3d",
+          "structural_sha256_backend": "a70748154a78dc0d3b361fef01d932c15a6d2b42deb41c6fb75aa713bc800f3d",
+          "annotation_changes": false,
+          "references_compared": 21,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "intakeStaffRevisions",
+          "method": "get",
+          "path": "/api/v1/admin/project-requests/{projectRequest}/revisions",
+          "compatible": true,
+          "structural_sha256_frontend": "63ef40e6d5d15a641cd5c8f1fe86e8c2d7f12fba1602bd6fee0205594bb005f0",
+          "structural_sha256_backend": "63ef40e6d5d15a641cd5c8f1fe86e8c2d7f12fba1602bd6fee0205594bb005f0",
+          "annotation_changes": false,
+          "references_compared": 15,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "publicPortfolioCategories",
+          "method": "get",
+          "path": "/api/v1/public/portfolio/categories",
+          "compatible": true,
+          "structural_sha256_frontend": "0c63490a9dae32a558bb6e5c1c7ec3114493b848c34de73848792e54f0d0e1bd",
+          "structural_sha256_backend": "0c63490a9dae32a558bb6e5c1c7ec3114493b848c34de73848792e54f0d0e1bd",
+          "annotation_changes": false,
+          "references_compared": 13,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "reportDashboard",
+          "method": "get",
+          "path": "/api/v1/admin/reports/dashboard",
+          "compatible": true,
+          "structural_sha256_frontend": "6c8328cbe9e34f19a86f6d52ba6adb2941f28e378047d56b87381fbabc8a8db2",
+          "structural_sha256_backend": "6c8328cbe9e34f19a86f6d52ba6adb2941f28e378047d56b87381fbabc8a8db2",
+          "annotation_changes": false,
+          "references_compared": 19,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "taxonomyCreateCategory",
+          "method": "post",
+          "path": "/api/v1/admin/categories",
+          "compatible": true,
+          "structural_sha256_frontend": "3e2dcedb64f2ec6a8f7e4f55bbc0e47998bc95e3d66cff04e7e6584fcac31663",
+          "structural_sha256_backend": "3e2dcedb64f2ec6a8f7e4f55bbc0e47998bc95e3d66cff04e7e6584fcac31663",
+          "annotation_changes": false,
+          "references_compared": 16,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "taxonomyCreateSubcategory",
+          "method": "post",
+          "path": "/api/v1/admin/categories/{category}/subcategories",
+          "compatible": true,
+          "structural_sha256_frontend": "633c2ca6a39d3652780ad36cdafac22741d1f757dfebd6ade145b4472ecbf980",
+          "structural_sha256_backend": "633c2ca6a39d3652780ad36cdafac22741d1f757dfebd6ade145b4472ecbf980",
+          "annotation_changes": false,
+          "references_compared": 17,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "taxonomyGetCategory",
+          "method": "get",
+          "path": "/api/v1/admin/categories/{category}",
+          "compatible": true,
+          "structural_sha256_frontend": "46bc2a484049e580117e9dc8aaa03de86a8bcb2ab81ef85afdca18dc6b0104d5",
+          "structural_sha256_backend": "46bc2a484049e580117e9dc8aaa03de86a8bcb2ab81ef85afdca18dc6b0104d5",
+          "annotation_changes": false,
+          "references_compared": 15,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "taxonomyGetSubcategory",
+          "method": "get",
+          "path": "/api/v1/admin/subcategories/{subcategory}",
+          "compatible": true,
+          "structural_sha256_frontend": "4bd2afcaf9a4195a9f87a58b9d1e54bd4dd479770c2b5ad05719bd419d772d27",
+          "structural_sha256_backend": "4bd2afcaf9a4195a9f87a58b9d1e54bd4dd479770c2b5ad05719bd419d772d27",
+          "annotation_changes": false,
+          "references_compared": 15,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "taxonomyListActiveCategories",
+          "method": "get",
+          "path": "/api/v1/categories",
+          "compatible": true,
+          "structural_sha256_frontend": "dc9c168c53268895acde7fbd3a139dece2687341717c62cf31f3e62d6ee56e87",
+          "structural_sha256_backend": "dc9c168c53268895acde7fbd3a139dece2687341717c62cf31f3e62d6ee56e87",
+          "annotation_changes": false,
+          "references_compared": 14,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "taxonomyListActiveSubcategories",
+          "method": "get",
+          "path": "/api/v1/categories/{category}/subcategories",
+          "compatible": true,
+          "structural_sha256_frontend": "f0d570a02791ed694681c00408e11fda77c350240c78a4717995eda331f4205d",
+          "structural_sha256_backend": "f0d570a02791ed694681c00408e11fda77c350240c78a4717995eda331f4205d",
+          "annotation_changes": false,
+          "references_compared": 15,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "taxonomyListCategories",
+          "method": "get",
+          "path": "/api/v1/admin/categories",
+          "compatible": true,
+          "structural_sha256_frontend": "5f8958ac5e9cffac5a32600a8267db10081fd5768c8af44f1591018a884db049",
+          "structural_sha256_backend": "5f8958ac5e9cffac5a32600a8267db10081fd5768c8af44f1591018a884db049",
+          "annotation_changes": false,
+          "references_compared": 14,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "taxonomyListSubcategories",
+          "method": "get",
+          "path": "/api/v1/admin/categories/{category}/subcategories",
+          "compatible": true,
+          "structural_sha256_frontend": "36cb45d16ba6613b53d2c0f4c8edef5838b00ba542cd56708d09128fd45bd928",
+          "structural_sha256_backend": "36cb45d16ba6613b53d2c0f4c8edef5838b00ba542cd56708d09128fd45bd928",
+          "annotation_changes": false,
+          "references_compared": 15,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "taxonomyUpdateCategory",
+          "method": "patch",
+          "path": "/api/v1/admin/categories/{category}",
+          "compatible": true,
+          "structural_sha256_frontend": "1664c09a7502f70aedcabab93ded9280d86c213ae3fab2761f0fa7bc38ac0b9b",
+          "structural_sha256_backend": "1664c09a7502f70aedcabab93ded9280d86c213ae3fab2761f0fa7bc38ac0b9b",
+          "annotation_changes": false,
+          "references_compared": 21,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        },
+        {
+          "id": "taxonomyUpdateSubcategory",
+          "method": "patch",
+          "path": "/api/v1/admin/subcategories/{subcategory}",
+          "compatible": true,
+          "structural_sha256_frontend": "19fffccddcfc12eafdce13a557119900a68b0b7addf681c6a94af1f4bf73bc68",
+          "structural_sha256_backend": "19fffccddcfc12eafdce13a557119900a68b0b7addf681c6a94af1f4bf73bc68",
+          "annotation_changes": false,
+          "references_compared": 21,
+          "checks": [
+            "method_path",
+            "request_schema",
+            "response_schema",
+            "status_codes",
+            "headers",
+            "authentication",
+            "csrf",
+            "if_match",
+            "idempotency",
+            "enums"
+          ]
+        }
+      ],
+      "compatible": true
+    }
+  }
+}

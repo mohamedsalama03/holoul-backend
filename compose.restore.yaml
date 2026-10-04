@@ -1,6 +1,10 @@
 # Used only by scripts/verify-restore.py with a generated, isolated project name.
 # No external volumes, shared service names or production credentials are accepted.
 services:
+  initialize:
+    # Local secret generation is a drill helper, excluded from the runtime image.
+    volumes:
+      - ./docker/documents/initialize.php:/var/www/html/docker/documents/initialize.php:ro
   app:
     # Synthetic drill helpers are mounted read-only, not shipped in the image.
     volumes:

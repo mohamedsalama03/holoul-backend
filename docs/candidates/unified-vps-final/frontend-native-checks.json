@@ -1,0 +1,16 @@
+{
+  "website": {
+    "exit_code": 0,
+    "command": "node scripts/api-contract.mjs",
+    "contract_sha256": "3c93a09f08ce199cc1c2867ad846a1ca554fd03b6d934070178c5101646df410"
+  },
+  "dashboard": {
+    "exit_code": 0,
+    "command": "node scripts/check-api-contract.mjs",
+    "contract_sha256": "ef0a849656234b937a1d76e7258835de5438bcb7bbd57a87f38b4ce011275761",
+    "contract_version": "1.7.0-portfolio-editor-candidate",
+    "redocly_errors": 0,
+    "generated_types_match": true
+  },
+  "frontend_source_edits_performed": false
+}

@@ -1,0 +1,119 @@
+{
+  "tool": "aquasec/trivy@sha256:62b1e65e8869bc4b4c6aa4fa2b21595256c7c2f6018a9d9ad61caf87187c1969",
+  "version": "Version: 0.74.0",
+  "database": {
+    "Version": 2,
+    "NextUpdate": "2026-10-04T14:28:08.788288198Z",
+    "UpdatedAt": "2026-10-03T14:28:08.788288516Z",
+    "DownloadedAt": "2026-10-03T18:58:03.466176425Z"
+  },
+  "images": [
+    {
+      "image": "axllent/mailpit:v1.31.1@sha256:98b916bd3c8d61f7633a52d3ea2f58d00620cb01ca57ab59edde68c347a95365",
+      "image_id": "sha256:98b916bd3c8d61f7633a52d3ea2f58d00620cb01ca57ab59edde68c347a95365",
+      "repo_digests": [
+        "axllent/mailpit@sha256:98b916bd3c8d61f7633a52d3ea2f58d00620cb01ca57ab59edde68c347a95365"
+      ],
+      "exit_code": 0,
+      "report": "runtime-scan-0.json",
+      "findings": [],
+      "secrets_count": 0,
+      "elapsed_seconds": 2.08
+    },
+    {
+      "image": "holoul-app:unified-final-candidate",
+      "image_id": "sha256:b7a293375e2d18b82f99e91dcaf7092288bf99421a599371b5f1401c8cfde662",
+      "repo_digests": [
+        "holoul-app@sha256:b7a293375e2d18b82f99e91dcaf7092288bf99421a599371b5f1401c8cfde662"
+      ],
+      "exit_code": 0,
+      "report": "final-application-scan.json",
+      "findings": [],
+      "secrets_count": 0
+    },
+    {
+      "image": "holoul-inspector:unified-vps-candidate",
+      "image_id": "sha256:da438de7fd2fac4e75f0bf944559cbd0c20b25366150dbd1a62cc160b8b90af4",
+      "repo_digests": [
+        "holoul-inspector@sha256:da438de7fd2fac4e75f0bf944559cbd0c20b25366150dbd1a62cc160b8b90af4"
+      ],
+      "exit_code": 0,
+      "report": "runtime-scan-2.json",
+      "findings": [],
+      "secrets_count": 0,
+      "elapsed_seconds": 2.572
+    },
+    {
+      "image": "holoul-nginx:unified-vps-candidate",
+      "image_id": "sha256:f5afcc4a35693d057b20e96b289f4b1b9339f191a564e45aadd6cd9ad9ee822b",
+      "repo_digests": [
+        "holoul-nginx@sha256:f5afcc4a35693d057b20e96b289f4b1b9339f191a564e45aadd6cd9ad9ee822b"
+      ],
+      "exit_code": 0,
+      "report": "runtime-scan-3.json",
+      "findings": [],
+      "secrets_count": 0,
+      "elapsed_seconds": 2.474
+    },
+    {
+      "image": "holoul-portfolio:public-services-candidate",
+      "image_id": "sha256:2bfe69025432b3d87c0d5126bdb1eca0f99f9e2159da402bd3653169f1108abe",
+      "repo_digests": [
+        "holoul-portfolio@sha256:2bfe69025432b3d87c0d5126bdb1eca0f99f9e2159da402bd3653169f1108abe"
+      ],
+      "exit_code": 0,
+      "report": "runtime-scan-4.json",
+      "findings": [],
+      "secrets_count": 0,
+      "elapsed_seconds": 2.059
+    },
+    {
+      "image": "holoul-postgres:b1-runtime",
+      "image_id": "sha256:9d3c94996cdef82a3b22fe62099ec173893ab2ae48d0a6aa40624a74c3a2fdcf",
+      "repo_digests": [
+        "holoul-postgres@sha256:9d3c94996cdef82a3b22fe62099ec173893ab2ae48d0a6aa40624a74c3a2fdcf"
+      ],
+      "exit_code": 0,
+      "report": "runtime-scan-5.json",
+      "findings": [],
+      "secrets_count": 0,
+      "elapsed_seconds": 10.556
+    },
+    {
+      "image": "holoul-redis:b1-runtime",
+      "image_id": "sha256:db87e0459a6fcd6368f28396005d4b96f9983b05dff742e0d5e01209f536fb30",
+      "repo_digests": [
+        "holoul-redis@sha256:db87e0459a6fcd6368f28396005d4b96f9983b05dff742e0d5e01209f536fb30"
+      ],
+      "exit_code": 0,
+      "report": "runtime-scan-6.json",
+      "findings": [],
+      "secrets_count": 0,
+      "elapsed_seconds": 2.666
+    },
+    {
+      "image": "holoul-scanner:unified-vps-candidate",
+      "image_id": "sha256:0c8611032258255d89f4407831244806e894268450707d3be1d0ff3391be2fe5",
+      "repo_digests": [
+        "holoul-scanner@sha256:0c8611032258255d89f4407831244806e894268450707d3be1d0ff3391be2fe5"
+      ],
+      "exit_code": 0,
+      "report": "runtime-scan-7.json",
+      "findings": [],
+      "secrets_count": 0,
+      "elapsed_seconds": 2.757
+    },
+    {
+      "image": "holoul-storage:b4-runtime",
+      "image_id": "sha256:d83a6b2fb64881f3a0377260bf484ec16c50891fab9da988e0e68c0a10874b8b",
+      "repo_digests": [
+        "holoul-storage@sha256:d83a6b2fb64881f3a0377260bf484ec16c50891fab9da988e0e68c0a10874b8b"
+      ],
+      "exit_code": 0,
+      "report": "runtime-scan-8.json",
+      "findings": [],
+      "secrets_count": 0,
+      "elapsed_seconds": 25.526
+    }
+  ]
+}
