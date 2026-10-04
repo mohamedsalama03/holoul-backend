@@ -1,0 +1,30 @@
+# Complete privately on the VPS. NEVER copy filled contents into this repository.
+[grpc]
+ca = "/run/holoul-storage-server/ca.crt"
+[grpc.master]
+cert = "/run/holoul-storage-server/certificate.pem"
+key = "/run/holoul-storage-server/private-key.pem"
+[grpc.volume]
+cert = "/run/holoul-storage-server/certificate.pem"
+key = "/run/holoul-storage-server/private-key.pem"
+[grpc.filer]
+cert = "/run/holoul-storage-server/certificate.pem"
+key = "/run/holoul-storage-server/private-key.pem"
+[grpc.s3]
+cert = "/run/holoul-storage-server/certificate.pem"
+key = "/run/holoul-storage-server/private-key.pem"
+[grpc.client]
+cert = "/run/holoul-storage-server/certificate.pem"
+key = "/run/holoul-storage-server/private-key.pem"
+[jwt.signing]
+key = "<private-storage-jwt-key>"
+[jwt.filer_signing]
+key = "<same-private-storage-jwt-key>"
+[jwt.filer_signing.read]
+key = "<same-private-storage-jwt-key>"
+[s3.sse]
+kek = "<private-32-byte-key-as-64-hex-characters>"
+[access]
+ui = false
+[filer.expose_directory_metadata]
+enabled = false

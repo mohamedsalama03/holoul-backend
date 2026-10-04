@@ -1,0 +1,11 @@
+# Operator-only first-certificate overlay; start ONLY ingress with --no-deps.
+# Not a full application launch. No placeholder/development TLS certificate.
+services:
+  ingress:
+    volumes:
+      - type: bind
+        source: ./deploy/production/acme-bootstrap.conf
+        target: /etc/nginx/nginx.conf
+        read_only: true
+        bind:
+          create_host_path: false

@@ -1,0 +1,922 @@
+# TEMPORARY 4 GB candidate. Uploads and AI disabled. No deployment authorized.
+# Keep every PHP process on this shared policy and secret configuration.
+x-application: &application
+  init: true
+  user: 1000:1000
+  read_only: true
+  cap_drop:
+  - ALL
+  security_opt:
+  - no-new-privileges:true
+  restart: unless-stopped
+  pids_limit: 64
+  logging:
+    driver: json-file
+    options:
+      max-size: 5m
+      max-file: '2'
+  image: ${HOLOUL_BACKEND_IMAGE:?Set reviewed immutable backend image}
+  environment: &application-env
+    APP_ENV: production
+    APP_DEBUG: 'false'
+    HOLOUL_DEPLOYMENT_PROFILE: production
+    HOLOUL_PROCESS_ROLE: app
+    HOLOUL_WORKER_SLOT: '1'
+    HOLOUL_WORKER_SLOTS: '1'
+    APP_URL: https://holoul.com.ly
+    APP_TRUSTED_HOSTS: holoul.com.ly
+    APP_TRUSTED_PROXIES: 10.203.81.2
+    APP_KEY_FILE: /run/holoul-secrets/app_key
+    DB_HOST: postgres
+    DB_PORT: '5432'
+    DB_DATABASE: holoul
+    DB_USERNAME: holoul_app
+    DB_PASSWORD_FILE: /run/holoul-secrets/database_password
+    DB_SSLMODE: verify-full
+    DB_SSLROOTCERT: /run/holoul-ca/ca.crt
+    REDIS_HOST: redis
+    REDIS_PORT: '6379'
+    REDIS_SCHEME: tls
+    REDIS_CA_FILE: /run/holoul-ca/ca.crt
+    REDIS_PASSWORD_FILE: /run/holoul-secrets/redis_password
+    REDIS_PREFIX: holoul_production_
+    IDENTITY_MAIL_SANDBOX: 'false'
+    MAIL_SCHEME: ${HOLOUL_SMTP_SCHEME:?Confirm production SMTPS encryption}
+    MAIL_HOST: ${HOLOUL_SMTP_HOST:?Confirm production SMTP host}
+    MAIL_PORT: ${HOLOUL_SMTP_PORT:?Confirm production SMTP port}
+    MAIL_USERNAME: ${HOLOUL_SMTP_USERNAME:?Confirm production SMTP username}
+    MAIL_PASSWORD_FILE: /run/holoul-secrets/mail_password
+    MAIL_FROM_ADDRESS: info@holoul.com.ly
+    HOLOUL_DOCUMENT_UPLOADS_ENABLED: 'false'
+    DOCUMENTS_S3_ENDPOINT: https://storage:8333
+    DOCUMENTS_S3_REGION: us-east-1
+    DOCUMENTS_S3_BUCKET: holoul-documents
+    DOCUMENTS_S3_ACCESS_KEY_FILE: /run/holoul-secrets/storage_access_key
+    DOCUMENTS_S3_SECRET_KEY_FILE: /run/holoul-secrets/storage_secret_key
+    DOCUMENTS_S3_CA_BUNDLE: /run/holoul-ca/ca.crt
+    HOLOUL_AI_ENABLED: 'false'
+    HOLOUL_AI_DRIVER: sandbox
+    HOLOUL_GEMINI_APPROVED: 'false'
+    HOLOUL_GEMINI_DOCUMENTS_APPROVED: 'false'
+    HOLOUL_EDGE_HTTPS_ENFORCED: 'true'
+    HOLOUL_EDGE_RATE_LIMIT_ENABLED: 'true'
+    HOLOUL_EDGE_BODY_LIMIT_BYTES: '12582912'
+    HOLOUL_PRIVATE_INFRASTRUCTURE: 'true'
+    HOLOUL_STORAGE_PRIVATE: 'true'
+    HOLOUL_STORAGE_VERSIONED: 'true'
+    HOLOUL_STORAGE_ENCRYPTED: 'true'
+    HOLOUL_CONTACT_RECIPIENT: info@holoul.ly
+    HOLOUL_CONTACT_DASHBOARD_ACCEPTED: ${HOLOUL_CONTACT_DASHBOARD_ACCEPTED:-false}
+    HOLOUL_CONTACT_PRODUCTION_MAIL_ENABLED: ${HOLOUL_CONTACT_PRODUCTION_MAIL_ENABLED:-false}
+  tmpfs:
+  - /tmp:size=32m,uid=1000,gid=1000,mode=1770
+  - /var/www/html/storage:size=16m,uid=1000,gid=1000,mode=0700
+  - /var/www/html/bootstrap/cache:size=16m,uid=1000,gid=1000,mode=0700
+  volumes:
+  - type: bind
+    source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/app
+    target: /run/holoul-secrets
+    read_only: true
+    bind:
+      create_host_path: false
+  - type: bind
+    source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/ca
+    target: /run/holoul-ca
+    read_only: true
+    bind:
+      create_host_path: false
+  - type: bind
+    source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/ca
+    target: /run/holoul-storage
+    read_only: true
+    bind:
+      create_host_path: false
+  - type: bind
+    source: ${HOLOUL_PRODUCTION_DATA:?Set private production state directory}/operations
+    target: /run/holoul-operations
+    read_only: true
+    bind:
+      create_host_path: false
+  - type: bind
+    source: ${HOLOUL_PRODUCTION_DATA:?Set private production state directory}/run/portfolio
+    target: /run/holoul-portfolio
+    read_only: true
+    bind:
+      create_host_path: false
+  networks:
+  - backend
+  - mail_egress
+  mem_limit: 224m
+  memswap_limit: 224m
+  cpus: 1.25
+name: holoul-production
+services:
+  app:
+    <<: *application
+    volumes:
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/app
+      target: /run/holoul-secrets
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/ca
+      target: /run/holoul-ca
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/ca
+      target: /run/holoul-storage
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_DATA:?Set private production state directory}/operations
+      target: /run/holoul-operations
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_DATA:?Set private production state directory}/run/portfolio
+      target: /run/holoul-portfolio
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ./deploy/production/php-fpm.conf
+      target: /usr/local/etc/php-fpm.d/zzz-launch.conf
+      read_only: true
+      bind:
+        create_host_path: false
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      storage:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+      storage-bootstrap:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+      - CMD
+      - php
+      - docker/app/check-health.php
+      - fpm
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+  queue:
+    <<: *application
+    environment:
+      <<: *application-env
+      HOLOUL_PROCESS_ROLE: default
+    mem_limit: 96m
+    memswap_limit: 96m
+    cpus: 0.5
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      storage:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+      storage-bootstrap:
+        condition: service_completed_successfully
+      portfolio-processor:
+        condition: service_healthy
+    command:
+    - php
+    - artisan
+    - queue:work
+    - redis
+    - --queue=default
+    - --sleep=1
+    - --tries=1
+    - --timeout=30
+    - --max-time=3600
+    - --no-interaction
+    stop_grace_period: 45s
+    healthcheck:
+      test:
+      - CMD
+      - php
+      - docker/app/check-health.php
+      - queue
+      interval: 15s
+      timeout: 3s
+      retries: 4
+      start_period: 30s
+  document-queue:
+    <<: *application
+    environment:
+      <<: *application-env
+      HOLOUL_PROCESS_ROLE: documents
+    mem_limit: 128m
+    memswap_limit: 128m
+    cpus: 0.5
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      storage:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+      storage-bootstrap:
+        condition: service_completed_successfully
+    command:
+    - php
+    - artisan
+    - queue:work
+    - documents
+    - --queue=documents
+    - --sleep=1
+    - --tries=1
+    - --timeout=120
+    - --max-time=3600
+    - --no-interaction
+    stop_grace_period: 135s
+    healthcheck:
+      test:
+      - CMD
+      - php
+      - docker/app/check-health.php
+      - queue
+      interval: 30s
+      timeout: 3s
+      retries: 5
+      start_period: 30s
+  ai-queue:
+    <<: *application
+    environment:
+      <<: *application-env
+      HOLOUL_PROCESS_ROLE: ai
+    mem_limit: 96m
+    memswap_limit: 96m
+    cpus: 0.5
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      storage:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+      storage-bootstrap:
+        condition: service_completed_successfully
+    command:
+    - php
+    - artisan
+    - queue:work
+    - ai
+    - --queue=ai
+    - --sleep=1
+    - --tries=1
+    - --timeout=120
+    - --max-time=3600
+    - --no-interaction
+    stop_grace_period: 135s
+    healthcheck:
+      test:
+      - CMD
+      - php
+      - docker/app/check-health.php
+      - queue
+      interval: 30s
+      timeout: 3s
+      retries: 5
+      start_period: 30s
+  notification-queue:
+    <<: *application
+    environment:
+      <<: *application-env
+      HOLOUL_PROCESS_ROLE: notifications
+    mem_limit: 96m
+    memswap_limit: 96m
+    cpus: 0.5
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      storage:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+      storage-bootstrap:
+        condition: service_completed_successfully
+    command:
+    - php
+    - artisan
+    - queue:work
+    - notifications
+    - --queue=notifications
+    - --sleep=1
+    - --tries=1
+    - --timeout=30
+    - --max-time=3600
+    - --no-interaction
+    stop_grace_period: 45s
+    healthcheck:
+      test:
+      - CMD
+      - php
+      - docker/app/check-health.php
+      - queue
+      interval: 15s
+      timeout: 3s
+      retries: 4
+      start_period: 30s
+  scheduler:
+    <<: *application
+    environment:
+      <<: *application-env
+      HOLOUL_PROCESS_ROLE: scheduler
+    mem_limit: 192m
+    memswap_limit: 192m
+    cpus: 0.5
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      storage:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+      storage-bootstrap:
+        condition: service_completed_successfully
+    command:
+    - php
+    - artisan
+    - schedule:work
+    - --no-interaction
+    stop_grace_period: 45s
+    healthcheck:
+      test:
+      - CMD
+      - php
+      - docker/app/check-health.php
+      - scheduler
+      interval: 15s
+      timeout: 3s
+      retries: 4
+      start_period: 75s
+  migrate:
+    <<: *application
+    environment:
+      <<: *application-env
+      HOLOUL_PROCESS_ROLE: migration
+      DB_USERNAME: holoul_migrator
+      DB_PASSWORD_FILE: /run/holoul-migrator/password
+    restart: 'no'
+    volumes:
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/app
+      target: /run/holoul-secrets
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/ca
+      target: /run/holoul-ca
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/ca
+      target: /run/holoul-storage
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_DATA:?Set private production state directory}/operations
+      target: /run/holoul-operations
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_DATA:?Set private production state directory}/run/portfolio
+      target: /run/holoul-portfolio
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/migrator
+      target: /run/holoul-migrator
+      read_only: true
+      bind:
+        create_host_path: false
+    networks:
+    - backend
+    mem_limit: 256m
+    memswap_limit: 256m
+    cpus: 0.5
+    healthcheck:
+      disable: true
+    command:
+    - php
+    - artisan
+    - migrate
+    - --force
+    - --no-interaction
+    depends_on:
+      postgres:
+        condition: service_healthy
+  storage-bootstrap:
+    <<: *application
+    restart: 'no'
+    volumes:
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/app
+      target: /run/holoul-secrets
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/ca
+      target: /run/holoul-ca
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/ca
+      target: /run/holoul-storage
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_DATA:?Set private production state directory}/operations
+      target: /run/holoul-operations
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_DATA:?Set private production state directory}/run/portfolio
+      target: /run/holoul-portfolio
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/storage-admin
+      target: /run/holoul-storage-admin
+      read_only: true
+      bind:
+        create_host_path: false
+    networks:
+    - backend
+    mem_limit: 256m
+    memswap_limit: 256m
+    cpus: 0.5
+    healthcheck:
+      disable: true
+    command:
+    - php
+    - docker/documents/storage/bootstrap.php
+    depends_on:
+      storage:
+        condition: service_healthy
+  postgres:
+    image: ${HOLOUL_POSTGRES_IMAGE:?Set reviewed immutable PostgreSQL image}
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD_FILE: /run/holoul-bootstrap/postgres_password
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256 --locale-provider=builtin --builtin-locale=C.UTF-8 --encoding=UTF8
+    volumes:
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_DATA:?Set private production state directory}/postgres
+      target: /var/lib/postgresql
+      read_only: false
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/bootstrap
+      target: /run/holoul-bootstrap
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/bootstrap/app_password
+      target: /run/holoul-app/database_password
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/bootstrap/migrator_password
+      target: /run/holoul-migrator/password
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/postgres-tls
+      target: /run/holoul-postgres-tls
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ./deploy/production/postgres-init.sh
+      target: /docker-entrypoint-initdb.d/10-holoul.sh
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ./deploy/production/postgres.conf
+      target: /etc/holoul/postgres.conf
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ./deploy/production/pg_hba.conf
+      target: /etc/holoul/pg_hba.conf
+      read_only: true
+      bind:
+        create_host_path: false
+    networks:
+    - backend
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - PGPASSWORD="$$(cat /run/holoul-app/database_password)" PGSSLMODE=verify-full PGSSLROOTCERT=/run/holoul-postgres-tls/ca.crt
+        psql -h postgres -U holoul_app -d holoul -Atqc "SELECT 1" | grep -qx 1
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+    restart: unless-stopped
+    mem_limit: 224m
+    pids_limit: 128
+    memswap_limit: 224m
+    cpus: 0.75
+    logging:
+      driver: json-file
+      options:
+        max-size: 5m
+        max-file: '2'
+    command:
+    - postgres
+    - -c
+    - config_file=/etc/holoul/postgres.conf
+    user: 70:70
+    read_only: true
+    cap_drop:
+    - ALL
+    security_opt:
+    - no-new-privileges:true
+    tmpfs:
+    - /tmp:size=16m,uid=70,gid=70,mode=0700
+    - /var/run/postgresql:size=4m,uid=70,gid=70,mode=0770
+  redis:
+    init: true
+    user: 999:999
+    read_only: true
+    cap_drop:
+    - ALL
+    security_opt:
+    - no-new-privileges:true
+    restart: unless-stopped
+    pids_limit: 64
+    logging:
+      driver: json-file
+      options:
+        max-size: 5m
+        max-file: '2'
+    image: ${HOLOUL_REDIS_IMAGE:?Set reviewed immutable Redis image}
+    entrypoint:
+    - sh
+    - /etc/holoul/redis-start.sh
+    tmpfs:
+    - /tmp:size=4m,uid=999,gid=999,mode=0700
+    volumes:
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/redis
+      target: /run/holoul-redis
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/redis-tls
+      target: /run/holoul-redis-tls
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ./deploy/production/redis-start.sh
+      target: /etc/holoul/redis-start.sh
+      read_only: true
+      bind:
+        create_host_path: false
+    networks:
+    - backend
+    mem_limit: 160m
+    memswap_limit: 160m
+    cpus: 0.25
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - REDISCLI_AUTH="$$(cat /run/holoul-redis/password)" redis-cli --tls --cacert /run/holoul-redis-tls/ca.crt -h
+        redis ping | grep -q PONG
+      interval: 10s
+      timeout: 3s
+      retries: 12
+  storage:
+    image: ${HOLOUL_STORAGE_IMAGE:?Set reviewed immutable private storage image}
+    command:
+    - server
+    - -dir=/data
+    - -ip=127.0.0.1
+    - -ip.bind=127.0.0.1
+    - -filer=true
+    - -s3=true
+    - -master.telemetry=false
+    - -master.volumeSizeLimitMB=64
+    - -volume.max=16
+    - -filer.disableDirListing=true
+    - -filer.exposeDirectoryData=false
+    - -s3.port=8333
+    - -s3.ip.bind=0.0.0.0
+    - -s3.port.iceberg=0
+    - -s3.port.lance=0
+    - -s3.config=/run/holoul-storage-server/s3.json
+    - -s3.cert.file=/run/holoul-storage-server/certificate.pem
+    - -s3.key.file=/run/holoul-storage-server/private-key.pem
+    - -s3.iam=false
+    - -s3.autoCreateBucket=false
+    - -s3.allowDeleteBucketNotEmpty=false
+    - -s3.concurrentFileUploadLimit=2
+    - -s3.concurrentUploadLimitMB=20
+    user: 1000:1000
+    read_only: true
+    tmpfs:
+    - /tmp
+    cap_drop:
+    - ALL
+    security_opt:
+    - no-new-privileges:true
+    volumes:
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_DATA:?Set private production state directory}/objects
+      target: /data
+      read_only: false
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/storage-server
+      target: /run/holoul-storage-server
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/storage-server
+      target: /home/seaweed/.seaweedfs
+      read_only: true
+      bind:
+        create_host_path: false
+    networks:
+    - backend
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - curl --silent --cacert /run/holoul-storage-server/ca.crt --output /dev/null https://storage:8333/
+      interval: 10s
+      timeout: 3s
+      retries: 20
+      start_period: 15s
+    restart: unless-stopped
+    mem_limit: 512m
+    pids_limit: 128
+    memswap_limit: 512m
+    cpus: 0.75
+    logging:
+      driver: json-file
+      options:
+        max-size: 5m
+        max-file: '2'
+  portfolio-processor:
+    image: ${HOLOUL_PORTFOLIO_IMAGE:?Set reviewed immutable portfolio processor image}
+    init: true
+    user: 1000:1000
+    read_only: true
+    tmpfs:
+    - /tmp:size=64m,mode=0700,uid=1000,gid=1000
+    cap_drop:
+    - ALL
+    security_opt:
+    - no-new-privileges:true
+    volumes:
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_DATA:?Set private production state directory}/run/portfolio
+      target: /run/holoul-portfolio
+      read_only: false
+      bind:
+        create_host_path: false
+    network_mode: none
+    healthcheck:
+      test:
+      - CMD
+      - python3
+      - -I
+      - /opt/holoul/processor.py
+      - --health
+      interval: 20s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+    mem_limit: 448m
+    cpus: 0.75
+    pids_limit: 32
+    memswap_limit: 448m
+    logging:
+      driver: json-file
+      options:
+        max-size: 5m
+        max-file: '2'
+  website:
+    init: true
+    user: 1000:1000
+    read_only: true
+    cap_drop:
+    - ALL
+    security_opt:
+    - no-new-privileges:true
+    restart: unless-stopped
+    pids_limit: 64
+    logging:
+      driver: json-file
+      options:
+        max-size: 5m
+        max-file: '2'
+    image: ${HOLOUL_WEBSITE_IMAGE:?Set reviewed immutable website image}
+    networks:
+    - web
+    mem_limit: 320m
+    memswap_limit: 320m
+    cpus: 0.75
+    tmpfs:
+    - /tmp:size=32m,uid=1000,gid=1000,mode=0700
+    - /app/.next/cache:size=32m,uid=1000,gid=1000,mode=0700
+    environment:
+      NODE_ENV: production
+      HOSTNAME: 0.0.0.0
+      PORT: '3100'
+      NODE_OPTIONS: --max-old-space-size=256
+      NEXT_TELEMETRY_DISABLED: '1'
+      WEBSITE_ORIGIN: https://holoul.com.ly
+      WEBSITE_DOCUMENT_UPLOADS_ENABLED: 'false'
+    healthcheck:
+      test:
+      - CMD
+      - node
+      - -e
+      - fetch('http://127.0.0.1:3100/icon.png',{signal:AbortSignal.timeout(3000)}).then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+  dashboard:
+    init: true
+    user: 1000:1000
+    read_only: true
+    cap_drop:
+    - ALL
+    security_opt:
+    - no-new-privileges:true
+    restart: unless-stopped
+    pids_limit: 64
+    logging:
+      driver: json-file
+      options:
+        max-size: 5m
+        max-file: '2'
+    image: ${HOLOUL_DASHBOARD_IMAGE:?Set reviewed immutable dashboard image}
+    networks:
+    - web
+    mem_limit: 320m
+    memswap_limit: 320m
+    cpus: 0.75
+    tmpfs:
+    - /tmp:size=32m,uid=1000,gid=1000,mode=0700
+    - /app/.next/cache:size=32m,uid=1000,gid=1000,mode=0700
+    environment:
+      NODE_ENV: production
+      HOSTNAME: 0.0.0.0
+      PORT: '3001'
+      NODE_OPTIONS: --max-old-space-size=256
+      NEXT_TELEMETRY_DISABLED: '1'
+      HOLOUL_WEBSITE_URL: https://holoul.com.ly
+    healthcheck:
+      test:
+      - CMD
+      - node
+      - -e
+      - fetch('http://127.0.0.1:3001/admin/login',{signal:AbortSignal.timeout(3000)}).then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+  ingress:
+    init: true
+    user: 101:101
+    read_only: true
+    cap_drop:
+    - ALL
+    security_opt:
+    - no-new-privileges:true
+    restart: unless-stopped
+    pids_limit: 64
+    logging:
+      driver: json-file
+      options:
+        max-size: 5m
+        max-file: '2'
+    image: ${HOLOUL_NGINX_IMAGE:?Set reviewed immutable ingress image}
+    entrypoint:
+    - nginx
+    - -g
+    - daemon off;
+    mem_limit: 72m
+    memswap_limit: 72m
+    cpus: 0.25
+    tmpfs:
+    - /tmp:size=32m,uid=101,gid=101,mode=0700
+    sysctls:
+      net.ipv4.ip_unprivileged_port_start: '0'
+    ports:
+    - 80:8080
+    - 443:443
+    volumes:
+    - type: bind
+      source: ./deploy/production/nginx.conf
+      target: /etc/nginx/nginx.conf
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ./deploy/production/fastcgi.conf
+      target: /etc/nginx/holoul-fastcgi.conf
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ./deploy/production/proxy.conf
+      target: /etc/nginx/holoul-proxy.conf
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_SECRETS:?Set private production secrets directory}/edge-tls
+      target: /run/holoul-tls
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${HOLOUL_PRODUCTION_DATA:?Set private production state directory}/acme-webroot
+      target: /var/www/acme
+      read_only: true
+      bind:
+        create_host_path: false
+    networks:
+      backend:
+        ipv4_address: 10.203.81.2
+      web:
+        ipv4_address: 10.203.80.2
+        aliases:
+        - holoul.com.ly
+      ingress: {}
+    depends_on:
+      app:
+        condition: service_healthy
+      website:
+        condition: service_healthy
+      dashboard:
+        condition: service_healthy
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - wget -q -O /dev/null http://127.0.0.1:8080/health/edge
+      interval: 15s
+      timeout: 3s
+      retries: 5
+networks:
+  backend:
+    internal: true
+    ipam:
+      config:
+      - subnet: 10.203.81.0/24
+  web:
+    internal: true
+    ipam:
+      config:
+      - subnet: 10.203.80.0/24
+  ingress: {}
+  mail_egress: {}

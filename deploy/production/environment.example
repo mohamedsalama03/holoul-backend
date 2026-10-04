@@ -1,0 +1,25 @@
+# COPY OUTSIDE GIT; these are deployment inputs, NOT usable credentials.
+# Pin every image by registry digest (repository@sha256:...), not mutable tags.
+HOLOUL_BACKEND_IMAGE=
+HOLOUL_POSTGRES_IMAGE=
+HOLOUL_REDIS_IMAGE=
+HOLOUL_STORAGE_IMAGE=
+HOLOUL_PORTFOLIO_IMAGE=
+HOLOUL_NGINX_IMAGE=
+HOLOUL_WEBSITE_IMAGE=
+HOLOUL_DASHBOARD_IMAGE=
+HOLOUL_PRODUCTION_SECRETS=/etc/holoul/secrets
+HOLOUL_PRODUCTION_DATA=/srv/holoul
+# Provider details UNCONFIRMED. Empty values intentionally prevent startup.
+# Current production validator requires implicit TLS (smtps).
+HOLOUL_SMTP_SCHEME=
+HOLOUL_SMTP_HOST=
+HOLOUL_SMTP_PORT=
+HOLOUL_SMTP_USERNAME=
+# Sender address is fixed to info@holoul.com.ly in Compose.
+# Requested display name: Holoul Platform. Backend currently uses HOLOUL.
+# There is no supported MAIL_FROM_NAME setting; resolve before mail acceptance.
+# No password or Gemini key belongs in this file.
+# Set true only after the existing Contact integration/mail acceptance gates.
+HOLOUL_CONTACT_DASHBOARD_ACCEPTED=false
+HOLOUL_CONTACT_PRODUCTION_MAIL_ENABLED=false

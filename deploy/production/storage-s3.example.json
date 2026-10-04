@@ -1,0 +1,33 @@
+{
+  "identities": [
+    {
+      "name": "holoul-bootstrap",
+      "credentials": [
+        {
+          "accessKey": "<private-storage-admin-access-key>",
+          "secretKey": "<private-storage-admin-secret-key>"
+        }
+      ],
+      "actions": [
+        "Admin",
+        "Read",
+        "List",
+        "Write"
+      ]
+    },
+    {
+      "name": "holoul-runtime",
+      "credentials": [
+        {
+          "accessKey": "<same-as-app-storage-access-key>",
+          "secretKey": "<same-as-app-storage-secret-key>"
+        }
+      ],
+      "actions": [
+        "Read:holoul-documents",
+        "List:holoul-documents",
+        "Write:holoul-documents"
+      ]
+    }
+  ]
+}
