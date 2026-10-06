@@ -29,6 +29,7 @@ SKOPEO = "quay.io/skopeo/stable@sha256:966b7d73acc4478906280e4967cafd93f4a85273e
 SBOM = "docker/buildkit-syft-scanner@sha256:ae4f3b554449e7e25548e7d8ccc029d17357348e30c6e3df01b92bc93654d6a9"
 DATABASES = "public.ecr.aws/aquasecurity/trivy-db:2,mirror.gcr.io/aquasec/trivy-db:2,ghcr.io/aquasecurity/trivy-db:2"
 DIGEST = re.compile(r"sha256:[a-f0-9]{64}\Z")
+PACKAGING = Path(__file__).with_name("packaging.json")
 
 
 def require(condition, message):
@@ -125,6 +126,7 @@ def inspect_layout(layout, image):
     require(labels.get("org.opencontainers.image.title") == "holoul-" + image, "wrong OCI title")
     require(labels.get("org.opencontainers.image.created"), "missing build time")
     require(labels.get("ly.com.holoul.workflow.revision") == os.environ["WORKFLOW_SHA"], "wrong workflow label")
+    require(labels.get("ly.com.holoul.packaging.revision") == os.environ["WORKFLOW_SHA"], "wrong packaging label")
     expected_user = IMAGES[image][2]
     require(expected_user is None or settings.get("User") == expected_user, "runtime user changed")
     predicates = set()
@@ -165,6 +167,34 @@ def navigation_tag():
     return "sha-" + SOURCE[:12] + "-run-" + os.environ["GITHUB_RUN_ID"] + "-" + os.environ["GITHUB_RUN_ATTEMPT"]
 
 
+def packaging_plan():
+    plan = json.loads(PACKAGING.read_text())
+    require(plan["application_source_sha"] == SOURCE, "packaging source mismatch")
+    return plan
+
+
+def effective_dockerfile(source, work, image):
+    original = source / IMAGES[image][0]
+    plan = packaging_plan().get(image)
+    if not plan:
+        return original
+    require(digest(original) == plan["source_dockerfile_sha256"], "packaging base Dockerfile changed")
+    allowed = {"redis": {"libcrypto3", "libssl3", "setpriv"},
+               "postgres": {"libcrypto3", "libssl3", "libuuid", "gosu"}, "nginx": {"libexpat", "pcre2"}}
+    content = original.read_text()
+    for old, new in plan["replacements"].items():
+        pattern = r"([a-z0-9+.-]+)=(\d+(?:\.\d+){1,2}-r\d+)"
+        before, after = re.fullmatch(pattern, old), re.fullmatch(pattern, new)
+        require(before and after and before[1] == after[1] and before[1] in allowed[image],
+                "only reviewed exact package revision replacements are permitted")
+        require(before[2].split(".")[:2] == after[2].split(".")[:2], "package series changed")
+        require(content.count(old) == 1, "package replacement is not unique")
+        content = content.replace(old, new)
+    destination = work / "packaging.Dockerfile"
+    destination.write_text(content)
+    return destination
+
+
 def build(source, work, image):
     require(not os.environ.get("GH_TOKEN"), "registry token must not be present during build")
     dockerfile, target, _, _ = IMAGES[image]
@@ -175,10 +205,11 @@ def build(source, work, image):
         "org.opencontainers.image.created": created,
         "org.opencontainers.image.title": "holoul-" + image,
         "ly.com.holoul.workflow.revision": os.environ["WORKFLOW_SHA"],
+        "ly.com.holoul.packaging.revision": os.environ["WORKFLOW_SHA"],
     }
     argv = ["docker", "buildx", "build", "--platform", "linux/amd64", "--pull",
             "--tag", "ghcr.io/mohamedsalama03/holoul-" + image + ":" + navigation_tag(),
-            "--file", str(source / dockerfile), "--provenance=mode=min", "--sbom=generator=" + SBOM,
+            "--file", str(effective_dockerfile(source, work, image)), "--provenance=mode=min", "--sbom=generator=" + SBOM,
             "--output", f"type=oci,dest={work / 'layout'},tar=false,compression=gzip,force-compression=true",
             "--metadata-file", str(work / "build-metadata.json")]
     if target:
@@ -227,12 +258,16 @@ def scan_report(raw, secret):
 def scan(source, work, image):
     require(not os.environ.get("GH_TOKEN"), "registry token must not be present during scan")
     inspected, manifest = inspect_layout(work / "layout", image)
-    evidence = work / "evidence" / (image + ".json")
+    evidence = work.parent / "evidence" / (image + ".json")
     record = {"source_repository": REPOSITORY, "source_sha": SOURCE,
               "workflow_sha": os.environ["WORKFLOW_SHA"], "image": "ghcr.io/mohamedsalama03/holoul-" + image,
               "run_id": os.environ["GITHUB_RUN_ID"], "run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
               "dockerfile": IMAGES[image][0], "target": IMAGES[image][1],
               "dockerfile_sha256": digest(source / IMAGES[image][0]), "published_verified": False,
+              "packaging_sha": os.environ["WORKFLOW_SHA"],
+              "packaging_manifest_sha256": digest(PACKAGING),
+              "effective_dockerfile_sha256": digest(effective_dockerfile(source, work, image)),
+              "package_changes": packaging_plan().get(image, {}).get("replacements", {}),
               "scan": {"passed": False, "scanner": TRIVY}, "inspection": inspected}
     # Inspection is kept private until the secret checks pass.
     checks = [
@@ -290,6 +325,8 @@ def scan(source, work, image):
     # The frozen Dockerfile's RUN assertions executed in the selected runtime stage.
     record["backend_allowlist_build_assertions"] = "passed in runtime Dockerfile" if image == "backend" else "not applicable"
     write_json(evidence, record)
+    # Retain the immutable OCI layout; discard only this check's expanded copies.
+    shutil.rmtree(layer_root)
 
 
 def package_visibility(image, allow_missing=False):
@@ -309,12 +346,11 @@ def package_visibility(image, allow_missing=False):
 
 
 def publish(source, work, image):
-    evidence = work / "evidence" / (image + ".json")
+    evidence = work.parent / "evidence" / (image + ".json")
     record = json.loads(evidence.read_text())
     require(record["scan"]["passed"], "security gate missing")
     inspected, _ = inspect_layout(work / "layout", image)
     require(inspected["manifest_digest"] == record["inspection"]["manifest_digest"], "output changed after scan")
-    package_visibility(image, allow_missing=True)
     tag = navigation_tag()
     ref = record["image"] + "@" + inspected["manifest_digest"]
     auth = work / "registry-auth.json"
@@ -341,6 +377,70 @@ def publish(source, work, image):
         write_json(evidence, record)
     finally:
         auth.unlink(missing_ok=True)
+
+
+def release_gate(work):
+    """No credential use or registry write until every local image gate passes."""
+    records = []
+    for image in IMAGES:
+        record = json.loads((work / "evidence" / (image + ".json")).read_text())
+        require(record["source_sha"] == SOURCE and record["workflow_sha"] == os.environ["WORKFLOW_SHA"] and
+                record["packaging_sha"] == os.environ["WORKFLOW_SHA"] and
+                record["packaging_manifest_sha256"] == digest(PACKAGING), "mixed release packaging")
+        require(record["image"] == "ghcr.io/mohamedsalama03/holoul-" + image, "wrong release image name")
+        require(record["run_id"] == os.environ["GITHUB_RUN_ID"] and
+                record["run_attempt"] == os.environ["GITHUB_RUN_ATTEMPT"], "mixed release run")
+        require(record["scan"]["passed"] is True and record.get("runtime_checks", {}).get("passed") is True,
+                "all six security and runtime gates must pass before any publication")
+        inspected, _ = inspect_layout(work / image / "layout", image)
+        require(inspected["manifest_digest"] == record["inspection"]["manifest_digest"], "image changed after gates")
+        records.append(record)
+    return records
+
+
+def prepare_all(source, work):
+    import runtime_checks
+    require(not os.environ.get("GH_TOKEN"), "registry token must not be present during preparation")
+    failures = []
+    for image in ("redis", "postgres", "nginx", "backend", "portfolio", "storage"):
+        image_work = work / image
+        image_work.mkdir(mode=0o700)
+        stage = "build"
+        print(f"::group::{image}: build, security and runtime gates", flush=True)
+        try:
+            build(source, image_work, image)
+            stage = "security scan"
+            scan(source, image_work, image)
+            stage = "runtime checks"
+            inspected, _ = inspect_layout(image_work / "layout", image)
+            checks = runtime_checks.check(image_work, image, inspected,
+                                          packaging_plan().get(image, {}).get("expected_packages", {}))
+            evidence = work / "evidence" / (image + ".json")
+            record = json.loads(evidence.read_text())
+            record["runtime_checks"] = checks
+            write_json(evidence, record)
+        except (RuntimeError, OSError, subprocess.SubprocessError, ValueError) as error:
+            failures.append(image)
+            # Never upload arbitrary exception text or raw scanner logs.
+            write_json(work / "evidence" / (image + "-failure.json"),
+                       {"image": image, "stage": stage, "error_type": type(error).__name__,
+                        "source_sha": SOURCE, "packaging_sha": os.environ["WORKFLOW_SHA"], "passed": False})
+            print(f"::error::{image}: {stage} failed ({type(error).__name__}); publication is blocked", flush=True)
+        finally:
+            print("::endgroup::", flush=True)
+    require(not failures, "release gates failed: " + ", ".join(failures))
+    records = release_gate(work)
+    write_json(work / "evidence/all-six-gates.json", {"passed": True, "source_sha": SOURCE,
+               "packaging_sha": os.environ["WORKFLOW_SHA"], "images": [r["image"] for r in records]})
+
+
+def publish_all(source, work):
+    release_gate(work)
+    # Validate access/visibility for every package before the first registry write.
+    for image in IMAGES:
+        package_visibility(image, allow_missing=True)
+    for image in IMAGES:
+        publish(source, work / image, image)
 
 
 def inventory_records(folder):
@@ -396,18 +496,13 @@ def inventory(source, work):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("build", "scan", "publish", "inventory"))
+    parser.add_argument("command", choices=("prepare-all", "publish-all", "inventory"))
     parser.add_argument("--source", required=True, type=Path)
     args = parser.parse_args()
     os.umask(0o077)
     source = args.source.resolve()
     work = context(source)
-    if args.command == "inventory":
-        inventory(source, work)
-    else:
-        image = os.environ.get("IMAGE_KEY")
-        require(image in IMAGES, "unknown image")
-        {"build": build, "scan": scan, "publish": publish}[args.command](source, work, image)
+    {"prepare-all": prepare_all, "publish-all": publish_all, "inventory": inventory}[args.command](source, work)
 
 
 if __name__ == "__main__":

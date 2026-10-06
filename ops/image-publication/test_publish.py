@@ -40,6 +40,7 @@ def fixture(layout, architecture="amd64", revision=p.SOURCE, user="holoul", sbom
                              "org.opencontainers.image.source": "https://github.com/" + p.REPOSITORY,
                              "org.opencontainers.image.title": "holoul-backend",
                              "org.opencontainers.image.created": "2026-10-06T00:00:00Z",
+                             "ly.com.holoul.packaging.revision": WORKFLOW,
                              "ly.com.holoul.workflow.revision": WORKFLOW}}},
                  "application/vnd.oci.image.config.v1+json")
     runtime = put({"schemaVersion": 2, "mediaType": "application/vnd.oci.image.manifest.v1+json",
@@ -188,6 +189,8 @@ class PublicationTests(unittest.TestCase):
         for image in p.IMAGES:
             name = "ghcr.io/mohamedsalama03/holoul-" + image
             record = {"source_sha": p.SOURCE, "workflow_sha": WORKFLOW, "run_id": "123", "run_attempt": "1",
+                      "packaging_sha": WORKFLOW, "packaging_manifest_sha256": p.digest(p.PACKAGING),
+                      "runtime_checks": {"passed": True},
                       "image": name, "published_verified": True, "registry_pull_verified": True,
                       "scan": {"passed": True}, "ghcr_visibility": "private",
                       "immutable_reference": name + "@sha256:" + "3" * 64,
@@ -269,6 +272,83 @@ class PublicationTests(unittest.TestCase):
             for method in (p.build, p.scan):
                 with self.assertRaisesRegex(RuntimeError, "token must not"):
                     method(self.root, self.root, "backend")
+
+    def release_records(self):
+        self.records()
+        evidence = self.root / "evidence"
+        evidence.mkdir()
+        for image in p.IMAGES:
+            (self.root / (image + ".json")).rename(evidence / (image + ".json"))
+
+    def test_one_missing_image_prevents_every_registry_write(self):
+        self.release_records()
+        (self.root / "evidence/nginx.json").unlink()
+        with patch.object(p, "inspect_layout", return_value=({"manifest_digest": "sha256:" + "3" * 64}, {})), \
+                patch.object(p, "publish") as publish, patch.object(p, "package_visibility") as visibility:
+            with self.assertRaises(FileNotFoundError):
+                p.publish_all(self.root, self.root)
+            publish.assert_not_called()
+            visibility.assert_not_called()
+
+    def test_one_failed_scan_prevents_every_registry_write(self):
+        self.release_records()
+        path = self.root / "evidence/redis.json"
+        record = json.loads(path.read_text())
+        record["scan"]["passed"] = False
+        p.write_json(path, record)
+        with patch.object(p, "inspect_layout", return_value=({"manifest_digest": "sha256:" + "3" * 64}, {})), \
+                patch.object(p, "publish") as publish, patch.object(p, "package_visibility") as visibility:
+            with self.assertRaisesRegex(RuntimeError, "all six"):
+                p.publish_all(self.root, self.root)
+            publish.assert_not_called()
+            visibility.assert_not_called()
+
+    def test_failed_runtime_check_blocks_all_publication(self):
+        self.release_records()
+        path = self.root / "evidence/storage.json"
+        record = json.loads(path.read_text())
+        record["runtime_checks"]["passed"] = False
+        p.write_json(path, record)
+        with patch.object(p, "inspect_layout", return_value=({"manifest_digest": "sha256:" + "3" * 64}, {})), \
+                patch.object(p, "publish") as publish:
+            with self.assertRaisesRegex(RuntimeError, "all six"):
+                p.publish_all(self.root, self.root)
+            publish.assert_not_called()
+
+    def test_all_six_visibility_checks_precede_first_push(self):
+        self.release_records()
+        events = []
+        with patch.object(p, "inspect_layout", return_value=({"manifest_digest": "sha256:" + "3" * 64}, {})), \
+                patch.object(p, "package_visibility", side_effect=lambda *a, **k: events.append("visibility")), \
+                patch.object(p, "publish", side_effect=lambda *a: events.append("push")):
+            p.publish_all(self.root, self.root)
+        self.assertEqual(["visibility"] * 6 + ["push"] * 6, events)
+
+    def test_post_scan_digest_change_prevents_every_push(self):
+        self.release_records()
+        with patch.object(p, "inspect_layout", return_value=({"manifest_digest": "sha256:" + "4" * 64}, {})), \
+                patch.object(p, "publish") as publish:
+            with self.assertRaisesRegex(RuntimeError, "changed after gates"):
+                p.publish_all(self.root, self.root)
+            publish.assert_not_called()
+
+    def test_packaging_changes_only_the_two_reviewed_pins(self):
+        source = Path(__file__).resolve().parents[2]
+        for image in ("redis", "postgres"):
+            original = (source / p.IMAGES[image][0]).read_text()
+            prepared = p.effective_dockerfile(source, self.root, image).read_text()
+            self.assertEqual(original.replace("libcrypto3=3.5.8-r0", "libcrypto3=3.5.9-r0")
+                             .replace("libssl3=3.5.8-r0", "libssl3=3.5.9-r0"), prepared)
+            self.assertEqual(original, (source / p.IMAGES[image][0]).read_text())
+
+    def test_packaging_cannot_inject_a_dockerfile_command(self):
+        plan = p.packaging_plan()
+        plan["redis"]["replacements"]["libssl3=3.5.8-r0"] = "libssl3=3.5.9-r0\nRUN unsafe"
+        manifest = self.root / "packaging.json"
+        p.write_json(manifest, plan)
+        with patch.object(p, "PACKAGING", manifest):
+            with self.assertRaisesRegex(RuntimeError, "only reviewed"):
+                p.effective_dockerfile(Path(__file__).resolve().parents[2], self.root, "redis")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,18 @@
+{
+  "application_source_sha": "8b1ffea5c75dc4adb68f795a73d1c6c513cbbd8c",
+  "repository_verified_at": "2026-10-06",
+  "redis": {
+    "source_dockerfile_sha256": "sha256:a40c1e5c7326016645a693247a4b3d302915592b164784c3fed84162c9c15d45",
+    "replacements": {"libcrypto3=3.5.8-r0": "libcrypto3=3.5.9-r0", "libssl3=3.5.8-r0": "libssl3=3.5.9-r0"},
+    "expected_packages": {"libcrypto3": "3.5.9-r0", "libssl3": "3.5.9-r0", "setpriv": "2.41.6-r1"},
+    "alpine": "3.22",
+    "repositories": ["https://dl-cdn.alpinelinux.org/alpine/v3.22/main", "https://dl-cdn.alpinelinux.org/alpine/v3.22/community"]
+  },
+  "postgres": {
+    "source_dockerfile_sha256": "sha256:21491f2d5768466eca2c731e42665e9b64a20243718afee991dc9ac314f9e181",
+    "replacements": {"libcrypto3=3.5.8-r0": "libcrypto3=3.5.9-r0", "libssl3=3.5.8-r0": "libssl3=3.5.9-r0"},
+    "expected_packages": {"libcrypto3": "3.5.9-r0", "libssl3": "3.5.9-r0", "libuuid": "2.42.3-r1", "gosu": "1.19-r5"},
+    "alpine": "3.24",
+    "repositories": ["https://dl-cdn.alpinelinux.org/alpine/v3.24/main", "https://dl-cdn.alpinelinux.org/alpine/v3.24/community"]
+  }
+}

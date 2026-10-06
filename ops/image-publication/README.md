@@ -13,7 +13,9 @@ SHA-256 `3c93a09f08ce199cc1c2867ad846a1ca554fd03b6d934070178c5101646df410`.
 ## Images and build contexts
 
 All six builds use a separate clean checkout of the required full source SHA,
-never the workflow checkout. Only `linux/amd64` is executable; OCI attestation
+never the workflow checkout. The separately versioned `packaging.json` applies
+only the authorized exact Alpine package-pin substitutions to a temporary
+Dockerfile outside that checkout. Only `linux/amd64` is executable; OCI attestation
 descriptors marked `unknown/unknown` are metadata, not additional platforms.
 
 | Package under `ghcr.io/mohamedsalama03/` | Frozen Dockerfile | Target | Production Compose user |
@@ -34,9 +36,11 @@ effective production process user.
 
 1. Manual `workflow_dispatch` only; empty, abbreviated, branch-name, and other
    source inputs are rejected. The repository and GitHub-hosted runner are checked.
-2. All builds run on GitHub-hosted Ubuntu 24.04, two matrix jobs at a time.
+2. All builds run sequentially on one GitHub-hosted Ubuntu 24.04 runner, retaining
+   their OCI layouts privately until **all six** security/runtime gates succeed.
    Buildx, BuildKit, actions, the SBOM generator, Skopeo and Trivy are pinned.
-   The existing reviewed Dockerfiles, base identities and patches remain intact.
+   Base identities and existing patches remain intact; authorized package pin
+   changes are isolated in the packaging manifest, not the frozen source files.
 3. BuildKit exports one OCI layout locally on the runner, with minimal provenance
    and an SPDX SBOM. No registry or production credentials are supplied to the
    build. No external build cache or image archive is uploaded as a GitHub artifact.
@@ -53,7 +57,10 @@ effective production process user.
    Links/devices are not materialized during extraction. All built-in secret
    detection rules remain enabled. Raw reports and matched secrets stay in the
    runner's private temporary directory; artifacts contain only sanitized findings.
-7. Only after successful gates does a step receive native `GITHUB_TOKEN`. Its
+7. Only after all six successful gates does a step receive native `GITHUB_TOKEN`.
+   The publishing command independently rechecks all six gates, packaging/run
+   identities and layout digests, then all six package visibility/access checks,
+   before the first registry write. Its
    auth file stays outside both checkouts, is supplied to Skopeo via a private
    file, and is removed in `finally`. Job permissions are `contents: read` and
    `packages: write`; other jobs only receive `contents: read`. No PAT is used.
@@ -179,9 +186,55 @@ Review evidence on 2026-10-06 before the operations branch push:
   requiring `read:packages`. No package visibility or existing package absence
   can be claimed from that result. Per-package Actions checks remain necessary.
 
-The exact-source constraint prevents silently fixing a Dockerfile on this branch
-and treating that as the same application. A package availability/security fix
-requires separately reviewed candidate instructions if the failure persists.
+These are retained historical findings. The subsequent remediation authorization
+permits the narrowly scoped packaging changes below and default-branch workflow
+registration. Neither changes the frozen application's accepted identity.
+
+## Authorized publication remediation
+
+The user authorized adding only the reviewed workflow file to the default branch
+`release/g1-vps-candidate`. No merge from the unified candidate is required. The
+workflow is dispatched using the **operations branch**; its first guard rejects
+execution from the default branch itself. Both the tooling and packaging SHA
+are `github.workflow_sha`; `org.opencontainers.image.revision` still names the
+frozen application SHA. The default registration commit is recorded separately
+in the final publication report.
+
+Official Alpine repository checks executed in the pinned amd64 base images on
+2026-10-06 found:
+
+| Image / repository | Package | Frozen pin | Available / effective pin |
+| --- | --- | --- | --- |
+| Redis / Alpine 3.22 | libcrypto3 | 3.5.8-r0 | 3.5.9-r0 |
+| Redis / Alpine 3.22 | libssl3 | 3.5.8-r0 | 3.5.9-r0 |
+| Redis / Alpine 3.22 | setpriv | 2.41.6-r1 | unchanged |
+| PostgreSQL / Alpine 3.24 | libcrypto3 | 3.5.8-r0 | 3.5.9-r0 |
+| PostgreSQL / Alpine 3.24 | libssl3 | 3.5.8-r0 | 3.5.9-r0 |
+| PostgreSQL / Alpine 3.24 | libuuid / gosu | 2.42.3-r1 / 1.19-r5 | unchanged |
+| Nginx / Alpine 3.24 | libexpat / pcre2 | 2.8.5-r0 / 10.49-r0 | unchanged |
+
+Only those four OpenSSL token replacements are authorized in `packaging.json`.
+The helper first verifies the frozen Dockerfile SHA-256, requires an exact single
+match, restricts replacement syntax to approved package/version pins, and rejects
+command injection or a package series change. It records original/effective
+Dockerfile hashes and packaging manifest/commit identity with the image evidence.
+Redis remains 8.2.9 with the same base digest and entrypoint.
+
+Before any publish, each exported image is loaded for a runtime/version check,
+with its loaded config digest matched to the scanned OCI config. Redis additionally
+must pass TLS startup, authenticated PING and write/read, anonymous/wrong-password
+rejection, wrong-CA rejection and plaintext rejection. Synthetic credentials are
+generated only after building, never enter image layers or artifacts, and are
+removed after this network-isolated test. Expected package versions are checked
+inside the resulting Redis and PostgreSQL runtimes.
+
+The remediation has 33 passing guard tests, including the invariant that a missing,
+failed or changed image prevents **every** registry write. The Redis smoke helper
+also passed locally against the original pinned base; that helper check is not
+a substitute for the remediated release image's GitHub-hosted security/runtime gates.
+Raw OCI images remain private on the runner and are never uploaded to this public
+repository's Actions artifacts. Only sanitized evidence and a verified inventory
+are uploaded. A failed release gate produces no registry push and no inventory.
 
 ## Primary references
 
