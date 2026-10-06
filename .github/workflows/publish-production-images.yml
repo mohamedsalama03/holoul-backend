@@ -1,0 +1,80 @@
+name: Publish frozen production images
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_sha:
+        description: 'Exact approved application SHA (required; no branch or tag)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-image-publication
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    permissions:
+      contents: read
+      packages: write
+    env:
+      SOURCE_SHA: ${{ inputs.source_sha }}
+      WORKFLOW_SHA: ${{ github.workflow_sha }}
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Reject an unapproved source or execution context
+        run: |
+          test "$GITHUB_REPOSITORY" = mohamedsalama03/holoul-backend
+          test "$GITHUB_EVENT_NAME" = workflow_dispatch
+          test "$GITHUB_REF" = refs/heads/ops/production-image-publication
+          test "$RUNNER_ENVIRONMENT" = github-hosted
+          test "$SOURCE_SHA" = 8b1ffea5c75dc4adb68f795a73d1c6c513cbbd8c
+      - name: Check out reviewed workflow and packaging tooling
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.workflow_sha }}
+          path: ops
+          persist-credentials: false
+      - name: Verify publication guards before building
+        run: python3 -m unittest discover -s ops/ops/image-publication -p 'test_*.py' -v
+      - name: Check out the exact frozen application source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.source_sha }}
+          path: source
+          persist-credentials: false
+      - name: Set up pinned BuildKit on the hosted runner
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+        with:
+          version: v0.37.2
+          driver: docker-container
+          driver-opts: image=moby/buildkit@sha256:cec9f139f45e93c5c69c60f8b07cfad9f43f4ef6b6a6cd917527fea5ff2e3dea
+          buildkitd-flags: ''
+      - name: Build and gate all six images without registry credentials
+        run: python3 ops/ops/image-publication/publish.py prepare-all --source source
+      - name: Require all six gates then publish the identical scanned bytes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 ops/ops/image-publication/publish.py publish-all --source source
+      - name: Validate frozen Compose and generate the verified inventory
+        run: python3 ops/ops/image-publication/publish.py inventory --source source
+      - name: Retain sanitized evidence, including failed gates
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: publication-evidence-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/publication/evidence/*.json
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Retain immutable inventory only after complete success
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: production-image-inventory-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/publication/inventory/*
+          if-no-files-found: error
+          retention-days: 90
