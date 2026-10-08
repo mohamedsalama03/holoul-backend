@@ -1,0 +1,12 @@
+# PROPOSED operational override. Never combine with the ACME bootstrap override.
+# Install the reviewed config at this root-owned path before a separately approved
+# ingress-only transition. This file does not modify the frozen base Compose file.
+services:
+  ingress:
+    volumes:
+      - type: bind
+        source: /etc/holoul/nginx/nginx.versioned.conf
+        target: /etc/nginx/nginx.conf
+        read_only: true
+        bind:
+          create_host_path: false

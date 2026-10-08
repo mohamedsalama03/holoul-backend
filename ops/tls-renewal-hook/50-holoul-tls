@@ -1,0 +1,5 @@
+#!/bin/sh
+# Certbot 2.9 deploy hook: forward only its public lineage metadata.
+exec /usr/bin/env -i PATH=/usr/sbin:/usr/bin:/sbin:/bin LANG=C \
+    RENEWED_LINEAGE="${RENEWED_LINEAGE-}" RENEWED_DOMAINS="${RENEWED_DOMAINS-}" \
+    /usr/bin/python3 -I /usr/local/libexec/holoul-tls-renewal.py
